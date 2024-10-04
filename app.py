@@ -1,10 +1,11 @@
-pip install pytesseract pillow opencv-python flask
+# pip install pillow
+# pip install pytesseract
 
-import pytesseract
 from PIL import Image
-import cv2
-import re
-import os
+import pytesseract
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-# Set the path to the Tesseract executable if needed
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+image = Image.open("ocr-tesseract-sample-text.png")
+text = pytesseract.image_to_string(image)
+
+print(text)
