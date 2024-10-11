@@ -3,9 +3,8 @@
 
 from PIL import Image
 import pytesseract
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-
-image = Image.open("ocr-tesseract-sample-text.png")
+pytesseract.pytesseract.tesseract_cmd = r"c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+image = Image.open("Capture2.PNG")
 text = pytesseract.image_to_string(image)
 
 print(text)
