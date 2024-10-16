@@ -17,7 +17,6 @@ print("OCR Output:\n", text)
 tax_info = re.search(r"([A-Z\s]+)/\s*([A-Z\s]+)\s+([A-Z\s]+VD)\.\s*(\d+)", text, re.MULTILINE)
 
 if tax_info:
-    # Clean and format the tax office properly as "ISTANBUL, ESENLER VD"
     city = tax_info.group(2).strip()
     office = tax_info.group(3).strip()
     tax_office = f"{city}, {office}"
