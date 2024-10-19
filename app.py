@@ -13,72 +13,85 @@ pytesseract.pytesseract.tesseract_cmd = r"c:\Program Files\Tesseract-OCR\tessera
 
 # Load the invoice image and extract text
 def extract_image_to_text():
-    image = Image.open("uploads/ornekler_ornek3.jpg")
-    text = pytesseract.image_to_string(image).upper()
-    return text
+    image = Image.open("uploads/ornek_gorseller_ek10.png")
+    raw_text = pytesseract.image_to_string(image).upper()  # Ensure Turkish language
+    # Split the text into lines and remove any empty or whitespace-only lines
+    cleaned_lines = [line.strip() for line in raw_text.splitlines() if line.strip()]
+    # Join the cleaned lines back into a single string
+    cleaned_text = "\n".join(cleaned_lines)
+    return cleaned_text
 
-# Function to extract date from text
+# Function to extract and validate the date from text
 def extract_date(text):
-    # Define possible date patterns
-    date_patterns = [
-        r'\b\d{2}/\d{2}/\d{4}\b',  # DD/MM/YYYY
-        r'\b\d{2}-\d{2}-\d{4}\b',  # DD-MM-YYYY
-        r'\b\d{4}/\d{2}/\d{2}\b',  # YYYY/MM/DD
-        r'\b\d{4}-\d{2}-\d{2}\b'   # YYYY-MM-DD
-    ]
+    # Define a pattern to match dates with possible separators
+    date_pattern = r"\b(\d{1,2}[-/]\d{1,2}[-/]\d{4}|\d{4}[-/]\d{2}[-/]\d{2})\b"  # Handle MM/DD/YYYY and DD/MM/YYYY
 
-    # Try to find a matching date pattern in the text
-    for pattern in date_patterns:
-        match = re.search(pattern, text)
-        if match:
-            date_str = match.group(0)  # Extracted date as a string
+    match = re.search(date_pattern, text)
+    if match:
+        date_str = match.group(1)  # Extract the matched date string
+        possible_formats = ["%d-%m-%Y", "%d/%m/%Y", "%m/%d/%Y", "%Y-%m-%d", "%Y/%m/%d"]
 
-            # Try to parse the date to a datetime object
-            for fmt in ("%d/%m/%Y", "%d-%m-%Y", "%Y/%m/%d", "%Y-%m-%d"):
-                try:
-                    date_obj = datetime.strptime(date_str, fmt)
-                    # Convert to DD/MM/YYYY format and return
-                    return date_obj.strftime("%d/%m/%Y")
-                except ValueError:
-                    continue
+        # Try each format to validate and reformat the date
+        for fmt in possible_formats:
+            try:
+                date_obj = datetime.strptime(date_str, fmt)
+                # Check if day and month are valid
+                if 1 <= date_obj.day <= 31 and 1 <= date_obj.month <= 12:
+                    return date_obj.strftime("%d/%m/%Y")  # Return in DD/MM/YYYY format
+            except ValueError:
+                continue  # Skip if the format doesn't match
 
-    return "N/A"
+    return "N/A"  # Return N/A if no valid date is found
 
-# Function to extract time from text
+# Function to extract and clean the time from text
 def extract_time(text):
-    time_patterns = [
-        r'\b\d{2}:\d{2}:\d{2}\b',  # Matches HH:MM:SS
-        r'\b\d{2}:\d{2}\b'         # Matches HH:MM
-    ]
-    
-    # Loop through patterns to find a match
-    for pattern in time_patterns:
-        match = re.search(pattern, text)
-        return match.group(0) if match else "N/A"
+    # Define a pattern to match time with optional spaces or missing seconds
+    time_pattern = r"\b(\d{2}):\s?(\d{2})(?::\s?(\d{2}))?\b"
+
+    match = re.search(time_pattern, text)
+    if match:
+        # Extract hours, minutes, and optional seconds
+        hour = match.group(1)
+        minute = match.group(2)
+        second = match.group(3) if match.group(3) else "00"  # Default to 00 if seconds are missing
+        return f"{hour}:{minute}:{second}"  # Return the cleaned time
+
+    return "N/A"  # Return N/A if no valid time is found
 
 # Function to extract the tax office name from the text
 def extract_tax_office_name(text):
+    # Define keywords to search for tax office
     tax_office_keywords = [
         r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', r'VERGİ DAIRESI'
     ]
-    pattern = fr"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s+({'|'.join(tax_office_keywords)})"
+    
+    # Adjust regex to allow optional punctuation and spaces
+    pattern = fr"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)[\.\s]*({'|'.join(tax_office_keywords)}):?"
+
+    # Perform the regex search
     match = re.search(pattern, text, re.IGNORECASE)
+
     if match:
-        name = f"{match.group(1).strip()} {match.group(2).strip()}"
-        return name
-    return "N/A"
+        # Return only the tax office name without the keyword (e.g., "GÖNEN")
+        tax_office_name = match.group(1).strip()
+        return tax_office_name
+
+    return "N/A"  # Return 'N/A' if no match is found
 
 # Function to extract the tax office number from the text
 def extract_tax_office_number(text):
-    # Search for 'VD' or similar keywords followed by a valid 10-11 digit number
-    pattern = r"(?:VD\.?|VERGİ DAİRESİ)\s*:?(\d{10,11})"
+    # Split the text into lines to search for the line containing 'VD'
+    lines = text.splitlines()
 
-    # Perform regex search near 'VD'
-    match = re.search(pattern, text, re.IGNORECASE)
-    
-    if match:
-        return match.group(1)  # Extract and return the tax office number
-    return "N/A"
+    for line in lines:
+        # Check if 'VD' or 'VERGİ DAİRESİ' appears in the line
+        if re.search(r"(VD\.?|VERGİ DAİRESİ)", line, re.IGNORECASE):
+            # Now search for the 10-11 digit number in this specific line
+            match = re.search(r"\b(\d{10,11})\b", line)
+            if match:
+                return match.group(1)  # Return the extracted number
+
+    return "N/A"  # If no valid tax office number is found
 
 # Function to extract product names from the text
 def extract_product_names(text):
@@ -95,6 +108,7 @@ def extract_vat(text):
     match = re.search(r"(\d{1,2}%|KDV\s*:\s*[\d.,]+)", text, re.IGNORECASE)
     return match.group(1) if match else "N/A"
 
+# Print information
 def print_info(text):
     extracted_date = extract_date(text)
     extracted_time = extract_time(text)
