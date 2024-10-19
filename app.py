@@ -1,72 +1,117 @@
 # Required Libraries
-from PIL import Image
+import cv2
 import pytesseract
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
 import re
+from datetime import datetime
+from rapidfuzz import fuzz, process
 
-# Configure Tesseract path (adjust as needed)
-pytesseract.pytesseract.tesseract_cmd = r"c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
+# Configure Tesseract path
+pytesseract.pytesseract.tesseract_cmd = r"c:\Program Files\Tesseract-OCR\tesseract.exe"
 
 # Load the invoice image and extract text
-image = Image.open("Capture2.PNG")
-text = pytesseract.image_to_string(image)
+def extract_image_to_text():
+    image = Image.open("uploads/ornekler_ornek3.jpg")
+    text = pytesseract.image_to_string(image).upper()
+    return text
 
-# Debugging: print raw OCR output
-print("OCR Output:\n", text)
+# Function to extract date from text
+def extract_date(text):
+    # Define possible date patterns
+    date_patterns = [
+        r'\b\d{2}/\d{2}/\d{4}\b',  # DD/MM/YYYY
+        r'\b\d{2}-\d{2}-\d{4}\b',  # DD-MM-YYYY
+        r'\b\d{4}/\d{2}/\d{2}\b',  # YYYY/MM/DD
+        r'\b\d{4}-\d{2}-\d{2}\b'   # YYYY-MM-DD
+    ]
 
-# Extract multi-line tax office and tax number
-tax_info = re.search(r"([A-Z\s]+)/\s*([A-Z\s]+)\s+([A-Z\s]+VD)\.\s*(\d+)", text, re.MULTILINE)
+    # Try to find a matching date pattern in the text
+    for pattern in date_patterns:
+        match = re.search(pattern, text)
+        if match:
+            date_str = match.group(0)  # Extracted date as a string
 
-if tax_info:
-    city = tax_info.group(2).strip()
-    office = tax_info.group(3).strip()
-    tax_office = f"{city}, {office}"
-    tax_number = tax_info.group(4)
-else:
-    tax_office, tax_number = None, None
+            # Try to parse the date to a datetime object
+            for fmt in ("%d/%m/%Y", "%d-%m-%Y", "%Y/%m/%d", "%Y-%m-%d"):
+                try:
+                    date_obj = datetime.strptime(date_str, fmt)
+                    # Convert to DD/MM/YYYY format and return
+                    return date_obj.strftime("%d/%m/%Y")
+                except ValueError:
+                    continue
 
-# Extract Date, Time, and Receipt Number
-date = re.search(r"TARIH\s*:\s*(\d{2}/\d{2}/\d{4})", text)
-time = re.search(r"SAAT\s*[:+]\s*(\d{2}:\d{2}:\d{2})", text)
-receipt_no = re.search(r"FIS NO[;:]\s*(\d+)", text)
+    return "N/A"
 
-date = date.group(1) if date else None
-time = time.group(1) if time else None
-receipt_no = receipt_no.group(1) if receipt_no else None
+# Function to extract time from text
+def extract_time(text):
+    time_patterns = [
+        r'\b\d{2}:\d{2}:\d{2}\b',  # Matches HH:MM:SS
+        r'\b\d{2}:\d{2}\b'         # Matches HH:MM
+    ]
+    
+    # Loop through patterns to find a match
+    for pattern in time_patterns:
+        match = re.search(pattern, text)
+        return match.group(0) if match else "N/A"
 
-# Extract Product Details (Name, VAT rate, Price)
-product_pattern = r"(\D+)\s+%(\d+)\s*\*\s*([\d.,]+)"
-products = re.findall(product_pattern, text)
+# Function to extract the tax office name from the text
+def extract_tax_office_name(text):
+    tax_office_keywords = [
+        r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', r'VERGİ DAIRESI'
+    ]
+    pattern = fr"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s+({'|'.join(tax_office_keywords)})"
+    match = re.search(pattern, text, re.IGNORECASE)
+    if match:
+        name = f"{match.group(1).strip()} {match.group(2).strip()}"
+        return name
+    return "N/A"
 
-product_details = [
-    {"name": name.strip(), "vat_rate": f"{vat_rate}%", "price": float(price.replace(',', '.'))}
-    for name, vat_rate, price in products
-]
+# Function to extract the tax office number from the text
+def extract_tax_office_number(text):
+    # Search for 'VD' or similar keywords followed by a valid 10-11 digit number
+    pattern = r"(?:VD\.?|VERGİ DAİRESİ)\s*:?(\d{10,11})"
 
-# Extract Total VAT and Total Amount (if available)
-total_vat = re.search(r"Toplam KDV\s*:\s*([\d.,]+)", text)
-total_amount = re.search(r"Toplam\s*:\s*([\d.,]+)", text)
+    # Perform regex search near 'VD'
+    match = re.search(pattern, text, re.IGNORECASE)
+    
+    if match:
+        return match.group(1)  # Extract and return the tax office number
+    return "N/A"
 
-total_vat = float(total_vat.group(1).replace(",", ".")) if total_vat else None
-total_amount = float(total_amount.group(1).replace(",", ".")) if total_amount else None
+# Function to extract product names from the text
+def extract_product_names(text):
+    product_names = re.findall(r"([A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s+\d+\s*\*", text)
+    return [name.strip() for name in product_names] if product_names else []
 
-# Structure the extracted data
-invoice_data = {
-    "tax_office": tax_office,
-    "tax_number": tax_number,
-    "date": date,
-    "time": time,
-    "receipt_no": receipt_no,
-    "products": product_details,
-    "total_vat": total_vat,
-    "total_amount": total_amount
-}
+# Function to extract product costs from the text
+def extract_product_costs(text):
+    product_costs = re.findall(r"\*\s*([\d.,]+)", text)
+    return [cost.strip() for cost in product_costs] if product_costs else []
 
-# Print the structured data using a loop
-print("\nExtracted Invoice Data:")
-for key, value in invoice_data.items():
-    if key == "products":
-        print("Products:")
-        for product in value:
-            print(f"- {product['name']} (VAT: {product['vat_rate']}, Price: {product['price']})")
-    else:
-        print(f"{key.replace('_', ' ').title()}: {value}")
+# Function to extract VAT
+def extract_vat(text):
+    match = re.search(r"(\d{1,2}%|KDV\s*:\s*[\d.,]+)", text, re.IGNORECASE)
+    return match.group(1) if match else "N/A"
+
+def print_info(text):
+    extracted_date = extract_date(text)
+    extracted_time = extract_time(text)
+    tax_office_name = extract_tax_office_name(text)
+    tax_office_number = extract_tax_office_number(text)
+    products = extract_product_names(text)
+    costs = extract_product_costs(text)
+    extracted_vat = extract_vat(text)
+    print(extracted_date)
+    print(extracted_time)
+    print(tax_office_name)
+    print(tax_office_number)
+    print(products)
+    print(costs)
+    print(extracted_vat)
+
+# Calling the functions and printing the results
+text = extract_image_to_text()
+print(text)
+print_info(text)
