@@ -17,12 +17,27 @@ app.config["UPLOAD_FOLDER"] = "uploads"
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 def preprocess_image(image_path):
-    """Enhance the image for better OCR performance."""
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    if image is None:
-        raise FileNotFoundError(f"Could not load image from path: {image_path}")
+    """Enhance the image and detect text boxes."""
+    image = cv2.imread(image_path)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    return image
+    # Thresholding to create binary image
+    _, binary = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+
+    # Find contours (text boxes)
+    contours, _ = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Draw bounding boxes around text
+    for contour in contours:
+        x, y, w, h = cv2.boundingRect(contour)
+        if w > 30 and h > 10:  # Filter out small contours
+            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+    # Save the processed image with text boxes
+    processed_image_path = os.path.join(app.config["UPLOAD_FOLDER"], "processed_image.png")
+    cv2.imwrite(processed_image_path, image)
+
+    return processed_image_path
 
 def extract_image_to_text(image_path):
     """Extract text from an image using Tesseract."""
