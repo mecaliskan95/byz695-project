@@ -22,14 +22,7 @@ def preprocess_image(image_path):
     if image is None:
         raise FileNotFoundError(f"Could not load image from path: {image_path}")
 
-    image = cv2.resize(image, None, fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
-    filtered = cv2.bilateralFilter(image, d=9, sigmaColor=75, sigmaSpace=75)
-    thresh = cv2.adaptiveThreshold(
-        filtered, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2
-    )
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
-    morph = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel)
-    return morph
+    return image
 
 def extract_image_to_text(image_path):
     """Extract text from an image using Tesseract."""
@@ -56,7 +49,8 @@ def extract_vat(text):
 
 def extract_tax_office_name(text):
     tax_office_keywords = [
-        r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', r'VERGİ DAIRESI', r'VN'
+        r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', 
+        r'VERGİ DAIRESI', r'VN'
     ]
     pattern = fr"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)[\.\s]*({'|'.join(tax_office_keywords)})"
     match = re.search(pattern, text, re.IGNORECASE)
@@ -65,8 +59,9 @@ def extract_tax_office_name(text):
 def extract_tax_office_number(text):
     lines = text.splitlines()
     number_pattern = r"\b(\d{10,11})\b"
-    tax_office_keywords = [r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b"]
-
+    tax_office_keywords = [
+        r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b"
+    ]
     for line in lines:
         if any(re.search(keyword, line, re.IGNORECASE) for keyword in tax_office_keywords):
             match = re.search(number_pattern, line)
