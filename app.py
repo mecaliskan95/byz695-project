@@ -30,7 +30,7 @@ class ImageProcessor:
     def preprocess_image(image_path):
         """Enhance the image and detect text boxes."""
         image = cv2.imread(image_path)
-        
+
         # Apply black and white scanning
         bw_image = bw_scanner(image)
 
@@ -112,6 +112,12 @@ def index():
             return redirect(request.url)
 
         file = request.files["file"]
+        filename, file_extension = os.path.splitext(file.filename)
+
+        # Allow jfif files
+        if file_extension.lower() not in ['.jpg', '.jpeg', '.png', '.jfif']:
+            return "Unsupported file type. Please upload a JPG, PNG, or JFIF file."
+
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
         file.save(file_path)
 
