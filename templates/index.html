@@ -3,18 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Invoice OCR Extraction tool for processing and analyzing invoice data">
     <title>Invoice OCR Extraction</title>
     <style>
         :root {
             --primary: #4f46e5;
             --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
             --success: #059669;
             --success-hover: #047857;
+            --danger: #dc2626;
             --background: #f8fafc;
             --card: #ffffff;
             --text: #1e293b;
             --text-secondary: #64748b;
             --border: #e2e8f0;
+        }
+
+        /* Reset and base styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -29,7 +39,7 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background-color: var(--card);
             border-radius: 1rem;
@@ -37,26 +47,39 @@
             padding: 2rem;
         }
 
-        h1 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
+        /* Header styles */
+        .header {
             text-align: center;
-            color: var(--text);
+            margin-bottom: 3rem;
         }
 
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Upload section styles */
         .upload-section {
-            background-color: var(--background);
-            border: 2px dashed var(--border);
+            background-color: var(--primary-light);
+            border: 2px dashed var(--primary);
             border-radius: 0.75rem;
             padding: 2rem;
             text-align: center;
             margin-bottom: 2rem;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
-        .upload-section:hover {
-            border-color: var(--primary);
+        .upload-section.drag-over {
+            background-color: var(--primary-light);
+            border-color: var(--primary-hover);
+            transform: scale(1.02);
         }
 
         .file-label {
@@ -72,7 +95,7 @@
             font-weight: 500;
         }
 
-        .file-label:hover {
+        .file-label:hover, .file-label:focus {
             background-color: var(--primary-hover);
             transform: translateY(-1px);
         }
@@ -89,11 +112,18 @@
             transition: all 0.3s ease;
         }
 
-        .upload-button:hover {
+        .upload-button:hover, .upload-button:focus {
             background-color: var(--success-hover);
             transform: translateY(-1px);
         }
 
+        .upload-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Results section styles */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -112,13 +142,21 @@
             margin: 0 0 1rem 0;
             font-size: 1.25rem;
             color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Table styles */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 1rem;
         }
 
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin-top: 1.5rem;
             border-radius: 0.75rem;
             overflow: hidden;
             box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
@@ -135,44 +173,41 @@
             font-weight: 600;
             text-align: left;
             color: var(--text);
+            position: sticky;
+            top: 0;
         }
 
         tbody tr:hover {
-            background-color: var(--background);
+            background-color: var(--primary-light);
         }
 
-        .toggle-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 0.875rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            transition: background-color 0.3s ease;
+        /* Loading state */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
         }
 
-        .toggle-btn:hover {
-            background-color: var(--background);
+        .loading.active {
+            display: block;
         }
 
-        pre {
-            background-color: var(--background);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
-            font-size: 0.875rem;
-            line-height: 1.7;
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            animation: spin 1s linear infinite;
         }
 
-        .raw-text-section {
-            margin: 1rem 0;
-            text-align: right;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        @media (max-width: 640px) {
+        /* Responsive design */
+        @media (max-width: 768px) {
             body {
                 padding: 1rem;
             }
@@ -184,121 +219,227 @@
             .results-grid {
                 grid-template-columns: 1fr;
             }
+
+            .table-container {
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Error states */
+        .error-message {
+            color: var(--danger);
+            background-color: #fee2e2;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Invoice OCR Extraction</h1>
+        <div class="header">
+            <h1>Invoice OCR Extraction</h1>
+            <p class="subtitle">Please Upload Your Invoice</p>
+        </div>
         
-        <div class="upload-section">
-            <form method="POST" enctype="multipart/form-data">
-                <label for="file" class="file-label">
+        <div class="upload-section" id="dropZone">
+            <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                <label for="file" class="file-label" tabindex="0" role="button">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="17 8 12 3 7 8"/>
                         <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    Choose Invoice
+                    <span>Choose Invoice or Drop File Here</span>
                 </label>
-                <input type="file" name="file" id="file" required style="display: none;">
-                <br>
-                <button type="submit" class="upload-button">Process Invoice</button>
+                <input type="file" name="file" id="file" required 
+                       style="display: none;" 
+                       accept=".pdf,.png,.jpg,.jpeg">
+                <p class="text-secondary mt-2">Supported Formats: JFIF, PNG, JPG. JPEG</p>
+                <div class="error-message" id="errorMessage"></div>
+                <button type="submit" class="upload-button" id="submitButton" disabled>
+                    Process Invoice
+                </button>
             </form>
+        </div>
+
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Processing your invoice...</p>
         </div>
 
         {% if text %}
         <div class="results-grid">
             <div class="info-card">
-                <h3>Invoice Details</h3>
-                <table>
-                    <tr>
-                        <th>Date</th>
-                        <td>{{ date }}</td>
-                    </tr>
-                    <tr>
-                        <th>Time</th>
-                        <td>{{ time }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total VAT</th>
-                        <td>{{ vat }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total Cost</th>
-                        <td>{{ total_cost }}</td>
-                    </tr>
-                </table>
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    Invoice Details
+                </h3>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th scope="row">Date</th>
+                            <td>{{ date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Time</th>
+                            <td>{{ time }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total VAT</th>
+                            <td>{{ vat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Total Cost</th>
+                            <td>{{ total_cost }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tax Office</th>
+                            <td>{{ tax_office_name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tax Number</th>
+                            <td>{{ tax_office_number }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-
-            <div class="info-card">
-                <h3>Tax Information</h3>
-                <table>
-                    <tr>
-                        <th>Tax Office</th>
-                        <td>{{ tax_office_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tax Number</th>
-                        <td>{{ tax_office_number }}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-
-        <div class="raw-text-section">
-            <button class="toggle-btn" onclick="toggleRawText()">Show Raw Text</button>
-            <pre id="raw-text" style="display: none;">{{ text }}</pre>
         </div>
 
         <div class="info-card" style="margin-top: 1.5rem;">
-            <h3>Products and Details</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Quantity</th>
-                        <th>Code</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for product, quantity, code in product_data %}
-                    <tr>
-                        <td>{{ product }}</td>
-                        <td>{{ quantity }}</td>
-                        <td>{{ code }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                Products and Details
+            </h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product, quantity, code in product_data %}
+                        <tr>
+                            <td>{{ product }}</td>
+                            <td>{{ quantity }}</td>
+                            <td>{{ code }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
         {% endif %}
     </div>
 
     <script>
         const fileInput = document.getElementById('file');
-        const fileLabel = document.querySelector('.file-label');
+        const fileLabel = document.querySelector('.file-label span');
+        const dropZone = document.getElementById('dropZone');
+        const submitButton = document.getElementById('submitButton');
+        const uploadForm = document.getElementById('uploadForm');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorMessage = document.getElementById('errorMessage');
 
-        fileInput.addEventListener('change', (e) => {
-            const fileName = e.target.files[0] ? e.target.files[0].name : "Choose Invoice";
-            fileLabel.innerHTML = `
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                ${fileName}`;
+        // File input change handler
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Drag and drop handlers
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
         });
 
-        function toggleRawText() {
-            const rawText = document.getElementById('raw-text');
-            const btn = document.querySelector('.toggle-btn');
-            if (rawText.style.display === 'none') {
-                rawText.style.display = 'block';
-                btn.textContent = 'Hide Raw Text';
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-over');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            fileInput.files = files;
+            handleFileSelect({ target: fileInput });
+        });
+
+        // Form submission handler
+        uploadForm.addEventListener('submit', (e) => {
+            loadingIndicator.classList.add('active');
+            submitButton.disabled = true;
+        });
+
+        // Keyboard accessibility
+        fileLabel.parentElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInput.click();
+            }
+        });
+
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            
+            // Reset error state
+            errorMessage.classList.remove('active');
+            errorMessage.textContent = '';
+            
+            if (file) {
+                // Validate file type
+                const validTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
+                if (!validTypes.includes(file.type)) {
+                    errorMessage.textContent = 'Please upload a PDF or image file (PNG, JPG)';
+                    errorMessage.classList.add('active');
+                    submitButton.disabled = true;
+                    fileLabel.textContent = 'Choose Invoice or Drop File Here';
+                    return;
+                }
+                
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    errorMessage.textContent = 'File size must be less than 10MB';
+                    errorMessage.classList.add('active');
+                    submitButton.disabled = true;
+                    fileLabel.textContent = 'Choose Invoice or Drop File Here';
+                    return;
+                }
+
+                fileLabel.textContent = file.name;
+                submitButton.disabled = false;
             } else {
-                rawText.style.display = 'none';
-                btn.textContent = 'Show Raw Text';
+                fileLabel.textContent = 'Choose Invoice or Drop File Here';
+                submitButton.disabled = true;
             }
         }
     </script>

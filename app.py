@@ -52,46 +52,93 @@ class ImageProcessor:
         rgb_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
         return pytesseract.image_to_string(rgb_image, lang='tur+eng').upper()
 
-
 class TextExtractor:
     """Handles text extraction from the OCR output."""
 
     @staticmethod
     def extract_date(text):
-        pattern = r"\b(\d{1,2}[-/.]\d{1,2}[-/.]\d{4})\b"
-        return re.search(pattern, text).group(1) if re.search(pattern, text) else "N/A"
+        # Pattern to match dates in various formats (DD/MM/YYYY, MM/DD/YYYY, DD-MM-YYYY, etc.)
+        pattern = r"\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})\b"
+        
+        match = re.search(pattern, text)
+        if match:
+            day, month, year = match.groups()
+            # Return the date in DD/MM/YYYY format
+            return f"{day.zfill(2)}/{month.zfill(2)}/{year}"  # Ensures day and month are two digits
+        
+        return "N/A"  # Return "N/A" if no match is found
 
     @staticmethod
+    def extract_time(text):
+        # Pattern to match the time in HH:MM:SS or HH:MM format
+        time_pattern = r"\b(\d{2}):(\d{2})(?::\d{2})?\b"  # Matches HH:MM:SS or HH:MM format
+
+        match = re.search(time_pattern, text)
+        if match:
+            # Return the time in HH:MM format
+            return f"{match.group(1)}:{match.group(2)}"
+        
+        return "N/A"  # Return "N/A" if no match is found
+    
+    @staticmethod
     def extract_total_cost(text):
-        pattern = r"TOPLAM[:\s]*([\d.,]+)"
-        return re.search(pattern, text).group(1).replace(',', '.') if re.search(pattern, text) else "N/A"
+        # Adjusted pattern to match various formats for the total cost
+        # Including handling of special characters like ©, #, and ignoring them in the extraction
+        pattern = r"TOPLAM\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
+        match = re.search(pattern, text)
+        return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_vat(text):
-        pattern = r"TOP KDV[:\s]*([\d.,]+)"
-        return re.search(pattern, text).group(1).replace(',', '.') if re.search(pattern, text) else "N/A"
+        # Adjusted pattern to match both TOPKDV and TOPLAM KDV formats for VAT
+        # Handling special characters like # and spaces, including '*' before the number
+        pattern = r"(?:TOPKDV|TOPLAM KDV)\s*[:\.]?\s*[\*\+\s]?[\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
+        match = re.search(pattern, text)
+        return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_tax_office_name(text):
+        # Keywords to match variations in text
         keywords = [
             r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', 
             r'VERGİ DAIRESI', r'VN'
         ]
-        pattern = fr"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)[\.\s]*({'|'.join(keywords)})"
-        return re.search(pattern, text, re.IGNORECASE).group(1).strip() if re.search(pattern, text) else "N/A"
+
+        # Regex pattern to capture names before the keywords
+        # This pattern will match names that can include periods, spaces, and are followed by keywords
+        pattern = r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:(?:VD|V\.?D\.?|VERGİ DAİRESİ|VN)\s*[:\-]?)"
+
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            matched_name = match.group(1).strip()  # Capture and strip the matched name
+            if matched_name:  # Check if the matched name is not empty
+                return matched_name.split()[-1]  # Get only the last word
+            else:
+                return "N/A"  # If the matched name is empty, return "N/A"
+
+        return "N/A"  # If no match is found, return "N/A"
 
     @staticmethod
     def extract_tax_office_number(text):
+        # Split the text into lines for easier searching
         lines = text.splitlines()
+        
+        # Pattern for the tax office number
         number_pattern = r"\b(\d{10,11})\b"
+        
+        # Keywords to match against
         keywords = [
-            r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b"
+            r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b", r"\bV\.D\."
         ]
+
         for line in lines:
+            # Check for keywords in each line
             if any(re.search(keyword, line, re.IGNORECASE) for keyword in keywords):
-                match = re.search(number_pattern, line)
+                # Updated regex to match the number, regardless of its position
+                match = re.search(r"(?:(?:V\.?D\.?|VD|VERGİ DAİRESİ|VN|VKN|TCKN)\s*[:\-]?\s*)?(\d{10,11})", line)
                 if match:
-                    return match.group(1)
+                    return match.group(1).strip()  # Return the extracted number
+                
         return "N/A"
 
     @staticmethod
@@ -104,7 +151,6 @@ class TextExtractor:
         product_costs = re.findall(r"\*\s*([\d.,]+)", text)
         return [cost.strip() for cost in product_costs] if product_costs else []
 
-
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -114,15 +160,15 @@ def index():
         file = request.files["file"]
         filename, file_extension = os.path.splitext(file.filename)
 
-        # Allow jfif files
         if file_extension.lower() not in ['.jpg', '.jpeg', '.png', '.jfif']:
-            return "Unsupported file type. Please upload a JPG, PNG, or JFIF file."
+            return "Unsupported file type. Please upload a JPG, JPEG, PNG, or JFIF file."
 
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
         file.save(file_path)
 
         text = ImageProcessor.extract_text(file_path)
         date = TextExtractor.extract_date(text)
+        time = TextExtractor.extract_time(text)
         vat = TextExtractor.extract_vat(text)
         total_cost = TextExtractor.extract_total_cost(text)
         tax_office_name = TextExtractor.extract_tax_office_name(text)
@@ -134,6 +180,7 @@ def index():
             "index.html",
             text=text,
             date=date,
+            time=time,
             vat=vat,
             total_cost=total_cost,
             tax_office_name=tax_office_name,
