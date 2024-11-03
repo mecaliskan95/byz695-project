@@ -3,24 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Invoice OCR Extraction tool for processing and analyzing invoice data">
-    <title>Invoice OCR Extraction</title>
+    <meta name="description" content="Advanced Invoice OCR Extraction tool with real-time processing">
+    <title>Smart Invoice Scanner Pro</title>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
             --primary-light: #eef2ff;
-            --success: #059669;
-            --success-hover: #047857;
-            --danger: #dc2626;
+            --success: #10b981;
+            --success-hover: #059669;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --warning: #f59e0b;
             --background: #f8fafc;
             --card: #ffffff;
             --text: #1e293b;
             --text-secondary: #64748b;
             --border: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --transition: all 0.3s ease;
         }
 
-        /* Reset and base styles */
+        /* Modern reset and base styles */
         *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
@@ -29,419 +35,831 @@
 
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background-color: var(--background);
-            margin: 0;
-            padding: 2rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
             min-height: 100vh;
+            padding: 2rem;
             color: var(--text);
             line-height: 1.5;
         }
 
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             background-color: var(--card);
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Header styles */
+        /* Enhanced header with gradient animation */
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--primary-hover));
+            border-radius: 2px;
         }
 
         h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text);
+            font-size: 2.75rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), var(--primary-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
+            letter-spacing: -0.025em;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Upload section styles */
+        /* Enhanced upload section */
         .upload-section {
-            background-color: var(--primary-light);
+            background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%);
             border: 2px dashed var(--primary);
-            border-radius: 0.75rem;
-            padding: 2rem;
+            border-radius: 1rem;
+            padding: 3rem 2rem;
             text-align: center;
             margin-bottom: 2rem;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            position: relative;
         }
 
         .upload-section.drag-over {
-            background-color: var(--primary-light);
-            border-color: var(--primary-hover);
             transform: scale(1.02);
+            border-color: var(--primary-hover);
+            box-shadow: var(--shadow);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-light) 100%);
+        }
+
+        .file-input-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .upload-icon {
+            width: 80px;
+            height: 80px;
+            color: var(--primary);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .file-label {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             background-color: var(--primary);
             color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 500;
+            box-shadow: var(--shadow);
         }
 
-        .file-label:hover, .file-label:focus {
+        .file-label:hover {
             background-color: var(--primary-hover);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .upload-button {
-            background-color: var(--success);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-weight: 500;
+        .file-info {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
             margin-top: 1rem;
-            transition: all 0.3s ease;
         }
 
-        .upload-button:hover, .upload-button:focus {
-            background-color: var(--success-hover);
-            transform: translateY(-1px);
+        /* Enhanced progress bar */
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem auto;
+            display: none;
+            position: relative;
         }
 
-        .upload-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .progress-track {
+            width: 100%;
+            height: 0.5rem;
+            background-color: var(--primary-light);
+            border-radius: 1rem;
+            overflow: hidden;
         }
 
-        /* Results section styles */
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), var(--success));
+            border-radius: 1rem;
+            transition: width 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            animation: shine 1.5s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        /* Enhanced results section */
+        .results-container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+            margin-top: 3rem;
+        }
+
+        .results-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
         .info-card {
-            background-color: var(--background);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
+            background: linear-gradient(135deg, var(--card) 0%, var(--primary-light) 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
         .info-card h3 {
-            margin: 0 0 1rem 0;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
             font-size: 1.25rem;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
         }
 
-        /* Table styles */
+        .info-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 1.5px;
+        }
+
+        /* Enhanced table styles */
         .table-container {
-            overflow-x: auto;
-            margin-top: 1rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: var(--card);
         }
 
         table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);
-        }
-
-        th, td {
-            padding: 1rem;
-            background-color: var(--card);
-            border-bottom: 1px solid var(--border);
         }
 
         th {
-            background-color: var(--background);
+            background: var(--primary-light);
+            color: var(--primary);
             font-weight: 600;
-            text-align: left;
-            color: var(--text);
-            position: sticky;
-            top: 0;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            padding: 1.25rem 1rem;
         }
 
-        tbody tr:hover {
+        td {
+            padding: 1.25rem 1rem;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        tr:hover td {
             background-color: var(--primary-light);
         }
 
-        /* Loading state */
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 2rem;
+        tr:last-child td {
+            border-bottom: none;
         }
 
-        .loading.active {
-            display: block;
+        /* Enhanced export buttons */
+        .export-options {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
         }
 
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            animation: spin 1s linear infinite;
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .export-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: var(--transition);
         }
 
-        /* Responsive design */
+        .export-btn:hover svg {
+            transform: translateX(2px);
+        }
+
+        .export-btn.excel {
+            background-color: var(--success);
+        }
+
+        .export-btn.excel:hover {
+            background-color: var(--success-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .export-btn.json {
+            background-color: var(--primary);
+        }
+
+        .export-btn.json:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Status messages */
+        .status-message {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease-out;
+            z-index: 100;
+            max-width: 300px;
+        }
+
+        .status-message.error {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .status-message.success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Responsive improvements */
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
             }
-            
+
             .container {
-                padding: 1rem;
+                padding: 1.5rem;
             }
-            
+
+            h1 {
+                font-size: 2rem;
+            }
+
             .results-grid {
                 grid-template-columns: 1fr;
             }
 
-            .table-container {
-                margin: 0 -1rem;
-                padding: 0 1rem;
+            .export-options {
+                flex-direction: column;
+            }
+
+            .export-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .status-message {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
             }
         }
 
-        /* Accessibility improvements */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
-        /* Error states */
-        .error-message {
-            color: var(--danger);
-            background-color: #fee2e2;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            display: none;
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .error-message.active {
-            display: block;
+        /* Loading animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--primary-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            margin: 0 auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Invoice OCR Extraction</h1>
-            <p class="subtitle">Please Upload Your Invoice</p>
+            <h1>Smart Invoice Scanner Pro</h1>
+            <p class="subtitle">Advanced OCR technology for instant invoice data extraction</p>
         </div>
         
         <div class="upload-section" id="dropZone">
-            <form method="POST" enctype="multipart/form-data" id="uploadForm">
-                <label for="file" class="file-label" tabindex="0" role="button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                         <polyline points="17 8 12 3 7 8"/>
                         <line x1="12" y1="3" x2="12" y2="15"/>
                     </svg>
-                    <span>Choose Invoice or Drop File Here</span>
-                </label>
-                <input type="file" name="file" id="file" required 
-                       style="display: none;" 
-                       accept=".pdf,.png,.jpg,.jpeg">
-                <p class="text-secondary mt-2">Supported Formats: JFIF, PNG, JPG. JPEG</p>
-                <div class="error-message" id="errorMessage"></div>
-                <button type="submit" class="upload-button" id="submitButton" disabled>
-                    Process Invoice
-                </button>
+                    <label for="file" class="file-label">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                            <polyline points="13 2 13 9 20 9"/>
+                        </svg>
+                        <span>Choose Invoice or Drop File</span>
+                    </label>
+                    <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                    <p class="file-info">Supported formats: JPG, PNG, JPEG, PDF (Max 10MB)</p>
+                </div>
             </form>
         </div>
 
-        <div class="loading" id="loadingIndicator">
-            <div class="spinner"></div>
-            <p>Processing your invoice...</p>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-track">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">Processing your invoice...</p>
         </div>
 
-        {% if text %}
-        <div class="results-grid">
-            <div class="info-card">
-                <h3>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    Invoice Details
-                </h3>
+        <div class="results-container" id="resultsContainer">
+            <div class="results-grid">
+                <div class="info-card">
+                    <h3>Invoice Details</h3>
+                    <div class="table-container">
+                        <table>
+                            <tr>
+                                <th>Invoice Number</th>
+                                <td>{{ invoice_number }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ date }}</td>
+                            </tr>
+                            <tr>
+                                <th>Time</th>
+                                <td>{{ time }}</td>
+                            </tr>
+                            <tr>
+                                <th>VAT (₺)</th>
+                                <td>{{ vat }}</td>
+                            </tr>
+                            <tr>
+                                <th>Total (₺)</th>
+                                <td>{{ total_cost }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tax Office</th>
+                                <td>{{ tax_office_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tax Number</th>
+                                <td>{{ tax_office_number }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="info-card" style="margin-top: 2rem;">
+                <h3>Products & Services</h3>
                 <div class="table-container">
                     <table>
-                        <tr>
-                            <th scope="row">Date (GG/AA/YYYY)</th>
-                            <td>{{ date }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Time (SS:DD)</th>
-                            <td>{{ time }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Total VAT (₺)</th>
-                            <td>{{ vat }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Total Cost (₺)</th>
-                            <td>{{ total_cost }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Tax Office (VD)</th>
-                            <td>{{ tax_office_name }}</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Tax Number (VKN)</th>
-                            <td>{{ tax_office_number }}</td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if products %}
+                                {% for i in range(products|length) %}
+                                <tr>
+                                    <td>{{ products[i] }}</td>
+                                    <td>{{ quantities[i] }}</td>
+                                    <td>{{ unit_prices[i] }} ₺</td>
+                                    <td>{{ costs[i] }} ₺</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No products found</td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3">Subtotal</th>
+                                <td>{{ subtotal }} ₺</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">VAT ({{ vat_rate }}%)</th>
+                                <td>{{ vat }} ₺</td>
+                            </tr>
+                            <tr>
+                                <th colspan="3">Total</th>
+                                <td>{{ total_cost }} ₺</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
-        </div>
 
-        <div class="info-card" style="margin-top: 1.5rem;">
-            <h3>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <path d="M16 10a4 4 0 0 1-8 0"></path>
-                </svg>
-                Products and Details
-            </h3>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Product Name</th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Code</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product, quantity, code in product_data %}
-                        <tr>
-                            <td>{{ product }}</td>
-                            <td>{{ quantity }}</td>
-                            <td>{{ code }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+            <div class="export-options">
+                <button class="export-btn excel" onclick="exportData('excel')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <line x1="10" y1="9" x2="8" y2="9"/>
+                    </svg>
+                    Export to Excel
+                </button>
+                <button class="export-btn json" onclick="exportData('json')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Export as JSON
+                </button>
             </div>
         </div>
-        {% endif %}
     </div>
 
     <script>
-        const fileInput = document.getElementById('file');
-        const fileLabel = document.querySelector('.file-label span');
-        const dropZone = document.getElementById('dropZone');
-        const submitButton = document.getElementById('submitButton');
-        const uploadForm = document.getElementById('uploadForm');
-        const loadingIndicator = document.getElementById('loadingIndicator');
-        const errorMessage = document.getElementById('errorMessage');
-
-        // File input change handler
-        fileInput.addEventListener('change', handleFileSelect);
-
-        // Drag and drop handlers
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('drag-over');
-        });
-
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('drag-over');
-        });
-
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('drag-over');
-            
-            const files = e.dataTransfer.files;
-            fileInput.files = files;
-            handleFileSelect({ target: fileInput });
-        });
-
-        // Form submission handler
-        uploadForm.addEventListener('submit', (e) => {
-            loadingIndicator.classList.add('active');
-            submitButton.disabled = true;
-        });
-
-        // Keyboard accessibility
-        fileLabel.parentElement.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                fileInput.click();
-            }
-        });
-
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            
-            // Reset error state
-            errorMessage.classList.remove('active');
-            errorMessage.textContent = '';
-            
-            if (file) {
-                // Validate file type
-                const validTypes = ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'];
-                if (!validTypes.includes(file.type)) {
-                    errorMessage.textContent = 'Please upload a PDF or image file (PNG, JPG)';
-                    errorMessage.classList.add('active');
-                    submitButton.disabled = true;
-                    fileLabel.textContent = 'Choose Invoice or Drop File Here';
-                    return;
-                }
+        class InvoiceScanner {
+            constructor() {
+                this.dropZone = document.getElementById('dropZone');
+                this.fileInput = document.getElementById('file');
+                this.form = document.getElementById('uploadForm');
+                this.progressBar = document.getElementById('progressBar');
+                this.progressContainer = document.getElementById('progressContainer');
+                this.progressText = document.getElementById('progressText');
+                this.resultsContainer = document.getElementById('resultsContainer');
+                this.statusMessage = null;
                 
-                // Validate file size (max 10MB)
-                if (file.size > 10 * 1024 * 1024) {
-                    errorMessage.textContent = 'File size must be less than 10MB';
-                    errorMessage.classList.add('active');
-                    submitButton.disabled = true;
-                    fileLabel.textContent = 'Choose Invoice or Drop File Here';
-                    return;
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                // Drag and drop events
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    this.dropZone.addEventListener(eventName, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
+                });
+
+                this.dropZone.addEventListener('dragover', () => this.handleDragOver());
+                this.dropZone.addEventListener('dragleave', () => this.handleDragLeave());
+                this.dropZone.addEventListener('drop', (e) => this.handleDrop(e));
+                this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+                // Handle paste events
+                document.addEventListener('paste', (e) => this.handlePaste(e));
+            }
+
+            handleDragOver() {
+                this.dropZone.classList.add('drag-over');
+            }
+
+            handleDragLeave() {
+                this.dropZone.classList.remove('drag-over');
+            }
+
+            handleDrop(e) {
+                this.dropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    this.fileInput.files = files;
+                    this.handleFileSelect({ target: this.fileInput });
+                }
+            }
+
+            handlePaste(e) {
+                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (const item of items) {
+                    if (item.type.indexOf('image') !== -1) {
+                        const file = item.getAsFile();
+                        this.processFile(file);
+                        break;
+                    }
+                }
+            }
+
+            async handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                this.removeStatusMessage();
+                
+                if (await this.validateFile(file)) {
+                    this.processFile(file);
+                }
+            }
+
+            async validateFile(file) {
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+                const maxSize = 10 * 1024 * 1024; // 10MB
+
+                if (!validTypes.includes(file.type)) {
+                    this.showErrorMessage('Please select a valid file (JPG, PNG, or PDF)');
+                    return false;
                 }
 
-                fileLabel.textContent = file.name;
-                submitButton.disabled = false;
-            } else {
-                fileLabel.textContent = 'Choose Invoice or Drop File Here';
-                submitButton.disabled = true;
+                if (file.size > maxSize) {
+                    this.showErrorMessage('File size must be less than 10MB');
+                    return false;
+                }
+
+                return true;
+            }
+
+            processFile(file) {
+                this.updateFileLabel(file.name);
+                this.showSuccessMessage(`File "${file.name}" selected successfully`);
+                this.form.submit();
+            }
+
+            updateFileLabel(fileName) {
+                const label = document.querySelector('.file-label span');
+                label.textContent = fileName;
+            }
+
+            showErrorMessage(message) {
+                this.showStatusMessage(message, 'error');
+            }
+
+            showSuccessMessage(message) {
+                this.showStatusMessage(message, 'success');
+            }
+
+            showStatusMessage(message, type) {
+                this.removeStatusMessage();
+                
+                const div = document.createElement('div');
+                div.className = `status-message ${type}`;
+                div.innerHTML = `
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        ${type === 'error' 
+                            ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
+                            : '<circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>'}
+                    </svg>
+                    <span>${message}</span>
+                `;
+
+                this.dropZone.appendChild(div);
+                this.statusMessage = div;
+
+                // Auto-remove after 5 seconds
+                setTimeout(() => this.removeStatusMessage(), 5000);
+            }
+
+            removeStatusMessage() {
+                if (this.statusMessage) {
+                    this.statusMessage.remove();
+                    this.statusMessage = null;
+                }
+            }
+
+            async handleSubmit(e) {
+                e.preventDefault();
+                
+                this.showProgress();
+                
+                try {
+                    const formData = new FormData(this.form);
+                    
+                    // Start progress animation
+                    this.startProgressSimulation();
+
+                    const response = await fetch('/', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    this.completeProgress();
+                    
+                    // Show results with animation
+                    setTimeout(() => {
+                        this.updateResults(data);
+                        this.showResults();
+                    }, 500);
+
+                } catch (error) {
+                    this.hideProgress();
+                    this.showErrorMessage(`Upload failed: ${error.message}`);
+                }
+            }
+
+            showProgress() {
+                this.progressContainer.style.display = 'block';
+                this.progressBar.style.width = '0%';
+            }
+
+            hideProgress() {
+                this.progressContainer.style.display = 'none';
+            }
+
+            startProgressSimulation() {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    if (progress <= 90) {
+                        this.updateProgress(progress);
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 100);
+            }
+
+            updateProgress(percent) {
+                this.progressBar.style.width = `${percent}%`;
+                this.progressText.textContent = `Processing... ${percent}%`;
+            }
+
+            completeProgress() {
+                this.updateProgress(100);
+                this.progressText.textContent = 'Processing complete!';
+            }
+
+            showResults() {
+                this.resultsContainer.classList.add('visible');
+            }
+
+            updateResults(data) {
+                // Update the results container with the new data
+                // This would need to be implemented based on your specific data structure
             }
         }
+
+        // Initialize the invoice scanner
+        const invoiceScanner = new InvoiceScanner();
+
+        // Export functionality
+        async function exportData(format) {
+            try {
+                const response = await fetch(`/export/${format}`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Export failed: ${response.statusText}`);
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                
+                a.href = url;
+                a.download = `invoice_data_${timestamp}.${format}`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Cleanup
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                invoiceScanner.showSuccessMessage(`Successfully exported as ${format.toUpperCase()}`);
+            } catch (error) {
+                invoiceScanner.showErrorMessage(error.message);
+            }
+        }
+
+        // Initialize any results that might be present on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const results = document.querySelector('.results-container');
+            if (results) {
+                setTimeout(() => results.classList.add('visible'), 100);
+            }
+        });
     </script>
 </body>
 </html>
