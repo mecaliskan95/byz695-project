@@ -6,6 +6,7 @@ import numpy as np
 from flask import Flask, render_template, request, redirect
 import pytesseract
 from skimage.filters import threshold_local
+import logging
 
 # Configure Tesseract path
 pytesseract.pytesseract.tesseract_cmd = r'c:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -16,6 +17,9 @@ app.config["UPLOAD_FOLDER"] = "uploads"
 
 # Ensure the uploads directory exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 def bw_scanner(image):
     """Convert an image to black and white using local thresholding."""
@@ -48,9 +52,15 @@ class ImageProcessor:
     @staticmethod
     def extract_text(image_path):
         """Extract text from an image using Tesseract."""
-        processed_image = ImageProcessor.preprocess_image(image_path)
-        rgb_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
-        return pytesseract.image_to_string(rgb_image, lang='tur+eng').upper()
+        try:
+            processed_image = ImageProcessor.preprocess_image(image_path)
+            rgb_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
+            text = pytesseract.image_to_string(rgb_image, lang='tur+eng').upper()
+            logging.info(f"Extracted text: {text[:100]}...")  # Log the first 100 characters of the extracted text
+            return text
+        except Exception as e:
+            logging.error(f"Error extracting text: {e}")
+            return ""
 
 class TextExtractor:
     """Handles text extraction from the OCR output."""
@@ -63,10 +73,23 @@ class TextExtractor:
         match = re.search(pattern, text)
         if match:
             day, month, year = match.groups()
-            # Return the date in DD/MM/YYYY format
-            return f"{day.zfill(2)}/{month.zfill(2)}/{year}"  # Ensures day and month are two digits
+            day, month, year = int(day), int(month), int(year)
+            if 1 <= month <= 12 and 1 <= day <= 31 and 1900 <= year <= 2100:  # Validate month, day, and year
+                # Additional check for days in February and leap years
+                if month == 2:
+                    if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+                        if day > 29:
+                            return "N/A"
+                    else:
+                        if day > 28:
+                            return "N/A"
+                # Check for days in months with 30 days
+                elif month in [4, 6, 9, 11] and day > 30:
+                    return "N/A"
+                # Return the date in DD/MM/YYYY format
+                return f"{str(day).zfill(2)}/{str(month).zfill(2)}/{str(year)}"  # Ensures day and month are two digits
         
-        return "N/A"  # Return "N/A" if no match is found
+        return "N/A"  # Return "N/A" if no match is found or date is invalid
 
     @staticmethod
     def extract_time(text):
@@ -75,11 +98,13 @@ class TextExtractor:
 
         match = re.search(time_pattern, text)
         if match:
-            # Return the time in HH:MM format
-            return f"{match.group(1)}:{match.group(2)}"
+            hour, minute = int(match.group(1)), int(match.group(2))
+            if 0 <= hour < 24 and 0 <= minute < 60:  # Validate hour and minute
+                # Return the time in HH:MM format
+                return f"{str(hour).zfill(2)}:{str(minute).zfill(2)}"
         
-        return "N/A"  # Return "N/A" if no match is found
-    
+        return "N/A"  # Return "N/A" if no match is found or time is invalid
+
     @staticmethod
     def extract_total_cost(text):
         # Adjusted pattern to match various formats for the total cost
@@ -166,28 +191,32 @@ def index():
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
         file.save(file_path)
 
-        text = ImageProcessor.extract_text(file_path)
-        date = TextExtractor.extract_date(text)
-        time = TextExtractor.extract_time(text)
-        vat = TextExtractor.extract_vat(text)
-        total_cost = TextExtractor.extract_total_cost(text)
-        tax_office_name = TextExtractor.extract_tax_office_name(text)
-        tax_office_number = TextExtractor.extract_tax_office_number(text)
-        products = TextExtractor.extract_product_names(text)
-        costs = TextExtractor.extract_product_costs(text)
+        try:
+            text = ImageProcessor.extract_text(file_path)
+            date = TextExtractor.extract_date(text)
+            time = TextExtractor.extract_time(text)
+            vat = TextExtractor.extract_vat(text)
+            total_cost = TextExtractor.extract_total_cost(text)
+            tax_office_name = TextExtractor.extract_tax_office_name(text)
+            tax_office_number = TextExtractor.extract_tax_office_number(text)
+            products = TextExtractor.extract_product_names(text)
+            costs = TextExtractor.extract_product_costs(text)
 
-        return render_template(
-            "index.html",
-            text=text,
-            date=date,
-            time=time,
-            vat=vat,
-            total_cost=total_cost,
-            tax_office_name=tax_office_name,
-            tax_office_number=tax_office_number,
-            products=products,
-            costs=costs,
-        )
+            return render_template(
+                "index.html",
+                text=text,
+                date=date,
+                time=time,
+                vat=vat,
+                total_cost=total_cost,
+                tax_office_name=tax_office_name,
+                tax_office_number=tax_office_number,
+                products=products,
+                costs=costs,
+            )
+        except Exception as e:
+            logging.error(f"Error processing file: {e}")
+            return "An error occurred while processing the file. Please try again."
 
     return render_template("index.html")
 

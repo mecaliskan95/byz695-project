@@ -11,31 +11,19 @@
             --primary-hover: #4f46e5;
             --primary-light: #eef2ff;
             --success: #10b981;
-            --success-hover: #059669;
             --danger: #ef4444;
-            --danger-hover: #dc2626;
-            --warning: #f59e0b;
             --background: #f8fafc;
             --card: #ffffff;
             --text: #1e293b;
             --text-secondary: #64748b;
             --border: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             --transition: all 0.3s ease;
-        }
-
-        /* Modern reset and base styles */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
         }
 
         body {
             font-family: system-ui, -apple-system, sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            background: var(--background);
             min-height: 100vh;
             padding: 2rem;
             color: var(--text);
@@ -44,108 +32,50 @@
 
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             background-color: var(--card);
-            border-radius: 1.5rem;
-            box-shadow: var(--shadow-lg);
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Enhanced header with gradient animation */
-        .header {
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            padding: 2rem;
             text-align: center;
-            margin-bottom: 3.5rem;
-            position: relative;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -1rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--primary-hover));
-            border-radius: 2px;
         }
 
         h1 {
-            font-size: 2.75rem;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--primary), var(--primary-hover));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
             margin-bottom: 1rem;
-            letter-spacing: -0.025em;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 1.25rem;
-            max-width: 600px;
-            margin: 0 auto;
+            font-size: 1rem;
+            margin-bottom: 2rem;
         }
 
-        /* Enhanced upload section */
         .upload-section {
-            background: linear-gradient(135deg, var(--primary-light) 0%, #fff 100%);
+            background: var(--primary-light);
             border: 2px dashed var(--primary);
             border-radius: 1rem;
-            padding: 3rem 2rem;
-            text-align: center;
+            padding: 2rem;
             margin-bottom: 2rem;
             transition: var(--transition);
-            position: relative;
-        }
-
-        .upload-section.drag-over {
-            transform: scale(1.02);
-            border-color: var(--primary-hover);
-            box-shadow: var(--shadow);
-            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-light) 100%);
-        }
-
-        .file-input-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .upload-icon {
-            width: 80px;
-            height: 80px;
-            color: var(--primary);
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
         }
 
         .file-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
+            display: inline-block;
             background-color: var(--primary);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
-            box-shadow: var(--shadow);
         }
 
         .file-label:hover {
             background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
         }
 
         .file-info {
@@ -154,66 +84,40 @@
             margin-top: 1rem;
         }
 
-        /* Enhanced progress bar */
         .progress-container {
-            width: 100%;
-            max-width: 400px;
-            margin: 2rem auto;
             display: none;
-            position: relative;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 0.5rem;
-            background-color: var(--primary-light);
-            border-radius: 1rem;
-            overflow: hidden;
+            margin: 2rem 0;
         }
 
         .progress-bar {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--success));
-            border-radius: 1rem;
-            transition: width 0.3s ease;
-            position: relative;
+            width: 100%;
+            height: 0.5rem;
+            background: var(--primary-light);
+            border-radius: 0.25rem;
             overflow: hidden;
+            position: relative;
         }
 
         .progress-bar::after {
             content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                rgba(255,255,255,0) 0%,
-                rgba(255,255,255,0.3) 50%,
-                rgba(255,255,255,0) 100%
-            );
-            animation: shine 1.5s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            display: block;
+            height: 100%;
+            background: var(--primary);
+            width: 0;
+            transition: width 0.3s ease;
         }
 
         .progress-text {
-            text-align: center;
-            margin-top: 0.75rem;
+            margin-top: 0.5rem;
             color: var(--text-secondary);
             font-size: 0.875rem;
         }
 
-        /* Enhanced results section */
         .results-container {
             opacity: 0;
             transform: translateY(20px);
             transition: var(--transition);
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .results-container.visible {
@@ -221,85 +125,38 @@
             transform: translateY(0);
         }
 
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
         .info-card {
-            background: linear-gradient(135deg, var(--card) 0%, var(--primary-light) 100%);
-            padding: 2rem;
-            border-radius: 1rem;
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
             box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            margin-bottom: 1.5rem;
         }
 
         .info-card h3 {
             color: var(--primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             font-size: 1.25rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .info-card h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 1.5px;
-        }
-
-        /* Enhanced table styles */
-        .table-container {
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            background: var(--card);
         }
 
         table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
         }
 
         th {
             background: var(--primary-light);
             color: var(--primary);
             font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            letter-spacing: 0.05em;
-            padding: 1.25rem 1rem;
         }
 
-        td {
-            padding: 1.25rem 1rem;
-            border-bottom: 1px solid var(--border);
-            transition: var(--transition);
-        }
-
-        tr:hover td {
-            background-color: var(--primary-light);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Enhanced export buttons */
         .export-options {
             display: flex;
             gap: 1rem;
@@ -308,52 +165,20 @@
         }
 
         .export-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1.75rem;
-            border-radius: 0.75rem;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             font-weight: 500;
-            transition: var(--transition);
             cursor: pointer;
             border: none;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-size: 0.875rem;
-        }
-
-        .export-btn svg {
-            width: 20px;
-            height: 20px;
             transition: var(--transition);
         }
 
-        .export-btn:hover svg {
-            transform: translateX(2px);
-        }
-
-        .export-btn.excel {
-            background-color: var(--success);
-        }
-
-        .export-btn.excel:hover {
-            background-color: var(--success-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .export-btn.json {
-            background-color: var(--primary);
-        }
-
-        .export-btn.json:hover {
+        .export-btn:hover {
             background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
         }
 
-        /* Status messages */
         .status-message {
             position: absolute;
             top: 1rem;
@@ -384,41 +209,6 @@
             flex-shrink: 0;
         }
 
-        /* Responsive improvements */
-        @media (max-width: 768px) {
-            body {
-                padding: 1rem;
-            }
-
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .results-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .export-options {
-                flex-direction: column;
-            }
-
-            .export-btn {
-                width: 100%;
-                justify-content: center;
-            }
-
-            .status-message {
-                left: 1rem;
-                right: 1rem;
-                max-width: none;
-            }
-        }
-
-        /* Animations */
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -430,18 +220,6 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Loading animation */
         .loading-spinner {
             width: 40px;
             height: 40px;
@@ -461,143 +239,107 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Smart Invoice Scanner Pro</h1>
-            <p class="subtitle">Advanced OCR technology for instant invoice data extraction</p>
-        </div>
+        <h1>Smart Invoice Scanner Pro</h1>
+        <p class="subtitle">Advanced OCR technology for instant invoice data extraction</p>
         
         <div class="upload-section" id="dropZone">
             <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                <div class="file-input-wrapper">
-                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17 8 12 3 7 8"/>
-                        <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                    <label for="file" class="file-label">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-                            <polyline points="13 2 13 9 20 9"/>
-                        </svg>
-                        <span>Choose Invoice or Drop File</span>
-                    </label>
-                    <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-                    <p class="file-info">Supported formats: JPG, PNG, JPEG, PDF (Max 10MB)</p>
-                </div>
+                <label for="file" class="file-label">
+                    <span>Choose Invoice or Drop File</span>
+                </label>
+                <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                <p class="file-info">Supported formats: JPG, PNG, JPEG, PDF (Max 10MB)</p>
+                <div class="loading-spinner" id="loadingSpinner" style="display: none;"></div>
+                <p id="processingIndicator" style="display: none; color: var(--primary); font-weight: bold;">Processing...</p>
             </form>
         </div>
 
         <div class="progress-container" id="progressContainer">
-            <div class="progress-track">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
+            <div class="progress-bar" id="progressBar"></div>
             <p class="progress-text" id="progressText">Processing your invoice...</p>
         </div>
 
         <div class="results-container" id="resultsContainer">
-            <div class="results-grid">
-                <div class="info-card">
-                    <h3>Invoice Details</h3>
-                    <div class="table-container">
-                        <table>
-                            <tr>
-                                <th>Invoice Number</th>
-                                <td>{{ invoice_number }}</td>
-                            </tr>
-                            <tr>
-                                <th>Date</th>
-                                <td>{{ date }}</td>
-                            </tr>
-                            <tr>
-                                <th>Time</th>
-                                <td>{{ time }}</td>
-                            </tr>
-                            <tr>
-                                <th>VAT (₺)</th>
-                                <td>{{ vat }}</td>
-                            </tr>
-                            <tr>
-                                <th>Total (₺)</th>
-                                <td>{{ total_cost }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tax Office</th>
-                                <td>{{ tax_office_name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Tax Number</th>
-                                <td>{{ tax_office_number }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+            <div class="info-card">
+                <h3>Invoice Details</h3>
+                <table>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <td>{{ invoice_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{ date }}</td>
+                    </tr>
+                    <tr>
+                        <th>Time</th>
+                        <td>{{ time }}</td>
+                    </tr>
+                    <tr>
+                        <th>VAT (₺)</th>
+                        <td>{{ vat }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total (₺)</th>
+                        <td>{{ total_cost }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tax Office</th>
+                        <td>{{ tax_office_name }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tax Number</th>
+                        <td>{{ tax_office_number }}</td>
+                    </tr>
+                </table>
             </div>
-            <div class="info-card" style="margin-top: 2rem;">
+            <div class="info-card">
                 <h3>Products & Services</h3>
-                <div class="table-container">
-                    <table>
-                        <thead>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if products %}
+                            {% for i in range(products|length) %}
                             <tr>
-                                <th>Description</th>
-                                <th>Quantity</th>
-                                <th>Unit Price</th>
-                                <th>Total</th>
+                                <td>{{ products[i] }}</td>
+                                <td>{{ quantities[i] }}</td>
+                                <td>{{ unit_prices[i] }} ₺</td>
+                                <td>{{ costs[i] }} ₺</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {% if products %}
-                                {% for i in range(products|length) %}
-                                <tr>
-                                    <td>{{ products[i] }}</td>
-                                    <td>{{ quantities[i] }}</td>
-                                    <td>{{ unit_prices[i] }} ₺</td>
-                                    <td>{{ costs[i] }} ₺</td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="4" class="text-center">No products found</td>
-                                </tr>
-                            {% endif %}
-                        </tbody>
-                        <tfoot>
+                            {% endfor %}
+                        {% else %}
                             <tr>
-                                <th colspan="3">Subtotal</th>
-                                <td>{{ subtotal }} ₺</td>
+                                <td colspan="4" class="text-center">No products found</td>
                             </tr>
-                            <tr>
-                                <th colspan="3">VAT ({{ vat_rate }}%)</th>
-                                <td>{{ vat }} ₺</td>
-                            </tr>
-                            <tr>
-                                <th colspan="3">Total</th>
-                                <td>{{ total_cost }} ₺</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                        {% endif %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3">Subtotal</th>
+                            <td>{{ subtotal }} ₺</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">VAT ({{ vat_rate }}%)</th>
+                            <td>{{ vat }} ₺</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">Total</th>
+                            <td>{{ total_cost }} ₺</td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
 
             <div class="export-options">
-                <button class="export-btn excel" onclick="exportData('excel')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                        <line x1="10" y1="9" x2="8" y2="9"/>
-                    </svg>
-                    Export to Excel
-                </button>
-                <button class="export-btn json" onclick="exportData('json')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                        <polyline points="14 2 14 8 20 8"/>
-                        <line x1="16" y1="13" x2="8" y2="13"/>
-                        <line x1="16" y1="17" x2="8" y2="17"/>
-                    </svg>
-                    Export as JSON
-                </button>
+                <button class="export-btn" onclick="exportData('excel')">Export to Excel</button>
+                <button class="export-btn" onclick="exportData('json')">Export as JSON</button>
             </div>
         </div>
     </div>
@@ -694,7 +436,7 @@
 
             processFile(file) {
                 this.updateFileLabel(file.name);
-                this.showSuccessMessage(`File "${file.name}" selected successfully`);
+                this.showSuccessMessage(`File "${file.name}" selected successfully. Processing...`);
                 this.form.submit();
             }
 
@@ -743,6 +485,8 @@
                 e.preventDefault();
                 
                 this.showProgress();
+                this.showLoadingSpinner(); // Show loading spinner
+                this.showProcessingIndicator(); // Show processing indicator
                 
                 try {
                     const formData = new FormData(this.form);
@@ -762,6 +506,8 @@
                     const data = await response.json();
                     
                     this.completeProgress();
+                    this.hideLoadingSpinner(); // Hide loading spinner
+                    this.hideProcessingIndicator(); // Hide processing indicator
                     
                     // Show results with animation
                     setTimeout(() => {
@@ -771,8 +517,26 @@
 
                 } catch (error) {
                     this.hideProgress();
+                    this.hideLoadingSpinner(); // Hide loading spinner
+                    this.hideProcessingIndicator(); // Hide processing indicator
                     this.showErrorMessage(`Upload failed: ${error.message}`);
                 }
+            }
+
+            showLoadingSpinner() {
+                document.getElementById('loadingSpinner').style.display = 'block';
+            }
+
+            hideLoadingSpinner() {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+
+            showProcessingIndicator() {
+                document.getElementById('processingIndicator').style.display = 'block';
+            }
+
+            hideProcessingIndicator() {
+                document.getElementById('processingIndicator').style.display = 'none';
             }
 
             showProgress() {
@@ -797,7 +561,7 @@
             }
 
             updateProgress(percent) {
-                this.progressBar.style.width = `${percent}%`;
+                this.progressBar.querySelector('::after').style.width = `${percent}%`;
                 this.progressText.textContent = `Processing... ${percent}%`;
             }
 
