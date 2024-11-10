@@ -104,25 +104,20 @@ class TextExtractor:
     @staticmethod
     def extract_total_cost(text):
         """Extract total cost from text."""
-        pattern = r"TOPLAM\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
+        pattern = r"(?:TOPLAM|TUTAR)\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
         match = re.search(pattern, text)
         return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_vat(text):
         """Extract VAT from text."""
-        pattern = r"(?:TOPKDV|TOPLAM KDV)\s*[:\.]?\s*[\*\+\s]?[\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
+        pattern = r"(?:TOPKDV|TOPLAM KDV|KDV(?:\s+\w+)?)\s*[:\.]?\s*[\*\+\s]?[\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\s*\d{1,2}))"
         match = re.search(pattern, text)
-        return match.group(1).replace(',', '.') if match else "N/A"
+        return match.group(1).replace(',', '.').replace(' ', '') if match else "N/A"
 
     @staticmethod
     def extract_tax_office_name(text):
         """Extract tax office name from text."""
-        keywords = [
-            r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', 
-            r'VERGİ DAIRESI', r'VN'
-        ]
-
         pattern = r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:(?:VD|V\.?D\.?|VERGİ DAİRESİ|VN)\s*[:\-]?)"
 
         match = re.search(pattern, text, re.IGNORECASE)
@@ -139,9 +134,6 @@ class TextExtractor:
     def extract_tax_office_number(text):
         """Extract tax office number from text."""
         lines = text.splitlines()
-        
-        number_pattern = r"\b(\d{10,11})\b"
-        
         keywords = [
             r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b", r"\bV\.D\."
         ]
@@ -165,6 +157,18 @@ class TextExtractor:
         """Extract product costs from text."""
         product_costs = re.findall(r"\*\s*([\d.,]+)", text)
         return [cost.strip() for cost in product_costs] if product_costs else []
+
+    @staticmethod
+    def extract_invoice_number(text):
+        """Extract invoice number from text."""
+        patterns = [
+            r"FİŞ NO[:\s]*([A-Za-z0-9\-]+)"
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                return match.group(1).strip()
+        return "N/A"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -192,6 +196,7 @@ def index():
             tax_office_number = TextExtractor.extract_tax_office_number(text)
             products = TextExtractor.extract_product_names(text)
             costs = TextExtractor.extract_product_costs(text)
+            invoice_number = TextExtractor.extract_invoice_number(text)
 
             return render_template(
                 "index.html",
@@ -204,6 +209,7 @@ def index():
                 tax_office_number=tax_office_number,
                 products=products,
                 costs=costs,
+                invoice_number=invoice_number
             )
         except Exception as e:
             logging.error(f"Error processing file: {e}")

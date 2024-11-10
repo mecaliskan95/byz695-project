@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Advanced Invoice OCR Extraction tool with real-time processing">
-    <title>Smart Invoice Scanner Pro</title>
+    <title>Invoice Scanner</title>
     <style>
         :root {
             --primary: #6366f1;
@@ -135,8 +135,9 @@
 
         .info-card h3 {
             color: var(--primary);
-            margin-bottom: 1rem;
             font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
         table {
@@ -236,31 +237,129 @@
                 transform: rotate(360deg);
             }
         }
+
+        .toggle-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .raw-text-container {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-top: 1.5rem;
+        }
+
+        .raw-text-container pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .file-label, .toggle-btn, .export-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+        .file-label:hover, .toggle-btn:hover, .export-btn:hover {
+            background-color: var(--primary-hover);
+        }
+        .info-card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            .info-card {
+                padding: 1rem;
+            }
+            .file-label {
+                padding: 0.5rem 1rem;
+            }
+            .toggle-btn {
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+    <style>
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Smart Invoice Scanner Pro</h1>
-        <p class="subtitle">Advanced OCR technology for instant invoice data extraction</p>
+        <p class="subtitle">Advanced OCR Technology for Instant Invoice Data Extraction</p>
         
+        <!-- Upload section for file selection or drag-and-drop -->
         <div class="upload-section" id="dropZone">
             <form id="uploadForm" method="POST" enctype="multipart/form-data">
                 <label for="file" class="file-label">
                     <span>Choose Invoice or Drop File</span>
                 </label>
                 <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-                <p class="file-info">Supported formats: JPG, PNG, JPEG, PDF (Max 10MB)</p>
+                <p class="file-info">Supported Formats: JPG, PNG, JPEG, PDF, JFIF (Max 10MB)</p>
                 <div class="loading-spinner" id="loadingSpinner" style="display: none;"></div>
                 <p id="processingIndicator" style="display: none; color: var(--primary); font-weight: bold;">Processing...</p>
-                <p id="errorIndicator" style="display: none; color: var(--danger); font-weight: bold;"></p> <!-- Error message container -->
+                <p id="successMessage" style="display: none; color: var(--success); font-weight: bold;">Upload successful!</p>
+                <p id="errorMessage" style="display: none; color: var(--danger); font-weight: bold;">Upload failed. Please try again.</p>
             </form>
         </div>
 
+        <!-- Progress bar for file upload -->
         <div class="progress-container" id="progressContainer">
             <div class="progress-bar" id="progressBar"></div>
             <p class="progress-text" id="progressText">Processing your invoice...</p>
         </div>
 
+        <!-- Button to toggle raw text visibility -->
+        <button class="toggle-btn" onclick="toggleRawText()">Show Raw Text</button>
+
+        <!-- Hidden section for raw text output -->
+        <div class="raw-text-container" id="rawTextContainer" style="display: none;">
+            <h3>Text Output</h3>
+            <pre>{{ text }}</pre>
+        </div>
+
+        <!-- Results section to display extracted invoice details -->
         <div class="results-container" id="resultsContainer">
             <div class="info-card">
                 <h3>Invoice Details</h3>
@@ -337,11 +436,6 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
-
-            <div class="export-options">
-                <button class="export-btn" onclick="exportData('excel')">Export to Excel</button>
-                <button class="export-btn" onclick="exportData('json')">Export as JSON</button>
             </div>
         </div>
     </div>
@@ -629,6 +723,113 @@
                 setTimeout(() => results.classList.add('visible'), 100);
             }
         });
+
+        function toggleRawText() {
+            const rawTextContainer = document.getElementById('rawTextContainer');
+            const toggleBtn = document.querySelector('.toggle-btn');
+            if (rawTextContainer.style.display === 'none') {
+                rawTextContainer.style.display = 'block';
+                toggleBtn.textContent = 'Hide Raw Text';
+            } else {
+                rawTextContainer.style.display = 'none';
+                toggleBtn.textContent = 'Show Raw Text';
+            }
+        }
     </script>
+
+    <style>
+        .toggle-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .raw-text-container {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+        }
+
+        .raw-text-container pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .info-card {
+            background: var(--card);
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .info-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-card th, .info-card td {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        .info-card th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .info-card td {
+            color: var(--text);
+        }
+
+        .progress-container {
+            margin: 1rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--primary-light);
+            border-radius: 0.25rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            display: block;
+            height: 100%;
+            background: var(--primary);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
 </body>
 </html>
