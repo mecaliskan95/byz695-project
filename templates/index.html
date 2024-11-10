@@ -191,6 +191,7 @@
             animation: slideIn 0.3s ease-out;
             z-index: 100;
             max-width: 300px;
+            word-wrap: break-word; /* Ensure long messages wrap within the container */
         }
 
         .status-message.error {
@@ -251,6 +252,7 @@
                 <p class="file-info">Supported formats: JPG, PNG, JPEG, PDF (Max 10MB)</p>
                 <div class="loading-spinner" id="loadingSpinner" style="display: none;"></div>
                 <p id="processingIndicator" style="display: none; color: var(--primary); font-weight: bold;">Processing...</p>
+                <p id="errorIndicator" style="display: none; color: var(--danger); font-weight: bold;"></p> <!-- Error message container -->
             </form>
         </div>
 
@@ -355,6 +357,7 @@
                 this.progressText = document.getElementById('progressText');
                 this.resultsContainer = document.getElementById('resultsContainer');
                 this.statusMessage = null;
+                this.errorIndicator = document.getElementById('errorIndicator'); // Error message element
                 
                 this.initializeEventListeners();
             }
@@ -446,6 +449,8 @@
             }
 
             showErrorMessage(message) {
+                this.errorIndicator.textContent = message; // Display error message
+                this.errorIndicator.style.display = 'block'; // Show error message
                 this.showStatusMessage(message, 'error');
             }
 
