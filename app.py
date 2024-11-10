@@ -67,7 +67,7 @@ class TextExtractor:
 
     @staticmethod
     def extract_date(text):
-        # Pattern to match dates in various formats (DD/MM/YYYY, MM/DD/YYYY, DD-MM-YYYY, etc.)
+        """Extract date from text in various formats."""
         pattern = r"\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})\b"
         
         match = re.search(pattern, text)
@@ -75,7 +75,6 @@ class TextExtractor:
             day, month, year = match.groups()
             day, month, year = int(day), int(month), int(year)
             if 1 <= month <= 12 and 1 <= day <= 31 and 1900 <= year <= 2100:  # Validate month, day, and year
-                # Additional check for days in February and leap years
                 if month == 2:
                     if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
                         if day > 29:
@@ -83,54 +82,47 @@ class TextExtractor:
                     else:
                         if day > 28:
                             return "N/A"
-                # Check for days in months with 30 days
                 elif month in [4, 6, 9, 11] and day > 30:
                     return "N/A"
-                # Return the date in DD/MM/YYYY format
                 return f"{str(day).zfill(2)}/{str(month).zfill(2)}/{str(year)}"  # Ensures day and month are two digits
         
         return "N/A"  # Return "N/A" if no match is found or date is invalid
 
     @staticmethod
     def extract_time(text):
-        # Pattern to match the time in HH:MM:SS or HH:MM format
+        """Extract time from text in HH:MM or HH:MM:SS format."""
         time_pattern = r"\b(\d{2}):(\d{2})(?::\d{2})?\b"  # Matches HH:MM:SS or HH:MM format
 
         match = re.search(time_pattern, text)
         if match:
             hour, minute = int(match.group(1)), int(match.group(2))
             if 0 <= hour < 24 and 0 <= minute < 60:  # Validate hour and minute
-                # Return the time in HH:MM format
                 return f"{str(hour).zfill(2)}:{str(minute).zfill(2)}"
         
         return "N/A"  # Return "N/A" if no match is found or time is invalid
 
     @staticmethod
     def extract_total_cost(text):
-        # Adjusted pattern to match various formats for the total cost
-        # Including handling of special characters like ©, #, and ignoring them in the extraction
+        """Extract total cost from text."""
         pattern = r"TOPLAM\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
         match = re.search(pattern, text)
         return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_vat(text):
-        # Adjusted pattern to match both TOPKDV and TOPLAM KDV formats for VAT
-        # Handling special characters like # and spaces, including '*' before the number
+        """Extract VAT from text."""
         pattern = r"(?:TOPKDV|TOPLAM KDV)\s*[:\.]?\s*[\*\+\s]?[\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
         match = re.search(pattern, text)
         return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_tax_office_name(text):
-        # Keywords to match variations in text
+        """Extract tax office name from text."""
         keywords = [
             r'VD', r'VERGİ DAİRESİ', r'VERGİ D\.', r'V\.D\.', r'VERGİ DAİRESI', 
             r'VERGİ DAIRESI', r'VN'
         ]
 
-        # Regex pattern to capture names before the keywords
-        # This pattern will match names that can include periods, spaces, and are followed by keywords
         pattern = r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:(?:VD|V\.?D\.?|VERGİ DAİRESİ|VN)\s*[:\-]?)"
 
         match = re.search(pattern, text, re.IGNORECASE)
@@ -145,21 +137,17 @@ class TextExtractor:
 
     @staticmethod
     def extract_tax_office_number(text):
-        # Split the text into lines for easier searching
+        """Extract tax office number from text."""
         lines = text.splitlines()
         
-        # Pattern for the tax office number
         number_pattern = r"\b(\d{10,11})\b"
         
-        # Keywords to match against
         keywords = [
             r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b", r"\bV\.D\."
         ]
 
         for line in lines:
-            # Check for keywords in each line
             if any(re.search(keyword, line, re.IGNORECASE) for keyword in keywords):
-                # Updated regex to match the number, regardless of its position
                 match = re.search(r"(?:(?:V\.?D\.?|VD|VERGİ DAİRESİ|VN|VKN|TCKN)\s*[:\-]?\s*)?(\d{10,11})", line)
                 if match:
                     return match.group(1).strip()  # Return the extracted number
@@ -168,16 +156,19 @@ class TextExtractor:
 
     @staticmethod
     def extract_product_names(text):
+        """Extract product names from text."""
         product_names = re.findall(r"([A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s+\d+\s*\*", text)
         return [name.strip() for name in product_names] if product_names else []
 
     @staticmethod
     def extract_product_costs(text):
+        """Extract product costs from text."""
         product_costs = re.findall(r"\*\s*([\d.,]+)", text)
         return [cost.strip() for cost in product_costs] if product_costs else []
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    """Handle the main route for file upload and text extraction."""
     if request.method == "POST":
         if "file" not in request.files or not request.files["file"].filename:
             return redirect(request.url)
