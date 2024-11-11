@@ -1,38 +1,49 @@
-# Required Libraries
+"""
+Flask application for OCR-based receipt processing.
+
+Processes receipt images using OpenCV and Tesseract OCR to extract key information 
+like dates, amounts, tax info and products. Provides a web interface for uploading 
+and viewing results.
+
+Features:
+- Image preprocessing with OpenCV
+- OCR with Tesseract (Turkish/English)
+- Structured data extraction with regex
+- Flask web UI
+"""
+
+# Standard imports
 import os
 import cv2
 import re
-import numpy as np
 from flask import Flask, render_template, request, redirect
 import pytesseract
 from skimage.filters import threshold_local
 import logging
 
-# Configure Tesseract path
-pytesseract.pytesseract.tesseract_cmd = r'c:\Program Files\Tesseract-OCR\tesseract.exe'
-
-# Create the Flask app
+# Configuration
+pytesseract.pytesseract.tesseract_cmd = r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
-
-# Ensure the uploads directory exists
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
-
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 
+# Image processing utilities
 def bw_scanner(image):
-    """Convert an image to black and white using local thresholding."""
+    """Convert color image to binary using adaptive thresholding."""
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     T = threshold_local(gray, 21, offset=5, method="gaussian")
     return (gray > T).astype("uint8") * 255
 
 class ImageProcessor:
-    """Handles image processing and text extraction."""
-
+    """Handles OCR preprocessing and text extraction pipeline."""
+    
     @staticmethod
     def preprocess_image(image_path):
-        """Enhance the image and detect text boxes."""
+        """
+        Enhance image quality and detect text regions.
+        Returns an image with highlighted text boxes.
+        """
         image = cv2.imread(image_path)
 
         # Apply black and white scanning
@@ -51,7 +62,10 @@ class ImageProcessor:
 
     @staticmethod
     def extract_text(image_path):
-        """Extract text from an image using Tesseract."""
+        """
+        Process image through OCR using both Turkish and English language models.
+        Returns uppercase text content.
+        """
         try:
             processed_image = ImageProcessor.preprocess_image(image_path)
             rgb_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
@@ -63,11 +77,11 @@ class ImageProcessor:
             return ""
 
 class TextExtractor:
-    """Handles text extraction from the OCR output."""
-
+    """Regex-based information extraction from OCR output."""
+    
     @staticmethod
     def extract_date(text):
-        """Extract date from text in various formats."""
+        """Extract and validate date in DD/MM/YYYY format."""
         pattern = r"\b(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})\b"
         
         match = re.search(pattern, text)
@@ -90,7 +104,7 @@ class TextExtractor:
 
     @staticmethod
     def extract_time(text):
-        """Extract time from text in HH:MM or HH:MM:SS format."""
+        """Extract and validate time in 24-hour format."""
         time_pattern = r"\b(\d{2}):(\d{2})(?::\d{2})?\b"  # Matches HH:MM:SS or HH:MM format
 
         match = re.search(time_pattern, text)
@@ -103,21 +117,21 @@ class TextExtractor:
 
     @staticmethod
     def extract_total_cost(text):
-        """Extract total cost from text."""
+        """Extract total cost amount, handling different currency formats."""
         pattern = r"(?:TOPLAM|TUTAR)\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
         match = re.search(pattern, text)
         return match.group(1).replace(',', '.') if match else "N/A"
 
     @staticmethod
     def extract_vat(text):
-        """Extract VAT from text."""
+        """Extract VAT (KDV) amount from various Turkish receipt formats."""
         pattern = r"(?:TOPKDV|TOPLAM KDV|KDV(?:\s+\w+)?)\s*[:\.]?\s*[\*\+\s]?[\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\s*\d{1,2}))"
         match = re.search(pattern, text)
         return match.group(1).replace(',', '.').replace(' ', '') if match else "N/A"
 
     @staticmethod
     def extract_tax_office_name(text):
-        """Extract tax office name from text."""
+        """Extract tax office name, returning the last word of the matched name."""
         pattern = r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:(?:VD|V\.?D\.?|VERGİ DAİRESİ|VN)\s*[:\-]?)"
 
         match = re.search(pattern, text, re.IGNORECASE)
@@ -132,7 +146,7 @@ class TextExtractor:
 
     @staticmethod
     def extract_tax_office_number(text):
-        """Extract tax office number from text."""
+        """Extract 10-11 digit tax identification numbers."""
         lines = text.splitlines()
         keywords = [
             r"\bVD\b", r"\bVERGİ DAİRESİ\b", r"\bVN\b", r"\bVKN\b", r"\bTCKN\b", r"\bV\.D\."
@@ -148,19 +162,19 @@ class TextExtractor:
 
     @staticmethod
     def extract_product_names(text):
-        """Extract product names from text."""
+        """Extract product names that appear before quantity indicators."""
         product_names = re.findall(r"([A-Za-zÇĞİÖŞÜçğıöşü\s]+)\s+\d+\s*\*", text)
         return [name.strip() for name in product_names] if product_names else []
 
     @staticmethod
     def extract_product_costs(text):
-        """Extract product costs from text."""
+        """Extract individual product costs that follow quantity indicators."""
         product_costs = re.findall(r"\*\s*([\d.,]+)", text)
         return [cost.strip() for cost in product_costs] if product_costs else []
 
     @staticmethod
     def extract_invoice_number(text):
-        """Extract invoice number from text."""
+        """Extract receipt/invoice number from Turkish receipt formats."""
         patterns = [
             r"FİŞ NO[:\s]*([A-Za-z0-9\-]+)"
         ]
@@ -170,9 +184,14 @@ class TextExtractor:
                 return match.group(1).strip()
         return "N/A"
 
+# Route handlers
 @app.route("/", methods=["GET", "POST"])
 def index():
-    """Handle the main route for file upload and text extraction."""
+    """
+    Main endpoint handling:
+    - GET: Display upload form
+    - POST: Process receipt image and extract information
+    """
     if request.method == "POST":
         if "file" not in request.files or not request.files["file"].filename:
             return redirect(request.url)

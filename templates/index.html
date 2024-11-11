@@ -1,835 +1,761 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="""en"></html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="""UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Advanced Invoice OCR Extraction tool with real-time processing">
     <title>Invoice Scanner</title>
     <style>
+        /* Theme colors and variables */
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --primary-light: #eef2ff;
-            --success: #10b981;
-            --danger: #ef4444;
-            --background: #f8fafc;
-            --card: #ffffff;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --background: #fafafa;
             --text: #1e293b;
-            --text-secondary: #64748b;
+            --text-light: #64748b;
             --border: #e2e8f0;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --transition: all 0.3s ease;
+            --success: #16a34a;
+            --error: #dc2626;
+            --warning: #eab308;
         }
 
+        /* Reset defaults */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        }
+
+        /* Base layout */
         body {
-            font-family: system-ui, -apple-system, sans-serif;
             background: var(--background);
-            min-height: 100vh;
-            padding: 2rem;
             color: var(--text);
             line-height: 1.5;
+            padding: 2rem;
         }
 
+        /* Main container */
         .container {
-            width: 100%;
-            max-width: 800px;
+            max-width: 640px;
             margin: 0 auto;
-            background-color: var(--card);
-            border-radius: 1rem;
-            box-shadow: var(--shadow);
+        }
+
+        /* Header styles */
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        /* Subtitle */
+        .subtitle {
+            color: var (--text-light);
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        /* Upload zone container */
+        .upload-zone {
+            background: white;
+            border: 2px dashed var(--border);
+            border-radius: 0.75rem;
             padding: 2rem;
             text-align: center;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
+            transition: all 0.2s ease;
             margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .upload-section {
+        /* Upload zone hover state */
+        .upload-zone.drag-over {
+            border-color: var(--primary);
             background: var(--primary-light);
-            border: 2px dashed var(--primary);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: var(--transition);
         }
 
-        .file-label {
-            display: inline-block;
-            background-color: var(--primary);
+        /* Upload button styling */
+        .upload-button {
+            background: var(--primary);
             color: white;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
+            border: none;
+            font-size: 0.875rem;
             cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .file-label:hover {
-            background-color: var(--primary-hover);
+        /* Button hover effect */
+        .upload-button:hover {
+            opacity: 0.9;
         }
 
+        /* Upload button icon */
+        .upload-button svg {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* File info text */
         .file-info {
-            color: var(--text-secondary);
-            font-size: 0.875rem;
             margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var (--text-light);
         }
 
-        .progress-container {
-            display: none;
-            margin: 2rem 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 0.5rem;
-            background: var(--primary-light);
-            border-radius: 0.25rem;
+        /* Results section styling */
+        .results {
+            background: white;
+            border-radius: 0.75rem;
             overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar::after {
-            content: '';
-            display: block;
-            height: 100%;
-            background: var(--primary);
-            width: 0;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            margin-top: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-
-        .results-container {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             opacity: 0;
             transform: translateY(20px);
-            transition: var(--transition);
-            margin-top: 2rem;
+            transition: all 0.3s ease;
         }
 
-        .results-container.visible {
+        /* Results visible state */
+        .results.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .info-card {
-            background: var(--card);
-            padding: 1.5rem;
+        /* Results header layout */
+        .results-header {
+            padding: 1rem;
+            background: var(--primary-light);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Results content container */
+        .results-content {
+            padding: 1rem;
+        }
+
+        /* Summary card grid layout using auto-fit for responsive design */
+        .summary-card {
+            background: var(--primary-light);
             border-radius: 0.5rem;
-            box-shadow: var(--shadow);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Individual summary items center alignment */
+        .summary-item {
+            text-align: center;
+        }
+
+        /* Label styling for summary items */
+        .summary-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Value styling for summary items */
+        .summary-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Two-column grid for data display */
+        .data-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.75rem;
             margin-bottom: 1.5rem;
         }
 
-        .info-card h3 {
-            color: var(--primary);
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
+        /* Data label and value styling */
+        .data-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
         }
 
-        table {
+        .data-value {
+            font-size: 0.875rem;
+            text-align: right;
+        }
+
+        /* Products table styling */
+        .products-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 1rem;
+            font-size: 0.875rem;
         }
 
-        th, td {
-            padding: 0.75rem;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-        }
-
-        th {
+        /* Table header styling */
+        .products-table th {
             background: var(--primary-light);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .export-options {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .export-btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+            padding: 0.75rem;
+            text-align: left;
             font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: var(--transition);
         }
 
-        .export-btn:hover {
-            background-color: var(--primary-hover);
+        /* Table cell styling */
+        .products-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var (--border);
         }
 
-        .status-message {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
+        /* Export buttons container */
+        .export-buttons {
             display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Individual export button styling */
+        .export-button {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            animation: slideIn 0.3s ease-out;
-            z-index: 100;
-            max-width: 300px;
-            word-wrap: break-word; /* Ensure long messages wrap within the container */
+            gap: 0.375rem;
         }
 
-        .status-message.error {
-            background-color: var(--danger);
-            color: white;
+        .export-button:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
-        .status-message.success {
-            background-color: var(--success);
-            color: white;
+        .export-button svg {
+            width: 1rem;
+            height: 1rem;
         }
 
-        .status-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
+        /* Processing overlay for loading states */
+        .processing-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .processing-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--primary-light);
+        /* Loading spinner animation */
+        .spinner {
+            width: 2rem;
+            height: 2rem;
+            border: 2px solid var(--primary-light);
             border-top-color: var(--primary);
             border-radius: 50%;
-            margin: 0 auto;
             animation: spin 1s linear infinite;
         }
 
+        .processing-text {
+            font-size: 0.875rem;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
+            to { transform: rotate(360deg); }
+        }
+
+        /* Status messages styling */
+        .status {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            display: none;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: var(--success);
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: var (--error);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            .upload-zone {
+                padding: 1.5rem;
+            }
+
+            .summary-card {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .export-buttons {
+                flex-wrap: wrap;
+            }
+
+            .export-button {
+                flex: 1;
+                min-width: 120px;
             }
         }
 
-        .toggle-btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
+        /* Language selector positioning */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        /* Language selector button styling */
+        .language-selector button {
+            margin-left: 10px;
+            padding: 5px 10px;
             cursor: pointer;
-            border: none;
-            transition: var(--transition);
-            margin-top: 1rem;
         }
 
-        .toggle-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .raw-text-container {
-            background: var(--card);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
+        /* Raw text section container */
+        .raw-text-section {
             margin-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1rem;
         }
 
-        .raw-text-container pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .file-label, .toggle-btn, .export-btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
+        /* Toggle button base styling */
+        .toggle-raw-text {
+            background: none;
             border: none;
-            transition: var(--transition);
-        }
-        .file-label:hover, .toggle-btn:hover, .export-btn:hover {
-            background-color: var(--primary-hover);
-        }
-        .info-card {
-            background: var(--card);
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .container {
-                padding: 1rem;
-            }
-            .info-card {
-                padding: 1rem;
-            }
-            .file-label {
-                padding: 0.5rem 1rem;
-            }
-            .toggle-btn {
-                padding: 0.5rem 1rem;
-            }
+        /* Hover state for toggle button */
+        .toggle-raw-text:hover {
+            background: var(--primary-light);
         }
-    </style>
-    <style>
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
+
+        /* Toggle button icon transition */
+        .toggle-raw-text svg {
+            transition: transform 0.2s;
         }
-        .subtitle {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-bottom: 2rem;
+
+        /* Active state rotation animation */
+        .toggle-raw-text.active svg {
+            transform: rotate(180deg);
         }
-        .info-card h3 {
-            color: var(--primary);
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
+
+        /* Hidden state for raw text content */
+        .raw-text-content {
+            display: none;
+            margin-top: 1rem;
+            background: var(--background);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 0.875rem;
+        }
+
+        /* Visible state for raw text content */
+        .raw-text-content.visible {
+            display: block;
+        }
+
+        .file-indicator {
+            display: inline-block;
+            margin-left: 10px;
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
+
+<!-- Main application container -->
 <body>
+    <!-- Main container for application -->
     <div class="container">
-        <h1>Smart Invoice Scanner Pro</h1>
-        <p class="subtitle">Advanced OCR Technology for Instant Invoice Data Extraction</p>
-        
-        <!-- Upload section for file selection or drag-and-drop -->
-        <div class="upload-section" id="dropZone">
-            <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                <label for="file" class="file-label">
-                    <span>Choose Invoice or Drop File</span>
-                </label>
-                <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-                <p class="file-info">Supported Formats: JPG, PNG, JPEG, PDF, JFIF (Max 10MB)</p>
-                <div class="loading-spinner" id="loadingSpinner" style="display: none;"></div>
-                <p id="processingIndicator" style="display: none; color: var(--primary); font-weight: bold;">Processing...</p>
-                <p id="successMessage" style="display: none; color: var(--success); font-weight: bold;">Upload successful!</p>
-                <p id="errorMessage" style="display: none; color: var(--danger); font-weight: bold;">Upload failed. Please try again.</p>
-            </form>
+        <!-- Application header with translatable title -->
+        <h1 data-lang-key="title">Invoice Scanner</h1>
+        <p class="subtitle" data-lang-key="subtitle">Upload your invoice for instant data extraction</p>
+
+        <!-- Language selector component -->
+        <div class="language-selector">
+            <button onclick="switchLanguage('en')">English</button>
+            <button onclick="switchLanguage('tr')">Türkçe</button>
         </div>
 
-        <!-- Progress bar for file upload -->
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-            <p class="progress-text" id="progressText">Processing your invoice...</p>
-        </div>
+        <!-- File upload form with drag-drop and multipart support -->
+        <form id="uploadForm" method="POST" enctype="multipart/form-data">
+            <div class="upload-zone" id="dropZone">
+                <!-- Hidden native file input -->
+                <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf">
+                
+                <!-- Custom styled upload trigger -->
+                <button type="button" class="upload-button" onclick="document.getElementById('file').click()" data-lang-key="uploadButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                    Upload File
+                </button>
+                
+                <!-- File type constraints info -->
+                <p class="file-info" data-lang-key="fileInfo">Supports JPG, PNG, PDF up to 10MB</p>
 
-        <!-- Button to toggle raw text visibility -->
-        <button class="toggle-btn" onclick="toggleRawText()">Show Raw Text</button>
-
-        <!-- Hidden section for raw text output -->
-        <div class="raw-text-container" id="rawTextContainer" style="display: none;">
-            <h3>Text Output</h3>
-            <pre>{{ text }}</pre>
-        </div>
-
-        <!-- Results section to display extracted invoice details -->
-        <div class="results-container" id="resultsContainer">
-            <div class="info-card">
-                <h3>Invoice Details</h3>
-                <table>
-                    <tr>
-                        <th>Invoice Number</th>
-                        <td>{{ invoice_number }}</td>
-                    </tr>
-                    <tr>
-                        <th>Date</th>
-                        <td>{{ date }}</td>
-                    </tr>
-                    <tr>
-                        <th>Time</th>
-                        <td>{{ time }}</td>
-                    </tr>
-                    <tr>
-                        <th>VAT (₺)</th>
-                        <td>{{ vat }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total (₺)</th>
-                        <td>{{ total_cost }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tax Office</th>
-                        <td>{{ tax_office_name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tax Number</th>
-                        <td>{{ tax_office_number }}</td>
-                    </tr>
-                </table>
+                <!-- Processing state overlay -->
+                <div class="processing-overlay" id="processingOverlay">
+                    <div class="spinner"></div>
+                    <p class="processing-text" data-lang-key="processingText">Processing your invoice...</p>
+                </div>
             </div>
-            <div class="info-card">
-                <h3>Products & Services</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Quantity</th>
-                            <th>Unit Price</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if products %}
-                            {% for i in range(products|length) %}
+
+            <!-- Status message display -->
+            <div class="status" id="status"></div>
+
+            <!-- Results section - conditionally rendered -->
+            {% if text %}
+            <div class="results visible">
+                <!-- Results header with export options -->
+                <div class="results-header">
+                    <h2 data-lang-key="extractionResults">Extraction Results</h2>
+                    <!-- Export buttons container -->
+                    <div class="export-buttons">
+                        <!-- CSV export button -->
+                        <button type="button" class="export-button" onclick="exportData('csv')">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span data-lang-key="exportCsv">CSV</span>
+                        </button>
+                        <!-- JSON export button -->
+                        <button type="button" class="export-button" onclick="exportData('json')">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                            <span data-lang-key="exportJson">JSON</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results content container -->
+                <div class="results-content">
+                    <!-- Summary card for key metrics -->
+                    <div class="summary-card">
+                        <div class="summary-item">
+                            <div class="summary-label" data-lang-key="totalAmount">Total Amount</div>
+                            <div class="summary-value">{{ total_cost }} ₺</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label" data-lang-key="vat">VAT</div>
+                            <div class="summary-value">{{ vat }} ₺</div>
+                        </div>
+                    </div>
+
+                    <div class="data-grid">
+                        <span class="data-label" data-lang-key="invoiceNumber">Invoice Number</span>
+                        <span class="data-value">{{ invoice_number }}</span>
+
+                        <span class="data-label" data-lang-key="invoiceDate">Invoice Date</span>
+                        <span class="data-value">{{ date }}</span>
+
+                        <span class="data-label" data-lang-key="invoiceTime">Invoice Time</span>
+                        <span class="data-value">{{ time }}</span>
+
+                        <span class="data-label" data-lang-key="taxOfficeName">Tax Office Name</span>
+                        <span class="data-value">{{ tax_office_name }}</span>
+
+                        <span class="data-label" data-lang-key="taxOfficeNumber">Tax Office Number</span>
+                        <span class="data-value">{{ tax_office_number }}</span>
+                    </div>
+
+                    {% if products %}
+                    <table class="products-table">
+                        <thead>
                             <tr>
-                                <td>{{ products[i] }}</td>
-                                <td>{{ quantities[i] }}</td>
-                                <td>{{ unit_prices[i] }} ₺</td>
-                                <td>{{ costs[i] }} ₺</td>
+                                <th data-lang-key="item">Item</th>
+                                <th data-lang-key="cost">Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product, cost in zip(products, costs) %}
+                            <tr>
+                                <td>{{ product }}</td>
+                                <td>{{ cost }} ₺</td>
                             </tr>
                             {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="4" class="text-center">No products found</td>
-                            </tr>
-                        {% endif %}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="3">Subtotal</th>
-                            <td>{{ subtotal }} ₺</td>
-                        </tr>
-                        <tr>
-                            <th colspan="3">VAT ({{ vat_rate }}%)</th>
-                            <td>{{ vat }} ₺</td>
-                        </tr>
-                        <tr>
-                            <th colspan="3">Total</th>
-                            <td>{{ total_cost }} ₺</td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        </tbody>
+                    </table>
+                    {% endif %}
+
+                    <!-- Raw text output section with collapsible functionality -->
+                    <div class="raw-text-section">
+                        <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event)">
+                            <!-- Arrow icon for toggle indication -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            Show Raw Text Output
+                        </button>
+                        <span class="file-indicator"></span>
+                        <!-- Container for OCR extracted text -->
+                        <div class="raw-text-content" id="rawTextContent">
+                            <pre>{{ text }}</pre>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            {% endif %}
+        </form>
     </div>
 
     <script>
-        class InvoiceScanner {
-            constructor() {
-                this.dropZone = document.getElementById('dropZone');
-                this.fileInput = document.getElementById('file');
-                this.form = document.getElementById('uploadForm');
-                this.progressBar = document.getElementById('progressBar');
-                this.progressContainer = document.getElementById('progressContainer');
-                this.progressText = document.getElementById('progressText');
-                this.resultsContainer = document.getElementById('resultsContainer');
-                this.statusMessage = null;
-                this.errorIndicator = document.getElementById('errorIndicator'); // Error message element
-                
-                this.initializeEventListeners();
-            }
+        // DOM element references
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('file');
+        const form = document.getElementById('uploadForm');
+        const status = document.getElementById('status');
+        const processingOverlay = document.getElementById('processingOverlay');
 
-            initializeEventListeners() {
-                // Drag and drop events
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    this.dropZone.addEventListener(eventName, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                    });
-                });
+        // Display status message with success/error icon
+        function showStatus(message, type) {
+            status.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                    ${type === 'success' 
+                        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+                        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'}
+                </svg>
+                ${message}
+            `;
+            status.className = `status ${type}`;
+            status.style.display = 'flex';
+        }
 
-                this.dropZone.addEventListener('dragover', () => this.handleDragOver());
-                this.dropZone.addEventListener('dragleave', () => this.handleDragLeave());
-                this.dropZone.addEventListener('drop', (e) => this.handleDrop(e));
-                this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
-                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        // Processing overlay controls
+        function showProcessingOverlay() {
+            processingOverlay.classList.add('visible');
+        }
 
-                // Handle paste events
-                document.addEventListener('paste', (e) => this.handlePaste(e));
-            }
+        function hideProcessingOverlay() {
+            processingOverlay.classList.remove('visible');
+        }
 
-            handleDragOver() {
-                this.dropZone.classList.add('drag-over');
-            }
-
-            handleDragLeave() {
-                this.dropZone.classList.remove('drag-over');
-            }
-
-            handleDrop(e) {
-                this.dropZone.classList.remove('drag-over');
-                const files = e.dataTransfer.files;
-                if (files.length > 0) {
-                    this.fileInput.files = files;
-                    this.handleFileSelect({ target: this.fileInput });
-                }
-            }
-
-            handlePaste(e) {
-                const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-                for (const item of items) {
-                    if (item.type.indexOf('image') !== -1) {
-                        const file = item.getAsFile();
-                        this.processFile(file);
-                        break;
-                    }
-                }
-            }
-
-            async handleFileSelect(e) {
-                const file = e.target.files[0];
-                if (!file) return;
-                
-                this.removeStatusMessage();
-                
-                if (await this.validateFile(file)) {
-                    this.processFile(file);
-                }
-            }
-
-            async validateFile(file) {
-                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-                const maxSize = 10 * 1024 * 1024; // 10MB
-
-                if (!validTypes.includes(file.type)) {
-                    this.showErrorMessage('Please select a valid file (JPG, PNG, or PDF)');
-                    return false;
-                }
-
-                if (file.size > maxSize) {
-                    this.showErrorMessage('File size must be less than 10MB');
-                    return false;
-                }
-
-                return true;
-            }
-
-            processFile(file) {
-                this.updateFileLabel(file.name);
-                this.showSuccessMessage(`File "${file.name}" selected successfully. Processing...`);
-                this.form.submit();
-            }
-
-            updateFileLabel(fileName) {
-                const label = document.querySelector('.file-label span');
-                label.textContent = fileName;
-            }
-
-            showErrorMessage(message) {
-                this.errorIndicator.textContent = message; // Display error message
-                this.errorIndicator.style.display = 'block'; // Show error message
-                this.showStatusMessage(message, 'error');
-            }
-
-            showSuccessMessage(message) {
-                this.showStatusMessage(message, 'success');
-            }
-
-            showStatusMessage(message, type) {
-                this.removeStatusMessage();
-                
-                const div = document.createElement('div');
-                div.className = `status-message ${type}`;
-                div.innerHTML = `
-                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        ${type === 'error' 
-                            ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>'
-                            : '<circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>'}
-                    </svg>
-                    <span>${message}</span>
-                `;
-
-                this.dropZone.appendChild(div);
-                this.statusMessage = div;
-
-                // Auto-remove after 5 seconds
-                setTimeout(() => this.removeStatusMessage(), 5000);
-            }
-
-            removeStatusMessage() {
-                if (this.statusMessage) {
-                    this.statusMessage.remove();
-                    this.statusMessage = null;
-                }
-            }
-
-            async handleSubmit(e) {
+        // Drag and drop event handlers
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, (e) => {
                 e.preventDefault();
-                
-                this.showProgress();
-                this.showLoadingSpinner(); // Show loading spinner
-                this.showProcessingIndicator(); // Show processing indicator
-                
-                try {
-                    const formData = new FormData(this.form);
-                    
-                    // Start progress animation
-                    this.startProgressSimulation();
+                e.stopPropagation();
+            });
+        });
 
-                    const response = await fetch('/', {
-                        method: 'POST',
-                        body: formData
-                    });
+        // Visual feedback for drag operations
+        ['dragenter', 'dragover'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.add('drag-over');
+            });
+        });
 
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.remove('drag-over');
+            });
+        });
 
-                    const data = await response.json();
-                    
-                    this.completeProgress();
-                    this.hideLoadingSpinner(); // Hide loading spinner
-                    this.hideProcessingIndicator(); // Hide processing indicator
-                    
-                    // Show results with animation
-                    setTimeout(() => {
-                        this.updateResults(data);
-                        this.showResults();
-                    }, 500);
+        // Handle file drops
+        dropZone.addEventListener('drop', (e) => {
+            fileInput.files = e.dataTransfer.files;
+            handleUpload();
+        });
 
-                } catch (error) {
-                    this.hideProgress();
-                    this.hideLoadingSpinner(); // Hide loading spinner
-                    this.hideProcessingIndicator(); // Hide processing indicator
-                    this.showErrorMessage(`Upload failed: ${error.message}`);
-                }
+        fileInput.addEventListener('change', handleUpload);
+
+        // File upload handler
+        function handleUpload() {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            if (!validateFile(file)) {
+                showStatus(languages[currentLang].invalidFile, 'error');
+                return;
             }
 
-            showLoadingSpinner() {
-                document.getElementById('loadingSpinner').style.display = 'block';
-            }
-
-            hideLoadingSpinner() {
-                document.getElementById('loadingSpinner').style.display = 'none';
-            }
-
-            showProcessingIndicator() {
-                document.getElementById('processingIndicator').style.display = 'block';
-            }
-
-            hideProcessingIndicator() {
-                document.getElementById('processingIndicator').style.display = 'none';
-            }
-
-            showProgress() {
-                this.progressContainer.style.display = 'block';
-                this.progressBar.style.width = '0%';
-            }
-
-            hideProgress() {
-                this.progressContainer.style.display = 'none';
-            }
-
-            startProgressSimulation() {
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 5;
-                    if (progress <= 90) {
-                        this.updateProgress(progress);
-                    } else {
-                        clearInterval(interval);
-                    }
-                }, 100);
-            }
-
-            updateProgress(percent) {
-                this.progressBar.querySelector('::after').style.width = `${percent}%`;
-                this.progressText.textContent = `Processing... ${percent}%`;
-            }
-
-            completeProgress() {
-                this.updateProgress(100);
-                this.progressText.textContent = 'Processing complete!';
-            }
-
-            showResults() {
-                this.resultsContainer.classList.add('visible');
-            }
-
-            updateResults(data) {
-                // Update the results container with the new data
-                // This would need to be implemented based on your specific data structure
-            }
+            showProcessingOverlay();
+            form.submit();
         }
 
-        // Initialize the invoice scanner
-        const invoiceScanner = new InvoiceScanner();
-
-        // Export functionality
-        async function exportData(format) {
-            try {
-                const response = await fetch(`/export/${format}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Export failed: ${response.statusText}`);
-                }
-
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                
-                a.href = url;
-                a.download = `invoice_data_${timestamp}.${format}`;
-                document.body.appendChild(a);
-                a.click();
-                
-                // Cleanup
-                window.URL.revokeObjectURL(url);
-                document.body.removeChild(a);
-                
-                invoiceScanner.showSuccessMessage(`Successfully exported as ${format.toUpperCase()}`);
-            } catch (error) {
-                invoiceScanner.showErrorMessage(error.message);
-            }
+        // Validate file type and size
+        function validateFile(file) {
+            const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            return validTypes.includes(file.type) && file.size <= maxSize;
         }
 
-        // Initialize any results that might be present on page load
+        // File validation before upload
+        function validateFileSize(file) {
+            const maxSize = 10 * 1024 * 1024; // 10MB
+            if (file.size > maxSize) {
+                showStatus(languages[currentLang].fileTooLarge, 'error');
+                return false;
+            }
+            return true;
+        }
+
+        // Add progress indicator
+        function updateProgress(percent) {
+            const progressBar = document.querySelector('.progress-bar');
+            progressBar.style.width = `${percent}%`;
+            progressBar.setAttribute('aria-valuenow', percent);
+        }
+
+        // Add clipboard copy functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => showStatus('Copied to clipboard!', 'success'))
+                .catch(err => showStatus('Failed to copy', 'error'));
+        }
+
+        // Multilanguage support configuration
+        const languages = {
+        en: {
+            title: "Invoice Scanner",
+            subtitle: "Upload your invoice for instant data extraction",
+            uploadButton: "Upload File",
+            invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
+            processing: "Processing...",
+            processingText: "Processing your invoice...",
+            extractionResults: "Extraction Results",
+            exportCsv: "CSV",
+            exportJson: "JSON",
+            totalAmount: "Total Amount",
+            vat: "VAT",
+            items: "Items",
+            invoiceNumber: "Invoice Number",
+            invoiceDate: "Invoice Date",
+            invoiceTime: "Invoice Time",
+            taxOfficeName: "Tax Office Name",
+            taxOfficeNumber: "Tax Office Number",
+            item: "Item",
+            cost: "Cost",
+            fileInfo: "Supports JPG, PNG, PDF up to 10MB",
+            showRawText: "Show Raw Text Output",
+            hideRawText: "Hide Raw Text Output",
+            processedFile: "Processed file: "
+        },
+        tr: {
+            title: "Fatura Tarayıcı",
+            subtitle: "Anında veri çıkarma için faturanızı yükleyin",
+            uploadButton: "Dosya Yükle",
+            invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
+            processing: "İşleniyor...",
+            processingText: "Faturanız işleniyor...",
+            extractionResults: "Sonuçlar",
+            exportCsv: "CSV",
+            exportJson: "JSON",
+            totalAmount: "Toplam Tutar",
+            vat: "KDV",
+            items: "Ürünler",
+            invoiceNumber: "Fatura Numarası",
+            invoiceDate: "Fatura Tarihi",
+            invoiceTime: "Fatura Saati",
+            taxOfficeName: "Vergi Dairesi",
+            taxOfficeNumber: "Vergi Dairesi Numarası",
+            item: "Ürün",
+            cost: "Tutar",
+            fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
+            showRawText: "Ham Metin Çıktısını Göster",
+            hideRawText: "Ham Metin Çıktısını Gizle",
+            processedFile: "İşlenen dosya: "
+        }
+    };
+
+        let currentLang = 'en'; // Default language
+
+        // Language switching functionality
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            updateContent();
+        }
+
+        // Update all translatable content
+        function updateContent() {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languages[currentLang][key]) {
+                    element.textContent = languages[currentLang][key];
+                }
+            });
+        }
+
+        // Initialize language preference
         document.addEventListener('DOMContentLoaded', () => {
-            const results = document.querySelector('.results-container');
-            if (results) {
-                setTimeout(() => results.classList.add('visible'), 100);
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang) {
+                currentLang = savedLang;
+                updateContent();
             }
         });
 
-        function toggleRawText() {
-            const rawTextContainer = document.getElementById('rawTextContainer');
-            const toggleBtn = document.querySelector('.toggle-btn');
-            if (rawTextContainer.style.display === 'none') {
-                rawTextContainer.style.display = 'block';
-                toggleBtn.textContent = 'Hide Raw Text';
-            } else {
-                rawTextContainer.style.display = 'none';
-                toggleBtn.textContent = 'Show Raw Text';
-            }
+        document.addEventListener('DOMContentLoaded', updateContent);
+
+        // Raw text toggle functionality
+        function toggleRawText(event) {
+            event.preventDefault();
+            
+            const button = document.querySelector('.toggle-raw-text');
+            const content = document.getElementById('rawTextContent');
+            const isVisible = content.classList.contains('visible');
+            
+            content.classList.toggle('visible');
+            button.classList.toggle('active');
+            
+            // Update button text
+            const key = isVisible ? 'showRawText' : 'hideRawText';
+            button.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+                ${languages[currentLang][key]}
+            `;
+        }
+        function updateFileName(filename) {
+            const indicator = document.querySelector('.file-indicator');
+            indicator.textContent = `${languages[currentLang].processedFile}${filename}`;
         }
     </script>
-
-    <style>
-        .toggle-btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: var(--transition);
-            margin-top: 1rem;
-        }
-
-        .toggle-btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .raw-text-container {
-            background: var(--card);
-            padding: 1rem;
-            border-radius: 0.25rem;
-            box-shadow: var(--shadow);
-            margin-top: 1rem;
-        }
-
-        .raw-text-container pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .info-card {
-            background: var(--card);
-            padding: 1rem;
-            border-radius: 0.25rem;
-            box-shadow: var(--shadow);
-            margin-bottom: 1rem;
-        }
-
-        .info-card h3 {
-            color: var(--primary);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .info-card table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .info-card th, .info-card td {
-            padding: 0.5rem;
-            border-bottom: 1px solid var(--border);
-            text-align: left;
-        }
-
-        .info-card th {
-            background: var(--primary-light);
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .info-card td {
-            color: var(--text);
-        }
-
-        .progress-container {
-            margin: 1rem 0;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 0.5rem;
-            background: var(--primary-light);
-            border-radius: 0.25rem;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar::after {
-            content: '';
-            display: block;
-            height: 100%;
-            background: var(--primary);
-            width: 0;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            margin-top: 0.5rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-        }
-    </style>
 </body>
 </html>
