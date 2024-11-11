@@ -404,6 +404,7 @@
             font-size: 0.9em;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 </head>
 
 <!-- Main application container -->
@@ -416,8 +417,12 @@
 
         <!-- Language selector component -->
         <div class="language-selector">
-            <button onclick="switchLanguage('en')">English</button>
-            <button onclick="switchLanguage('tr')">Türkçe</button>
+            <button onclick="switchLanguage('en')">
+                <span class="flag-icon flag-icon-gb"></span> English
+            </button>
+                <button onclick="switchLanguage('tr')">
+                <span class="flag-icon flag-icon-tr"></span> Türkçe
+            </button>
         </div>
 
         <!-- File upload form with drag-drop and multipart support -->
@@ -677,7 +682,7 @@
         },
         tr: {
             title: "Fatura Tarayıcı",
-            subtitle: "Anında veri çıkarma için faturanızı yükleyin",
+            subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
             uploadButton: "Dosya Yükle",
             invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
             processing: "İşleniyor...",
