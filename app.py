@@ -70,7 +70,7 @@ class ImageProcessor:
             processed_image = ImageProcessor.preprocess_image(image_path)
             rgb_image = cv2.cvtColor(processed_image, cv2.COLOR_BGR2RGB)
             text = pytesseract.image_to_string(rgb_image, lang='tur+eng').upper()
-            logging.info(f"Extracted text: {text[:100]}...")  # Log the first 100 characters of the extracted text
+            logging.info(f"Extracted text: {text}")
             return text
         except Exception as e:
             logging.error(f"Error extracting text: {e}")
