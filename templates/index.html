@@ -18,18 +18,20 @@
         }
 
         [data-theme="dark"] {
-            --primary: #60a5fa;
+            --primary: #3b82f6;
             --primary-light: #1e293b;
             --background: #0f172a;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
+            --text: #f8fafc;
+            --text-light: #cbd5e1;
             --border: #334155;
-            --success: #4ade80;
-            --error: #f87171;
-            --warning: #facc15;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #eab308;
             --card-background: #1e293b;
             --button-background: #334155;
             --hover-background: #475569;
+            --results-header-bg: #0f1729;  /* New darker shade for results header */
+            --summary-card-bg: #0f1729;    /* New darker shade for summary card */
         }
 
         [data-theme="dark"] .upload-zone,
@@ -52,13 +54,13 @@
         }
 
         [data-theme="dark"] .status.success {
-            background: #065f46;
-            color: #4ade80;
+            background: #064e3b;
+            color: #34d399;
         }
 
         [data-theme="dark"] .status.error {
-            background: #7f1d1d;
-            color: #f87171;
+            background: #991b1b;
+            color: #fca5a5;
         }
 
         [data-theme="dark"] .products-table td {
@@ -96,12 +98,33 @@
 
         [data-theme="dark"] .language-selector button {
             background: var(--button-background);
-            color: var(--text);
+            color: var(--text);  /* Fix: Remove space in "var (--text)" and use var(--text) */
             border: 1px solid var(--border);
         }
 
         [data-theme="dark"] .language-selector button:hover {
             background: var(--hover-background);
+            color: var(--text);  /* Ensure text stays white on hover */
+        }
+
+        [data-theme="dark"] .results-header {
+            background: var(--results-header-bg);
+        }
+
+        [data-theme="dark"] .summary-card {
+            background: var(--summary-card-bg);
+        }
+
+        [data-theme="dark"] .products-table th {
+            background: var(--results-header-bg);
+        }
+
+        [data-theme="dark"] .summary-value {
+            color: var(--primary);
+        }
+
+        [data-theme="dark"] .summary-label {
+            color: var(--text-light);
         }
 
         * {
@@ -233,7 +256,7 @@
         .summary-value {
             font-size: 1rem;
             font-weight: 600;
-            color: var(--primary);
+            color: var (--primary);
         }
 
         .data-grid {
@@ -387,6 +410,9 @@
         }
 
         .language-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: fixed;
             top: 0;
             left: 0;
@@ -395,6 +421,11 @@
             padding: 5px;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 0.5rem;
         }
 
         .language-selector button {
@@ -519,15 +550,16 @@
         }
 
         .theme-toggle {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.5rem;
-            border-radius: 50%;
+            position: static;
+            padding: 5px;
+            border-radius: 0.375rem;
             background: var(--background);
             border: 1px solid var(--border);
             cursor: pointer;
             transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         @media (max-width: 640px) {
@@ -582,22 +614,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 </head>
 <body>
-    <button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-    </button>
 
     <div class="container">
         <h1 data-lang-key="title">Invoice Scanner</h1>
         <p class="subtitle" data-lang-key="subtitle">Upload your invoice for instant data extraction</p>
 
         <div class="language-selector">
-            <button onclick="switchLanguage('en')">
-                <span class="flag-icon flag-icon-gb"></span> English
-            </button>
-            <button onclick="switchLanguage('tr')">
-                <span class="flag-icon flag-icon-tr"></span> Türkçe
+            <div class="language-buttons">
+                <button onclick="switchLanguage('en')">
+                    <span class="flag-icon flag-icon-gb"></span> English
+                </button>
+                <button onclick="switchLanguage('tr')">
+                    <span class="flag-icon flag-icon-tr"></span> Türkçe
+                </button>
+            </div>
+            <button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
             </button>
         </div>
 
@@ -644,26 +678,9 @@
                     <span>{{ filename }}</span>
                 </div>
                 
-                <!-- Results header with export options -->
+                <!-- Results header without export options -->
                 <div class="results-header">
                     <h2 data-lang-key="extractionResults">Extraction Results</h2>
-                    <!-- Export buttons container -->
-                    <div class="export-buttons">
-                        <!-- CSV export button -->
-                        <button type="button" class="export-button" onclick="exportData('csv')">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                            </svg>
-                            <span data-lang-key="exportCsv">CSV</span>
-                        </button>
-                        <!-- JSON export button -->
-                        <button type="button" class="export-button" onclick="exportData('json')">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <span data-lang-key="exportJson">JSON</span>
-                        </button>
-                    </div>
                 </div>
 
                 <!-- Results content container -->
@@ -868,16 +885,29 @@
             const formData = new FormData(form);
             const xhr = new XMLHttpRequest();
 
+            // Add artificial progress simulation
+            let artificialProgress = 0;
+            const progressInterval = setInterval(() => {
+                // Increment progress more slowly as it gets higher
+                const increment = Math.max(0.5, (100 - artificialProgress) / 50);
+                artificialProgress = Math.min(90, artificialProgress + increment);
+                updateProgress(artificialProgress);
+            }, 100);
+
             xhr.upload.onprogress = (e) => {
                 if (e.lengthComputable) {
-                    const percent = (e.loaded / e.total) * 100;
-                    updateProgress(percent);
+                    const actualProgress = (e.loaded / e.total) * 100;
+                    // Use the larger of actual or artificial progress
+                    updateProgress(Math.max(actualProgress, artificialProgress));
                 }
             };
 
             xhr.onload = () => {
+                clearInterval(progressInterval); // Stop artificial progress
                 try {
                     if (xhr.status === 200) {
+                        updateProgress(100); // Complete the progress bar
+                        // ... rest of existing success handling ...
                         const tempDiv = document.createElement('div');
                         tempDiv.innerHTML = xhr.responseText;
                         
@@ -908,14 +938,17 @@
                     console.error('Processing error:', error);
                     showStatus('Error processing file. Please try again.', 'error');
                 } finally {
-                    hideProcessingOverlay();
-                    progressContainer.style.display = 'none';
-                    fileInput.value = '';
-                    updateContent();
+                    setTimeout(() => {
+                        hideProcessingOverlay();
+                        progressContainer.style.display = 'none';
+                        fileInput.value = '';
+                        updateContent();
+                    }, 500); // Short delay before hiding progress
                 }
             };
 
             xhr.onerror = () => {
+                clearInterval(progressInterval); // Stop artificial progress
                 console.error('Network error occurred');
                 showStatus('Network error. Please check your connection and try again.', 'error');
                 hideProcessingOverlay();
@@ -1052,6 +1085,7 @@
             indicator.textContent = type;
             document.querySelector('.file-info').prepend(indicator);
         }
+
     </script>
 </body>
-</html> 
+</html>  

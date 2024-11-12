@@ -1,10 +1,12 @@
 import os
 import logging
-from flask import Flask, render_template, request, redirect, send_from_directory
+from flask import Flask, render_template, request, redirect, send_from_directory  # Remove jsonify, make_response
 import pytesseract
 from config import Config
 from image_processing import ImageProcessor
 from text_extraction import TextExtractor
+# Remove json and csv imports
+# Remove StringIO import
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -78,6 +80,8 @@ def index():
             return "An error occurred while processing the file. Please try again."
 
     return render_template("index.html")
+
+# Remove the entire @app.route("/export/<format>") function and its implementation
 
 @app.route('/static/uploads/<filename>')
 def uploaded_file(filename):
