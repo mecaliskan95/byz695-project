@@ -8,6 +8,21 @@ from text_extraction import TextExtractor
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# Register the trim_whitespace filter before routes
+def trim_whitespace(text):
+    if not text:
+        return ""
+    # First trim the entire text
+    text = text.strip()
+    # Split into lines, remove empty lines, and trim each line
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    # Join with single newlines
+    return "\n".join(lines)
+
+app.jinja_env.filters['trim_whitespace'] = trim_whitespace
+
+# Initialize Tesseract and logging
 pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
 logging.basicConfig(level=logging.INFO)
 
