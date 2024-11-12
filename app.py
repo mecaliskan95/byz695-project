@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 import pytesseract
 from config import Config
 from image_processing import ImageProcessor
@@ -54,13 +54,19 @@ def index():
                 tax_office_number=tax_office_number,
                 products=products,
                 costs=costs,
-                invoice_number=invoice_number
+                invoice_number=invoice_number,
+                zip=zip,  # Add zip function to template context
+                filename=file.filename  # Add filename to template context
             )
         except Exception as e:
             logging.error(f"Error processing file: {e}")
             return "An error occurred while processing the file. Please try again."
 
     return render_template("index.html")
+
+@app.route('/static/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(Config.UPLOAD_FOLDER, filename)  # Use Config.UPLOAD_FOLDER
 
 if __name__ == "__main__":
     app.run(debug=True)

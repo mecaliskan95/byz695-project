@@ -35,9 +35,12 @@ class TextExtractor:
 
     @staticmethod
     def extract_total_cost(text):
-        pattern = r"(?:TOPLAM|TUTAR)\s*[:\.]?\s*[\*\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{1,2}))"
-        match = re.search(pattern, text)
-        return match.group(1).replace(',', '.') if match else "N/A"
+        pattern = r"(?:TOPLAM|TUTAR|TOP)\s*[:.\*\★\©\#]?\s*(\d{1,3}(?:\.\d{3})*(?:[.,]\d{2})?|\d+(?:[.,]\d{2})?)(?:\s*TL)?"
+        
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            return match.group(1).replace(',', '.')
+        return "N/A"
 
     @staticmethod
     def extract_vat(text):
@@ -80,7 +83,7 @@ class TextExtractor:
 
     @staticmethod
     def extract_invoice_number(text):
-        patterns = [r"FİŞ NO[:\s]*([A-Za-z0-9\-]+)"]
+        patterns = [r"F[İIi][ŞS$]\s*NO\s*[:.-]?\s*([A-Za-z0-9\-]+)"]
         for pattern in patterns:
             match = re.search(pattern, text, re.IGNORECASE)
             if match:

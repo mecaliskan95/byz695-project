@@ -44,7 +44,8 @@
         h1 {
             font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-top: 40px;
+            margin-bottom: auto;
             color: var(--primary);
         }
 
@@ -333,8 +334,13 @@
         /* Language selector positioning */
         .language-selector {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white; /* or any color that matches your design */
+            padding: 10px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* optional: adds subtle shadow */
         }
 
         /* Language selector button styling */
