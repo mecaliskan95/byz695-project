@@ -4,7 +4,6 @@ import pytesseract
 import logging
 
 def bw_scanner(image):
-    """Convert color image to binary using adaptive thresholding."""
     try:
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         T = threshold_local(gray, 21, offset=5, method="gaussian")
@@ -13,9 +12,7 @@ def bw_scanner(image):
         logging.error(f"Error in bw_scanner: {e}")
         return None
 
-class ImageProcessor:
-    """Handles OCR preprocessing and text extraction pipeline."""
-    
+class ImageProcessor:    
     @staticmethod
     def preprocess_image(image_path):
         try:

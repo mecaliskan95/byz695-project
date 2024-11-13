@@ -15,6 +15,14 @@
             --success: #16a34a;
             --error: #dc2626;
             --warning: #eab308;
+            --card-background: white;
+            --button-background: white;
+            --hover-background: var(--primary-light);
+            --results-header-bg: var(--primary-light);
+            --summary-card-bg: var(--primary-light);
+            --processing-overlay-bg: rgba(255, 255, 255, 0.9);
+            --success-bg: #dcfce7;
+            --error-bg: #fee2e2;
         }
 
         [data-theme="dark"] {
@@ -30,8 +38,11 @@
             --card-background: #1e293b;
             --button-background: #334155;
             --hover-background: #475569;
-            --results-header-bg: #0f1729;  /* New darker shade for results header */
-            --summary-card-bg: #0f1729;    /* New darker shade for summary card */
+            --results-header-bg: #0f1729;
+            --summary-card-bg: #0f1729;
+            --processing-overlay-bg: rgba(15, 23, 42, 0.9);
+            --success-bg: #064e3b;
+            --error-bg: #991b1b;
         }
 
         [data-theme="dark"] .upload-zone,
@@ -638,7 +649,7 @@
         <form id="uploadForm" method="POST" enctype="multipart/form-data">
             <div class="upload-zone" id="dropZone">
                 <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.pdf">
-                <button type="button" class="upload-button" onclick="document.getElementById('file').click()" data-lang-key="uploadButton">
+                <button type="button" class="upload-button" onclick="triggerFileInput()" data-lang-key="uploadButton">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                     </svg>
@@ -651,10 +662,6 @@
                 </div>
             </div>
 
-            <div class="progress-container" aria-label="Upload progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-
             <div class="status-container">
                 <div class="status" id="status"></div>
                 <div class="file-indicator" id="fileIndicator" style="display: none;">
@@ -665,10 +672,8 @@
                 </div>
             </div>
 
-            <!-- Status message display -->
             <div class="status" id="status"></div>
 
-            <!-- Results section - conditionally rendered -->
             {% if text %}
             <div class="results visible">
                 <div class="file-indicator">
@@ -678,14 +683,11 @@
                     <span>{{ filename }}</span>
                 </div>
                 
-                <!-- Results header without export options -->
                 <div class="results-header">
                     <h2 data-lang-key="extractionResults">Extraction Results</h2>
                 </div>
 
-                <!-- Results content container -->
                 <div class="results-content">
-                    <!-- Summary card for key metrics -->
                     <div class="summary-card">
                         <div class="summary-item">
                             <div class="summary-label" data-lang-key="totalAmount">Total Amount</div>
@@ -733,10 +735,8 @@
                     </table>
                     {% endif %}
 
-                    <!-- Raw text output section with collapsible functionality -->
                     <div class="raw-text-section">
                         <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event)">
-                            <!-- Arrow icon for toggle indication -->
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -751,68 +751,67 @@
     </div>
 
     <script>
-        // Multilanguage support configuration - Move this to the top since it's used by other functions
-        const languages = {
-            en: {
-                title: "Invoice Scanner",
-                subtitle: "Upload your invoice for instant data extraction",
-                uploadButton: "Upload File",
-                invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
-                processing: "Processing...",
-                processingText: "Processing your invoice...",
-                extractionResults: "Extraction Results",
-                exportCsv: "CSV",
-                exportJson: "JSON",
-                totalAmount: "Total Amount",
-                vat: "VAT",
-                items: "Items",
-                invoiceNumber: "Invoice Number",
-                invoiceDate: "Invoice Date",
-                invoiceTime: "Invoice Time",
-                taxOfficeName: "Tax Office Name",
-                taxOfficeNumber: "Tax Office Number",
-                item: "Item",
-                cost: "Cost",
-                fileInfo: "Supports JPG, PNG, PDF up to 10MB",
-                showRawText: "Show Raw Text Output",
-                hideRawText: "Hide Raw Text Output",
-                processedFile: "Processed file: "
-            },
-            tr: {
-                title: "Fatura Tarayıcı",
-                subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
-                uploadButton: "Dosya Yükle",
-                invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
-                processing: "İşleniyor...",
-                processingText: "Faturanız işleniyor...",
-                extractionResults: "Sonuçlar",
-                exportCsv: "CSV",
-                exportJson: "JSON",
-                totalAmount: "Toplam Tutar",
-                vat: "KDV",
-                items: "Ürünler",
-                invoiceNumber: "Fatura Numarası",
-                invoiceDate: "Fatura Tarihi",
-                invoiceTime: "Fatura Saati",
-                taxOfficeName: "Vergi Dairesi",
-                taxOfficeNumber: "Vergi Dairesi Numarası",
-                item: "Ürün",
-                cost: "Tutar",
-                fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
-                showRawText: "Ham Metin Çıktısını Göster",
-                hideRawText: "Ham Metin Çıktısını Gizle",
-                processedFile: "İşlenen dosya: "
+        const config = {
+            maxFileSize: 10 * 1024 * 1024,
+            validFileTypes: ['image/jpeg', 'image/png', 'application/pdf'],
+            languages: {
+                en: {
+                    title: "Invoice Scanner",
+                    subtitle: "Upload your invoice for instant data extraction",
+                    uploadButton: "Upload File",
+                    invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
+                    processingText: "Processing your invoice...",
+                    extractionResults: "Extraction Results",
+                    totalAmount: "Total Amount",
+                    vat: "VAT",
+                    invoiceNumber: "Invoice Number",
+                    invoiceDate: "Invoice Date",
+                    invoiceTime: "Invoice Time",
+                    taxOfficeName: "Tax Office Name",
+                    taxOfficeNumber: "Tax Office Number",
+                    item: "Item",
+                    cost: "Cost",
+                    fileInfo: "Supports JPG, PNG, PDF up to 10MB",
+                    showRawText: "Show Raw Text Output",
+                    hideRawText: "Hide Raw Text Output"
+                },
+                tr: {
+                    title: "Fatura Tarayıcı",
+                    subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
+                    uploadButton: "Dosya Yükle",
+                    invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
+                    processing: "İşleniyor...",
+                    processingText: "Faturanız işleniyor...",
+                    extractionResults: "Sonuçlar",
+                    exportCsv: "CSV",
+                    exportJson: "JSON",
+                    totalAmount: "Toplam Tutar",
+                    vat: "KDV",
+                    items: "Ürünler",
+                    invoiceNumber: "Fatura Numarası",
+                    invoiceDate: "Fatura Tarihi",
+                    invoiceTime: "Fatura Saati",
+                    taxOfficeName: "Vergi Dairesi",
+                    taxOfficeNumber: "Vergi Dairesi Numarası",
+                    item: "Ürün",
+                    cost: "Tutar",
+                    fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
+                    showRawText: "Ham Metin Çıktısını Göster",
+                    hideRawText: "Ham Metin Çıktısını Gizle",
+                    processedFile: "İşlenen dosya: "
+                }
             }
         };
 
-        // DOM element references
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('file');
-        const form = document.getElementById('uploadForm');
-        const status = document.getElementById('status');
-        const processingOverlay = document.getElementById('processingOverlay');
+        const elements = {
+            dropZone: document.getElementById('dropZone'),
+            fileInput: document.getElementById('file'),
+            form: document.getElementById('uploadForm'),
+            status: document.getElementById('status'),
+            processingOverlay: document.getElementById('processingOverlay')
+        };
 
-        // Display status message with success/error icon
+        // Core functions
         function showStatus(message, type) {
             status.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
@@ -826,159 +825,103 @@
             status.style.display = 'flex';
         }
 
-        // Processing overlay controls
-        function showProcessingOverlay() {
-            processingOverlay.classList.add('visible');
-        }
+        async function handleUpload(event) {
+            if (event) {
+                event.preventDefault();
+            }
 
-        function hideProcessingOverlay() {
-            processingOverlay.classList.remove('visible');
-        }
-
-        // Drag and drop event handlers
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
-            dropZone.addEventListener(event, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        });
-
-        // Visual feedback for drag operations
-        ['dragenter', 'dragover'].forEach(event => {
-            dropZone.addEventListener(event, () => {
-                dropZone.classList.add('drag-over');
-            });
-        });
-
-        ['dragleave', 'drop'].forEach(event => {
-            dropZone.addEventListener(event, () => {
-                dropZone.classList.remove('drag-over');
-            });
-        });
-
-        // Handle file drops
-        dropZone.addEventListener('drop', (e) => {
-            fileInput.files = e.dataTransfer.files;
-            handleUpload();
-        });
-
-        fileInput.addEventListener('change', handleUpload);
-
-        // Enhanced file upload handling with progress
-        function handleUpload() {
-            // Reset progress bar at the start
-            const progressBar = document.querySelector('.progress-bar');
-            progressBar.style.width = '0%';
-            progressBar.setAttribute('aria-valuenow', 0);
-
+            const fileInput = document.getElementById('file');
             const file = fileInput.files[0];
-            if (!file) return;
-
-            if (!validateFile(file)) {
-                showStatus(languages[currentLang].invalidFile, 'error');
+            
+            if (!file) {
+                showStatus('Please select a file first', 'error');
                 return;
             }
 
-            const progressContainer = document.querySelector('.progress-container');
-            progressContainer.style.display = 'block';
-            
-            const formData = new FormData(form);
-            const xhr = new XMLHttpRequest();
+            if (!validateFile(file)) {
+                showStatus(config.languages[currentLang].invalidFile, 'error');
+                return;
+            }
 
-            // Add artificial progress simulation
-            let artificialProgress = 0;
-            const progressInterval = setInterval(() => {
-                // Increment progress more slowly as it gets higher
-                const increment = Math.max(0.5, (100 - artificialProgress) / 50);
-                artificialProgress = Math.min(90, artificialProgress + increment);
-                updateProgress(artificialProgress);
-            }, 100);
-
-            xhr.upload.onprogress = (e) => {
-                if (e.lengthComputable) {
-                    const actualProgress = (e.loaded / e.total) * 100;
-                    // Use the larger of actual or artificial progress
-                    updateProgress(Math.max(actualProgress, artificialProgress));
-                }
-            };
-
-            xhr.onload = () => {
-                clearInterval(progressInterval); // Stop artificial progress
-                try {
-                    if (xhr.status === 200) {
-                        updateProgress(100); // Complete the progress bar
-                        // ... rest of existing success handling ...
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = xhr.responseText;
-                        
-                        const newResults = tempDiv.querySelector('.results');
-                        
-                        if (newResults) {
-                            const existingResults = document.querySelector('.results');
-                            if (existingResults) {
-                                existingResults.remove();
-                            }
-                            
-                            status.insertAdjacentElement('afterend', newResults);
-                            newResults.classList.add('visible');
-                            
-                            const fileIndicator = newResults.querySelector('.file-indicator');
-                            if (fileIndicator) {
-                                fileIndicator.querySelector('span').textContent = file.name;
-                            }
-
-                            showStatus('File processed successfully', 'success');
-                        } else {
-                            throw new Error('No results found in response');
-                        }
-                    } else {
-                        throw new Error(`Server returned status: ${xhr.status}`);
-                    }
-                } catch (error) {
-                    console.error('Processing error:', error);
-                    showStatus('Error processing file. Please try again.', 'error');
-                } finally {
-                    setTimeout(() => {
-                        hideProcessingOverlay();
-                        progressContainer.style.display = 'none';
-                        fileInput.value = '';
-                        updateContent();
-                    }, 500); // Short delay before hiding progress
-                }
-            };
-
-            xhr.onerror = () => {
-                clearInterval(progressInterval); // Stop artificial progress
-                console.error('Network error occurred');
-                showStatus('Network error. Please check your connection and try again.', 'error');
-                hideProcessingOverlay();
-                progressContainer.style.display = 'none';
-                fileInput.value = '';
-            };
-
-            xhr.ontimeout = () => {
-                console.error('Request timed out');
-                showStatus('Request timed out. Please try again.', 'error');
-                hideProcessingOverlay();
-                progressContainer.style.display = 'none';
-                fileInput.value = '';
-            };
+            const formData = new FormData();
+            formData.append('file', file);
 
             showProcessingOverlay();
-            xhr.open('POST', '/');
-            xhr.send(formData);
+
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.addEventListener('load', async function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        document.documentElement.innerHTML = xhr.responseText;
+                        attachEventListeners();
+                        const results = document.querySelector('.results');
+                        if (results) {
+                            results.classList.add('visible');
+                            showStatus('File processed successfully', 'success');
+                        }
+                        resolve();
+                    } else {
+                        reject(new Error(`HTTP error! status: ${xhr.status}`));
+                    }
+                });
+
+                xhr.addEventListener('error', () => {
+                    reject(new Error('Network error occurred'));
+                });
+
+                xhr.open('POST', window.location.href, true);
+                xhr.send(formData);
+            }).catch(error => {
+                console.error('Upload error:', error);
+                showStatus('Error uploading file', 'error');
+            }).finally(() => {
+                hideProcessingOverlay();
+            });
         }
 
-        // Validate file type and size
+        function attachEventListeners() {
+            // Reattach all necessary event listeners
+            elements.fileInput = document.getElementById('file');
+            elements.dropZone = document.getElementById('dropZone');
+            elements.form = document.getElementById('uploadForm');
+            elements.status = document.getElementById('status');
+            elements.processingOverlay = document.getElementById('processingOverlay');
+
+            if (elements.fileInput) {
+                elements.fileInput.addEventListener('change', handleUpload);
+            }
+
+            if (elements.dropZone) {
+                elements.dropZone.addEventListener('dragenter', () => elements.dropZone.classList.add('drag-over'));
+                elements.dropZone.addEventListener('dragleave', () => elements.dropZone.classList.remove('drag-over'));
+                elements.dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    elements.dropZone.classList.remove('drag-over');
+                    elements.fileInput.files = e.dataTransfer.files;
+                    handleUpload();
+                });
+            }
+
+            if (elements.form) {
+                elements.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    handleUpload();
+                });
+            }
+        }
+
+        // Initial attachment of event listeners
+        document.addEventListener('DOMContentLoaded', attachEventListeners);
+
         function validateFile(file) {
             const validTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxSize = 10 * 1024 * 1024;
             return validTypes.includes(file.type) && file.size <= maxSize;
         }
 
-        // File validation before upload
         function validateFileSize(file) {
-            const maxSize = 10 * 1024 * 1024; // 10MB
+            const maxSize = 10 * 1024 * 1024;
             if (file.size > maxSize) {
                 showStatus(languages[currentLang].fileTooLarge, 'error');
                 return false;
@@ -986,30 +929,20 @@
             return true;
         }
 
-        // Enhanced progress indicator
-        function updateProgress(percent) {
-            const progressBar = document.querySelector('.progress-bar');
-            progressBar.style.width = `${percent}%`;
-            progressBar.setAttribute('aria-valuenow', Math.round(percent));
-        }
-
-        // Add clipboard copy functionality
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text)
                 .then(() => showStatus('Copied to clipboard!', 'success'))
                 .catch(err => showStatus('Failed to copy', 'error'));
         }
 
-        let currentLang = 'en'; // Default language
+        let currentLang = 'en';
 
-        // Language switching functionality
         function switchLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('preferredLanguage', lang);
             updateContent();
         }
 
-        // Update all translatable content
         function updateContent() {
             document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.getAttribute('data-lang-key');
@@ -1019,7 +952,6 @@
             });
         }
 
-        // Initialize language preference
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('preferredLanguage');
             if (savedLang) {
@@ -1030,7 +962,6 @@
 
         document.addEventListener('DOMContentLoaded', updateContent);
 
-        // Raw text toggle functionality
         function toggleRawText(event) {
             event.preventDefault();
             
@@ -1046,7 +977,6 @@
             content.classList.toggle('visible');
             button.classList.toggle('active');
             
-            // Update button text
             const key = isVisible ? 'showRawText' : 'hideRawText';
             button.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
@@ -1056,28 +986,21 @@
             `;
         }
 
-        // Function to clean up raw text display
         function formatRawText(text) {
-            // Remove extra whitespace at start and end
             text = text.trim();
-            // Remove multiple consecutive blank lines
             text = text.replace(/\n\s*\n/g, '\n\n');
-            // Remove lines that are just whitespace
             text = text.split('\n').filter(line => line.trim()).join('\n');
             return text;
         }
 
-        // Dark mode toggle
         function toggleTheme() {
             const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
         }
 
-        // Initialize theme from localStorage
         document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
 
-        // File type indicator
         function showFileTypeIndicator(file) {
             const type = file.type.split('/')[1].toUpperCase();
             const indicator = document.createElement('span');
@@ -1086,6 +1009,88 @@
             document.querySelector('.file-info').prepend(indicator);
         }
 
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+            elements.dropZone.addEventListener(event, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+
+        elements.fileInput.addEventListener('change', handleUpload);
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang) {
+                currentLang = savedLang;
+                updateContent();
+            }
+            document.documentElement.setAttribute('data-theme', 
+                localStorage.getItem('theme') || 'light');
+        });
+
+        function showProcessingOverlay() {
+            const overlay = document.getElementById('processingOverlay');
+            if (overlay) overlay.classList.add('visible');
+        }
+
+        function hideProcessingOverlay() {
+            const overlay = document.getElementById('processingOverlay');
+            if (overlay) overlay.classList.remove('visible');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && validateFile(file)) {
+                handleUpload(event);
+            }
+        }
+
+        // Event listeners for drag and drop
+        elements.dropZone.addEventListener('dragenter', () => elements.dropZone.classList.add('drag-over'));
+        elements.dropZone.addEventListener('dragleave', () => elements.dropZone.classList.remove('drag-over'));
+        elements.dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            elements.dropZone.classList.remove('drag-over');
+            elements.fileInput.files = e.dataTransfer.files;
+            handleUpload();
+        });
+
+        function triggerFileInput() {
+            document.getElementById('file').click();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file');
+            const form = document.getElementById('uploadForm');
+            
+            fileInput.addEventListener('change', handleUpload);
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleUpload();
+            });
+
+            // Drop zone events
+            const dropZone = document.getElementById('dropZone');
+            dropZone.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', function(e) {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length) {
+                    fileInput.files = files;
+                    handleUpload();
+                }
+            });
+        });
     </script>
 </body>
-</html>  
+</html>

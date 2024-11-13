@@ -1,30 +1,22 @@
 import os
 import logging
-from flask import Flask, render_template, request, redirect, send_from_directory  # Remove jsonify, make_response
+from flask import Flask, render_template, request, redirect, send_from_directory
 import pytesseract
 from config import Config
 from image_processing import ImageProcessor
 from text_extraction import TextExtractor
-# Remove json and csv imports
-# Remove StringIO import
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# Register the trim_whitespace filter before routes
 def trim_whitespace(text):
     if not text:
         return ""
-    # First trim the entire text
     text = text.strip()
-    # Split into lines, remove empty lines, and trim each line
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    # Join with single newlines
     return "\n".join(lines)
 
 app.jinja_env.filters['trim_whitespace'] = trim_whitespace
-
-# Initialize Tesseract and logging
 pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
 logging.basicConfig(level=logging.INFO)
 
@@ -72,8 +64,8 @@ def index():
                 products=products,
                 costs=costs,
                 invoice_number=invoice_number,
-                zip=zip,  # Add zip function to template context
-                filename=file.filename  # Add filename to template context
+                zip=zip,
+                filename=file.filename
             )
         except Exception as e:
             logging.error(f"Error processing file: {e}")
@@ -81,11 +73,9 @@ def index():
 
     return render_template("index.html")
 
-# Remove the entire @app.route("/export/<format>") function and its implementation
-
 @app.route('/static/uploads/<filename>')
 def uploaded_file(filename):
-    return send_from_directory(Config.UPLOAD_FOLDER, filename)  # Use Config.UPLOAD_FOLDER
+    return send_from_directory(Config.UPLOAD_FOLDER, filename)
 
 if __name__ == "__main__":
     app.run(debug=True)
