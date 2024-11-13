@@ -109,13 +109,13 @@
 
         [data-theme="dark"] .language-selector button {
             background: var(--button-background);
-            color: var(--text);  /* Fix: Remove space in "var (--text)" and use var(--text) */
+            color: var(--text);
             border: 1px solid var(--border);
         }
 
         [data-theme="dark"] .language-selector button:hover {
             background: var(--hover-background);
-            color: var(--text);  /* Ensure text stays white on hover */
+            color: var(--text);
         }
 
         [data-theme="dark"] .results-header {
@@ -280,6 +280,7 @@
         .data-label {
             color: var(--text-light);
             font-size: 0.875rem;
+            font-weight: bold;
         }
 
         .data-value {
@@ -751,57 +752,77 @@
     </div>
 
     <script>
-        const config = {
-            maxFileSize: 10 * 1024 * 1024,
-            validFileTypes: ['image/jpeg', 'image/png', 'application/pdf'],
-            languages: {
-                en: {
-                    title: "Invoice Scanner",
-                    subtitle: "Upload your invoice for instant data extraction",
-                    uploadButton: "Upload File",
-                    invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
-                    processingText: "Processing your invoice...",
-                    extractionResults: "Extraction Results",
-                    totalAmount: "Total Amount",
-                    vat: "VAT",
-                    invoiceNumber: "Invoice Number",
-                    invoiceDate: "Invoice Date",
-                    invoiceTime: "Invoice Time",
-                    taxOfficeName: "Tax Office Name",
-                    taxOfficeNumber: "Tax Office Number",
-                    item: "Item",
-                    cost: "Cost",
-                    fileInfo: "Supports JPG, PNG, PDF up to 10MB",
-                    showRawText: "Show Raw Text Output",
-                    hideRawText: "Hide Raw Text Output"
-                },
-                tr: {
-                    title: "Fatura Tarayıcı",
-                    subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
-                    uploadButton: "Dosya Yükle",
-                    invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
-                    processing: "İşleniyor...",
-                    processingText: "Faturanız işleniyor...",
-                    extractionResults: "Sonuçlar",
-                    exportCsv: "CSV",
-                    exportJson: "JSON",
-                    totalAmount: "Toplam Tutar",
-                    vat: "KDV",
-                    items: "Ürünler",
-                    invoiceNumber: "Fatura Numarası",
-                    invoiceDate: "Fatura Tarihi",
-                    invoiceTime: "Fatura Saati",
-                    taxOfficeName: "Vergi Dairesi",
-                    taxOfficeNumber: "Vergi Dairesi Numarası",
-                    item: "Ürün",
-                    cost: "Tutar",
-                    fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
-                    showRawText: "Ham Metin Çıktısını Göster",
-                    hideRawText: "Ham Metin Çıktısını Gizle",
-                    processedFile: "İşlenen dosya: "
-                }
+        const languages = {
+            en: {
+                title: "Invoice Scanner",
+                subtitle: "Upload your invoice for instant data extraction",
+                uploadButton: "Upload File",
+                invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
+                processingText: "Processing your invoice...",
+                extractionResults: "Extraction Results",
+                totalAmount: "Total Amount",
+                vat: "VAT",
+                invoiceNumber: "Invoice Number",
+                invoiceDate: "Invoice Date",
+                invoiceTime: "Invoice Time",
+                taxOfficeName: "Tax Office Name",
+                taxOfficeNumber: "Tax Office Number",
+                item: "Item",
+                cost: "Cost",
+                fileInfo: "Supports JPG, PNG, PDF up to 10MB",
+                showRawText: "Show Raw Text Output",
+                hideRawText: "Hide Raw Text Output"
+            },
+            tr: {
+                title: "Fatura Tarayıcı",
+                subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
+                uploadButton: "Dosya Yükle",
+                invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
+                processingText: "Faturanız işleniyor...",
+                extractionResults: "Sonuçlar",
+                totalAmount: "Toplam Tutar",
+                vat: "KDV",
+                invoiceNumber: "Fatura Numarası",
+                invoiceDate: "Fatura Tarihi",
+                invoiceTime: "Fatura Saati",
+                taxOfficeName: "Vergi Dairesi",
+                taxOfficeNumber: "Vergi Dairesi Numarası",
+                item: "Ürün",
+                cost: "Tutar",
+                fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
+                showRawText: "Ham Metin Çıktısını Göster",
+                hideRawText: "Ham Metin Çıktısını Gizle"
             }
         };
+
+        const config = {
+            maxFileSize: 10 * 1024 * 1024,
+            validFileTypes: ['image/jpeg', 'image/png', 'application/pdf']
+        };
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            updateContent();
+        }
+
+        function updateContent() {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (languages[currentLang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = languages[currentLang][key];
+                    } else {
+                        element.textContent = languages[currentLang][key];
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            currentLang = localStorage.getItem('preferredLanguage') || 'en';
+            updateContent();
+        });
 
         const elements = {
             dropZone: document.getElementById('dropZone'),
@@ -811,7 +832,6 @@
             processingOverlay: document.getElementById('processingOverlay')
         };
 
-        // Core functions
         function showStatus(message, type) {
             status.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
@@ -839,7 +859,7 @@
             }
 
             if (!validateFile(file)) {
-                showStatus(config.languages[currentLang].invalidFile, 'error');
+                showStatus(languages[currentLang].invalidFile, 'error');
                 return;
             }
 
@@ -848,18 +868,32 @@
 
             showProcessingOverlay();
 
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            const savedTheme = localStorage.getItem('theme') || 'light';
+
             return new Promise((resolve, reject) => {
                 const xhr = new XMLHttpRequest();
 
                 xhr.addEventListener('load', async function() {
                     if (xhr.status >= 200 && xhr.status < 300) {
+                        const scrollPos = window.scrollY;
+                        
                         document.documentElement.innerHTML = xhr.responseText;
+                        
+                        document.documentElement.setAttribute('data-theme', savedTheme);
+                        currentLang = savedLang;
+                        
                         attachEventListeners();
+                        updateContent();
+                        
                         const results = document.querySelector('.results');
                         if (results) {
                             results.classList.add('visible');
                             showStatus('File processed successfully', 'success');
                         }
+
+                        window.scrollTo(0, scrollPos);
+                        
                         resolve();
                     } else {
                         reject(new Error(`HTTP error! status: ${xhr.status}`));
@@ -881,7 +915,6 @@
         }
 
         function attachEventListeners() {
-            // Reattach all necessary event listeners
             elements.fileInput = document.getElementById('file');
             elements.dropZone = document.getElementById('dropZone');
             elements.form = document.getElementById('uploadForm');
@@ -911,7 +944,6 @@
             }
         }
 
-        // Initial attachment of event listeners
         document.addEventListener('DOMContentLoaded', attachEventListeners);
 
         function validateFile(file) {
@@ -1044,7 +1076,6 @@
             }
         }
 
-        // Event listeners for drag and drop
         elements.dropZone.addEventListener('dragenter', () => elements.dropZone.classList.add('drag-over'));
         elements.dropZone.addEventListener('dragleave', () => elements.dropZone.classList.remove('drag-over'));
         elements.dropZone.addEventListener('drop', (e) => {
@@ -1069,7 +1100,6 @@
                 handleUpload();
             });
 
-            // Drop zone events
             const dropZone = document.getElementById('dropZone');
             dropZone.addEventListener('dragover', function(e) {
                 e.preventDefault();

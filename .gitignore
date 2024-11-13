@@ -1,0 +1,26 @@
+# Python cache files and directories
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment directories
+venv/
+env/
+.env/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
