@@ -1,3 +1,6 @@
+import sys
+sys.dont_write_bytecode = True
+
 import os
 from flask import Flask, render_template, request
 import pytesseract
@@ -19,10 +22,12 @@ def process_files():
     with tempfile.TemporaryDirectory() as temp_dir:
         for file in request.files.getlist("files"):
             if file.filename:
-                path = os.path.join(temp_dir, file.filename)
+                safe_filename = os.path.basename(file.filename)
+                path = os.path.join(temp_dir, safe_filename)
+                os.makedirs(os.path.dirname(path), exist_ok=True)
                 file.save(path)
                 texts.append(ImageProcessor.extract_text(path))
-                filenames.append(file.filename)
+                filenames.append(safe_filename)
     
     if texts:
         results = TextExtractor.extract_all(texts, filenames)
