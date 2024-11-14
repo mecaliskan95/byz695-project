@@ -10,6 +10,7 @@ class TextExtractor:
             r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.?D\.?",
             r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)(?:\s|$)",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:VD|VERGİ DAİRESİ)",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+?)\s+V\.D\.",
         ]
         
         try:
@@ -22,7 +23,7 @@ class TextExtractor:
             if match := re.search(pattern, text, re.IGNORECASE):
                 matched_name = match.group(1).strip().upper()
                 matches = process.extract(matched_name, tax_offices, limit=1)
-                if matches and matches[0][1] >= 80:
+                if matches and matches[0][1] >= 50:
                     return matches[0][0]
         return "N/A"
 
