@@ -2,9 +2,8 @@ import os
 from pathlib import Path
 
 class Config:
-    # TESSERACT_CMD = Path(os.getenv('TESSERACT_CMD', r'c:\Program Files\Tesseract-OCR\tesseract.exe'))
-    TESSERACT_CMD = Path(os.getenv('TESSERACT_CMD', r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe'))
-    ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tfif'}
+    TESSERACT_CMD = Path(r'c:\Program Files\Tesseract-OCR\tesseract.exe')
+    ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
 
     @classmethod
     def validate_tesseract(cls):

@@ -6,136 +6,23 @@
     <title>Invoice Scanner</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-light: #eff6ff;
-            --background: #fafafa;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-            --success: #16a34a;
-            --error: #dc2626;
-            --warning: #eab308;
-            --card-background: white;
+            --primary: #4f46e5;    
+            --primary-light: #eef2ff;
+            --background: #f8fafc;   
+            --text: #1e293b;          
+            --text-light: #1e293b;     
+            --border: #e2e8f0;       
+            --success: #10b981;      
+            --error: #ef4444;         
+            --warning: #f59e0b;      
+            --card-background: white; 
             --button-background: white;
-            --hover-background: var(--primary-light);
-            --results-header-bg: var(--primary-light);
-            --summary-card-bg: var(--primary-light);
-            --processing-overlay-bg: rgba(255, 255, 255, 0.9);
-            --success-bg: #dcfce7;
-            --error-bg: #fee2e2;
-        }
-
-        [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-light: #1e293b;
-            --background: #0f172a;
-            --text: #f8fafc;
-            --text-light: #cbd5e1;
-            --border: #334155;
-            --success: #22c55e;
-            --error: #ef4444;
-            --warning: #eab308;
-            --card-background: #1e293b;
-            --button-background: #334155;
-            --hover-background: #475569;
-            --results-header-bg: #0f1729;
-            --summary-card-bg: #0f1729;
-            --processing-overlay-bg: rgba(15, 23, 42, 0.9);
-            --success-bg: #064e3b;
-            --error-bg: #991b1b;
-        }
-
-        [data-theme="dark"] .upload-zone,
-        [data-theme="dark"] .results,
-        [data-theme="dark"] .language-selector {
-            background: var(--card-background);
-        }
-
-        [data-theme="dark"] .export-button {
-            background: var(--button-background);
-            color: var(--text);
-        }
-
-        [data-theme="dark"] .export-button:hover {
-            background: var(--hover-background);
-        }
-
-        [data-theme="dark"] .processing-overlay {
-            background: rgba(15, 23, 42, 0.9);
-        }
-
-        [data-theme="dark"] .status.success {
-            background: #064e3b;
-            color: #34d399;
-        }
-
-        [data-theme="dark"] .status.error {
-            background: #991b1b;
-            color: #fca5a5;
-        }
-
-        [data-theme="dark"] .products-table td {
-            border-color: var(--border);
-        }
-
-        [data-theme="dark"] .raw-text-content {
-            background: var(--card-background);
-            border: 1px solid var(--border);
-        }
-
-        [data-theme="dark"] .file-indicator {
-            background: var(--button-background);
-            border-radius: 0.375rem;
-        }
-
-        [data-theme="dark"] .progress-container {
-            background: var(--button-background);
-        }
-
-        [data-theme="dark"] .progress-bar {
-            background: var(--primary);
-        }
-
-        [data-theme="dark"] .file-type-icon {
-            background: var(--button-background);
-            color: var(--primary);
-        }
-
-        [data-theme="dark"] .theme-toggle {
-            background: var(--card-background);
-            border-color: var(--border);
-            color: var(--text);
-        }
-
-        [data-theme="dark"] .language-selector button {
-            background: var(--button-background);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        [data-theme="dark"] .language-selector button:hover {
-            background: var(--hover-background);
-            color: var(--text);
-        }
-
-        [data-theme="dark"] .results-header {
-            background: var(--results-header-bg);
-        }
-
-        [data-theme="dark"] .summary-card {
-            background: var(--summary-card-bg);
-        }
-
-        [data-theme="dark"] .products-table th {
-            background: var(--results-header-bg);
-        }
-
-        [data-theme="dark"] .summary-value {
-            color: var(--primary);
-        }
-
-        [data-theme="dark"] .summary-label {
-            color: var(--text-light);
+            --hover-background: #eef2ff;
+            --results-header-bg: #eef2ff;
+            --summary-card-bg: #eef2ff;  
+            --processing-overlay-bg: rgba(248, 250, 252, 0.9);
+            --success-bg: #ecfdf5;   
+            --error-bg: #fef2f2; 
         }
 
         * {
@@ -159,7 +46,7 @@
 
         h1 {
             font-size: 1.25rem;
-            font-weight: 600;
+            font-weight: bold;
             margin: 60px 0 1rem 0;
             color: var(--primary);
         }
@@ -212,7 +99,7 @@
 
         .file-info {
             margin-top: 0.5rem;
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             color: var(--text-light);
         }
 
@@ -259,13 +146,14 @@
         }
 
         .summary-label {
-            font-size: 0.75rem;
+            font-size: 0.875rem;
             color: var(--text-light);
             margin-bottom: 0.25rem;
+            font-weight: 600;
         }
 
         .summary-value {
-            font-size: 1rem;
+            font-size: 0.875rem;
             font-weight: 600;
             color: var (--primary);
         }
@@ -275,17 +163,19 @@
             grid-template-columns: auto 1fr;
             gap: 0.5rem;
             margin-bottom: 1rem;
+            margin-left: 1rem;
         }
 
         .data-label {
             color: var(--text-light);
             font-size: 0.875rem;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .data-value {
             font-size: 0.875rem;
             text-align: right;
+            margin-right: 1rem;
         }
 
         .products-table {
@@ -298,41 +188,12 @@
             background: var(--primary-light);
             padding: 0.5rem;
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .products-table td {
             padding: 0.5rem;
             border-bottom: 1px solid var(--border);
-        }
-
-        .export-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .export-button {
-            background: white;
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            font-size: 0.875rem;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.375rem;
-        }
-
-        .export-button:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .export-button svg {
-            width: 1rem;
-            height: 1rem;
         }
 
         .processing-overlay {
@@ -366,7 +227,7 @@
         .processing-text {
             font-size: 0.875rem;
             color: var(--primary);
-            font-weight: 500;
+            font-weight: 500; 
         }
 
         @keyframes spin {
@@ -382,16 +243,19 @@
             align-items: center;
             gap: 0.5rem;
             display: none;
+            font-weight: 500;
         }
 
         .status.success {
             background: #dcfce7;
-            color: var (--success);
+            color: #166534;
+            border: 1px solid #86efac;
         }
 
         .status.error {
             background: #fee2e2;
-            color: var(--error);
+            color: #991b1b;
+            border: 1px solid #fca5a5;
         }
 
         input[type="file"] {
@@ -409,15 +273,6 @@
 
             .summary-card {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .export-buttons {
-                flex-wrap: wrap;
-            }
-
-            .export-button {
-                flex: 1;
-                min-width: 100px;
             }
         }
 
@@ -513,67 +368,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: var(--border);
-            border-radius: 2px;
-            margin: 0.5rem 0;
-            overflow: hidden;
-            display: none;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .file-type-icon {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            background: var(--primary-light);
-            color: var(--primary);
-            font-size: 0.75rem;
-            margin-right: 0.5rem;
-        }
-
-        .loading-spinner {
-            width: 2rem;
-            height: 2rem;
-            border: 3px solid var(--primary-light);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spinner 0.8s linear infinite;
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-
-        .theme-toggle {
-            position: static;
-            padding: 5px;
-            border-radius: 0.375rem;
-            background: var(--background);
-            border: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
         @media (max-width: 640px) {
             .container {
                 padding: 1rem;
@@ -619,37 +413,6 @@
             color: var(--text);
         }
 
-        [data-theme="dark"] .results .file-indicator {
-            background: var(--button-background);
-        }
-
-        .upload-options {
-            position: absolute;
-            z-index: 1000;
-            background: var(--card-background);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .upload-options button {
-            background: var(--button-background);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            color: var(--text);
-            transition: all 0.2s ease;
-        }
-
-        .upload-options button:hover {
-            background: var(--hover-background);
-        }
-
         .button-group {
             display: flex;
             gap: 1rem;
@@ -657,7 +420,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .raw-text-content, .image-content {
+        .raw-text-content {
             margin-top: 0.5rem;
         }
     </style>
@@ -678,11 +441,6 @@
                     <span class="flag-icon flag-icon-tr"></span> Türkçe
                 </button>
             </div>
-            <button class="theme-toggle" aria-label="Toggle dark mode" onclick="toggleTheme()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 A7 7 0 0 0 21 12.79z"></path>
-                </svg>
-            </button>
         </div>
 
         <form id="uploadForm" method="POST" enctype="multipart/form-data">
@@ -729,7 +487,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    <span><span data-lang-key="uploadedFile">Uploaded File</span>: {{ result.filename }}</span>
+                    <span><span data-lang-key="uploadedFile" style="font-weight: 600;">Uploaded File: </span>{{ result.filename }}</span>
                 </div>
                 <div class="results-content">
                     <div class="summary-card">
@@ -773,36 +531,19 @@
                     </table>
                     {% endif %}
                     <div class="raw-text-section">
-                        <div style="display: flex; justify-content: space-between;">
-                            <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                                <span data-lang-key="showRawText">Show Raw Text Output</span>
-                            </button>
-                            <button class="toggle-raw-text" data-lang-key="showImage" onclick="toggleImage(event, '{{ loop.index }}')" aria-label="Toggle image">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                </svg>
-                                <span data-lang-key="showImage">Show Image</span>
-                            </button>
-                        </div>
-                        <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{- result.text | trim_whitespace -}}</pre></div>
-                        <div class="image-content" id="imageContent-{{ loop.index }}" style="display: none;">
-                            <img src="data:image/jpeg;base64,{{ result.image_base64 }}" alt="Uploaded Image" style="max-width: 100%;">
-                        </div>
+                        <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                            <span data-lang-key="showRawText">Show Raw Text Output</span>
+                        </button>
+                        <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{ result.text }}</pre></div>
                     </div>
                 </div>
             </div>
             {% endfor %}
             {% endif %}
         </form>
-
-        <div id="uploadOptions" class="upload-options" style="display:none;">
-            <button onclick="triggerFileInput('single')">Upload Single File</button>
-            <button onclick="triggerFileInput('multiple')">Upload Multiple Files</button>
-            <button onclick="triggerFileInput('folder')">Upload Folder</button>
-        </div>
     </div>
 
     <script>
@@ -815,7 +556,6 @@
                 extractionResults: "Extraction Results",
                 totalAmount: "Total Amount",
                 vat: "VAT",
-                invoiceNumber: "Invoice Number",
                 invoiceDate: "Invoice Date",
                 invoiceTime: "Invoice Time",
                 taxOfficeName: "Tax Office Name",
@@ -824,11 +564,10 @@
                 cost: "Cost",
                 fileInfo: "Supports JPG, JPEG, PNG & TFIF files",
                 showRawText: "Show/Hide Raw Text",
-                showImage: "Show/Hide Image",
                 paymentMethods: "Payment Methods",
                 uploadFileButton: "Upload File(s)",
                 uploadFolderButton: "Upload Folder",
-                uploadedFile: "Uploaded File"
+                uploadedFile: "Uploaded File: "
             },
             tr: {
                 title: "Fatura Tarayıcı",
@@ -838,7 +577,6 @@
                 extractionResults: "Sonuçlar",
                 totalAmount: "Toplam Tutar",
                 vat: "KDV",
-                invoiceNumber: "Fatura Numarası",
                 invoiceDate: "Fatura Tarihi",
                 invoiceTime: "Fatura Saati",
                 taxOfficeName: "Vergi Dairesi",
@@ -847,11 +585,10 @@
                 cost: "Tutar",
                 fileInfo: "JPG, JPEG, PNG & TFIF dosyalarını destekler",
                 showRawText: "Ham Metin Göster/Gizle",
-                showImage: "Resmi Göster/Gizle",
                 paymentMethods: "Ödeme Yöntemi",
                 uploadFileButton: "Dosya(lar) Yükle",
                 uploadFolderButton: "Klasör Yükle",
-                uploadedFile: "Yüklenen Dosya"
+                uploadedFile: "Yüklenen Dosya: "
             }
         };
 
@@ -919,7 +656,6 @@
             showProcessingOverlay();
 
             const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-            const savedTheme = localStorage.getItem('theme') || 'light';
 
             const xhr = new XMLHttpRequest();
             xhr.open('POST', window.location.href, true);
@@ -927,7 +663,6 @@
                 if (xhr.status >= 200 && xhr.status < 300) {
                     const scrollPos = window.scrollY;
                     document.documentElement.innerHTML = xhr.responseText;
-                    document.documentElement.setAttribute('data-theme', savedTheme);
                     currentLang = savedLang;
                     attachEventListeners();
                     updateContent();
@@ -992,46 +727,15 @@
             event.preventDefault();
             const button = event.currentTarget;
             const content = document.getElementById(`rawTextContent-${index}`);
-            const imageContent = document.getElementById(`imageContent-${index}`);
             
             content.classList.toggle('visible');
-            imageContent.style.display = 'none';
             button.classList.toggle('active');
-            
-            const otherButton = button.parentElement.querySelector('[data-lang-key="showImage"]');
-            otherButton.classList.remove('active');
-        }
-
-        function toggleImage(event, index) {
-            event.preventDefault();
-            const button = event.currentTarget;
-            const content = document.getElementById(`imageContent-${index}`);
-            const rawTextContent = document.getElementById(`rawTextContent-${index}`);
-            
-            content.style.display = content.style.display === 'block' ? 'none' : 'block';
-            rawTextContent.classList.remove('visible');
-            button.classList.toggle('active');
-            
-            const otherButton = button.parentElement.querySelector('[data-lang-key="showRawText"]');
-            otherButton.classList.remove('active');
-        }
-
-        function toggleTheme() {
-            const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
             updateContent();
             attachEventListeners();
         });
-
-        function showUploadOptions() {
-            const options = document.getElementById('uploadOptions');
-            options.style.display = options.style.display === 'none' ? 'flex' : 'none';
-        }
 
         function triggerFileInput(type) {
             if (type === 'file') {
