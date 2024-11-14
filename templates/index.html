@@ -811,7 +811,6 @@
                 title: "Invoice Scanner",
                 subtitle: "Upload your invoice for instant data extraction",
                 uploadButton: "Upload File(s)",
-                invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
                 processingText: "Processing your invoice(s)...",
                 extractionResults: "Extraction Results",
                 totalAmount: "Total Amount",
@@ -823,19 +822,18 @@
                 taxOfficeNumber: "Tax Office Number",
                 item: "Item",
                 cost: "Cost",
-                fileInfo: "Supports JPG, PNG, PDF and ZIP files",
+                fileInfo: "Supports JPG, JPEG, PNG & TFIF files",
                 showRawText: "Show/Hide Raw Text",
                 showImage: "Show/Hide Image",
                 paymentMethods: "Payment Methods",
                 uploadFileButton: "Upload File(s)",
                 uploadFolderButton: "Upload Folder",
-                uploadedFile: "Uploaded File: "
+                uploadedFile: "Uploaded File"
             },
             tr: {
                 title: "Fatura Tarayıcı",
                 subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
                 uploadButton: "Dosya Yükle",
-                invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
                 processingText: "Fatura(ları)nız işleniyor...",
                 extractionResults: "Sonuçlar",
                 totalAmount: "Toplam Tutar",
@@ -847,18 +845,17 @@
                 taxOfficeNumber: "Vergi Dairesi Numarası",
                 item: "Ürün",
                 cost: "Tutar",
-                fileInfo: "JPG, PNG, PDF ve ZIP dosyalarını destekler",
+                fileInfo: "JPG, JPEG, PNG & TFIF dosyalarını destekler",
                 showRawText: "Ham Metin Göster/Gizle",
                 showImage: "Resmi Göster/Gizle",
                 paymentMethods: "Ödeme Yöntemi",
                 uploadFileButton: "Dosya(lar) Yükle",
                 uploadFolderButton: "Klasör Yükle",
-                uploadedFile: "Yüklenen Dosya: "
+                uploadedFile: "Yüklenen Dosya"
             }
         };
 
         const config = {
-            maxFileSize: 10 * 1024 * 1024,
             validFileTypes: ['image/jpeg', 'image/png', 'application/pdf']
         };
 
@@ -894,7 +891,7 @@
         }
 
         function validateFile(file) {
-            return config.validFileTypes.includes(file.type);  // Remove size check
+            return config.validFileTypes.includes(file.type);
         }
 
         function handleUpload(event) {
@@ -903,7 +900,6 @@
             const folderInput = document.getElementById('folderInput');
             let files = [];
             
-            // Get files from either the file input or folder input
             if (fileInput.files.length > 0) {
                 files = fileInput.files;
             } else if (folderInput.files.length > 0) {
@@ -917,10 +913,6 @@
             
             const formData = new FormData();
             for (let file of files) {
-                if (!validateFile(file)) {
-                    showStatus(languages[currentLang].invalidFile, 'error');
-                    return;
-                }
                 formData.append('files', file);
             }
 
@@ -978,7 +970,6 @@
             dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
             dropZone.addEventListener('drop', (e) => {
                 dropZone.classList.remove('drag-over');
-                // Check if dropped items contain folders
                 const items = e.dataTransfer.items;
                 if (items && items[0].webkitGetAsEntry().isDirectory) {
                     folderInput.files = e.dataTransfer.files;

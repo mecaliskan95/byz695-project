@@ -6,29 +6,10 @@ from typing import Union
 class TextExtractor:
     @staticmethod
     def extract_tax_office_name(text: str) -> str:
-        def get_best_match(word: str, choices: list[str]) -> str:
-            # Normalize the word for common OCR errors
-            word = word.upper().strip()
-            word = word.replace('I', 'İ').replace('E', 'E')
-            matches = process.extract(word, choices, limit=5)
-            min_score = 80  # Lower threshold to handle OCR errors
-            good_matches = [(name, score) for name, score in matches if score >= min_score]
-            if not good_matches:
-                return None
-            return max(good_matches, key=lambda x: x[1])[0]
-
-        vd_patterns = [
-            # Add pattern specifically for EMDAG V.D. format
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.?D\.?[/\s]",
+        patterns = [
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.?D\.?",
             r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)(?:\s|$)",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:(?:VD|V\.?D\.?|VERGİ DAİRESİ|VN)\s*[:\-]?)",
-            r"\b(\w+\s+KURUMLAR)\b",
-            r"V\.D\.([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+)",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.D\.",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+)\s+V\.D\.\s+\d{10,11}",  # Specific pattern for tax office name followed by number
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s+\d{10,11}",  # Specific pattern for tax office name followed by number without spaces
-            r"VERGİ DAİRESİ BAŞKANLIĞI\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)(?:\s|$)",
-            r"VDB\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)(?:\s|$)"
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s\.]+?)\s*(?:VD|VERGİ DAİRESİ)",
         ]
         
         try:
@@ -36,64 +17,37 @@ class TextExtractor:
                 tax_offices = [line.strip() for line in f if line.strip()]
         except FileNotFoundError:
             return "N/A"
-        
-        if not tax_offices:
-            return "N/A"
 
-        for pattern in vd_patterns:
-            match = re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
-            if match:
-                matched_name = match.group(1).strip()
-                if matched_name:
-                    best_match = get_best_match(matched_name.upper(), tax_offices)
-                    if best_match:
-                        return best_match
-
+        for pattern in patterns:
+            if match := re.search(pattern, text, re.IGNORECASE):
+                matched_name = match.group(1).strip().upper()
+                matches = process.extract(matched_name, tax_offices, limit=1)
+                if matches and matches[0][1] >= 80:
+                    return matches[0][0]
         return "N/A"
 
     @staticmethod
     def extract_date(text: str) -> str:
         patterns = [
-            r"\b(\d{1,2})-(\d{1,2})-(\d{4})\b",
-            r"\b(\d{1,2})\.(\d{1,2})\.(\d{4})\b",
-            r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b",
-            r"(?:TARIH|TARİH)\s*[:\-]?\s*(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})",
-            r"\b(\d{1,2})/(\d{1,2})/(\d{4})\s+\d{1,2}:\d{2}",
-            r"(?:TARIH|TARİH)\s*[:\-]?\s*(\d{1,2})/(\d{1,2})/(\d{4})",
-            r"(?:TARIH|TARİH)\s*[:\-]?\s*(\d{1,2})-(\d{1,2})-(\d{4})",
-            r"(?:TARIH|TARİH)\s*[:\-]?\s*(\d{1,2})\.(\d{1,2})\.(\d{4})",
-            r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b",  # MM/DD/YYYY
-            r"\b(\d{2})-(\d{2})-(\d{4})\b",  # DD-MM-YYYY
+            r"\b(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})\b",
+            r"(?:TARIH|TARİH)\s*:?\s*(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})",
         ]
         
         for pattern in patterns:
-            match = re.search(pattern, text, re.IGNORECASE)
-            if match:
-                day, month, year = map(int, match.groups()[-3:])
+            if match := re.search(pattern, text, re.IGNORECASE):
+                day, month, year = map(int, match.groups())
                 try:
-                    if pattern == r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b" and month > 12:
-                        month, day = day, month
-                    date = datetime(year, month, day)
-                    return date.strftime("%d/%m/%Y")
+                    return datetime(year, month, day).strftime("%d/%m/%Y")
                 except ValueError:
                     continue
-            
         return "N/A"
 
     @staticmethod
     def extract_time(text: str) -> str:
-        time_patterns = [
-            r"\b(\d{2}):(\d{2}):(\d{2})\b",
-            r"\b(\d{2}):(\d{2})\b"
-        ]
-        
-        for pattern in time_patterns:
-            match = re.search(pattern, text)
-            if match:
-                hour, minute = int(match.group(1)), int(match.group(2))
-                if 0 <= hour < 24 and 0 <= minute < 60:
-                    return f"{str(hour).zfill(2)}:{str(minute).zfill(2)}"
-            
+        if match := re.search(r"\b(\d{2}):(\d{2})\b", text):
+            hour, minute = map(int, match.groups())
+            if 0 <= hour < 24 and 0 <= minute < 60:
+                return f"{hour:02d}:{minute:02d}"
         return "N/A"
 
     @staticmethod
@@ -164,24 +118,21 @@ class TextExtractor:
             return "N/A"
         payment_methods = ["KREDİ KARTI" if method.upper() in ["KREDİ", "KREDI KARTI"] else method for method in payment_methods]
         payment_methods = ["NAKİT" if method.upper() == "NAKIT" else method for method in payment_methods]
-        payment_methods = list(set(payment_methods))  # Ensure unique values
+        payment_methods = list(set(payment_methods))
         return payment_methods[0] if len(payment_methods) == 1 else payment_methods
 
     @staticmethod
     def extract_all(texts: list[str]) -> list[dict]:
         results = []
         for text in texts:
-            result = {
+            results.append({
                 "date": TextExtractor.extract_date(text),
                 "time": TextExtractor.extract_time(text),
                 "tax_office_name": TextExtractor.extract_tax_office_name(text),
                 "tax_office_number": TextExtractor.extract_tax_office_number(text),
-                "product_names": TextExtractor.extract_product_names(text),
-                "product_costs": TextExtractor.extract_product_costs(text),
-                "payment_methods": TextExtractor.extract_payment_methods(text),
                 "total_cost": TextExtractor.extract_total_cost(text),
                 "vat": TextExtractor.extract_vat(text),
+                "payment_methods": TextExtractor.extract_payment_methods(text),  # Add this line
                 "text": text
-            }
-            results.append(result)
+            })
         return results
