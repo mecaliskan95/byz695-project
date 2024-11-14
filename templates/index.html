@@ -656,6 +656,10 @@
             justify-content: center;
             margin-bottom: 0.5rem;
         }
+
+        .raw-text-content, .image-content {
+            margin-top: 0.5rem;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 </head>
@@ -667,10 +671,10 @@
 
         <div class="language-selector">
             <div class="language-buttons">
-                <button onclick="switchLanguage('en')">
+                <button onclick="switchLanguage('en')" aria-label="Switch to English">
                     <span class="flag-icon flag-icon-gb"></span> English
                 </button>
-                <button onclick="switchLanguage('tr')">
+                <button onclick="switchLanguage('tr')" aria-label="Switch to Turkish">
                     <span class="flag-icon flag-icon-tr"></span> Türkçe
                 </button>
             </div>
@@ -699,7 +703,7 @@
                         Upload Folder
                     </button>
                 </div>
-                <p class="file-info" data-lang-key="fileInfo">Supports JPG, PNG, PDF, ZIP up to 10MB</p>
+                <div class="file-info" data-lang-key="fileInfo">Supports JPG, PNG, PDF and ZIP files</div>
                 <div class="processing-overlay" id="processingOverlay">
                     <div class="spinner"></div>
                     <p class="processing-text" data-lang-key="processingText">Processing your invoice...</p>
@@ -725,10 +729,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    <span>{{ result.filename }}</span>
-                </div>
-                <div class="results-header">
-                    <h2 data-lang-key="extractionResults">Extraction Results</h2>
+                    <span><span data-lang-key="uploadedFile">Uploaded File</span>: {{ result.filename }}</span>
                 </div>
                 <div class="results-content">
                     <div class="summary-card">
@@ -772,13 +773,24 @@
                     </table>
                     {% endif %}
                     <div class="raw-text-section">
-                        <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event)">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                            Show Raw Text Output
-                        </button>
-                        <div class="raw-text-content" id="rawTextContent"><pre>{{- result.text | trim_whitespace -}}</pre></div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                                <span data-lang-key="showRawText">Show Raw Text Output</span>
+                            </button>
+                            <button class="toggle-raw-text" data-lang-key="showImage" onclick="toggleImage(event, '{{ loop.index }}')" aria-label="Toggle image">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                                <span data-lang-key="showImage">Show Image</span>
+                            </button>
+                        </div>
+                        <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{- result.text | trim_whitespace -}}</pre></div>
+                        <div class="image-content" id="imageContent-{{ loop.index }}" style="display: none;">
+                            <img src="data:image/jpeg;base64,{{ result.image_base64 }}" alt="Uploaded Image" style="max-width: 100%;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -798,9 +810,9 @@
             en: {
                 title: "Invoice Scanner",
                 subtitle: "Upload your invoice for instant data extraction",
-                uploadButton: "Upload File",
+                uploadButton: "Upload File(s)",
                 invalidFile: "Please upload JPG, PNG or PDF file under 10MB",
-                processingText: "Processing your invoice...",
+                processingText: "Processing your invoice(s)...",
                 extractionResults: "Extraction Results",
                 totalAmount: "Total Amount",
                 vat: "VAT",
@@ -811,19 +823,20 @@
                 taxOfficeNumber: "Tax Office Number",
                 item: "Item",
                 cost: "Cost",
-                fileInfo: "Supports JPG, PNG, PDF up to 10MB",
-                showRawText: "Show Raw Text Output",
-                hideRawText: "Hide Raw Text Output",
+                fileInfo: "Supports JPG, PNG, PDF and ZIP files",
+                showRawText: "Show/Hide Raw Text",
+                showImage: "Show/Hide Image",
                 paymentMethods: "Payment Methods",
                 uploadFileButton: "Upload File(s)",
-                uploadFolderButton: "Upload Folder"
+                uploadFolderButton: "Upload Folder",
+                uploadedFile: "Uploaded File: "
             },
             tr: {
                 title: "Fatura Tarayıcı",
                 subtitle: "Anında veri çıkarmak için faturanızı yükleyin",
                 uploadButton: "Dosya Yükle",
                 invalidFile: "Lütfen 10MB'tan küçük JPG, PNG veya PDF dosyası yükleyin",
-                processingText: "Faturanız işleniyor...",
+                processingText: "Fatura(ları)nız işleniyor...",
                 extractionResults: "Sonuçlar",
                 totalAmount: "Toplam Tutar",
                 vat: "KDV",
@@ -834,12 +847,13 @@
                 taxOfficeNumber: "Vergi Dairesi Numarası",
                 item: "Ürün",
                 cost: "Tutar",
-                fileInfo: "JPG, PNG, PDF formatları (10MB'a kadar) desteklenir",
-                showRawText: "Ham Metin Çıktısını Göster",
-                hideRawText: "Ham Metin Çıktısını Gizle",
-                paymentMethods: "Ödeme Yöntemleri",
+                fileInfo: "JPG, PNG, PDF ve ZIP dosyalarını destekler",
+                showRawText: "Ham Metin Göster/Gizle",
+                showImage: "Resmi Göster/Gizle",
+                paymentMethods: "Ödeme Yöntemi",
                 uploadFileButton: "Dosya(lar) Yükle",
-                uploadFolderButton: "Klasör Yükle"
+                uploadFolderButton: "Klasör Yükle",
+                uploadedFile: "Yüklenen Dosya: "
             }
         };
 
@@ -880,7 +894,7 @@
         }
 
         function validateFile(file) {
-            return config.validFileTypes.includes(file.type) && file.size <= config.maxFileSize;
+            return config.validFileTypes.includes(file.type);  // Remove size check
         }
 
         function handleUpload(event) {
@@ -928,7 +942,7 @@
                     const results = document.querySelector('.results');
                     if (results) {
                         results.classList.add('visible');
-                        showStatus('File processed successfully', 'success');
+                        showStatus('File(s) processed successfully', 'success');
                     }
                     window.scrollTo(0, scrollPos);
                 } else {
@@ -983,19 +997,32 @@
             document.getElementById('processingOverlay').classList.remove('visible');
         }
 
-        function toggleRawText(event) {
+        function toggleRawText(event, index) {
             event.preventDefault();
-            const button = document.querySelector('.toggle-raw-text');
-            const content = document.getElementById('rawTextContent');
-            const isVisible = content.classList.contains('visible');
+            const button = event.currentTarget;
+            const content = document.getElementById(`rawTextContent-${index}`);
+            const imageContent = document.getElementById(`imageContent-${index}`);
+            
             content.classList.toggle('visible');
+            imageContent.style.display = 'none';
             button.classList.toggle('active');
-            button.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                </svg>
-                ${languages[currentLang][isVisible ? 'showRawText' : 'hideRawText']}
-            `;
+            
+            const otherButton = button.parentElement.querySelector('[data-lang-key="showImage"]');
+            otherButton.classList.remove('active');
+        }
+
+        function toggleImage(event, index) {
+            event.preventDefault();
+            const button = event.currentTarget;
+            const content = document.getElementById(`imageContent-${index}`);
+            const rawTextContent = document.getElementById(`rawTextContent-${index}`);
+            
+            content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            rawTextContent.classList.remove('visible');
+            button.classList.toggle('active');
+            
+            const otherButton = button.parentElement.querySelector('[data-lang-key="showRawText"]');
+            otherButton.classList.remove('active');
         }
 
         function toggleTheme() {
