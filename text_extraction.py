@@ -9,7 +9,8 @@ class TextExtractor:
 
         patterns = [
             r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.?D\.?",
-            r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü]+)"
+            r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü]+)",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)"
         ]
         
         for pattern in patterns:
@@ -34,7 +35,8 @@ class TextExtractor:
 
     @staticmethod
     def extract_time(text):
-        if match := re.search(r"\b(\d{2}):(\d{2})\b", text):
+        pattern: r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
+        if match := re.search(pattern, text):
             hour, minute = map(int, match.groups())
             if 0 <= hour < 24 and 0 <= minute < 60:
                 return f"{hour:02d}:{minute:02d}"
@@ -42,9 +44,13 @@ class TextExtractor:
 
     @staticmethod
     def extract_total_cost(text):
-        pattern = r"TOPLAM\s*\*?\s*(\d+(?:[\s,.]\d{2})?)"
-        if match := re.search(pattern, text, re.IGNORECASE):
-            return match.group(1).replace(' ', '').replace(',', '.')
+        patterns = [
+            r"TOPLAM\s*\*?\s*(\d+(?:[\s,.]\d{2})?)",
+            r"TOPLAM\s*:?\s*([\d{1,3}(?:\.\d{3})*,]*\d+)"
+        ]
+        for pattern in patterns:
+            if match := re.search(pattern, text, re.IGNORECASE):
+                return match.group(1).replace(' ', '').replace('.', '').replace(',', '.')
         return "N/A"
 
     @staticmethod
