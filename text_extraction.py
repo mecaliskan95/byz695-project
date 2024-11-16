@@ -8,8 +8,8 @@ class TextExtractor:
             valid_offices = {office.strip().upper() for office in f.readlines()}
 
         patterns = [
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü]+)\s*V\.?D\.?",
-            r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü]+)",
+            r"\b([A-ZÇĞİÖŞÜa-zçğıöşü.\s]+)\s*V\.?D\.?", 
+            r"VERGİ\s*DAİRESİ\s*:?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)"
         ]
         
@@ -24,7 +24,7 @@ class TextExtractor:
 
     @staticmethod
     def extract_date(text):
-        pattern = r"\b(\d{1,2})[.\-/](\d{1,2})[.\-/](\d{4})\b"
+        pattern = r"\b(\d{1,2})[.\-/](\d{1,2})[.\-/,]?\s*(\d{4})\b"
         if match := re.search(pattern, text):
             day, month, year = map(int, match.groups())
             try:
@@ -35,9 +35,9 @@ class TextExtractor:
 
     @staticmethod
     def extract_time(text):
-        pattern: r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
+        pattern = r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
         if match := re.search(pattern, text):
-            hour, minute = map(int, match.groups())
+            hour, minute = map(int, match.groups()[:2])
             if 0 <= hour < 24 and 0 <= minute < 60:
                 return f"{hour:02d}:{minute:02d}"
         return "N/A"
@@ -45,33 +45,60 @@ class TextExtractor:
     @staticmethod
     def extract_total_cost(text):
         patterns = [
-            r"TOPLAM\s*\*?\s*(\d+(?:[\s,.]\d{2})?)",
-            r"TOPLAM\s*:?\s*([\d{1,3}(?:\.\d{3})*,]*\d+)"
+            r"TOPLAM\s*\*?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)",
+            r"TOPLAM\s*:?\s*(\d{1,3}(?:,\d{3})*(?:\.\d{2})?)",
+            r"TOPLAM\s*#?\s*(\d+(?:[.,\s]\d{3})*(?:[.,]\d{2})?)",
+            r"\d+\s*TOPLAM\s*#?\s*(\d+(?:[.,\s]\d{3})*(?:[.,]\d{2})?)",
+            r"TOP\s*\*?\s*(\d+(?:[.,\s]\d{3})*(?:[.,]\d{2})?)",
+            r"TUTAR\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2}|\.\d{2})?)\s*TL?",
+            r"TOPLAM\s*[\*\#:X]?\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2})?)",
         ]
         for pattern in patterns:
             if match := re.search(pattern, text, re.IGNORECASE):
-                return match.group(1).replace(' ', '').replace('.', '').replace(',', '.')
+                value = match.group(1)
+                if ',' in value and '.' in value:
+                    return value
+                elif ',' in value:
+                    return value.replace(',', '.')
+                return value
         return "N/A"
 
     @staticmethod
     def extract_vat(text):
-        pattern = r"KDV\s*\*?\s*(\d+(?:,\d{2})?)"
+        pattern = r"(?:KDV|TOPKDV)\s*[#*«]?\s*(\d+(?:,\d{2})?)"
         if match := re.search(pattern, text):
             return match.group(1).replace(',', '.')
         return "N/A"
 
     @staticmethod
     def extract_tax_office_number(text):
-        pattern = r"(?:.*)?(?:V\.?D\.?\s*:?\s*|VKN\\TCKN\s*:?\s*)(\d{10})"
-        if match := re.search(pattern, text):
-            return match.group(1)
+        patterns = [
+            r"\bV\.?D\.?\s*[./-]?\s*(\d{10})",
+            r"\bVN\.?\s*[./-]?\s*(\d{10})",
+            r"(?:V\.?D\.?|VKN\\TCKN)\s*:?\s*(\d{10})",
+            r"[^\w]\s*(\d{10})\b",
+            r"\b(\d{10})\b"
+        ]
+        for pattern in patterns:
+            if match := re.search(pattern, text):
+                return match.group(1)
         return "N/A"
 
     @staticmethod
     def extract_payment_methods(text):
-        pattern = r"\b(KREDİ KARTI|NAKİT|BANKA KARTI|ÇEK|HAVALE|EFT)\b"
+        corrections = {
+            "KREDI": "KREDI KARTI",
+            "VISA CREDIT": "KREDI KARTI",
+            "KREDİ": "KREDI KARTI",
+            "BANKA": "BANKA KARTI",
+            "VISA DEBIT": "BANKA KARTI",
+
+        }
+
+        pattern = r"\b(KREDİ KARTI|VISA CREDIT|VISA DEBIT|NAKİT|BANKA KARTI|ÇEK|HAVALE|KREDI|KREDİ|EFT|BANKA|KREDI)\b"
         if match := re.search(pattern, text, re.IGNORECASE):
-            return match.group(1).upper()
+            extracted = match.group(1).upper()
+            return corrections.get(extracted, extracted)
         return "N/A"
 
     @staticmethod

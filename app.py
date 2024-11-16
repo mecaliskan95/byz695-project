@@ -1,6 +1,4 @@
 import sys
-sys.dont_write_bytecode = True
-
 import os
 from flask import Flask, render_template, request
 import pytesseract
@@ -8,6 +6,8 @@ from config import Config
 from image_processing import ImageProcessor
 from text_extraction import TextExtractor
 import tempfile
+
+sys.dont_write_bytecode = True
 
 app = Flask(__name__)
 pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
