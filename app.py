@@ -31,7 +31,7 @@ def process_files():
     
     if texts:
         results = TextExtractor.extract_all(texts, filenames)
-        return render_template("index.html", results=results)
+        return render_template("index.html", results=results, zip=zip)
     return render_template("index.html")
 
 @app.route("/")
