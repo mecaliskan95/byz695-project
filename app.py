@@ -1,6 +1,4 @@
 import sys
-sys.dont_write_bytecode = True
-
 import os
 import csv
 from io import StringIO, BytesIO
@@ -10,6 +8,8 @@ from config import Config
 from image_processing import ImageProcessor
 from text_extraction import TextExtractor
 import tempfile
+
+sys.dont_write_bytecode = True
 
 app = Flask(__name__)
 pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
@@ -33,7 +33,7 @@ def process_files():
     
     if texts:
         results = TextExtractor.extract_all(texts, filenames)
-        return render_template("index.html", results=results)
+        return render_template("index.html", results=results, zip=zip)
     return render_template("index.html")
 
 @app.route("/export-csv", methods=["POST"])
