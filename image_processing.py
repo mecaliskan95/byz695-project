@@ -23,7 +23,7 @@ class ImageProcessor:
 
     @staticmethod
     def extract_text(image_path):
-        text = pytesseract.image_to_string(
+        raw_text = pytesseract.image_to_string(
             ImageProcessor.process_image(image_path),
             lang='tur+eng',
             config='--oem 3 --psm 6'
@@ -31,8 +31,10 @@ class ImageProcessor:
 
         valid_terms = [
             "TARİH", "SAAT", "TOPLAM", "KDV", "V.D", "TOPKDV", "KREDİ KARTI", 
-            "NAKİT", "BANKA KARTI", "TUTAR", "VKN", "VN", "V.D.", "VKN/TCKN"
+            "NAKİT", "BANKA KARTI", "TUTAR", "VKN", "VN", "V.D.", "VKN/TCKN",
+            "KART", "NAKIT", "BANKA", "İSKONTO", "ARA TOPLAM", "FİŞ NO",
+            "KASA", "KASIYER", "BELGE", "FİŞ", "SATIŞ", "ÖDEME"
         ]
 
-        corrected_text = ImageProcessor.correct_ocr_misreads(text, valid_terms)
+        corrected_text = ImageProcessor.correct_ocr_misreads(raw_text, valid_terms)
         return corrected_text

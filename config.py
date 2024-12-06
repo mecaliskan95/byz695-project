@@ -17,7 +17,3 @@ class Config:
         raise RuntimeError("Tesseract not found. Please install Tesseract or set correct path.")
 
     ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tfif', 'bmp'}
-
-    @classmethod
-    def validate_tesseract(cls):
-        return cls.TESSERACT_CMD is not None and cls.TESSERACT_CMD.exists()
