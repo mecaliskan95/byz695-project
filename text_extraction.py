@@ -4,6 +4,7 @@ from fuzzywuzzy import fuzz
 import easyocr
 
 class TextExtractor:
+    # Check if CUDA is available
     import torch
     use_gpu = torch.cuda.is_available()
     easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
@@ -206,12 +207,9 @@ class TextExtractor:
 
     @staticmethod
     def extract_with_easyocr(text, extraction_function):
-        """Modified to handle text input instead of trying to read as image"""
         try:
-            # If text is already a string, use it directly
             if isinstance(text, str):
                 return extraction_function(text)
-            # For image data, proceed with OCR
             easyocr_text = "\n".join([line[1] for line in TextExtractor.easyocr_reader.readtext(text)])
             return extraction_function(easyocr_text)
         except Exception as e:
