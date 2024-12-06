@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Scanner</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <style>
         :root {
             --primary: #4f46e5;    
@@ -15,15 +16,8 @@
             --border: #e2e8f0;       
             --success: #10b981;      
             --error: #ef4444;         
-            --warning: #f59e0b;      
             --card-background: white; 
-            --button-background: white;
             --hover-background: #eef2ff;
-            --results-header-bg: #eef2ff;
-            --summary-card-bg: #eef2ff;  
-            --processing-overlay-bg: rgba(248, 250, 252, 0.9);
-            --success-bg: #ecfdf5;   
-            --error-bg: #fef2f2; 
         }
 
         * {
@@ -295,7 +289,7 @@
             background-color: white;
             padding: 5px;
             z-index: 1000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .language-buttons {
@@ -304,9 +298,24 @@
         }
 
         .language-selector button {
-            margin-left: 5px;
-            padding: 5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 0.375rem;
+            padding: 0.3rem;
             cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .language-selector button:hover {
+            background: var(--hover-background);
+        }
+
+        .flag-icon {
+            width: 1.5em;
+            border-radius: 0.125rem;
         }
 
         .raw-text-section {
@@ -475,10 +484,8 @@
             padding: 0 0.5rem;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 </head>
 <body>
-
     <div class="container">
         <h1 data-lang-key="title">Invoice Scanner</h1>
         <p class="subtitle" data-lang-key="subtitle">Upload your invoice for instant data extraction</p>
@@ -486,10 +493,12 @@
         <div class="language-selector">
             <div class="language-buttons">
                 <button onclick="switchLanguage('en')" aria-label="Switch to English">
-                    <span class="flag-icon flag-icon-gb"></span> English
+                    <span class="flag-icon flag-icon-gb"></span>
+                    English
                 </button>
                 <button onclick="switchLanguage('tr')" aria-label="Switch to Turkish">
-                    <span class="flag-icon flag-icon-tr"></span> Türkçe
+                    <span class="flag-icon flag-icon-tr"></span>
+                    Türkçe
                 </button>
             </div>
         </div>

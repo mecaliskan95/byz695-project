@@ -1,8 +1,13 @@
 import re
 from datetime import datetime
 from fuzzywuzzy import fuzz
+import easyocr
 
 class TextExtractor:
+    import torch
+    use_gpu = torch.cuda.is_available()
+    easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
+    
     @staticmethod
     def find_sections(text):
         lines = text.splitlines()
@@ -55,7 +60,7 @@ class TextExtractor:
         return "N/A"
 
     @staticmethod
-    def extract_date(text): # CHECKED
+    def extract_date(text):
         patterns = [
             r"\b(\d{2})[.](\d{2})[.](\d{4})\b",  # DD.MM.YYYY
             r"\b(\d{2})[/](\d{2})[/](\d{4})\b",  # DD/MM/YYYY
@@ -159,20 +164,56 @@ class TextExtractor:
             
         results = []
         for text, filename in zip(texts, filenames):
-            header, body, footer = TextExtractor.find_sections(text)
-            
-            results.append({
-                "filename": filename,
-                "date": TextExtractor.extract_date(header),
-                "time": TextExtractor.extract_time(header),
-                "tax_office_name": TextExtractor.extract_tax_office_name(header),
-                "tax_office_number": TextExtractor.extract_tax_office_number(header),
-                "total_cost": TextExtractor.extract_total_cost(footer),
-                "vat": TextExtractor.extract_vat(footer),
-                "payment_methods": TextExtractor.extract_payment_methods(footer),
-                "product_names": TextExtractor.extract_product_names(body),
-                "product_costs": TextExtractor.extract_product_costs(body),
-                "text": text,
-            })
+            try:
+                header, body, footer = TextExtractor.find_sections(text)
+                
+                result = {
+                    "filename": filename,
+                    "date": TextExtractor.extract_date(header),
+                    "time": TextExtractor.extract_time(header),
+                    "tax_office_name": TextExtractor.extract_tax_office_name(header),
+                    "tax_office_number": TextExtractor.extract_tax_office_number(header),
+                    "total_cost": TextExtractor.extract_total_cost(footer),
+                    "vat": TextExtractor.extract_vat(footer),
+                    "payment_methods": TextExtractor.extract_payment_methods(footer),
+                    "product_names": TextExtractor.extract_product_names(body),
+                    "product_costs": TextExtractor.extract_product_costs(body),
+                    "text": text,
+                }
+
+                # Only use EasyOCR as fallback if primary extraction fails
+                if result["date"] == "N/A":
+                    result["date"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_date)
+                if result["time"] == "N/A":
+                    result["time"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_time)
+                if result["tax_office_name"] == "N/A":
+                    result["tax_office_name"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_tax_office_name)
+                if result["tax_office_number"] == "N/A":
+                    result["tax_office_number"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_tax_office_number)
+                if result["total_cost"] == "N/A":
+                    result["total_cost"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_total_cost)
+                if result["vat"] == "N/A":
+                    result["vat"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_vat)
+                if result["payment_methods"] == "N/A":
+                    result["payment_methods"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_payment_methods)
+
+                results.append(result)
+            except Exception as e:
+                print(f"Error processing {filename}: {str(e)}")
+                continue
         
         return results
+
+    @staticmethod
+    def extract_with_easyocr(text, extraction_function):
+        """Modified to handle text input instead of trying to read as image"""
+        try:
+            # If text is already a string, use it directly
+            if isinstance(text, str):
+                return extraction_function(text)
+            # For image data, proceed with OCR
+            easyocr_text = "\n".join([line[1] for line in TextExtractor.easyocr_reader.readtext(text)])
+            return extraction_function(easyocr_text)
+        except Exception as e:
+            print(f"EasyOCR extraction error: {e}")
+            return "N/A"

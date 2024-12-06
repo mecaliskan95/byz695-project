@@ -46,14 +46,12 @@ def export_csv():
         output = StringIO()
         writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
         
-        # Write headers
         headers = [
             'Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number',
             'Total Cost', 'VAT', 'Payment Methods', 'Products'
         ]
         writer.writerow(headers)
         
-        # Write data rows
         for row in data:
             try:
                 products_str = "; ".join([
