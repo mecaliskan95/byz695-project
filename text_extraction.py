@@ -35,9 +35,9 @@ class TextExtractor:
 
     @staticmethod
     def extract_time(text):
-        pattern: r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
+        pattern = r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
         if match := re.search(pattern, text):
-            hour, minute = map(int, match.groups())
+            hour, minute = map(int, match.groups()[:2]) 
             if 0 <= hour < 24 and 0 <= minute < 60:
                 return f"{hour:02d}:{minute:02d}"
         return "N/A"

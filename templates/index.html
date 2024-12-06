@@ -120,12 +120,18 @@
         }
 
         .results-header {
-            padding:0 0.5rem;
-            background: var(--primary-light);
-            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin: 15px 0.5rem 1rem 0.5rem;
+            padding: 0;
+        }
+
+        .results-header h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0;
         }
 
         .results-content {
@@ -164,19 +170,20 @@
             grid-template-columns: auto 1fr;
             gap: 0.5rem;
             margin-bottom: 1rem;
-            margin-left: 1rem;
+            margin-left: 0; /* Remove left margin */
         }
 
         .data-label {
             color: var(--text-light);
             font-size: 0.875rem;
             font-weight: 600;
+            margin-left: 0.5rem;
         }
 
         .data-value {
             font-size: 0.875rem;
             text-align: right;
-            margin-right: 1rem;
+            margin-right: 0.5rem;
         }
 
         .products-table {
@@ -317,9 +324,8 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
-            padding: 0.5rem;
             border-radius: 0.375rem;
-            margin-left: 0.5rem;
+            margin: 0.5rem;
         }
 
         .toggle-raw-text:hover {
@@ -336,7 +342,6 @@
 
         .raw-text-content {
             display: none;
-            margin-top: 0.5rem;
             background: var(--background);
             padding: 1rem;
             border-radius: 0.5rem;
@@ -356,8 +361,16 @@
             color: var(--text-light);
             font-size: 0.875rem;
             padding: 0.5rem;
-            margin-left: 1rem;
+            margin-left: 0; /* Remove left margin */
             margin-top: 0.2rem;
+        }
+
+        .file-indicator svg {
+            margin-left: 0.5rem;
+        }
+
+        .file-indicator .data-label {
+            margin-left: 0 !important;
         }
 
         @media (max-width: 640px) {
@@ -384,6 +397,82 @@
             gap: 1rem;
             justify-content: center;
             margin-bottom: 0.5rem;
+        }
+
+        .export-button {
+            background: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .export-button:hover {
+            opacity: 0.9;
+        }
+
+        .results-section {
+            margin-top: 2rem;
+            background: transparent;
+            border-radius: 1rem;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin: 0;
+        }
+
+        .results-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0 1rem 0;
+            padding: 0.5rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-header h2 {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .results-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 0;  /* Changed from 1rem to 0 */
+        }
+
+        .export-button {
+            margin: 0;
+        }
+
+        h1, .subtitle {
+            padding: 0 0.5rem;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
@@ -441,70 +530,84 @@
             </div>
 
             {% if results %}
-            {% for result in results %}
-            <div class="results visible" style="margin-bottom: 20px;">
-                <div class="file-indicator">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    <span>
-                        <span data-lang-key="uploadedFile" class="data-label">Uploaded File: </span>
-                        <span style="color: var(--text); font-weight: 600;">{{ result.filename }}</span>
-                    </span>
+            <div class="results-section">
+                <div class="results-header">
+                    <h2 data-lang-key="extractionResults">Extraction Results</h2>
+                    <button type="button" class="upload-button export" onclick="exportToCsv()" data-lang-key="exportButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        <span data-lang-key="exportButton">Export to CSV</span>
+                    </button>
                 </div>
-                <div class="results-content">
-                    <div class="summary-card">
-                        <div class="summary-item">
-                            <div class="summary-label" data-lang-key="totalAmount">Total Amount</div>
-                            <div class="summary-value">{{ result.total_cost }} ₺</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label" data-lang-key="vat">VAT</div>
-                            <div class="summary-value">{{ result.vat }} ₺</div>
-                        </div>
-                    </div>
-                    <div class="data-grid">
-                        <span class="data-label" data-lang-key="invoiceDate">Invoice Date</span>
-                        <span class="data-value">{{ result.date }}</span>
-                        <span class="data-label" data-lang-key="invoiceTime">Invoice Time</span>
-                        <span class="data-value">{{ result.time }}</span>
-                        <span class="data-label" data-lang-key="taxOfficeName">Tax Office Name</span>
-                        <span class="data-value">{{ result.tax_office_name }}</span>
-                        <span class="data-label" data-lang-key="taxOfficeNumber">Tax Office Number</span>
-                        <span class="data-value">{{ result.tax_office_number }}</span>
-                        <span class="data-label" data-lang-key="paymentMethods">Payment Methods</span>
-                        <span class="data-value">{{ result.payment_methods }}</span>
-                    </div>
-                    {% if result.product_names %}
-                    <table class="products-table">
-                        <thead>
-                            <tr>
-                                <th data-lang-key="item">Item</th>
-                                <th data-lang-key="cost">Cost</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for product, cost in zip(result.product_names, result.product_costs) %}
-                            <tr>
-                                <td>{{ product }}</td>
-                                <td>{{ cost }} ₺</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% endif %}
-                    <div class="raw-text-section">
-                        <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
+                
+                <div class="results-grid">
+                {% for result in results %}
+                    <div class="result-card">
+                        <div class="file-indicator">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
-                            <span data-lang-key="showRawText">Show Raw Text Output</span>
-                        </button>
-                        <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{ result.text }}</pre></div>
+                            <span>
+                                <span data-lang-key="uploadedFile" class="data-label">Uploaded File: </span>
+                                <span style="color: var(--text); font-weight: 600;">{{ result.filename }}</span>
+                            </span>
+                        </div>
+                        <div class="results-content">
+                            <div class="summary-card">
+                                <div class="summary-item">
+                                    <div class="summary-label" data-lang-key="totalAmount">Total Amount</div>
+                                    <div class="summary-value">{{ result.total_cost }} ₺</div>
+                                </div>
+                                <div class="summary-item">
+                                    <div class="summary-label" data-lang-key="vat">VAT</div>
+                                    <div class="summary-value">{{ result.vat }} ₺</div>
+                                </div>
+                            </div>
+                            <div class="data-grid">
+                                <span class="data-label" data-lang-key="invoiceDate">Invoice Date</span>
+                                <span class="data-value">{{ result.date }}</span>
+                                <span class="data-label" data-lang-key="invoiceTime">Invoice Time</span>
+                                <span class="data-value">{{ result.time }}</span>
+                                <span class="data-label" data-lang-key="taxOfficeName">Tax Office Name</span>
+                                <span class="data-value">{{ result.tax_office_name }}</span>
+                                <span class="data-label" data-lang-key="taxOfficeNumber">Tax Office Number</span>
+                                <span class="data-value">{{ result.tax_office_number }}</span>
+                                <span class="data-label" data-lang-key="paymentMethods">Payment Methods</span>
+                                <span class="data-value">{{ result.payment_methods }}</span>
+                            </div>
+                            {% if result.product_names %}
+                            <table class="products-table">
+                                <thead>
+                                    <tr>
+                                        <th data-lang-key="item">Item</th>
+                                        <th data-lang-key="cost">Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product, cost in zip(result.product_names, result.product_costs) %}
+                                    <tr>
+                                        <td>{{ product }}</td>
+                                        <td>{{ cost }} ₺</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            {% endif %}
+                            <div class="raw-text-section">
+                                <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                    <span data-lang-key="showRawText">Show Raw Text Output</span>
+                                </button>
+                                <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{ result.text }}</pre></div>
+                            </div>
+                        </div>
                     </div>
+                {% endfor %}
                 </div>
             </div>
-            {% endfor %}
             {% endif %}
         </form>
     </div>
@@ -530,7 +633,10 @@
                 paymentMethods: "Payment Methods",
                 uploadFileButton: "Upload File(s)",
                 uploadFolderButton: "Upload Folder",
-                uploadedFile: "Uploaded File: "
+                uploadedFile: "Uploaded File: ",
+                exportButton: "Export to CSV",
+                processedInvoices: "Processed",
+                invoicesCount: "invoice(s)"
             },
             tr: {
                 title: "Fatura Tarayıcı",
@@ -551,7 +657,10 @@
                 paymentMethods: "Ödeme Yöntemi",
                 uploadFileButton: "Dosya(lar) Yükle",
                 uploadFolderButton: "Klasör Yükle",
-                uploadedFile: "Yüklenen Dosya: "
+                uploadedFile: "Yüklenen Dosya: ",
+                exportButton: "CSV Olarak İndir",
+                processedInvoices: "İşlenen",
+                invoicesCount: "fatura"
             }
         };
 
@@ -592,14 +701,20 @@
 
         function handleUpload(event) {
             event.preventDefault();
+            
             const fileInput = document.getElementById('fileInput');
             const folderInput = document.getElementById('folderInput');
             let files = [];
             
-            if (fileInput.files.length > 0) {
-                files = fileInput.files;
-            } else if (folderInput.files.length > 0) {
-                files = folderInput.files;
+            if (event.type === 'change') {
+                // Handle file input change
+                files = event.target.files;
+            } else if (event.type === 'drop') {
+                // Handle drag and drop
+                files = event.dataTransfer.files;
+            } else if (event.type === 'submit') {
+                // Handle form submission
+                files = fileInput.files.length ? fileInput.files : folderInput.files;
             }
             
             if (!files.length) {
@@ -614,33 +729,28 @@
 
             showProcessingOverlay();
 
-            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', window.location.href, true);
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    const scrollPos = window.scrollY;
-                    document.documentElement.innerHTML = xhr.responseText;
-                    currentLang = savedLang;
-                    attachEventListeners();
-                    updateContent();
-                    const results = document.querySelector('.results');
-                    if (results) {
-                        results.classList.add('visible');
-                        showStatus('File(s) processed successfully', 'success');
-                    }
-                    window.scrollTo(0, scrollPos);
-                } else {
-                    showStatus('Error uploading file', 'error');
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.documentElement.innerHTML = html;
+                const results = document.querySelector('.results');
+                if (results) {
+                    results.classList.add('visible');
+                    showStatus('File(s) processed successfully', 'success');
                 }
+                attachEventListeners();
+                updateContent();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showStatus('Error uploading file', 'error');
+            })
+            .finally(() => {
                 hideProcessingOverlay();
-            };
-            xhr.onerror = function() {
-                showStatus('Network error occurred', 'error');
-                hideProcessingOverlay();
-            };
-            xhr.send(formData);
+            });
         }
 
         function attachEventListeners() {
@@ -649,29 +759,22 @@
             const dropZone = document.getElementById('dropZone');
             const form = document.getElementById('uploadForm');
 
-            fileInput.addEventListener('change', handleUpload);
-            folderInput.addEventListener('change', handleUpload);
-            form.addEventListener('submit', handleUpload);
+            if (fileInput) fileInput.addEventListener('change', handleUpload);
+            if (folderInput) folderInput.addEventListener('change', handleUpload);
+            if (form) form.addEventListener('submit', handleUpload);
 
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
-                dropZone.addEventListener(event, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+            if (dropZone) {
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+                    dropZone.addEventListener(event, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    });
                 });
-            });
 
-            dropZone.addEventListener('dragenter', () => dropZone.classList.add('drag-over'));
-            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-            dropZone.addEventListener('drop', (e) => {
-                dropZone.classList.remove('drag-over');
-                const items = e.dataTransfer.items;
-                if (items && items[0].webkitGetAsEntry().isDirectory) {
-                    folderInput.files = e.dataTransfer.files;
-                } else {
-                    fileInput.files = e.dataTransfer.files;
-                }
-                handleUpload(e);
-            });
+                dropZone.addEventListener('dragenter', () => dropZone.classList.add('drag-over'));
+                dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+                dropZone.addEventListener('drop', handleUpload);
+            }
         }
 
         function showProcessingOverlay() {
@@ -705,6 +808,64 @@
                 folderInput.click();
             }
         }
+
+        function exportToCsv() {
+            const results = Array.from(document.querySelectorAll('.result-card')).map(result => {
+                const products = Array.from(result.querySelectorAll('.products-table tbody tr') || []).map(row => ({
+                    name: row.querySelector('td:first-child').textContent.trim(),
+                    cost: row.querySelector('td:last-child').textContent.replace(' ₺', '').trim()
+                }));
+
+                // Fix filename extraction
+                const filename = result.querySelector('.file-indicator span span:last-child').textContent.trim();
+
+                return {
+                    filename: filename,
+                    date: result.querySelector('[data-lang-key="invoiceDate"] + .data-value').textContent.trim(),
+                    time: result.querySelector('[data-lang-key="invoiceTime"] + .data-value').textContent.trim(),
+                    tax_office_name: result.querySelector('[data-lang-key="taxOfficeName"] + .data-value').textContent.trim(),
+                    tax_office_number: result.querySelector('[data-lang-key="taxOfficeNumber"] + .data-value').textContent.trim(),
+                    total_cost: result.querySelector('.summary-value').textContent.replace(' ₺', '').trim(),
+                    vat: result.querySelector('.summary-item:last-child .summary-value').textContent.replace(' ₺', '').trim(),
+                    payment_methods: result.querySelector('[data-lang-key="paymentMethods"] + .data-value').textContent.trim(),
+                    products: products
+                };
+            });
+
+            console.log('Exporting data:', results); // Debug log
+
+            fetch('/export-csv', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(results)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.blob();
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'invoice_data.csv';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+                showStatus('CSV exported successfully', 'success');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showStatus('Error exporting CSV: ' + error.message, 'error');
+            });
+        }
+
     </script>
 </body>
 </html>
