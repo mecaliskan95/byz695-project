@@ -1,99 +1,114 @@
 # Invoice Scanner
 
-A web-based tool that extracts key information from Turkish invoices using OCR technology. The application supports multiple file uploads and provides a clean interface to view extracted data.
+A powerful OCR-based tool for extracting data from Turkish invoices with support for multiple file formats and bilingual interface.
 
-## Features
+## 🚀 Key Features
 
-- Extract invoice data including:
-  - Date and time
-  - Tax office name and number
-  - Total cost and VAT
+- **Advanced OCR Processing**
+  - Multi-language support (Turkish/English)
+  - CUDA-accelerated processing
+  - Intelligent text correction
+  - Fuzzy matching for tax office validation
+
+- **User Interface**
+  - Drag-and-drop file upload
+  - Folder upload support
+  - Bilingual interface (EN/TR)
+  - Mobile-responsive design
+  - Real-time processing status
+
+- **Data Extraction**
+  - Invoice date and time
+  - Tax office details
+  - Cost breakdown
   - Payment methods
-- Support for multiple file formats (JPG, JPEG, PNG, PDF, ZIP)
-- Folder upload support
-- Drag and drop interface
-- Bilingual support (English/Turkish)
-- Raw text output viewing
-- Responsive design
+  - Product listings
+  - VAT calculations
 
-## Prerequisites
+- **Export Options**
+  - CSV export with full details
+  - Raw text extraction
+  - Structured data format
+
+## 🔧 System Requirements
 
 - Python 3.8+
-- Tesseract OCR ([Download](https://github.com/UB-Mannheim/tesseract/wiki))
-- EasyOCR ([Installation](https://github.com/JaidedAI/EasyOCR#installation))
-- Turkish and English language data for Tesseract and EasyOCR
+- 4GB RAM minimum
 - CUDA-compatible GPU (optional, for faster processing)
-- At least 4GB RAM
+- Tesseract OCR
+- Turkish and English language data for Tesseract and EasyOCR
 
-## Installation
+## 📦 Quick Start
 
-1. Clone the repository:
+1. **Clone & Setup**
     ```sh
     git clone https://github.com/yourusername/byz695-project.git
     cd byz695-project
     ```
 
-2. Install required Python packages:
+2. **Install Dependencies**
     ```sh
     pip install -r requirements.txt
     ```
 
-3. Configure Tesseract path in `config.py`:
+3. **Verify Installation**
+    - Ensure Tesseract is installed in one of these locations:
     ```python
-    TESSERACT_CMD = Path(r'c:\Program Files\Tesseract-OCR\tesseract.exe')
+    c:\Program Files\Tesseract-OCR\tesseract.exe
+    c:\Users\[username]\AppData\Local\Programs\Tesseract-OCR\tesseract.exe
     ```
 
-## Configuration
+## ⚙️ Configuration
 
-1. Verify Tesseract installation:
+1. **Verify Tesseract Installation**
     ```sh
     tesseract --version
     ```
 
-2. Ensure language data is installed:
+2. **Check Language Data**
     ```sh
     tesseract --list-langs
     ```
-   Should show both 'eng' and 'tur'
+   Ensure 'eng' and 'tur' are listed.
 
-3. Test CUDA availability (optional):
+3. **Test CUDA (Optional)
     ```python
     import torch
     print(torch.cuda.is_available())
     ```
 
-## Usage
+## 🚀 Usage
 
-1. Start the Flask application:
+1. **Start the Application**
     ```sh
     python app.py
     ```
 
-2. Open a web browser and navigate to:
+2. **Access the Web Interface**
     ```
     http://localhost:5000
     ```
 
-3. Upload invoice images through the web interface using either:
-    - File upload button
-    - Folder upload button
-    - Drag and drop
+3. **Upload Invoices**
+    - Use the file upload button
+    - Use the folder upload button
+    - Drag and drop files
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 byz695-project/
 ├── app.py                 # Main Flask application
-├── config.py             # Configuration settings
-├── image_processing.py   # Image processing utilities
-├── text_extraction.py    # Text extraction logic
-├── requirements.txt      # Python dependencies
-├── vergidaireleri.txt   # List of valid tax offices
+├── config.py              # Configuration settings
+├── image_processing.py    # Image processing utilities
+├── text_extraction.py     # Text extraction logic
+├── requirements.txt       # Python dependencies
+├── vergidaireleri.txt     # List of valid tax offices
 └── templates/
-    └── index.html       # Web interface template
+    └── index.html         # Web interface template
 ```
 
-## Text Extraction Features
+## 📝 Text Extraction Details
 
 The application extracts the following information from invoices:
 
@@ -105,21 +120,21 @@ The application extracts the following information from invoices:
 - VAT amount
 - Payment method
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - Tesseract OCR for text recognition
 - EasyOCR for text recognition
 - Flask for the web framework
 - OpenCV for image processing
 
-## Troubleshooting
+## 🛠️ Troubleshooting
 
 If you encounter issues, ensure that:
 - Tesseract is correctly installed and its path is configured in `config.py`.
 - All required Python packages are installed.
 - The invoice images are clear and readable.
 
-## FAQ
+## ❓ FAQ
 
 **Q: What file formats are supported?**
 A: The application supports JPG, JPEG, PNG, PDF, and ZIP files.
@@ -127,20 +142,20 @@ A: The application supports JPG, JPEG, PNG, PDF, and ZIP files.
 **Q: Can I upload multiple files at once?**
 A: Yes, the application supports multiple file uploads and folder uploads.
 
-## Areas for Improvement
+## 🚀 Areas for Improvement
 
-1. OCR Accuracy
+1. **OCR Accuracy**
    - Implement pre-processing filters for better image quality
    - Add support for rotated/skewed documents
    - Improve text recognition accuracy for handwritten text
 
-2. Performance
+2. **Performance**
    - Implement batch processing for multiple files
    - Add caching mechanism for processed files
    - Optimize image processing pipeline
    - Implement parallel processing for multiple files
 
-3. Features
+3. **Features**
    - Add support for more invoice formats
    - Implement invoice template matching
    - Add data validation and correction
@@ -148,19 +163,19 @@ A: Yes, the application supports multiple file uploads and folder uploads.
    - Add user authentication system
    - Implement API endpoints for integration
 
-4. UI/UX
+4. **UI/UX**
    - Add progress indicators for batch processing
    - Implement preview functionality
    - Add dark mode support
    - Improve mobile responsiveness
    - Add keyboard shortcuts
 
-5. Security
+5. **Security**
    - Implement input validation
    - Add file type verification
    - Implement rate limiting
    - Add secure file handling
 
-## Contact
+## 📧 Contact
 
 For any questions or support, please contact [mertcaliskan95@gmail.com](mailto:mertcaliskan95@gmail.com).
