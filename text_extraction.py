@@ -182,7 +182,6 @@ class TextExtractor:
                     "text": text,
                 }
 
-                # Only use EasyOCR as fallback if primary extraction fails
                 if result["date"] == "N/A":
                     result["date"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_date)
                 if result["time"] == "N/A":
