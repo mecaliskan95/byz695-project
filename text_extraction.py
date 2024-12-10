@@ -2,38 +2,141 @@ import re
 from datetime import datetime
 from fuzzywuzzy import fuzz
 import easyocr
+import difflib
+import pytesseract
+import torch
+import os  # Add this import
+from image_processing import ImageProcessor
+
+def find_lines_starting_with_or_similar(word, text, threshold=0.7):
+    lines = text.split('\n')
+    matching_lines = []
+    matching_line_numbers = []
+    
+    for i, line in enumerate(lines):
+        if line.strip().startswith(word) or any(fuzz.ratio(word.lower(), w.lower()) > threshold * 100 for w in line.split()):
+            matching_lines.append(line)
+            matching_line_numbers.append(i)
+            
+    return matching_lines, matching_line_numbers
+
+def search_similar_word_in_text(word, text, cutoff=0.6):
+    # Split the text into lines
+    lines = text.split('\n')
+    matching_lines = []
+    matching_matching_line_numbers = []
+    matching_word = []
+    match_type = []
+    
+    for line in range(len(lines)):
+        words = lines[line].split()
+
+        if word in words:
+            match_type.append("exact match")
+            matching_lines.append(lines[line])
+            matching_matching_line_numbers.append(line)
+            matching_word.append(word)
+            continue
+            
+        close_matches = difflib.get_close_matches(word, words, n=1, cutoff=cutoff)
+        if close_matches:
+            match_type.append("similar match")
+            matching_lines.append(lines[line])
+            matching_matching_line_numbers.append(line)
+            matching_word.append(close_matches)
+
+    if not matching_lines:
+        return matching_lines, matching_matching_line_numbers, match_type, matching_word
+
+    return matching_lines, matching_matching_line_numbers, match_type, matching_word
 
 class TextExtractor:
-    # Check if CUDA is available
-    import torch
     use_gpu = torch.cuda.is_available()
     easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
     
     @staticmethod
-    def find_sections(text):
-        lines = text.splitlines()
-        header_end = 0
-        footer_start = len(lines)
-        
-        terms = {
-            'header': {'TARİH', 'SAAT', 'FİŞ', 'VERGİ', 'VKN', 'VD', 'ADRES'},
-            'footer': {'KDV', 'TOPLAM', 'NAKİT', 'KART', 'TUTAR', 'TOPKDV'}
-        }
-        
-        for i, line in enumerate(lines):
-            words = set(line.upper().split())
-            if any(fuzz.ratio(term, word) > 80 for term in terms['header'] for word in words):
-                header_end = max(header_end, i + 1)
-            if any(fuzz.ratio(term, word) > 80 for term in terms['footer'] for word in words):
-                footer_start = i
-                break
+    def extract_with_pytesseract(image_path):
+        if not os.path.isfile(image_path):
+            return None
+        processed_image = ImageProcessor.process_image(image_path)
+        if processed_image is None:
+            return None
+        return pytesseract.image_to_string(
+            processed_image,
+            lang='tur+eng',
+            config='--oem 3 --psm 6'
+        ).upper()
 
-        header = '\n'.join(lines[:header_end])
-        body = '\n'.join(lines[header_end:footer_start])
-        footer = '\n'.join(lines[footer_start:])
+    @staticmethod
+    def extract_with_easyocr(image_path):
+        if not os.path.isfile(image_path):
+            return None
+        result = TextExtractor.easyocr_reader.readtext(image_path)
+        return "\n".join([line[1] for line in result]).upper() if result else None
+
+    @staticmethod
+    def divideText(text):
+        lines = text.split('\n')
+
+        a, lines_a, match_type_a, match_word_a = search_similar_word_in_text("tarih", text.lower(), 0.7)
+        b, lines_b, match_type_b, match_word_b = search_similar_word_in_text("saat", text.lower(), 0.7)
+        c, lines_c, match_type_c, match_word_c = search_similar_word_in_text("fis", text.lower(), 0.6)
+
+        d, lines_d, match_type_d, match_word_d = search_similar_word_in_text("topkdv", text.lower(), 0.7)
+        e, lines_e, match_type_e, match_word_e = search_similar_word_in_text("kdv", text.lower(), 0.6)
+        kdv, line_kdv = find_lines_starting_with_or_similar("TOPKDV", text)
+
+        f, lines_f, match_type_f, match_word_f = search_similar_word_in_text("top", text.lower(), 0.6)
+        g, lines_g, match_type_g, match_word_g = search_similar_word_in_text("toplam", text.lower(), 0.7)
+        top, line_top = find_lines_starting_with_or_similar("TOPLAM", text.lower())
+
+        non_empty_lists = [lst[0] for lst in [lines_a, lines_b, lines_c] if lst]
+        firstLast = max(non_empty_lists) if non_empty_lists else None
+
+        non_empty_lists = [lst[0] for lst in [lines_d, lines_e, lines_f, lines_g] if lst]
+        thirdBegin = min(non_empty_lists) if non_empty_lists else None
+
+        if firstLast is None:
+            firstLast = 0
+        if thirdBegin is None:
+            thirdBegin = len(lines)
+
+        return firstLast, thirdBegin
+
+    @staticmethod
+    def extract_all(texts, filenames=None):
+        if filenames is None:
+            filenames = ["Unnamed"] * len(texts)
+            
+        results = []
+        for image_path, filename in zip(texts, filenames):
+            text1 = TextExtractor.extract_with_pytesseract(image_path)
+            text2 = TextExtractor.extract_with_easyocr(image_path)
+
+            def extract_field(extraction_method):
+                if text1:
+                    result = extraction_method(text1)
+                    if result and result != "N/A":
+                        return result
+                if text2:
+                    result = extraction_method(text2)
+                    if result and result != "N/A":
+                        return result
+                return "N/A"
+
+            results.append({
+                "filename": filename,
+                "date": extract_field(TextExtractor.extract_date),
+                "time": extract_field(TextExtractor.extract_time),
+                "tax_office_name": extract_field(TextExtractor.extract_tax_office_name),
+                "tax_office_number": extract_field(TextExtractor.extract_tax_office_number),
+                "total_cost": extract_field(TextExtractor.extract_total_cost),
+                "vat": extract_field(TextExtractor.extract_vat),
+                "payment_methods": extract_field(TextExtractor.extract_payment_methods)
+            })
         
-        return header, body, footer
-    
+        return results
+
     @staticmethod
     def extract_tax_office_name(text):
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
@@ -66,6 +169,8 @@ class TextExtractor:
             r"\b(\d{2})[.](\d{2})[.](\d{4})\b",  # DD.MM.YYYY
             r"\b(\d{2})[/](\d{2})[/](\d{4})\b",  # DD/MM/YYYY
             r"\b(\d{2})[-](\d{2})[-](\d{4})\b"   # DD-MM-YYYY
+            r'\b\d{4}/\d{2}/\d{2}\b',  # YYYY/MM/DD
+            r'\b\d{4}-\d{2}-\d{2}\b'  # YYYY-MM-DD
         ]
         for pattern in patterns:
             if match := re.search(pattern, text):
@@ -134,83 +239,3 @@ class TextExtractor:
             extracted = match.group(1).upper()
             return corrections.get(extracted, extracted)
         return "N/A"
-
-    @staticmethod
-    def extract_product_names(text):
-        names = []
-        for line in text.splitlines():
-            if match := re.search(r"(.+?)\s*\*\s*[\d.,]+\s*(?:TL)?$", line):
-                name = match.group(1).strip()
-                if name and len(name) > 1:
-                    names.append(name)
-        return names
-
-    @staticmethod
-    def extract_product_costs(text):
-        costs = []
-        for line in text.splitlines():
-            if match := re.search(r".+?\s*\*\s*([\d.,]+)\s*(?:TL)?$", line):
-                try:
-                    cost = float(match.group(1).replace(',', '.').strip('₺ '))
-                    if cost > 0:
-                        costs.append(cost)
-                except ValueError:
-                    continue
-        return costs
-
-    @staticmethod
-    def extract_all(texts, filenames=None):
-        if filenames is None:
-            filenames = ["Unnamed"] * len(texts)
-            
-        results = []
-        for text, filename in zip(texts, filenames):
-            try:
-                header, body, footer = TextExtractor.find_sections(text)
-                
-                result = {
-                    "filename": filename,
-                    "date": TextExtractor.extract_date(header),
-                    "time": TextExtractor.extract_time(header),
-                    "tax_office_name": TextExtractor.extract_tax_office_name(header),
-                    "tax_office_number": TextExtractor.extract_tax_office_number(header),
-                    "total_cost": TextExtractor.extract_total_cost(footer),
-                    "vat": TextExtractor.extract_vat(footer),
-                    "payment_methods": TextExtractor.extract_payment_methods(footer),
-                    "product_names": TextExtractor.extract_product_names(body),
-                    "product_costs": TextExtractor.extract_product_costs(body),
-                    "text": text,
-                }
-
-                if result["date"] == "N/A":
-                    result["date"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_date)
-                if result["time"] == "N/A":
-                    result["time"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_time)
-                if result["tax_office_name"] == "N/A":
-                    result["tax_office_name"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_tax_office_name)
-                if result["tax_office_number"] == "N/A":
-                    result["tax_office_number"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_tax_office_number)
-                if result["total_cost"] == "N/A":
-                    result["total_cost"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_total_cost)
-                if result["vat"] == "N/A":
-                    result["vat"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_vat)
-                if result["payment_methods"] == "N/A":
-                    result["payment_methods"] = TextExtractor.extract_with_easyocr(text, TextExtractor.extract_payment_methods)
-
-                results.append(result)
-            except Exception as e:
-                print(f"Error processing {filename}: {str(e)}")
-                continue
-        
-        return results
-
-    @staticmethod
-    def extract_with_easyocr(text, extraction_function):
-        try:
-            if isinstance(text, str):
-                return extraction_function(text)
-            easyocr_text = "\n".join([line[1] for line in TextExtractor.easyocr_reader.readtext(text)])
-            return extraction_function(easyocr_text)
-        except Exception as e:
-            print(f"EasyOCR extraction error: {e}")
-            return "N/A"

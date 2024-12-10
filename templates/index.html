@@ -318,51 +318,6 @@
             border-radius: 0.125rem;
         }
 
-        .raw-text-section {
-            margin-top: 1rem;
-            border-top: 1px solid var(--border);
-            padding-top: 0.5rem;
-        }
-
-        .toggle-raw-text {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            border-radius: 0.375rem;
-            margin: 0.5rem;
-        }
-
-        .toggle-raw-text:hover {
-            background: var(--primary-light);
-        }
-
-        .toggle-raw-text svg {
-            transition: transform 0.2s;
-        }
-
-        .toggle-raw-text.active svg {
-            transform: rotate(180deg);
-        }
-
-        .raw-text-content {
-            display: none;
-            background: var(--background);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            white-space: pre-wrap;
-            font-size: 0.875rem;
-            line-height: 1.5;
-        }
-
-        .raw-text-content.visible {
-            display: block;
-        }
-
         .file-indicator {
             display: flex;
             align-items: center;
@@ -585,33 +540,6 @@
                                 <span class="data-label" data-lang-key="paymentMethods">Payment Methods</span>
                                 <span class="data-value">{{ result.payment_methods }}</span>
                             </div>
-                            {% if result.product_names %}
-                            <table class="products-table">
-                                <thead>
-                                    <tr>
-                                        <th data-lang-key="item">Item</th>
-                                        <th data-lang-key="cost">Cost</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for product, cost in zip(result.product_names, result.product_costs) %}
-                                    <tr>
-                                        <td>{{ product }}</td>
-                                        <td>{{ cost }} ₺</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            {% endif %}
-                            <div class="raw-text-section">
-                                <button class="toggle-raw-text" data-lang-key="showRawText" onclick="toggleRawText(event, '{{ loop.index }}')" aria-label="Toggle raw text">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                    </svg>
-                                    <span data-lang-key="showRawText">Show Raw Text Output</span>
-                                </button>
-                                <div class="raw-text-content" id="rawTextContent-{{ loop.index }}"><pre>{{ result.text }}</pre></div>
-                            </div>
                         </div>
                     </div>
                 {% endfor %}
@@ -794,15 +722,6 @@
             document.getElementById('processingOverlay').classList.remove('visible');
         }
 
-        function toggleRawText(event, index) {
-            event.preventDefault();
-            const button = event.currentTarget;
-            const content = document.getElementById(`rawTextContent-${index}`);
-            
-            content.classList.toggle('visible');
-            button.classList.toggle('active');
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             updateContent();
             attachEventListeners();
@@ -819,27 +738,16 @@
         }
 
         function exportToCsv() {
-            const results = Array.from(document.querySelectorAll('.result-card')).map(result => {
-                const products = Array.from(result.querySelectorAll('.products-table tbody tr') || []).map(row => ({
-                    name: row.querySelector('td:first-child').textContent.trim(),
-                    cost: row.querySelector('td:last-child').textContent.replace(' ₺', '').trim()
-                }));
-
-                // Fix filename extraction
-                const filename = result.querySelector('.file-indicator span span:last-child').textContent.trim();
-
-                return {
-                    filename: filename,
-                    date: result.querySelector('[data-lang-key="invoiceDate"] + .data-value').textContent.trim(),
-                    time: result.querySelector('[data-lang-key="invoiceTime"] + .data-value').textContent.trim(),
-                    tax_office_name: result.querySelector('[data-lang-key="taxOfficeName"] + .data-value').textContent.trim(),
-                    tax_office_number: result.querySelector('[data-lang-key="taxOfficeNumber"] + .data-value').textContent.trim(),
-                    total_cost: result.querySelector('.summary-value').textContent.replace(' ₺', '').trim(),
-                    vat: result.querySelector('.summary-item:last-child .summary-value').textContent.replace(' ₺', '').trim(),
-                    payment_methods: result.querySelector('[data-lang-key="paymentMethods"] + .data-value').textContent.trim(),
-                    products: products
-                };
-            });
+            const results = Array.from(document.querySelectorAll('.result-card')).map(result => ({
+                filename: result.querySelector('.file-indicator span span:last-child').textContent.trim(),
+                date: result.querySelector('[data-lang-key="invoiceDate"] + .data-value').textContent.trim(),
+                time: result.querySelector('[data-lang-key="invoiceTime"] + .data-value').textContent.trim(),
+                tax_office_name: result.querySelector('[data-lang-key="taxOfficeName"] + .data-value').textContent.trim(),
+                tax_office_number: result.querySelector('[data-lang-key="taxOfficeNumber"] + .data-value').textContent.trim(),
+                total_cost: result.querySelector('.summary-value').textContent.replace(' ₺', '').trim(),
+                vat: result.querySelector('.summary-item:last-child .summary-value').textContent.replace(' ₺', '').trim(),
+                payment_methods: result.querySelector('[data-lang-key="paymentMethods"] + .data-value').textContent.trim()
+            }));
 
             console.log('Exporting data:', results); // Debug log
 
