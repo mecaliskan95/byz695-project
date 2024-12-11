@@ -10,9 +10,13 @@ import tempfile
 import shutil
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
-pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
+pytesseract.pytesseract.tesseract_cmd = str(Config.TESSERACT_CMD)
 
 def save_uploaded_files():
     """Save uploaded files to temporary directory"""
@@ -34,9 +38,11 @@ def save_uploaded_files():
             files_info['paths'].append(filepath)
             files_info['names'].append(filename)
             
+        logging.debug(f"Files saved: {files_info['names']}")
         return files_info
         
-    except Exception:
+    except Exception as e:
+        logging.error(f"Error saving files: {e}")
         shutil.rmtree(temp_dir, ignore_errors=True)
         return {'dir': None, 'paths': [], 'names': []}
 
@@ -44,6 +50,7 @@ async def process_files(files_info):
     loop = asyncio.get_event_loop()
     with ThreadPoolExecutor() as pool:
         results = await loop.run_in_executor(pool, TextExtractor.extract_all, files_info['paths'], files_info['names'])
+    logging.debug(f"Processing results: {results}")
     return results
 
 @app.route("/", methods=["GET", "POST"])
@@ -58,14 +65,7 @@ async def index():
             results = await process_files(files_info)
             
             for result in results:
-                print(f"Filename: {result['filename']}")
-                print(f"Date Method: {result['date_method']}")
-                print(f"Time Method: {result['time_method']}")
-                print(f"Tax Office Name Method: {result['tax_office_name_method']}")
-                print(f"Tax Office Number Method: {result['tax_office_number_method']}")
-                print(f"Total Cost Method: {result['total_cost_method']}")
-                print(f"VAT Method: {result['vat_method']}")
-                print(f"Payment Methods Method: {result['payment_methods_method']}")
+                logging.debug(f"Result for {result['filename']}: {result}")
             
             return render_template("index.html", results=results, zip=zip)
         return render_template("index.html")

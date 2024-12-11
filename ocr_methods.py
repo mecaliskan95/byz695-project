@@ -17,9 +17,6 @@ from multiprocessing import Pool
 import hashlib
 import logging
 
-# Suppress TensorFlow INFO and WARNING messages
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
 class OCRMethods:
     use_gpu = torch.cuda.is_available()
     easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
@@ -36,16 +33,7 @@ class OCRMethods:
             return set()
 
     @staticmethod
-    def get_cache_key(image_path):
-        with open(image_path, 'rb') as f:
-            return hashlib.md5(f.read()).hexdigest()
-
-    @staticmethod
     def extract_with_pytesseract(image_path):
-        cache_key = OCRMethods.get_cache_key(image_path)
-        if cache_key in OCRMethods.cache:
-            return OCRMethods.cache[cache_key]
-        
         if not os.path.isfile(image_path):
             return None
         processed_image = ImageProcessor.process_image(image_path)
@@ -56,15 +44,10 @@ class OCRMethods:
             lang='tur+eng',
             config='--oem 3 --psm 6'
         ).upper()
-        OCRMethods.cache[cache_key] = text
         return text
 
     @staticmethod
     def extract_with_easyocr(image_path):
-        cache_key = OCRMethods.get_cache_key(image_path)
-        if cache_key in OCRMethods.cache:
-            return OCRMethods.cache[cache_key]
-        
         if not os.path.isfile(image_path):
             print(f"File not found: {image_path}")
             return None
@@ -76,44 +59,13 @@ class OCRMethods:
             if not result:
                 print(f"No text found in image: {image_path}")
             text = "\n".join([line[1] for line in result]).upper() if result else None
-            OCRMethods.cache[cache_key] = text
             return text
         except Exception as e:
             print(f"Error during easyocr processing: {e}")
             return None
 
-    # @staticmethod
-    # def extract_with_llamaocr(image_path):
-    #     cache_key = OCRMethods.get_cache_key(image_path)
-    #     if cache_key in OCRMethods.cache:
-    #         return OCRMethods.cache[cache_key]
-        
-    #     if not os.path.isfile(image_path):
-    #         print(f"File not found: {image_path}")
-    #         return None
-    #     try:
-    #         result = subprocess.run(
-    #             ['node', 'app.js', image_path],
-    #             capture_output=True,
-    #             text=True,
-    #             check=True
-    #         )
-    #         if result.returncode != 0:
-    #             print(f"Llama OCR error: {result.stderr.strip()}")
-    #             return None
-    #         text = result.stdout.strip().replace('**', '\n**')
-    #         OCRMethods.cache[cache_key] = text
-    #         return text
-    #     except subprocess.CalledProcessError as e:
-    #         print(f"Error during llama-ocr processing: {e}")
-    #         return None
-
     @staticmethod
     def extract_with_paddleocr(image_path):
-        cache_key = OCRMethods.get_cache_key(image_path)
-        if cache_key in OCRMethods.cache:
-            return OCRMethods.cache[cache_key]
-        
         if not os.path.isfile(image_path):
             print(f"File not found: {image_path}")
             return None
@@ -122,7 +74,6 @@ class OCRMethods:
             if not result:
                 print(f"No text found in image: {image_path}")
             text = "\n".join([line[1][0] for line in result[0]]).upper() if result else None
-            OCRMethods.cache[cache_key] = text
             return text
         except Exception as e:
             print(f"Error during PaddleOCR processing: {e}")
@@ -130,10 +81,6 @@ class OCRMethods:
 
     @staticmethod
     def extract_with_suryaocr(image_path):
-        cache_key = OCRMethods.get_cache_key(image_path)
-        if cache_key in OCRMethods.cache:
-            return OCRMethods.cache[cache_key]
-        
         if not os.path.isfile(image_path):
             print(f"File not found: {image_path}")
             return None
@@ -149,10 +96,34 @@ class OCRMethods:
                 for line in page.text_lines:
                     text_lines.append(line.text)
             text = "\n".join(text_lines)
-            OCRMethods.cache[cache_key] = text
             return text.upper()
         except Exception as e:
             print(f"Error during Surya OCR processing: {e}")
+            return None
+
+    @staticmethod
+    def extract_with_llamaocr(image_path):
+        if not os.path.isfile(image_path):
+            print(f"File not found: {image_path}")
+            return None
+        try:
+            result = subprocess.run(
+                ['node', 'app.js', image_path],
+                capture_output=True,
+                text=True,
+                check=True,
+                encoding='utf-8'  # Ensure the output is decoded using UTF-8
+            )
+            if result.returncode != 0:
+                print(f"Llama OCR error: {result.stderr.strip()}")
+                return None
+            text = result.stdout.strip()
+            return text
+        except subprocess.CalledProcessError as e:
+            print(f"Error during llama-ocr processing: {e.stderr.strip()}")
+            return None
+        except Exception as e:
+            print(f"Unexpected error during llama-ocr processing: {e}")
             return None
 
     @staticmethod

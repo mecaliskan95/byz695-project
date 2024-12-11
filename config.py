@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import pytesseract
 
 class Config:
     TESSERACT_PATHS = [
@@ -16,5 +17,8 @@ class Config:
 
     if not TESSERACT_CMD:
         raise RuntimeError("Tesseract not found. Please install Tesseract or set correct path.")
+    
+    os.environ['TESSERACT_CMD'] = str(TESSERACT_CMD)
+    pytesseract.pytesseract.tesseract_cmd = str(TESSERACT_CMD)
 
     ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tfif', 'bmp'}
