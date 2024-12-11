@@ -8,6 +8,8 @@ from config import Config
 from text_extraction import TextExtractor
 import tempfile
 import shutil
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 app = Flask(__name__)
 pytesseract.pytesseract.tesseract_cmd = Config.TESSERACT_CMD
@@ -38,8 +40,14 @@ def save_uploaded_files():
         shutil.rmtree(temp_dir, ignore_errors=True)
         return {'dir': None, 'paths': [], 'names': []}
 
+async def process_files(files_info):
+    loop = asyncio.get_event_loop()
+    with ThreadPoolExecutor() as pool:
+        results = await loop.run_in_executor(pool, TextExtractor.extract_all, files_info['paths'], files_info['names'])
+    return results
+
 @app.route("/", methods=["GET", "POST"])
-def index():
+async def index():
     if request.method != "POST":
         return render_template("index.html")
         
@@ -47,7 +55,18 @@ def index():
     files_info = save_uploaded_files()
     try:
         if files_info['paths']:
-            results = TextExtractor.extract_all(files_info['paths'], files_info['names'])
+            results = await process_files(files_info)
+            
+            for result in results:
+                print(f"Filename: {result['filename']}")
+                print(f"Date Method: {result['date_method']}")
+                print(f"Time Method: {result['time_method']}")
+                print(f"Tax Office Name Method: {result['tax_office_name_method']}")
+                print(f"Tax Office Number Method: {result['tax_office_number_method']}")
+                print(f"Total Cost Method: {result['total_cost_method']}")
+                print(f"VAT Method: {result['vat_method']}")
+                print(f"Payment Methods Method: {result['payment_methods_method']}")
+            
             return render_template("index.html", results=results, zip=zip)
         return render_template("index.html")
     finally:

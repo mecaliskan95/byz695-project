@@ -5,6 +5,7 @@ class Config:
     TESSERACT_PATHS = [
         r'c:\Program Files\Tesseract-OCR\tesseract.exe',
         r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
+        r'/opt/homebrew/Cellar/tesseract/5.4.1/bin/tesseract'
     ]
     
     TESSERACT_CMD = None

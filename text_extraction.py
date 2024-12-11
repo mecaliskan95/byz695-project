@@ -1,12 +1,9 @@
 import re
 from datetime import datetime
 from fuzzywuzzy import fuzz
-import easyocr
 import difflib
-import pytesseract
-import torch
-import os  # Add this import
-from image_processing import ImageProcessor
+import os
+from ocr_methods import OCRMethods
 
 def find_lines_starting_with_or_similar(word, text, threshold=0.7):
     lines = text.split('\n')
@@ -51,28 +48,42 @@ def search_similar_word_in_text(word, text, cutoff=0.6):
     return matching_lines, matching_matching_line_numbers, match_type, matching_word
 
 class TextExtractor:
-    use_gpu = torch.cuda.is_available()
-    easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
-    
+    dictionary = OCRMethods.load_dictionary()
+
+    @staticmethod
+    def correct_text(text):
+        words = text.split()
+        corrected_words = []
+        for word in words:
+            if word.upper() in TextExtractor.dictionary:
+                corrected_words.append(word)
+            else:
+                best_match = max(TextExtractor.dictionary, key=lambda w: fuzz.ratio(word.upper(), w), default=None)
+                if best_match and fuzz.ratio(word.upper(), best_match) >= 70:
+                    corrected_words.append(best_match)
+                else:
+                    corrected_words.append(word)
+        return ' '.join(corrected_words)
+
     @staticmethod
     def extract_with_pytesseract(image_path):
-        if not os.path.isfile(image_path):
-            return None
-        processed_image = ImageProcessor.process_image(image_path)
-        if processed_image is None:
-            return None
-        return pytesseract.image_to_string(
-            processed_image,
-            lang='tur+eng',
-            config='--oem 3 --psm 6'
-        ).upper()
+        return OCRMethods.extract_with_pytesseract(image_path)
 
     @staticmethod
     def extract_with_easyocr(image_path):
-        if not os.path.isfile(image_path):
-            return None
-        result = TextExtractor.easyocr_reader.readtext(image_path)
-        return "\n".join([line[1] for line in result]).upper() if result else None
+        return OCRMethods.extract_with_easyocr(image_path)
+
+    # @staticmethod
+    # def extract_with_llamaocr(image_path):
+    #    return OCRMethods.extract_with_llamaocr(image_path)
+
+    @staticmethod
+    def extract_with_paddleocr(image_path):
+        return OCRMethods.extract_with_paddleocr(image_path)
+
+    @staticmethod
+    def extract_with_suryaocr(image_path):
+        return OCRMethods.extract_with_suryaocr(image_path)
 
     @staticmethod
     def divideText(text):
@@ -109,30 +120,53 @@ class TextExtractor:
             filenames = ["Unnamed"] * len(texts)
             
         results = []
+        ocr_methods = [
+            ('PaddleOCR', TextExtractor.extract_with_paddleocr),
+            ('docTR', TextExtractor.extract_with_doctr),
+            ('SuryaOCR', TextExtractor.extract_with_suryaocr),
+            ('EasyOCR', TextExtractor.extract_with_easyocr),
+            ('PyTesseract', TextExtractor.extract_with_pytesseract),
+            # ('LlamaOCR', TextExtractor.extract_with_llamaocr),
+        ]
+
         for image_path, filename in zip(texts, filenames):
-            text1 = TextExtractor.extract_with_pytesseract(image_path)
-            text2 = TextExtractor.extract_with_easyocr(image_path)
+            ocr_results = {}
 
             def extract_field(extraction_method):
-                if text1:
-                    result = extraction_method(text1)
-                    if result and result != "N/A":
-                        return result
-                if text2:
-                    result = extraction_method(text2)
-                    if result and result != "N/A":
-                        return result
-                return "N/A"
+                for method_name, ocr_method in ocr_methods:
+                    if (method_name not in ocr_results) or (ocr_results[method_name] is None):
+                        ocr_results[method_name] = ocr_method(image_path)
+                    text = ocr_results[method_name]
+                    if text:
+                        result = extraction_method(text)
+                        if result and result != "N/A":
+                            return result, method_name
+                return "N/A", "N/A"
+
+            date, date_method = extract_field(TextExtractor.extract_date)
+            time, time_method = extract_field(TextExtractor.extract_time)
+            tax_office_name, tax_office_name_method = extract_field(TextExtractor.extract_tax_office_name)
+            tax_office_number, tax_office_number_method = extract_field(TextExtractor.extract_tax_office_number)
+            total_cost, total_cost_method = extract_field(TextExtractor.extract_total_cost)
+            vat, vat_method = extract_field(TextExtractor.extract_vat)
+            payment_methods, payment_methods_method = extract_field(TextExtractor.extract_payment_methods)
 
             results.append({
                 "filename": filename,
-                "date": extract_field(TextExtractor.extract_date),
-                "time": extract_field(TextExtractor.extract_time),
-                "tax_office_name": extract_field(TextExtractor.extract_tax_office_name),
-                "tax_office_number": extract_field(TextExtractor.extract_tax_office_number),
-                "total_cost": extract_field(TextExtractor.extract_total_cost),
-                "vat": extract_field(TextExtractor.extract_vat),
-                "payment_methods": extract_field(TextExtractor.extract_payment_methods)
+                "date": date,
+                "date_method": date_method,
+                "time": time,
+                "time_method": time_method,
+                "tax_office_name": tax_office_name,
+                "tax_office_name_method": tax_office_name_method,
+                "tax_office_number": tax_office_number,
+                "tax_office_number_method": tax_office_number_method,
+                "total_cost": total_cost,
+                "total_cost_method": total_cost_method,
+                "vat": vat,
+                "vat_method": vat_method,
+                "payment_methods": payment_methods,
+                "payment_methods_method": payment_methods_method
             })
         
         return results
@@ -166,28 +200,36 @@ class TextExtractor:
     @staticmethod
     def extract_date(text):
         patterns = [
-            r"\b(\d{2})[.](\d{2})[.](\d{4})\b",  # DD.MM.YYYY
-            r"\b(\d{2})[/](\d{2})[/](\d{4})\b",  # DD/MM/YYYY
-            r"\b(\d{2})[-](\d{2})[-](\d{4})\b"   # DD-MM-YYYY
-            r'\b\d{4}/\d{2}/\d{2}\b',  # YYYY/MM/DD
-            r'\b\d{4}-\d{2}-\d{2}\b'  # YYYY-MM-DD
+            r'\b(\d{2})/(\d{2})/(\d{4})\b',  # Matches DD/MM/YYYY
+            r'\b(\d{2})-(\d{2})-(\d{4})\b',  # Matches DD-MM-YYYY
+            r'\b(\d{2}).(\d{2}).(\d{4})\b',  # Matches DD.MM.YYYY
+            r'\b(\d{4})/(\d{2})/(\d{2})\b',  # Matches YYYY/MM/DD
+            r'\b(\d{4})-(\d{2})-(\d{2})\b'   # Matches YYYY-MM-DD
         ]
         for pattern in patterns:
-            if match := re.search(pattern, text):
-                day, month, year = map(int, match.groups())
-                try:
-                    return datetime(year, month, day).strftime("%d/%m/%Y")
-                except:
-                    return "N/A"
+            match = re.search(pattern, text)
+            if match:
+                day, month, year = match.groups() if len(match.groups()) == 3 else (None, None, None)
+                if day and month and year:
+                    try:
+                        return datetime(int(year), int(month), int(day)).strftime("%d/%m/%Y")
+                    except ValueError:
+                        continue
         return "N/A"
 
     @staticmethod
     def extract_time(text):
-        pattern = r"\b(\d{2}):(\d{2})(?::(\d{2}))?\b"
-        if match := re.search(pattern, text):
-            hour, minute = map(int, match.groups()[:2]) 
-            if 0 <= hour < 24 and 0 <= minute < 60:
-                return f"{hour:02d}:{minute:02d}"
+        patterns = [
+            r'\b\d{2}:\d{2}:\d{2}\b',  # Matches HH:MM:SS
+            r'\b\d{2}:\d{2}\b',  # Matches HH:MM
+            r'\b\d{2}.\d{2}\b'  # Matches HH.MM
+        ]
+        for pattern in patterns:
+            if match := re.search(pattern, text):
+                time_parts = match.group().replace('.', ':').split(':')
+                hour, minute = map(int, time_parts[:2])
+                if 0 <= hour < 24 and 0 <= minute < 60:
+                    return f"{hour:02d}:{minute:02d}"
         return "N/A"
 
     @staticmethod
@@ -203,10 +245,15 @@ class TextExtractor:
         return "N/A"
 
     @staticmethod
+    def extract_numerical_part(text):
+        match = re.search(r'\d+(?:,\d{2})?', text)
+        return match.group(0).replace(',', '.') if match else "N/A"
+
+    @staticmethod
     def extract_vat(text):
         patterns = [
             r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:,\d{2})?)",
-            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:,\d{2})?)"
+            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:,\d{2})?)",
             r"KDV\s[*]?\s?\d{1,3}(\.\d{3})*,\d{2}\s?[A-Z]?"
         ]
         for pattern in patterns:
@@ -227,15 +274,24 @@ class TextExtractor:
 
     @staticmethod
     def extract_payment_methods(text):
-        corrections = {
-            "KREDI": "KREDI KARTI", "CREDIT": "KREDI KARTI", "KREDİ": "KREDI KARTI",
-            "BANKA": "BANKA KARTI", "DEBIT": "BANKA KARTI", "NAKIT": "NAKIT",
-            "NAKİT": "NAKIT", "ÇEK": "CEK", "HAVALE": "HAVALE", "EFT": "EFT",
-            'K.KARTI': 'KREDI KARTI',
-        }
+        types = 'N/A'
+        lines = text.split('\n')
+        word_list = ["NAKİT", "Nakit", "Kredi", "KREDI", "KREDİ", "Kredi Kartı", "KREDİ KARTI", "KREDI KARTI", "ORTAK POS", "BANK"]
+        b, lines_type, match_type, match_word = [], [], [], []
+        kdv_line = 0
 
-        pattern = r"\b(KREDİ KARTI|CREDIT|DEBIT|NAKİT|NAKIT|MAKIT|K.KARTI|BANKA KARTI|ÇEK|HAVALE|KREDI|KREDİ|EFT|BANKA)\b"
-        if match := re.search(pattern, text, re.IGNORECASE):
-            extracted = match.group(1).upper()
-            return corrections.get(extracted, extracted)
-        return "N/A"
+        for i in word_list:
+            c, d, mt, word = search_similar_word_in_text(i.lower(), text.lower(), 0.7)
+            if c:
+                b.append(c[0])
+                lines_type.append(d[0])
+                match_type.append(mt[0])
+                match_word.append(word[0])
+                if i != "NAKİT" and i != "Nakit":
+                    types = "Kredi Kartı"
+                else:
+                    types = "Nakit"
+                    break
+
+        x = 1
+        return types.upper()
