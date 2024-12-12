@@ -2,7 +2,6 @@ import os
 import subprocess
 import pytesseract
 import easyocr
-import torch
 from paddleocr import PaddleOCR
 from image_processing import ImageProcessor
 import json
@@ -18,10 +17,8 @@ import hashlib
 import logging
 
 class OCRMethods:
-    use_gpu = torch.cuda.is_available()
-    easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=use_gpu)
-    paddleocr_reader = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=use_gpu)
-    cache = {}
+    easyocr_reader = easyocr.Reader(['en', 'tr'])
+    paddleocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
 
     @staticmethod
     def load_dictionary():

@@ -121,28 +121,36 @@ class TextExtractor:
             
         results = []
         for image_path, filename in zip(texts, filenames):
-            text1 = TextExtractor.extract_with_llamaocr(image_path)
-            if text1 is not None:
-                text1 = text1.upper()
-            text5 = TextExtractor.extract_with_pytesseract(image_path)
-            if text5 is not None:
-                text5 = text5.upper()
+            ocr_results = {
+                "easyocr": TextExtractor.extract_with_easyocr(image_path),
+                "pytesseract": TextExtractor.extract_with_pytesseract(image_path),
+                "paddleocr": TextExtractor.extract_with_paddleocr(image_path),
+                "suryaocr": TextExtractor.extract_with_suryaocr(image_path),
+                "llamaocr": TextExtractor.extract_with_llamaocr(image_path)
+            }
 
-            def extract_field(extraction_method, text, method_name):
-                if text:
-                    result = extraction_method(text)
-                    if result and result != "N/A":
-                        return result, method_name
-                return "N/A", "N/A"
+            ocr_results = {k: v.upper() if v else None for k, v in ocr_results.items()}
 
-            date, date_method = extract_field(TextExtractor.extract_date, text1, "llamaocr")
-            time, time_method = extract_field(TextExtractor.extract_time, text1, "llamaocr")
-            tax_office_name, tax_office_name_method = extract_field(TextExtractor.extract_tax_office_name, text1, "llamaocr")
-            tax_office_number, tax_office_number_method = extract_field(TextExtractor.extract_tax_office_number, text1, "llamaocr")
-            total_cost, total_cost_method = extract_field(TextExtractor.extract_total_cost, text1, "llamaocr")
-            vat, vat_method = extract_field(TextExtractor.extract_vat, text1, "llamaocr")
-            payment_method, payment_method_method = extract_field(TextExtractor.extract_payment_method, text1, "llamaocr")
+            def try_extraction(extraction_method, ocr_results):
+                best_result = ("N/A", "N/A")
+                for method, text in ocr_results.items():
+                    if text:
+                        result = extraction_method(text)
+                        if result and result != "N/A":
+                            best_result = (result, method)
+                            break
+                return best_result
 
+            # Extract fields using all available OCR results
+            date, date_method = try_extraction(TextExtractor.extract_date, ocr_results)
+            time, time_method = try_extraction(TextExtractor.extract_time, ocr_results)
+            tax_office_name, tax_office_name_method = try_extraction(TextExtractor.extract_tax_office_name, ocr_results)
+            tax_office_number, tax_office_number_method = try_extraction(TextExtractor.extract_tax_office_number, ocr_results)
+            total_cost, total_cost_method = try_extraction(TextExtractor.extract_total_cost, ocr_results)
+            vat, vat_method = try_extraction(TextExtractor.extract_vat, ocr_results)
+            payment_method, payment_method_method = try_extraction(TextExtractor.extract_payment_method, ocr_results)
+
+            # Store results
             results.append({
                 "filename": filename,
                 "date": date,
@@ -159,8 +167,7 @@ class TextExtractor:
                 "vat_method": vat_method,
                 "payment_method": payment_method,
                 "payment_method_method": payment_method_method,
-                "llamaocr_output": text1,
-                "llamaocr_method": "llamaocr"
+                "ocr_outputs": {k: v for k, v in ocr_results.items() if v is not None}
             })
         
         return results
@@ -310,6 +317,8 @@ class TextExtractor:
                 else:
                     types = "NAKIT"
                     break
+
+            return types
 
         # Add pattern for **Payment Method:** KREDI KARTI
         pattern = r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI)\b'
