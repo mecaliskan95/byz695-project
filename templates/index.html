@@ -538,7 +538,7 @@
                                 <span class="data-label" data-lang-key="taxOfficeNumber">Tax Office Number</span>
                                 <span class="data-value">{{ result.tax_office_number }}</span>
                                 <span class="data-label" data-lang-key="paymentMethods">Payment Methods</span>
-                                <span class="data-value">{{ result.payment_methods }}</span>
+                                <span class="data-value">{{ result.payment_method }}</span>
                             </div>
                         </div>
                     </div>
@@ -573,7 +573,10 @@
                 uploadedFile: "Uploaded File: ",
                 exportButton: "Export to CSV",
                 processedInvoices: "Processed",
-                invoicesCount: "invoice(s)"
+                invoicesCount: "invoice(s)",
+                processingSuccess: "Invoice(s) processed successfully!",
+                csvExportSuccess: "CSV exported successfully",
+                csvExportError: "Error exporting CSV: "
             },
             tr: {
                 title: "Fatura Tarayıcı",
@@ -597,7 +600,10 @@
                 uploadedFile: "Yüklenen Dosya: ",
                 exportButton: "CSV Olarak İndir",
                 processedInvoices: "İşlenen",
-                invoicesCount: "fatura"
+                invoicesCount: "fatura",
+                processingSuccess: "Fatura(lar) başarıyla işlendi!",
+                csvExportSuccess: "CSV başarıyla dışa aktarıldı",
+                csvExportError: "CSV dışa aktarma hatası: "
             }
         };
 
@@ -676,7 +682,7 @@
                 const results = document.querySelector('.results');
                 if (results) {
                     results.classList.add('visible');
-                    showStatus('File(s) processed successfully', 'success');
+                    showStatus(languages[currentLang].processingSuccess, 'success');
                 }
                 attachEventListeners();
                 updateContent();
@@ -775,11 +781,11 @@
                 a.click();
                 window.URL.revokeObjectURL(url);
                 a.remove();
-                showStatus('CSV exported successfully', 'success');
+                showStatus(languages[currentLang].csvExportSuccess, 'success');
             })
             .catch(error => {
                 console.error('Error:', error);
-                showStatus('Error exporting CSV: ' + error.message, 'error');
+                showStatus(languages[currentLang].csvExportError + error.message, 'error');
             });
         }
 
