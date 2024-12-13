@@ -1,17 +1,50 @@
 import os
 import sys
+from datetime import datetime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
 
-def test_llama_ocr(image_path):
-    print(f"\n{'='*80}\nTesting Llama OCR on: {os.path.basename(image_path)}\n{'='*80}")
+def export_statistics(stats, ocr_name):
+    """Export test statistics to a log file"""
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
+    os.makedirs(log_dir, exist_ok=True)
     
-    # Use OCRMethods class method
+    log_file = os.path.join(log_dir, f'{ocr_name}_stats_{timestamp}.log')
+    
+    with open(log_file, 'w', encoding='utf-8') as f:
+        f.write(f"Test Results for {ocr_name}\n")
+        f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("="*50 + "\n\n")
+        f.write(f"Total images processed: {stats['total_images']}\n")
+        f.write(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%\n")
+        f.write(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts\n")
+        f.write(f"Total fields processed: {stats['total_fields']}\n")
+        f.write(f"Successful extractions: {stats['successful_extractions']}\n")
+        f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n")
+    
+    print(f"\nStatistics exported to: {log_file}")
+
+def test_llama_ocr(image_path, stats):
+    print(f"\n{'='*80}\nTesting LlamaOCR on: {os.path.basename(image_path)}\n{'='*80}")
+    
     raw_text = OCRMethods.extract_with_llamaocr(image_path)
     print("\nRaw Extracted Text:")
     print(raw_text if raw_text else "No text extracted")
+    
+    # Update OCR success/failure statistics
+    stats['ocr_attempts'] += 1
+    expected_fields = 7  # Date, Time, Tax Office, Tax Number, Total Cost, VAT, Payment Method
+    
+    if not raw_text:
+        stats['ocr_failures'] += 1
+        stats['total_fields'] += expected_fields
+        stats['failed_extractions'] += expected_fields
+        print("OCR failed to read the image - counting all fields as failed")
+        return
     
     if raw_text:
         # Apply dictionary correction
@@ -21,21 +54,27 @@ def test_llama_ocr(image_path):
         
         print("\nExtracted Fields:")
         print("-" * 40)
-        date = TextExtractor.extract_date(corrected_text)
-        time = TextExtractor.extract_time(corrected_text)
-        tax_office = TextExtractor.extract_tax_office_name(corrected_text)
-        tax_number = TextExtractor.extract_tax_office_number(corrected_text)
-        total = TextExtractor.extract_total_cost(corrected_text)
-        vat = TextExtractor.extract_vat(corrected_text)
-        payment = TextExtractor.extract_payment_method(corrected_text)
+        fields = {
+            "Date": TextExtractor.extract_date(corrected_text),
+            "Time": TextExtractor.extract_time(corrected_text),
+            "Tax Office": TextExtractor.extract_tax_office_name(corrected_text),
+            "Tax Number": TextExtractor.extract_tax_office_number(corrected_text),
+            "Total Cost": TextExtractor.extract_total_cost(corrected_text),
+            "VAT": TextExtractor.extract_vat(corrected_text),
+            "Payment Method": TextExtractor.extract_payment_method(corrected_text)
+        }
+        
+        # Update statistics
+        for field_name, value in fields.items():
+            stats['total_fields'] += 1
+            if value != "N/A":
+                stats['successful_extractions'] += 1
+            else:
+                stats['failed_extractions'] += 1
 
-        print(f"Date: {date}")
-        print(f"Time: {time}")
-        print(f"Tax Office: {tax_office}")
-        print(f"Tax Number: {tax_number}")
-        print(f"Total Cost: {total}")
-        print(f"VAT: {vat}")
-        print(f"Payment Method: {payment}")
+        # Print fields
+        for field_name, value in fields.items():
+            print(f"{field_name}: {value}")
 
 def main():
     test_data_path = os.path.join(os.path.dirname(__file__), 'test_data')
@@ -56,8 +95,33 @@ def main():
         print("No image files found in test_data folder.")
         return
     
+    # Initialize statistics
+    stats = {
+        'total_images': len(image_files),
+        'ocr_attempts': 0,
+        'ocr_failures': 0,
+        'total_fields': 0,
+        'successful_extractions': 0,
+        'failed_extractions': 0
+    }
+    
     for image_path in image_files:
-        test_llama_ocr(image_path)
+        test_llama_ocr(image_path, stats)
+
+    # Print enhanced final statistics
+    print("\n" + "="*80)
+    print("FINAL STATISTICS:")
+    print(f"Total images processed: {stats['total_images']}")
+    print(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%")
+    print(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts")
+    print(f"Total fields processed: {stats['total_fields']}")
+    print(f"Successful extractions: {stats['successful_extractions']}")
+    print(f"Failed extractions (N/A): {stats['failed_extractions']}")
+    print(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%")
+    print("="*80)
+    
+    # Export statistics
+    export_statistics(stats, "LlamaOCR")
 
 if __name__ == "__main__":
     main()

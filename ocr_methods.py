@@ -67,10 +67,10 @@ class OCRMethods:
         processed_image = ImageProcessor.process_image(image_path)
         if processed_image is None:
             return None
-        
+                
         return pytesseract.image_to_string(
             processed_image, 
-            lang='tur+eng',
+            lang='tur+eng'
         ).upper()
 
     @staticmethod
@@ -81,8 +81,47 @@ class OCRMethods:
             processed_image = ImageProcessor.process_image(image_path)
             if processed_image is None:
                 return None
+
             result = OCRMethods.get_easyocr_reader().readtext(processed_image)
-            return "\n".join([line[1] for line in result]).upper() if result else None
+            if not result:
+                return None
+
+            # Group lines by vertical proximity with adaptive threshold
+            lines = []
+            current_line = []
+            current_y = None
+            
+            # Calculate adaptive threshold based on image height
+            image_height = Image.open(image_path).height
+            threshold = image_height * 0.02  # 2% of image height
+            
+            for detection in result:
+                # EasyOCR format: (bbox, text, confidence)
+                bbox, text, confidence = detection
+                
+                # Clean text
+                text = text.strip().replace('  ', ' ')
+                
+                # Only include text with confidence above threshold
+                if confidence > 0.1:  # 10% confidence threshold
+                    # EasyOCR bbox format: [[x1,y1], [x2,y1], [x2,y2], [x1,y2]]
+                    y1 = bbox[0][1]  # Top y coordinate
+                    y2 = bbox[2][1]  # Bottom y coordinate
+                    
+                    if current_y is None or abs(current_y - y1) < threshold:
+                        current_line.append(text)
+                        current_y = (current_y or y1 + y2) / 2  # Update to average y position
+                    else:
+                        lines.append(" ".join(current_line))
+                        current_line = [text]
+                        current_y = y1
+
+            if current_line:
+                lines.append(" ".join(current_line))
+
+            extracted_text = "\n".join(lines).upper()
+            return extracted_text
+
         except Exception as e:
             print(f"Error during easyocr processing: {e}")
             return None
@@ -90,10 +129,48 @@ class OCRMethods:
     @staticmethod
     def extract_with_paddleocr(image_path):
         if not os.path.isfile(image_path):
+            print(f"File not found: {image_path}")
             return None
         try:
+            print(f"Processing image: {image_path}")
             result = OCRMethods.get_paddleocr_reader().ocr(image_path, cls=True)
-            return "\n".join([line[1][0] for line in result[0]]).upper() if result else None
+            if not result:
+                print("No text detected by PaddleOCR.")
+                return None
+
+            # Group lines by vertical proximity with adaptive threshold
+            lines = []
+            current_line = []
+            current_y = None
+            
+            # Calculate adaptive threshold based on image height
+            image_height = Image.open(image_path).height
+            threshold = image_height * 0.02  # 2% of image height
+            
+            for line in result[0]:
+                text = line[1][0]
+                confidence = float(line[1][1])  # Get confidence score
+                
+                # Clean text similar to VAT extraction
+                text = text.strip().replace('  ', ' ')
+                
+                # Only include text with confidence above threshold
+                if confidence > 0.1:  # 70% confidence threshold
+                    x1, y1, x2, y2 = line[0][0][0], line[0][0][1], line[0][2][0], line[0][2][1]
+                    if current_y is None or abs(current_y - y1) < threshold:
+                        current_line.append(text)
+                        current_y = (current_y or y1 + y2) / 2  # Update to average y position
+                    else:
+                        lines.append(" ".join(current_line))
+                        current_line = [text]
+                        current_y = y1
+
+            if current_line:
+                lines.append(" ".join(current_line))
+
+            extracted_text = "\n".join(lines).upper()
+            print(f"Extracted text:\n{extracted_text}")
+            return extracted_text
         except Exception as e:
             print(f"Error during PaddleOCR processing: {e}")
             return None

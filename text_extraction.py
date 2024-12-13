@@ -177,18 +177,21 @@ class TextExtractor:
     @staticmethod
     def extract_date(text):
         patterns = [
-            r'\b(\d{2})/(\d{2})/(\d{4})\b',  # Matches DD/MM/YYYY
-            r'\b(\d{2})-(\d{2})-(\d{4})\b',  # Matches DD-MM-YYYY
-            r'\b(\d{2}).(\d{2}).(\d{4})\b',  # Matches DD.MM.YYYY
-            r'\b(\d{4})/(\d{2})/(\d{2})\b',  # Matches YYYY/MM/DD
-            r'\b(\d{4})-(\d{2})-(\d{2})\b',  # Matches YYYY-MM-DD
-            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',  # Matches Date: DD-MM-YYYY
-            r'\bTARİH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b',  # Matches TARİH : DD.MM.YYYY
-            r'\bTARIH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b'  # Matches TARIH : DD.MM.YYYY
+            r'\*\s*\*\*TARIH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',  # Matches * **TARIH:** 25.09.2024
+            r'\*\s*\*\*TARİH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',  # Same with Turkish i
+            r'\*?\s*TARIH:?\s*[*]?\s*(\d{2})[./](\d{2})[./](\d{4})\b',  # Matches TARIH: 25.09.2024 with optional *
+            r'\b(\d{2})/(\d{2})/(\d{4})\b',  # Original patterns below
+            r'\b(\d{2})-(\d{2})-(\d{4})\b',
+            r'\b(\d{2}).(\d{2}).(\d{4})\b',
+            r'\b(\d{4})/(\d{2})/(\d{2})\b',
+            r'\b(\d{4})-(\d{2})-(\d{2})\b',
+            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',
+            r'\bTARİH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\bTARIH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b'
         ]
         for pattern in patterns:
-            match = re.search(pattern, text)
-            if match:
+            if match := re.search(pattern, text, re.IGNORECASE):
                 day, month, year = match.groups() if len(match.groups()) == 3 else (None, None, None)
                 if day and month and year:
                     try:
@@ -204,32 +207,57 @@ class TextExtractor:
             r'\b\d{2}:\d{2}\b',  # Matches HH:MM
             r'\b\d{2}.\d{2}\b',  # Matches HH.MM
             r'\bTIME:\s*(\d{2}:\d{2})\b',  # Matches Time: HH:MM
-            r'\bSAAT\s*:\s*(\d{2}:\d{2})\b'  # Matches SAAT : HH:MM
+            r'\bSAAT\s*:\s*(\d{2}:\d{2})\b',  # Matches SAAT : HH:MM
+            r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b'  # Matches SAAT1747
         ]
         for pattern in patterns:
             if match := re.search(pattern, text):
-                time_parts = match.group().replace('.', ':').replace(',', ':').split(':')
-                try:
-                    hour, minute = map(int, time_parts[:2])
-                    if 0 <= hour < 24 and 0 <= minute < 60:
-                        return f"{hour:02d}:{minute:02d}"
-                except ValueError:
-                    continue
+                if ':' in match.group():
+                    return match.group()
+                else:
+                    # Handle formats without separators
+                    time_str = match.group()
+                    if time_str.startswith('SAAT'):
+                        time_parts = match.groups()
+                    else:
+                        time_parts = [time_str[:2], time_str[2:]]
+                    try:
+                        hour, minute = map(int, time_parts)
+                        if 0 <= hour < 24 and 0 <= minute < 60:
+                            return f"{hour:02d}:{minute:02d}"
+                    except ValueError:
+                        continue
         return "N/A"
 
     @staticmethod
     def extract_total_cost(text):
         patterns = [
-            r"TOPLAM\s*[\*\#:X]?\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)",
+            r"TOPLAM\s*[\*\#:X]?\s*(\d+)[.,\s]*(\d{2})?[;:]?",  # Match base number and decimal separately
             r"TUTAR\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2}|\.\d{2})?)\s*TL?",
             r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',  # Matches TOPLAM: *44,40
-            r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'  # Matches **Total Cost:** 44,40
+            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
+            r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
         ]
         for pattern in patterns:
             if match := re.search(pattern, text, re.IGNORECASE):
-                value = match.group(1)
-                return value.replace(',', '.') if ',' in value else value
+                if len(match.groups()) == 2:  # If we matched both whole and decimal parts
+                    whole = match.group(1)
+                    decimal = match.group(2) if match.group(2) else "00"
+                    return f"{whole}.{decimal}"
+                else:
+                    value = match.group(1)
+                    if value:
+                        # Clean up the value
+                        cleaned_value = (
+                            value.strip()
+                            .replace(' ', '')
+                            .replace(';', '')
+                            .replace(':', '')
+                            .rstrip('.')
+                        )
+                        if '.' not in cleaned_value and ',' not in cleaned_value:
+                            cleaned_value += ".00"
+                        return cleaned_value.replace(',', '.')
         return "N/A"
 
     @staticmethod
@@ -240,15 +268,20 @@ class TextExtractor:
     @staticmethod
     def extract_vat(text):
         patterns = [
-            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:,\d{2})?)",
-            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:,\d{2})?)",
-            r"KDV\s[*]?\s?\d{1,3}(\.\d{3})*,\d{2}\s?[A-Z]?",
+            r"KDV\s*\*\s*(\d+[.,]\d{2})",  # Specifically match KDV *11.10 format
+            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:[.,]\d{2})?)",
+            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:[.,]\d{2})?)",
             r'\bATM FEES:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPKDV:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'  # Matches TOPKDV: *3,29
+            r'\bTOPKDV:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
         ]
         for pattern in patterns:
             if match := re.search(pattern, text):
-                return match.group(1).replace(',', '.')
+                # Get the full match group
+                value = match.group(1)
+                if value:
+                    # Clean up the value and ensure we get the decimal part
+                    cleaned_value = value.strip().replace(' ', '')
+                    return cleaned_value.replace(',', '.')
         return "N/A"
 
     @staticmethod
@@ -259,7 +292,10 @@ class TextExtractor:
         ]
         for pattern in patterns:
             if match := re.search(pattern, text):
-                return match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
+                number = match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
+                if len(number) in [10, 11] and number.isdigit():
+                    return number
+                return "N/A"
         return "N/A"
 
     @staticmethod
