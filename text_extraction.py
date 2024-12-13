@@ -4,6 +4,7 @@ from fuzzywuzzy import fuzz
 import difflib
 import os
 from ocr_methods import OCRMethods
+import json
 
 def find_lines_starting_with_or_similar(word, text, threshold=0.7):
     lines = text.split('\n')
@@ -38,22 +39,50 @@ def search_similar_word_in_text(word, text, cutoff=0.6):
     return matching_lines, matching_matching_line_numbers, match_type, matching_word
 
 class TextExtractor:
-    dictionary = OCRMethods.load_dictionary()
+    _dictionary = None
+
+    @classmethod
+    def get_dictionary(cls):
+        if cls._dictionary is None:
+            encodings = ['utf-8', 'iso-8859-9', 'cp1254', 'latin1']  # Turkish encodings
+            for encoding in encodings:
+                try:
+                    with open('words.dic', 'r', encoding=encoding) as f:
+                        cls._dictionary = {line.strip().upper() for line in f.readlines() if line.strip()}
+                        break  # Successfully loaded dictionary, exit loop
+                except UnicodeDecodeError:
+                    continue
+                except FileNotFoundError:
+                    print("Dictionary file not found.")
+                    cls._dictionary = set()
+                    break  # Exit loop if file not found
+            if cls._dictionary is None:  # If none of the encodings worked
+                print(f"Could not read dictionary file with any of the encodings: {encodings}")
+                cls._dictionary = set()
+        return cls._dictionary
 
     @staticmethod
     def correct_text(text):
-        words = text.split()
-        corrected_words = []
-        for word in words:
-            if word.upper() in TextExtractor.dictionary:
-                corrected_words.append(word)
-            else:
-                best_match = max(TextExtractor.dictionary, key=lambda w: fuzz.ratio(word.upper(), w), default=None)
-                if best_match and fuzz.ratio(word.upper(), best_match) >= 70:
-                    corrected_words.append(best_match)
-                else:
+        dictionary = TextExtractor.get_dictionary()
+        corrected_lines = []
+        
+        for line in text.split('\n'):
+            words = line.split()
+            corrected_words = []
+            
+            for word in words:
+                if word.upper() in dictionary:
                     corrected_words.append(word)
-        return ' '.join(corrected_words)
+                else:
+                    best_match = max(dictionary, key=lambda w: fuzz.ratio(word.upper(), w), default=None)
+                    if best_match and fuzz.ratio(word.upper(), best_match) >= 70:
+                        corrected_words.append(best_match)
+                    else:
+                        corrected_words.append(word)
+            
+            corrected_lines.append(' '.join(corrected_words))
+        
+        return '\n'.join(corrected_lines)
 
     @staticmethod
     def extract_all(texts, filenames=None):
@@ -242,7 +271,6 @@ class TextExtractor:
             "ORTAK POS", "BANK", "VISA CREDIT", r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
         ]
         b, lines_type, match_type, match_word = [], [], [], []
-        kdv_line = 0
 
         for i in word_list:
             if isinstance(i, str):

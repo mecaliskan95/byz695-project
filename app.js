@@ -4,7 +4,7 @@ const { ocr } = require('llama-ocr');
 const path = require('path');
 
 const runOCR = async (imagePath) => {
-  const apiKey = 'api_key_here';
+  const apiKey = 'key';
 
   try {
     const markdown = await ocr({

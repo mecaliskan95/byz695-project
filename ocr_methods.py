@@ -13,42 +13,65 @@ import torch
 import torchvision
 from multiprocessing import Pool
 import logging
+from pathlib import Path
+import ssl
 
 logging.getLogger('ppocr').setLevel(logging.WARNING)
 logging.getLogger('easyocr').setLevel(logging.WARNING)
 logging.getLogger('paddleocr').setLevel(logging.WARNING)
 
 class OCRMethods:
-    try:
-        easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=True)
-    except Exception as e:
-        logging.warning(f"GPU not available for EasyOCR, defaulting to CPU: {e}")
-        easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
-    paddleocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
+    _easyocr_reader = None
+    _paddleocr_reader = None
+    _tesseract_initialized = False
 
-    @staticmethod
-    def load_dictionary():
-        encodings = ['utf-8', 'iso-8859-9', 'cp1254', 'latin1']  # Turkish encodings
-        for encoding in encodings:
+    TESSERACT_PATHS = [
+        r'c:\Program Files\Tesseract-OCR\tesseract.exe',
+        r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
+        r'/opt/homebrew/Cellar/tesseract/5.4.1/bin/tesseract'
+    ]
+
+    @classmethod
+    def get_easyocr_reader(cls):
+        if cls._easyocr_reader is None:
             try:
-                with open('words.dic', 'r', encoding=encoding) as f:
-                    return {word.strip().upper() for word in f.readlines()}
-            except UnicodeDecodeError:
-                continue
-            except FileNotFoundError:
-                print("Dictionary file not found.")
-                return set()
-        print(f"Could not read dictionary file with any of the encodings: {encodings}")
-        return set()
+                cls._easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=True)
+            except Exception as e:
+                logging.warning(f"GPU not available for EasyOCR, defaulting to CPU: {e}")
+                cls._easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
+        return cls._easyocr_reader
+
+    @classmethod
+    def get_paddleocr_reader(cls):
+        if cls._paddleocr_reader is None:
+            cls._paddleocr_reader = PaddleOCR(use_angle_cls=True, lang='en')
+        return cls._paddleocr_reader
+
+    @classmethod
+    def initialize_tesseract(cls):
+        if not cls._tesseract_initialized:
+            for path in cls.TESSERACT_PATHS:
+                if os.path.exists(path):
+                    os.environ['TESSERACT_CMD'] = str(Path(path))
+                    pytesseract.pytesseract.tesseract_cmd = str(Path(path))
+                    cls._tesseract_initialized = True
+                    break
+            if not cls._tesseract_initialized:
+                raise RuntimeError("Tesseract not found. Please install Tesseract or set correct path.")
 
     @staticmethod
     def extract_with_pytesseract(image_path):
+        OCRMethods.initialize_tesseract()
         if not os.path.isfile(image_path):
             return None
         processed_image = ImageProcessor.process_image(image_path)
         if processed_image is None:
             return None
-        return pytesseract.image_to_string(processed_image, lang='tur+eng', config='--oem 3 --psm 6').upper()
+        
+        return pytesseract.image_to_string(
+            processed_image, 
+            lang='tur+eng',
+        ).upper()
 
     @staticmethod
     def extract_with_easyocr(image_path):
@@ -58,7 +81,7 @@ class OCRMethods:
             processed_image = ImageProcessor.process_image(image_path)
             if processed_image is None:
                 return None
-            result = OCRMethods.easyocr_reader.readtext(processed_image)
+            result = OCRMethods.get_easyocr_reader().readtext(processed_image)
             return "\n".join([line[1] for line in result]).upper() if result else None
         except Exception as e:
             print(f"Error during easyocr processing: {e}")
@@ -69,7 +92,7 @@ class OCRMethods:
         if not os.path.isfile(image_path):
             return None
         try:
-            result = OCRMethods.paddleocr_reader.ocr(image_path, cls=True)
+            result = OCRMethods.get_paddleocr_reader().ocr(image_path, cls=True)
             return "\n".join([line[1][0] for line in result[0]]).upper() if result else None
         except Exception as e:
             print(f"Error during PaddleOCR processing: {e}")
@@ -115,3 +138,6 @@ class OCRMethods:
     def batch_process_ocr(image_paths, ocr_method):
         with Pool() as pool:
             return pool.map(ocr_method, image_paths)
+
+# Initialize OCR engines when module is imported
+# OCRMethods.initialize()

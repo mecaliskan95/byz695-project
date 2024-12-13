@@ -1,5 +1,11 @@
 import os
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress TensorFlow logging
+os.environ['KERAS_BACKEND'] = 'tensorflow'
+
+import warnings
+warnings.filterwarnings('ignore', category=DeprecationWarning)
+warnings.filterwarnings('ignore', category=FutureWarning)
 
 import csv
 from io import StringIO, BytesIO
@@ -8,19 +14,16 @@ from concurrent.futures import ThreadPoolExecutor
 import tempfile
 import shutil
 import logging
-
 from flask import Flask, render_template, request, send_file
-import pytesseract
-from config import Config
 from text_extraction import TextExtractor
+
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tiff', 'bmp'}
 
 logging.basicConfig(level=logging.WARNING)
 app = Flask(__name__)
-pytesseract.pytesseract.tesseract_cmd = str(Config.TESSERACT_CMD)
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def save_uploaded_files():
     temp_dir = tempfile.mkdtemp()
