@@ -15,8 +15,6 @@ class ImageProcessor:
         kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
         sharpened = cv2.filter2D(clahe_image, -1, kernel)
         
-        alpha = 1.5
-        beta = 0 
-        contrast_adjusted = cv2.convertScaleAbs(sharpened, alpha=alpha, beta=beta)
+        contrast_adjusted = cv2.convertScaleAbs(sharpened, alpha= 1.5, beta= 0)
         
         return contrast_adjusted

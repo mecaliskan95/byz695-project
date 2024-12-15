@@ -3,8 +3,9 @@ from datetime import datetime
 from fuzzywuzzy import fuzz
 import difflib
 import os
-from ocr_methods import OCRMethods
 import json
+from functools import lru_cache
+from ocr_methods import OCRMethods
 
 def find_lines_starting_with_or_similar(word, text, threshold=0.7):
     lines = text.split('\n')
@@ -16,47 +17,90 @@ def find_lines_starting_with_or_similar(word, text, threshold=0.7):
             matching_line_numbers.append(i)
     return matching_lines, matching_line_numbers
 
-def search_similar_word_in_text(word, text, cutoff=0.6):
-    lines = text.split('\n')
-    matching_lines = []
-    matching_matching_line_numbers = []
-    matching_word = []
-    match_type = []
-    for line in range(len(lines)):
-        words = lines[line].split()
-        if word in words:
-            match_type.append("exact match")
-            matching_lines.append(lines[line])
-            matching_matching_line_numbers.append(line)
-            matching_word.append(word)
-            continue
-        close_matches = difflib.get_close_matches(word, words, n=1, cutoff=cutoff)
-        if close_matches:
-            match_type.append("similar match")
-            matching_lines.append(lines[line])
-            matching_matching_line_numbers.append(line)
-            matching_word.append(close_matches)
-    return matching_lines, matching_matching_line_numbers, match_type, matching_word
-
 class TextExtractor:
     _dictionary = None
+    _testing_mode = False
+    _test_ocr_method = None
+    _valid_offices = None
+    _cache = {}
+    _patterns = {
+        'date': [
+            r'\*\s*\*\*TAR[İI]H:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\*\s*\*\*TARIH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\*\s*\*\*TARİH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\*?\s*TARIH:?\s*[*]?\s*(\d{2})[./](\d{2})[./](\d{4})\b',
+            r'\b(\d{2})/(\d{2})/(\d{4})\b',
+            r'\b(\d{2})-(\d{2})-(\d{4})\b',
+            r'\b(\d{2}).(\d{2}).(\d{4})\b',
+            r'\b(\d{4})/(\d{2})/(\d{2})\b',
+            r'\b(\d{4})-(\d{2})-(\d{2})\b',
+            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',  # Fixed the malformed pattern
+            r'\bTARİH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b', 
+            r'\bTARIH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b',
+            r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b'
+        ],
+        'time': [
+            r'\b\d{2}:\d{2}:\d{2}\b',
+            r'\b\d{2}:\d{2}\b',
+            r'\b\d{2}.\d{2}\b',
+            r'\bTIME:\s*(\d{2}:\d{2})\b',
+            r'\bSAAT\s*:\s*(\d{2}:\d{2})\b',
+            r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b'
+        ],
+        'tax_office_name': [
+            r"(.+?)\s*V\.D", 
+            r"VERGİ\s*DAİRESİ\s*[;:,]?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)",
+            r"\b([A-ZÇĞİÖŞÜa-zçğıöşü.\s]+)\s*V\.?D\.?", 
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})"
+        ],
+        'total_cost': [
+            r"TOPLAM\s*[\*\#:X]?\s*(\d+)[.,\s]*(\d{2})?[;:]?",
+            r"TUTAR\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2}|\.\d{2})?)\s*TL?",
+            r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
+            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
+            r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
+            r"TOPLAM\s*\+\s*(\d+)[.,](\d{2})"  # New pattern for TOPLAM +360,00 format
+        ],
+        'vat': [
+            r"KDV\s*\*\s*(\d+[.,]\d{2})",
+            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:[.,]\d{2})?)",
+            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:[.,]\d{2})?)",
+            r'\bATM FEES:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
+            r'\bTOPKDV:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
+        ],
+        'tax_office_number': [
+            r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
+            r"\b([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*V\.?D\.?\s*[:\s]*([\d\s]{10,11})\b",
+        ],
+        'payment_method': [
+            "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
+            "ORTAK POS", "BANK", "VISA CREDIT", r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
+        ]
+    }
 
     @classmethod
+    def set_testing_mode(cls, enabled=True, ocr_method=None):
+        cls._testing_mode = enabled
+        cls._test_ocr_method = ocr_method
+
+    @classmethod
+    @lru_cache(maxsize=128)
     def get_dictionary(cls):
         if cls._dictionary is None:
-            encodings = ['utf-8', 'iso-8859-9', 'cp1254', 'latin1']  # Turkish encodings
+            encodings = ['utf-8', 'iso-8859-9', 'cp1254', 'latin1']
             for encoding in encodings:
                 try:
                     with open('words.dic', 'r', encoding=encoding) as f:
                         cls._dictionary = {line.strip().upper() for line in f.readlines() if line.strip()}
-                        break  # Successfully loaded dictionary, exit loop
+                        break
                 except UnicodeDecodeError:
                     continue
                 except FileNotFoundError:
                     print("Dictionary file not found.")
                     cls._dictionary = set()
-                    break  # Exit loop if file not found
-            if cls._dictionary is None:  # If none of the encodings worked
+                    break
+            if cls._dictionary is None:
                 print(f"Could not read dictionary file with any of the encodings: {encodings}")
                 cls._dictionary = set()
         return cls._dictionary
@@ -85,20 +129,54 @@ class TextExtractor:
         return '\n'.join(corrected_lines)
 
     @staticmethod
+    def validate_cost_and_vat(total_cost, vat):
+        try:
+            if total_cost == "N/A" or vat == "N/A":
+                return total_cost, vat
+                
+            cost_value = float(total_cost)
+            vat_value = float(vat)
+            
+            if vat_value >= cost_value:
+                return "N/A", "N/A"
+                
+            return total_cost, vat
+            
+        except (ValueError, TypeError):
+            return "N/A", "N/A"
+
+    @staticmethod
     def extract_all(texts, filenames=None):
+
+    # Ranked List (General Performance):
+    # PaddleOCR
+    # Why: Highly accurate, supports multiple languages, robust for complex layouts, and excellent for non-Latin scripts (e.g., Chinese). It's widely regarded as one of the best open-source OCR libraries for real-world scenarios.
+    
+    # EasyOCR
+    # Why: Good accuracy and speed for many languages. It’s relatively easy to use and has moderate resource demands. Works well for general text recognition tasks.
+    
+    # LlamaOCR
+    # Why: Likely a custom or less-known library. Generally, custom models may perform well in specific scenarios but lack versatility or broader language support. Its ranking could vary depending on how it’s optimized for your project.
+   
+    # SuryaOCR
+    # Why: Similar to LlamaOCR, its rank depends on its optimization. Custom OCR libraries often have trade-offs in accuracy and robustness compared to highly optimized, widely-used libraries like PaddleOCR or EasyOCR.
+    
+    # Tesseract (Pytesseract)
+    # Why: While widely used and highly accessible, Tesseract struggles with complex layouts, noisy images, and curved text. It has slower performance and lower accuracy compared to modern alternatives like PaddleOCR. 
+
         if filenames is None:
             filenames = ["Unnamed"] * len(texts)
         results = []
         
         for image_path, filename in zip(texts, filenames):
-            text1 = text2 = text3 = text4 = None
+            text1 = text2 = text3 = text4 = text5 = None
             
-            text1 = OCRMethods.extract_with_paddleocr(image_path)
+            text1 = OCRMethods.extract_with_pytesseract(image_path)
             if text1:
                 text1 = TextExtractor.correct_text(text1)
             
             def try_extraction(extraction_method, field_name):
-                nonlocal text1, text2, text3, text4
+                nonlocal text1, text2, text3, text4, text5
                 
                 result = "N/A"
                 if text1:
@@ -107,7 +185,7 @@ class TextExtractor:
                         return result
                 
                 if result == "N/A" and text2 is None:
-                    text2 = OCRMethods.extract_with_pytesseract(image_path)
+                    text2 = OCRMethods.extract_with_easyocr(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
                         result = extraction_method(text2)
@@ -115,7 +193,7 @@ class TextExtractor:
                             return result
                 
                 if result == "N/A" and text3 is None:
-                    text3 = OCRMethods.extract_with_easyocr(image_path)
+                    text3 = OCRMethods.extract_with_suryaocr(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
                         result = extraction_method(text3)
@@ -123,14 +201,26 @@ class TextExtractor:
                             return result
                 
                 if result == "N/A" and text4 is None:
-                    text4 = OCRMethods.extract_with_suryaocr(image_path)
+                    text4 = OCRMethods.extract_with_paddleocr(image_path)
                     if text4:
                         text4 = TextExtractor.correct_text(text4)
                         result = extraction_method(text4)
                         if result != "N/A":
                             return result
+                        
+                if result == "N/A" and text5 is None:
+                    text5 = OCRMethods.extract_with_llamaocr(image_path)
+                    if text5:
+                        text5 = TextExtractor.correct_text(text5)
+                        result = extraction_method(text5)
+                        if result != "N/A":
+                            return result
                 
                 return "N/A"
+
+            total_cost = try_extraction(TextExtractor.extract_total_cost, "total_cost")
+            vat = try_extraction(TextExtractor.extract_vat, "vat")
+            total_cost, vat = TextExtractor.validate_cost_and_vat(total_cost, vat)
 
             results.append({
                 "filename": filename,
@@ -138,25 +228,38 @@ class TextExtractor:
                 "time": try_extraction(TextExtractor.extract_time, "time"),
                 "tax_office_name": try_extraction(TextExtractor.extract_tax_office_name, "tax_office_name"),
                 "tax_office_number": try_extraction(TextExtractor.extract_tax_office_number, "tax_office_number"),
-                "total_cost": try_extraction(TextExtractor.extract_total_cost, "total_cost"),
-                "vat": try_extraction(TextExtractor.extract_vat, "vat"),
+                "total_cost": total_cost,
+                "vat": vat,
                 "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
             })
         
         return results
 
     @staticmethod
+    def validate_ocr_result(text):
+        if not text:
+            return False
+        
+        if len(text) < 20:
+            return False
+            
+        if not any(c.isdigit() for c in text):
+            return False
+            
+        if text.count('\n') < 2:
+            return False
+            
+        keywords = ['FATURA', 'INVOICE', 'TUTAR', 'TOTAL', 'KDV', 'VAT', 'TARİH', 'DATE']
+        if not any(keyword in text.upper() for keyword in keywords):
+            return False
+            
+        return True
+
+    @staticmethod
     def extract_tax_office_name(text):
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines()}
-        patterns = [
-            r"(.+?)\s*V\.D", 
-            r"VERGİ\s*DAİRESİ\s*[;:,]?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)",
-            r"\b([A-ZÇĞİÖŞÜa-zçğıöşü.\s]+)\s*V\.?D\.?", 
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})"
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
                 if found_name in valid_offices:
@@ -169,28 +272,14 @@ class TextExtractor:
             if line in valid_offices:
                 return line
         for office in valid_offices:
-            matching_lines, _, _, _ = search_similar_word_in_text(office, text, 0.9)
+            matching_lines, _, _, _ = TextExtractor.search_similar_word_in_text(office, text, 0.9)
             if matching_lines:
                 return office
         return "N/A"
 
     @staticmethod
     def extract_date(text):
-        patterns = [
-            r'\*\s*\*\*TARIH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',  # Matches * **TARIH:** 25.09.2024
-            r'\*\s*\*\*TARİH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',  # Same with Turkish i
-            r'\*?\s*TARIH:?\s*[*]?\s*(\d{2})[./](\d{2})[./](\d{4})\b',  # Matches TARIH: 25.09.2024 with optional *
-            r'\b(\d{2})/(\d{2})/(\d{4})\b',  # Original patterns below
-            r'\b(\d{2})-(\d{2})-(\d{4})\b',
-            r'\b(\d{2}).(\d{2}).(\d{4})\b',
-            r'\b(\d{4})/(\d{2})/(\d{2})\b',
-            r'\b(\d{4})-(\d{2})-(\d{2})\b',
-            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',
-            r'\bTARİH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b',
-            r'\bTARIH\s*:\s*(\d{2}).(\d{2}).(\d{4})\b',
-            r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b'
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['date']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 day, month, year = match.groups() if len(match.groups()) == 3 else (None, None, None)
                 if day and month and year:
@@ -202,20 +291,12 @@ class TextExtractor:
 
     @staticmethod
     def extract_time(text):
-        patterns = [
-            r'\b\d{2}:\d{2}:\d{2}\b',  # Matches HH:MM:SS
-            r'\b\d{2}:\d{2}\b',  # Matches HH:MM
-            r'\b\d{2}.\d{2}\b',  # Matches HH.MM
-            r'\bTIME:\s*(\d{2}:\d{2})\b',  # Matches Time: HH:MM
-            r'\bSAAT\s*:\s*(\d{2}:\d{2})\b',  # Matches SAAT : HH:MM
-            r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b'  # Matches SAAT1747
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['time']:
             if match := re.search(pattern, text):
                 if ':' in match.group():
                     return match.group()
                 else:
-                    # Handle formats without separators
+                    
                     time_str = match.group()
                     if time_str.startswith('SAAT'):
                         time_parts = match.groups()
@@ -231,23 +312,16 @@ class TextExtractor:
 
     @staticmethod
     def extract_total_cost(text):
-        patterns = [
-            r"TOPLAM\s*[\*\#:X]?\s*(\d+)[.,\s]*(\d{2})?[;:]?",  # Match base number and decimal separately
-            r"TUTAR\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2}|\.\d{2})?)\s*TL?",
-            r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
-                if len(match.groups()) == 2:  # If we matched both whole and decimal parts
+                if len(match.groups()) == 2:
                     whole = match.group(1)
                     decimal = match.group(2) if match.group(2) else "00"
                     return f"{whole}.{decimal}"
                 else:
                     value = match.group(1)
                     if value:
-                        # Clean up the value
+                        
                         cleaned_value = (
                             value.strip()
                             .replace(' ', '')
@@ -261,36 +335,18 @@ class TextExtractor:
         return "N/A"
 
     @staticmethod
-    def extract_numerical_part(text):
-        match = re.search(r'\d+(?:,\d{2})?', text)
-        return match.group(0).replace(',', '.') if match else "N/A"
-
-    @staticmethod
     def extract_vat(text):
-        patterns = [
-            r"KDV\s*\*\s*(\d+[.,]\d{2})",  # Specifically match KDV *11.10 format
-            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:[.,]\d{2})?)",
-            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:[.,]\d{2})?)",
-            r'\bATM FEES:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPKDV:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text):
-                # Get the full match group
                 value = match.group(1)
                 if value:
-                    # Clean up the value and ensure we get the decimal part
                     cleaned_value = value.strip().replace(' ', '')
                     return cleaned_value.replace(',', '.')
         return "N/A"
 
     @staticmethod
     def extract_tax_office_number(text):
-        patterns = [
-            r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
-            r"\b([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*V\.?D\.?\s*[:\s]*([\d\s]{10,11})\b",
-        ]
-        for pattern in patterns:
+        for pattern in TextExtractor._patterns['tax_office_number']:
             if match := re.search(pattern, text):
                 number = match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
                 if len(number) in [10, 11] and number.isdigit():
@@ -302,15 +358,11 @@ class TextExtractor:
     def extract_payment_method(text):
         types = 'N/A'
         lines = text.split('\n')
-        word_list = [
-            "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
-            "ORTAK POS", "BANK", "VISA CREDIT", r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
-        ]
         b, lines_type, match_type, match_word = [], [], [], []
 
-        for i in word_list:
+        for i in TextExtractor._patterns['payment_method']:
             if isinstance(i, str):
-                c, d, mt, word = search_similar_word_in_text(i.lower(), text.lower(), 0.7)
+                c, d, mt, word = TextExtractor.search_similar_word_in_text(i.lower(), text.lower(), 0.7)
                 if c:
                     b.append(c[0])
                     lines_type.append(d[0])
@@ -327,3 +379,26 @@ class TextExtractor:
                     break
 
         return types.upper()
+
+    @staticmethod
+    def search_similar_word_in_text(word, text, cutoff=0.6):
+        lines = text.split('\n')
+        matching_lines = []
+        matching_matching_line_numbers = []
+        matching_word = []
+        match_type = []
+        for line in range(len(lines)):
+            words = lines[line].split()
+            if word in words:
+                match_type.append("exact match")
+                matching_lines.append(lines[line])
+                matching_matching_line_numbers.append(line)
+                matching_word.append(word)
+                continue
+            close_matches = difflib.get_close_matches(word, words, n=1, cutoff=cutoff)
+            if close_matches:
+                match_type.append("similar match")
+                matching_lines.append(lines[line])
+                matching_matching_line_numbers.append(line)
+                matching_word.append(close_matches)
+        return matching_lines, matching_matching_line_numbers, match_type, matching_word

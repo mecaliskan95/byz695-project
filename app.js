@@ -4,16 +4,23 @@ const { ocr } = require('llama-ocr');
 const path = require('path');
 
 const runOCR = async (imagePath) => {
-  const apiKey = 'key';
+  const apiKey = 'key'; // Replace with your own API key
 
   try {
-    const markdown = await ocr({
+    const result = await ocr({
       filePath: imagePath,
       apiKey: apiKey,
       language: 'tur'
     });
-    console.log(markdown);
-    return markdown;
+    
+    const formattedText = result
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line.length > 0)
+      .join('\n');
+    
+    console.log(formattedText);
+    return formattedText;
   } catch (error) {
     console.error('Error during OCR processing:', error);
     process.exit(1);

@@ -514,7 +514,14 @@
                             </svg>
                             <span>
                                 <span data-lang-key="uploadedFile" class="data-label">Uploaded File: </span>
-                                <span style="color: var(--text); font-weight: 600;">{{ result.filename }}</span>
+                                <span style="color: var(--text); font-weight: 600;">
+                                    {{ result.filename }} 
+                                    {% if result.ocr_method != "Failed" %}
+                                    ({{ result.ocr_method }})
+                                    {% else %}
+                                    <span style="color: var(--error);">(OCR Failed)</span>
+                                    {% endif %}
+                                </span>
                             </span>
                         </div>
                         <div class="results-content">
@@ -650,13 +657,10 @@
             let files = [];
             
             if (event.type === 'change') {
-                // Handle file input change
                 files = event.target.files;
             } else if (event.type === 'drop') {
-                // Handle drag and drop
                 files = event.dataTransfer.files;
             } else if (event.type === 'submit') {
-                // Handle form submission
                 files = fileInput.files.length ? fileInput.files : folderInput.files;
             }
             
@@ -666,33 +670,52 @@
             }
             
             const formData = new FormData();
-            for (let file of files) {
+            Array.from(files).forEach(file => {
                 formData.append('files', file);
-            }
+            });
 
             showProcessingOverlay();
 
-            fetch(window.location.href, {
+            fetch('/', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.text())
             .then(html => {
-                document.documentElement.innerHTML = html;
-                const results = document.querySelector('.results');
-                if (results) {
-                    results.classList.add('visible');
+                const parser = new DOMParser();
+                const newDoc = parser.parseFromString(html, 'text/html');
+                
+                // Update only the results section
+                const newResults = newDoc.querySelector('.results-section');
+                const currentResults = document.querySelector('.results-section');
+                
+                if (newResults) {
+                    if (currentResults) {
+                        currentResults.replaceWith(newResults);
+                    } else {
+                        document.querySelector('form').appendChild(newResults);
+                    }
                     showStatus(languages[currentLang].processingSuccess, 'success');
+                } else {
+                    const error = newDoc.querySelector('.error');
+                    if (error) {
+                        showStatus(error.textContent, 'error');
+                    }
                 }
+                
+                // Re-attach event listeners
                 attachEventListeners();
                 updateContent();
             })
             .catch(error => {
                 console.error('Error:', error);
-                showStatus('Error uploading file', 'error');
+                showStatus('Error processing files', 'error');
             })
             .finally(() => {
                 hideProcessingOverlay();
+                // Clear file inputs
+                fileInput.value = '';
+                folderInput.value = '';
             });
         }
 

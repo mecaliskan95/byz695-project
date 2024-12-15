@@ -2,12 +2,19 @@ import os
 import sys
 from datetime import datetime
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
 
-def export_statistics(stats, ocr_name):
-    """Export test statistics to a log file"""
+def log_output(message, file, separator=None):
+    """Write to log file with optional separator"""
+    if separator:
+        sep_line = separator * 80 if separator == '=' else separator * 40
+        file.write(sep_line + "\n")
+    
+    if message is not None:
+        file.write(str(message) + "\n")
+
+def export_statistics(stats, ocr_name, all_texts=None):
+    """Export test statistics and text outputs to a log file"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
@@ -15,67 +22,69 @@ def export_statistics(stats, ocr_name):
     log_file = os.path.join(log_dir, f'{ocr_name}_stats_{timestamp}.log')
     
     with open(log_file, 'w', encoding='utf-8') as f:
+        # Write statistics
         f.write(f"Test Results for {ocr_name}\n")
         f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write("="*50 + "\n\n")
+        f.write("STATISTICS:\n")
+        f.write("-"*20 + "\n")
         f.write(f"Total images processed: {stats['total_images']}\n")
         f.write(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%\n")
         f.write(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts\n")
         f.write(f"Total fields processed: {stats['total_fields']}\n")
         f.write(f"Successful extractions: {stats['successful_extractions']}\n")
         f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
-        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n\n")
+        
+        # Write processed outputs
+        if all_texts:
+            f.write("\nPROCESSED OUTPUTS:\n")
+            f.write("="*50 + "\n\n")
+            for filename, text in all_texts.items():
+                f.write(f"\nFile: {filename}\n")
+                f.write("-"*50 + "\n")
+                f.write(f"Output Text:\n{text}\n")
+                f.write("-"*50 + "\n")
     
-    print(f"\nStatistics exported to: {log_file}")
+    print(f"\nResults exported to: {log_file}")
 
-def test_tesseract_ocr(image_path, stats):
-    print(f"\n{'='*80}\nTesting Tesseract OCR on: {os.path.basename(image_path)}\n{'='*80}")
+def test_tesseract_ocr(image_path, stats, log_file):
+    log_output(f"\nTesting Tesseract OCR on: {os.path.basename(image_path)}", log_file, "=")
     
+    from ocr_methods import OCRMethods
     raw_text = OCRMethods.extract_with_pytesseract(image_path)
-    print("\nRaw Extracted Text:")
-    print(raw_text if raw_text else "No text extracted")
-    
-    # Update OCR success/failure statistics
     stats['ocr_attempts'] += 1
-    
-    # Number of fields we expect to extract
-    expected_fields = 7  # Date, Time, Tax Office, Tax Number, Total Cost, VAT, Payment Method
     
     if not raw_text:
         stats['ocr_failures'] += 1
-        stats['total_fields'] += expected_fields
-        stats['failed_extractions'] += expected_fields
-        print("OCR failed to read the image - counting all fields as failed")
-        return
+        stats['total_fields'] += 7  # Date, Time, Tax Office, Tax Number, Total Cost, VAT, Payment Method
+        stats['failed_extractions'] += 7
+        log_output("OCR failed to read the image - counting all fields as failed", log_file)
+        return None
+
+    output_text = TextExtractor.correct_text(raw_text)
+    log_output("\nProcessed Text Output:", log_file, "-")
+    log_output(output_text, log_file)
     
-    # Rest of processing for successful OCR
-    corrected_text = TextExtractor.correct_text(raw_text)
-    print("\nCorrected Text:")
-    print(corrected_text)
-    
-    print("\nExtracted Fields:")
-    print("-" * 40)
     fields = {
-        "Date": TextExtractor.extract_date(corrected_text),
-        "Time": TextExtractor.extract_time(corrected_text),
-        "Tax Office": TextExtractor.extract_tax_office_name(corrected_text),
-        "Tax Number": TextExtractor.extract_tax_office_number(corrected_text),
-        "Total Cost": TextExtractor.extract_total_cost(corrected_text),
-        "VAT": TextExtractor.extract_vat(corrected_text),
-        "Payment Method": TextExtractor.extract_payment_method(corrected_text)
+        "Date": TextExtractor.extract_date(output_text),
+        "Time": TextExtractor.extract_time(output_text),
+        "Tax Office": TextExtractor.extract_tax_office_name(output_text),
+        "Tax Number": TextExtractor.extract_tax_office_number(output_text),
+        "Total Cost": TextExtractor.extract_total_cost(output_text),
+        "VAT": TextExtractor.extract_vat(output_text),
+        "Payment Method": TextExtractor.extract_payment_method(output_text)
     }
     
-    # Update statistics
+    log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
         stats['total_fields'] += 1
-        if value != "N/A":
-            stats['successful_extractions'] += 1
-        else:
-            stats['failed_extractions'] += 1
+        success = value != "N/A"
+        stats['successful_extractions' if success else 'failed_extractions'] += 1
+        log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
+    log_output("", log_file, "-")
 
-    # Print fields
-    for field_name, value in fields.items():
-        print(f"{field_name}: {value}")
+    return output_text
 
 def main():
     test_data_path = os.path.join(os.path.dirname(__file__), 'test_data')
@@ -85,6 +94,9 @@ def main():
         os.makedirs(test_data_path)
         print("Please add your test images to the test_data folder and run the script again.")
         return
+    
+    from ocr_methods import OCRMethods
+    TextExtractor.set_testing_mode(True, OCRMethods.extract_with_pytesseract)
     
     image_files = [
         os.path.join(test_data_path, f) 
@@ -96,7 +108,6 @@ def main():
         print("No image files found in test_data folder.")
         return
 
-    # Initialize statistics with new counters
     stats = {
         'total_images': len(image_files),
         'ocr_attempts': 0,
@@ -106,23 +117,29 @@ def main():
         'failed_extractions': 0
     }
     
-    for image_path in image_files:
-        test_tesseract_ocr(image_path, stats)
-
-    # Print enhanced final statistics
-    print("\n" + "="*80)
-    print("FINAL STATISTICS:")
-    print(f"Total images processed: {stats['total_images']}")
-    print(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%")
-    print(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts")
-    print(f"Total fields attempted: {stats['total_fields']}")
-    print(f"Successful extractions: {stats['successful_extractions']}")
-    print(f"Failed extractions (N/A): {stats['failed_extractions']}")
-    print(f"Overall success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%")
-    print("="*80)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
+    os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f'Tesseract_stats_{timestamp}.log')
     
-    # Export statistics
-    export_statistics(stats, "Tesseract")
+    with open(log_file, 'w', encoding='utf-8') as f:
+        all_texts = {}
+        for image_path in image_files:
+            output_text = test_tesseract_ocr(image_path, stats, f)
+            if output_text:
+                all_texts[os.path.basename(image_path)] = output_text
+        
+        # Write final statistics
+        log_output("\nFINAL STATISTICS:", f, "=")
+        log_output(f"Total images processed: {stats['total_images']}", f)
+        log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)
+        log_output(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts", f)
+        log_output(f"Total fields attempted: {stats['total_fields']}", f)
+        log_output(f"Successful extractions: {stats['successful_extractions']}", f)
+        log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
+        log_output(f"Overall success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
+        
+    print(f"\nResults exported to: {log_file}")
 
 if __name__ == "__main__":
     main()
