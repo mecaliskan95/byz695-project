@@ -1,9 +1,10 @@
 import os
 import sys
 from datetime import datetime
+import random
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
-from ocr_methods import OCRMethods  # Change this line
+from ocr_methods import OCRMethods
 
 def log_output(message, file, separator=None):
     """Write to log file with optional separator"""
@@ -65,23 +66,26 @@ def test_easy_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    test_data_path = os.path.join(os.path.dirname(__file__), 'test_data')
+    # Get images from uploads folder instead of test_data
+    uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
-    if not os.path.exists(test_data_path):
-        print(f"Creating test data directory at: {test_data_path}")
-        os.makedirs(test_data_path)
-        print("Please add your test images to the test_data folder and run the script again.")
+    if not os.path.exists(uploads_path):
+        print(f"Uploads directory not found at: {uploads_path}")
         return
     
     image_files = [
-        os.path.join(test_data_path, f) 
-        for f in os.listdir(test_data_path) 
+        os.path.join(uploads_path, f) 
+        for f in os.listdir(uploads_path) 
         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp'))
     ]
     
     if not image_files:
-        print("No image files found in test_data folder.")
+        print("No image files found in uploads folder.")
         return
+    
+    # Take random 80% of images
+    sample_size = max(1, int(len(image_files) * 0.8))
+    image_files = random.sample(image_files, sample_size)
     
     stats = {
         'total_images': len(image_files),

@@ -26,11 +26,13 @@ class OCRMethods:
     _instances = {}
     _cache = {}
     _tesseract_initialized = False
+    _easyocr_initialized = False
     
     TESSERACT_PATHS = [
         r'C:\Program Files\Tesseract-OCR\tesseract.exe',
         r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe',
         r'C:\Users\mecal\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
+        r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
         r'/usr/bin/tesseract',
         r'/usr/local/bin/tesseract',
     ]
@@ -60,14 +62,26 @@ class OCRMethods:
     @classmethod
     @lru_cache(maxsize=1)
     def get_instance(cls, method_name):
-        if method_name not in cls._instances:
-            if method_name == 'easyocr':
-                cls._instances[method_name] = easyocr.Reader(['en', 'tr'], gpu=False)
-            elif method_name == 'paddle':
-                cls._instances[method_name] = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
-            elif method_name == 'tesseract':
-                cls.initialize_tesseract()
-        return cls._instances.get(method_name)
+        try:
+            if method_name not in cls._instances:
+                if method_name == 'Easyocr':
+                    if not cls._easyocr_initialized:
+                        reader = easyocr.Reader(['en', 'tr'], gpu=False)
+                        # Test if reader is working
+                        if reader:
+                            cls._instances[method_name] = reader
+                            cls._easyocr_initialized = True
+                        else:
+                            print("Failed to initialize EasyOCR reader")
+                            return None
+                elif method_name == 'Paddle':
+                    cls._instances[method_name] = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
+                elif method_name == 'Tesseract':
+                    cls.initialize_tesseract()
+            return cls._instances.get(method_name)
+        except Exception as e:
+            print(f"Error initializing {method_name}: {str(e)}")
+            return None
 
     @classmethod
     def process_with_method(cls, image_path, method_name, processor_func):
@@ -105,7 +119,6 @@ class OCRMethods:
     @classmethod
     def extract_with_pytesseract(cls, image_path):
         if not cls.initialize_tesseract():
-            print("Falling back to other OCR methods...")
             return None
             
         return cls.process_with_method(
@@ -117,38 +130,47 @@ class OCRMethods:
     @classmethod
     def extract_with_easyocr(cls, image_path):
         def process(img):
-            reader = cls.get_instance('easyocr')
-            results = reader.readtext(img)
-            if not results:
+            reader = cls.get_instance('Easyocr')
+            if reader is None:
+                print("EasyOCR reader not available")
                 return None
                 
-            lines = []
-            current_line = []
-            line_threshold = 20
-
-            for result in results:
-                box, text, confidence = result
-                
-                if confidence < 0.1:
-                    continue
+            try:
+                results = reader.readtext(img)
+                if not results:
+                    return None
                     
-                if not current_line:
-                    current_line.append(result)
-                else:
-                    if abs(box[0][1] - current_line[0][0][0][1]) < line_threshold:
+                lines = []
+                current_line = []
+                line_threshold = 20
+
+                for result in results:
+                    box, text, confidence = result
+                    
+                    if confidence < 0.1:
+                        continue
+                        
+                    if not current_line:
                         current_line.append(result)
                     else:
-                        current_line.sort(key=lambda x: x[0][0][0])  # Sort by x-coordinate
-                        line_text = " ".join(res[1].strip() for res in current_line)
-                        lines.append(line_text)
-                        current_line = [result]
+                        if abs(box[0][1] - current_line[0][0][0][1]) < line_threshold:
+                            current_line.append(result)
+                        else:
+                            current_line.sort(key=lambda x: x[0][0][0])  # Sort by x-coordinate
+                            line_text = " ".join(res[1].strip() for res in current_line)
+                            lines.append(line_text)
+                            current_line = [result]
 
-            if current_line:
-                current_line.sort(key=lambda x: x[0][0][0])
-                line_text = " ".join(res[1].strip() for res in current_line)
-                lines.append(line_text)
+                if current_line:
+                    current_line.sort(key=lambda x: x[0][0][0])
+                    line_text = " ".join(res[1].strip() for res in current_line)
+                    lines.append(line_text)
 
-            return "\n".join(lines)
+                return "\n".join(lines)
+                
+            except Exception as e:
+                print(f"Error during EasyOCR processing: {str(e)}")
+                return None
 
         return cls.process_with_method(image_path, 'easyocr', process)
 
