@@ -1,43 +1,45 @@
-# Web Framework
-Flask>=2.0.1
-
-# Async Flask Support
-flask[async]>=2.0.1
-asgiref>=3.2.10
-
-# Core Processing
-numpy>=1.21.0
-Pillow>=9.0.0
-opencv-python>=4.5.0
-fuzzywuzzy>=0.18.0
-python-Levenshtein>=0.12.2
-
-# OCR Libraries
-pytesseract>=0.3.8
-easyocr>=1.6.2
-paddlepaddle>=2.4.2
-paddleocr>=2.6.1.3
-surya-ocr>=0.1.5
-
-# Deep Learning Dependencies
-tensorflow==2.11.0
-keras==2.11.0
-torch>=1.12.0
-torchvision>=0.13.0
+# Core Web Framework
+Flask==3.1.0
+Werkzeug==3.1.3
+asgiref==3.8.1
 
 # Image Processing
-scikit-image>=0.19.0
+Pillow==11.0.0
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+scikit-image==0.25.0
+
+# OCR Engines
+pytesseract==0.3.13
+easyocr==1.7.2
+paddlepaddle==2.6.2
+paddleocr==2.9.1
+surya-ocr==0.8.0
+
+# Text Processing
+python-Levenshtein==0.26.1
+fuzzywuzzy==0.18.0
+regex==2024.11.6
+
+# Deep Learning
+torch==2.5.1
+torchvision==0.20.1
+tensorflow-intel==2.18.0
+keras==3.7.0
 
 # Utilities
-python-dotenv>=0.19.0
-werkzeug>=2.0.0
-asyncio>=3.4.3
-aiofiles>=0.8.0
+python-dotenv==1.0.1
+aiofiles==23.2.1
+colorlog==6.9.0
+filetype==1.2.0
 
-# Optional but recommended
-cuda-python>=11.8.0  # For GPU support
-cupy>=12.0.0        # For GPU acceleration
+# Optional GPU Support
+# cuda-python>=11.8.0
+# cupy>=12.0.0
 
-# Tesseract requirements
-pytesseract>=0.3.8
-# Note: Tesseract-OCR must be installed separately via system package manager
+# Notes:
+# 1. Tesseract-OCR must be installed separately:
+#    Windows: https://github.com/UB-Mannheim/tesseract/wiki
+#    Don't forget to add Turkish language data during installation
+# 2. Make sure Tesseract is in your system PATH

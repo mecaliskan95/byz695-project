@@ -147,43 +147,26 @@ class TextExtractor:
 
     @staticmethod
     def extract_all(texts, filenames=None):
-
-    # Ranked List (General Performance):
-    # PaddleOCR
-    # Why: Highly accurate, supports multiple languages, robust for complex layouts, and excellent for non-Latin scripts (e.g., Chinese). It's widely regarded as one of the best open-source OCR libraries for real-world scenarios.
-    
-    # EasyOCR
-    # Why: Good accuracy and speed for many languages. It’s relatively easy to use and has moderate resource demands. Works well for general text recognition tasks.
-    
-    # LlamaOCR
-    # Why: Likely a custom or less-known library. Generally, custom models may perform well in specific scenarios but lack versatility or broader language support. Its ranking could vary depending on how it’s optimized for your project.
-   
-    # SuryaOCR
-    # Why: Similar to LlamaOCR, its rank depends on its optimization. Custom OCR libraries often have trade-offs in accuracy and robustness compared to highly optimized, widely-used libraries like PaddleOCR or EasyOCR.
-    
-    # Tesseract (Pytesseract)
-    # Why: While widely used and highly accessible, Tesseract struggles with complex layouts, noisy images, and curved text. It has slower performance and lower accuracy compared to modern alternatives like PaddleOCR. 
-
         if filenames is None:
             filenames = ["Unnamed"] * len(texts)
         results = []
-        
+
         for image_path, filename in zip(texts, filenames):
-            text1 = text2 = text3 = text4 = text5 = None
-            
-            text1 = OCRMethods.extract_with_pytesseract(image_path)
+            text1 = text2 = text3 = text4 = None
+
+            text1 = OCRMethods.extract_with_paddleocr(image_path)
             if text1:
                 text1 = TextExtractor.correct_text(text1)
             
             def try_extraction(extraction_method, field_name):
-                nonlocal text1, text2, text3, text4, text5
+                nonlocal text1, text2, text3, text4
                 
                 result = "N/A"
                 if text1:
                     result = extraction_method(text1)
                     if result != "N/A":
                         return result
-                
+
                 if result == "N/A" and text2 is None:
                     text2 = OCRMethods.extract_with_easyocr(image_path)
                     if text2:
@@ -193,26 +176,18 @@ class TextExtractor:
                             return result
                 
                 if result == "N/A" and text3 is None:
-                    text3 = OCRMethods.extract_with_suryaocr(image_path)
+                    text3 = OCRMethods.extract_with_pytesseract(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
                         result = extraction_method(text3)
                         if result != "N/A":
                             return result
-                
+
                 if result == "N/A" and text4 is None:
-                    text4 = OCRMethods.extract_with_paddleocr(image_path)
+                    text4 = OCRMethods.extract_with_suryaocr(image_path)
                     if text4:
                         text4 = TextExtractor.correct_text(text4)
                         result = extraction_method(text4)
-                        if result != "N/A":
-                            return result
-                        
-                if result == "N/A" and text5 is None:
-                    text5 = OCRMethods.extract_with_llamaocr(image_path)
-                    if text5:
-                        text5 = TextExtractor.correct_text(text5)
-                        result = extraction_method(text5)
                         if result != "N/A":
                             return result
                 
@@ -232,7 +207,7 @@ class TextExtractor:
                 "vat": vat,
                 "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
             })
-        
+
         return results
 
     @staticmethod

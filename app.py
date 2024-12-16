@@ -15,6 +15,7 @@ import logging
 from flask import Flask, render_template, request, send_file
 from text_extraction import TextExtractor
 from werkzeug.utils import secure_filename
+from ocr_methods import OCRMethods
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tiff', 'bmp'}
 
@@ -37,7 +38,13 @@ def process_files(files):
                 files_info['paths'].append(filepath)
                 files_info['names'].append(filename)
         
+        if not files_info['paths']:
+            return None
+            
         return TextExtractor.extract_all(files_info['paths'], files_info['names'])
+    except Exception as e:
+        app.logger.error(f"Error processing files: {str(e)}")
+        return None
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
 

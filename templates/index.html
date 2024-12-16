@@ -515,12 +515,7 @@
                             <span>
                                 <span data-lang-key="uploadedFile" class="data-label">Uploaded File: </span>
                                 <span style="color: var(--text); font-weight: 600;">
-                                    {{ result.filename }} 
-                                    {% if result.ocr_method != "Failed" %}
-                                    ({{ result.ocr_method }})
-                                    {% else %}
-                                    <span style="color: var(--error);">(OCR Failed)</span>
-                                    {% endif %}
+                                    {{ result.filename }}
                                 </span>
                             </span>
                         </div>

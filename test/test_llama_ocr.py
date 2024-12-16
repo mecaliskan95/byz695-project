@@ -59,7 +59,8 @@ def export_statistics(stats, ocr_name, all_results=None):
 def test_llama_ocr(image_path, stats, log_file):
     log_output(f"\nTesting LlamaOCR on: {os.path.basename(image_path)}", log_file, "=")
     
-    raw_text = OCRMethods.extract_with_llamaocr(image_path)
+    ocr = OCRMethods()  # Create instance
+    raw_text = ocr.extract_with_llamaocr(image_path)
     stats['ocr_attempts'] += 1
     
     if not raw_text:
@@ -94,7 +95,7 @@ def test_llama_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    # Get images from uploads folder instead of test_data
+    # Get images from uploads folder
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -111,10 +112,6 @@ def main():
         print("No image files found in uploads folder.")
         return
     
-    # Take random 80% of images
-    sample_size = max(1, int(len(image_files) * 0.8))
-    image_files = random.sample(image_files, sample_size)
-    
     stats = {
         'total_images': len(image_files),
         'ocr_attempts': 0,
@@ -128,6 +125,9 @@ def main():
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f'LlamaOCR_stats_{timestamp}.log')
+    
+    ocr = OCRMethods()  # Create instance
+    TextExtractor.set_testing_mode(True, ocr.extract_with_llamaocr)
     
     with open(log_file, 'w', encoding='utf-8') as f:
         all_texts = {}

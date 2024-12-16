@@ -1,283 +1,144 @@
 import os
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
 
 import subprocess
 import pytesseract
 import easyocr
 from PIL import Image
-import logging
 from pathlib import Path
-import sys
-from tempfile import NamedTemporaryFile
-from multiprocessing import Pool
-from image_processing import ImageProcessor
 from paddleocr import PaddleOCR
 from surya.ocr import run_ocr
 from surya.model.detection.model import load_model as load_det_model, load_processor as load_det_processor
 from surya.model.recognition.model import load_model as load_rec_model
 from surya.model.recognition.processor import load_processor as load_rec_processor
-from functools import lru_cache
+from image_processing import ImageProcessor
 
-logging.getLogger('easyocr').setLevel(logging.WARNING)
+TESSERACT_PATHS = [
+    r'C:\Program Files\Tesseract-OCR\tesseract.exe',
+    r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe',
+    r'C:\Users\mecal\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
+    r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
+    r'/usr/bin/tesseract',
+    r'/usr/local/bin/tesseract',
+]
+
+for path in TESSERACT_PATHS:
+    if os.path.exists(path):
+        pytesseract.pytesseract.tesseract_cmd = str(Path(path))
+        pytesseract.get_tesseract_version()
+
+_easyocr_reader = None
+_paddle_ocr = None
 
 class OCRMethods:
-    _instances = {}
-    _cache = {}
-    _tesseract_initialized = False
-    _easyocr_initialized = False
-    
-    TESSERACT_PATHS = [
-        r'C:\Program Files\Tesseract-OCR\tesseract.exe',
-        r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe',
-        r'C:\Users\mecal\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
-        r'c:\Users\mertc\AppData\Local\Programs\Tesseract-OCR\tesseract.exe',
-        r'/usr/bin/tesseract',
-        r'/usr/local/bin/tesseract',
-    ]
-
-    @classmethod
-    def initialize_tesseract(cls):
-        if cls._tesseract_initialized:
-            return True
-            
-        for path in cls.TESSERACT_PATHS:
-            if os.path.exists(path):
-                try:
-                    pytesseract.pytesseract.tesseract_cmd = str(Path(path))
-                    pytesseract.get_languages()
-                    cls._tesseract_initialized = True
-                    print(f"Tesseract initialized successfully at: {path}")
-                    return True
-                except Exception as e:
-                    print(f"Failed to initialize Tesseract at {path}: {e}")
-                    continue
-        
-        print("ERROR: Tesseract is not properly installed or configured.")
-        print("Please install Tesseract from: https://github.com/UB-Mannheim/tesseract/wiki")
-        print("Make sure to install the Turkish language data as well.")
-        return False
-
-    @classmethod
-    @lru_cache(maxsize=1)
-    def get_instance(cls, method_name):
-        try:
-            if method_name not in cls._instances:
-                if method_name == 'Easyocr':
-                    if not cls._easyocr_initialized:
-                        reader = easyocr.Reader(['en', 'tr'], gpu=False)
-                        # Test if reader is working
-                        if reader:
-                            cls._instances[method_name] = reader
-                            cls._easyocr_initialized = True
-                        else:
-                            print("Failed to initialize EasyOCR reader")
-                            return None
-                elif method_name == 'Paddle':
-                    cls._instances[method_name] = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
-                elif method_name == 'Tesseract':
-                    cls.initialize_tesseract()
-            return cls._instances.get(method_name)
-        except Exception as e:
-            print(f"Error initializing {method_name}: {str(e)}")
-            return None
-
-    @classmethod
-    def process_with_method(cls, image_path, method_name, processor_func):
-        cache_key = f"{image_path}_{method_name}"
-        if cache_key in cls._cache:
-            return cls._cache[cache_key]
-
+    @staticmethod
+    def extract_with_pytesseract(image_path):
         if not os.path.isfile(image_path):
-            print(f"File not found: {image_path}")
             return None
 
         try:
-            processed_image = cls.process_image_cached(image_path)
-            if processed_image is None:
-                print(f"Image processing failed for {image_path}")
-                return None
-
-            result = processor_func(processed_image)
-            if result and len(result.strip()) > 0:
-                cls._cache[cache_key] = result.upper()
-                return cls._cache[cache_key]
-            else:
-                print(f"{method_name} produced empty result for {image_path}")
-                return None
-                
+            image = ImageProcessor.process_image(image_path)
+            if image is not None:
+                text = pytesseract.image_to_string(
+                    image,
+                    config='--oem 3 --psm 6',
+                    lang='tur+eng'
+                ).strip()
+                return text.upper() if text else None
         except Exception as e:
-            print(f"Error in {method_name} for {image_path}: {str(e)}")
-            return None
+            print(f"Tesseract error: {e}")
+        return None
 
     @staticmethod
-    @lru_cache(maxsize=32)
-    def process_image_cached(image_path):
-        return ImageProcessor.process_image(image_path)
-
-    @classmethod
-    def extract_with_pytesseract(cls, image_path):
-        if not cls.initialize_tesseract():
+    def extract_with_easyocr(image_path):
+        global _easyocr_reader
+        image = ImageProcessor.process_image(image_path)
+        if image is None:
             return None
             
-        return cls.process_with_method(
-            image_path,
-            'tesseract',
-            lambda img: pytesseract.image_to_string(img, lang='tur+eng')
-        )
+        if _easyocr_reader is None:
+            _easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
+        
+        results = _easyocr_reader.readtext(image)
+        if not results:
+            return None
 
-    @classmethod
-    def extract_with_easyocr(cls, image_path):
-        def process(img):
-            reader = cls.get_instance('Easyocr')
-            if reader is None:
-                print("EasyOCR reader not available")
-                return None
+        # Group text by vertical position
+        lines = {}
+        for (bbox, text, conf) in results:
+            if conf < 0.1:  # Skip low confidence results
+                continue
                 
-            try:
-                results = reader.readtext(img)
-                if not results:
-                    return None
-                    
-                lines = []
-                current_line = []
-                line_threshold = 20
-
-                for result in results:
-                    box, text, confidence = result
-                    
-                    if confidence < 0.1:
-                        continue
-                        
-                    if not current_line:
-                        current_line.append(result)
-                    else:
-                        if abs(box[0][1] - current_line[0][0][0][1]) < line_threshold:
-                            current_line.append(result)
-                        else:
-                            current_line.sort(key=lambda x: x[0][0][0])  # Sort by x-coordinate
-                            line_text = " ".join(res[1].strip() for res in current_line)
-                            lines.append(line_text)
-                            current_line = [result]
-
-                if current_line:
-                    current_line.sort(key=lambda x: x[0][0][0])
-                    line_text = " ".join(res[1].strip() for res in current_line)
-                    lines.append(line_text)
-
-                return "\n".join(lines)
-                
-            except Exception as e:
-                print(f"Error during EasyOCR processing: {str(e)}")
-                return None
-
-        return cls.process_with_method(image_path, 'easyocr', process)
-
-    @classmethod
-    def extract_with_llamaocr(cls, image_path):
-        if not os.path.isfile(image_path):
-            return None
+            # Calculate average y-coordinate of the text box
+            y_coord = sum(point[1] for point in bbox) / 4
+            # Round to nearest 10 pixels to group nearby lines
+            y_bucket = round(y_coord / 10) * 10
             
-        try:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            node_script = os.path.join(current_dir, 'app.js')
-            
-            result = subprocess.run(
-                ['node', node_script, image_path], 
-                capture_output=True, 
-                text=True, 
-                check=True, 
-                encoding='utf-8',
-                cwd=current_dir
-            )
-            
-            if result.returncode == 0 and result.stdout:
-                return result.stdout.strip().upper()
-            
-            return None
-            
-        except subprocess.CalledProcessError as e:
-            print(f"Error during llama-ocr processing: {e.stderr.strip()}")
-            return None
-        except Exception as e:
-            print(f"Unexpected error during llama-ocr processing: {e}")
-            return None
+            # Add text to corresponding line
+            if y_bucket not in lines:
+                lines[y_bucket] = []
+            lines[y_bucket].append(text)
+
+        # Sort by y-coordinate and join each line's text
+        sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
+        text = '\n'.join(sorted_lines)
+        
+        return text.upper() if text else None
 
     @staticmethod
     def extract_with_paddleocr(image_path):
-        if not os.path.isfile(image_path):
+        global _paddle_ocr
+        image = ImageProcessor.process_image(image_path)
+        if image is None:
             return None
+
+        if _paddle_ocr is None:
+            _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
+            
+        result = _paddle_ocr.ocr(image)
+        if not result or not result[0]:
+            return None
+
+        lines = {}
+        for line in result[0]:
+            if line[1][1] < 0.5:  # confidence threshold
+                continue
+            y_coord = sum(point[1] for point in line[0]) / 4
+            y_bucket = round(y_coord / 10) * 10
+            lines.setdefault(y_bucket, []).append(line[1][0])
+
+        sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
+        return '\n'.join(sorted_lines).upper() if sorted_lines else None
+
+    @staticmethod
+    def extract_with_llamaocr(image_path):
         try:
-            processed_image = OCRMethods.process_image_cached(image_path)
-            if processed_image is None:
-                return None
-
-            ocr = OCRMethods.get_instance('paddle')
-            if ocr is None:
-                return None
-
-            result = ocr.ocr(processed_image)
-            if not result or not result[0]:
-                return None
-
-            lines = []
-            current_line = []
-            current_y = None
-            threshold = 20
-
-            for line in result[0]:
-                box, (text, confidence) = line
-                if confidence < 0.5:
-                    continue
-
-                y1 = (box[0][1] + box[3][1]) / 2
-
-                if current_y is None or abs(current_y - y1) < threshold:
-                    current_line.append(text)
-                    current_y = y1
-                else:
-                    if current_line:
-                        lines.append(" ".join(current_line))
-                    current_line = [text]
-                    current_y = y1
-
-            if current_line:
-                lines.append(" ".join(current_line))
-
-            return "\n".join(lines).upper()
-
-        except Exception as e:
-            print(f"Error during PaddleOCR processing: {e}")
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            result = subprocess.run(
+                ['node', 'app.js', image_path],
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                cwd=current_dir
+            )
+            return result.stdout.strip().upper() if result.returncode == 0 else None
+        except:
             return None
 
     @staticmethod
     def extract_with_suryaocr(image_path):
-        if not os.path.isfile(image_path):
-            print(f"File not found: {image_path}")
-            return None
         try:
             image = Image.open(image_path)
-            langs = ["tr", "en"]
             det_processor, det_model = load_det_processor(), load_det_model()
             rec_model, rec_processor = load_rec_model(), load_rec_processor()
-
-            predictions = run_ocr([image], [langs], det_model, det_processor, rec_model, rec_processor)
-            text_lines = []
-            for page in predictions:
-                for line in page.text_lines:
-                    text_lines.append(line.text)
-            text = "\n".join(text_lines)
-            return text.upper()
-        except Exception as e:
-            print(f"Error during Surya OCR processing: {e}")
+            
+            predictions = run_ocr([image], [["tr", "en"]], det_model, det_processor, rec_model, rec_processor)
+            text = '\n'.join([line.text for page in predictions for line in page.text_lines])
+            return text.upper() if text else None
+        except:
             return None
 
     @staticmethod
-    def batch_process_ocr(image_paths, ocr_method, batch_size=4):
-        results = []
-        for i in range(0, len(image_paths), batch_size):
-            batch = image_paths[i:i + batch_size]
-            with Pool(min(len(batch), os.cpu_count() or 1)) as pool:
-                results.extend(pool.map(ocr_method, batch))
-        return results
+    def batch_process_ocr(image_paths, method_name):
+        method = getattr(OCRMethods, f'extract_with_{method_name.lower()}')
+        return [method(image_path) for image_path in image_paths if os.path.isfile(image_path)]
