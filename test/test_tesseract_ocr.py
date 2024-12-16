@@ -1,9 +1,10 @@
 import os
 import sys
-from datetime import time
+from datetime import datetime
 import random
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
+from ocr_methods import OCRMethods
 
 def log_output(message, file, separator=None):
     """Write to log file with optional separator"""
@@ -52,7 +53,6 @@ def export_statistics(stats, ocr_name, all_texts=None):
 def test_tesseract_ocr(image_path, stats, log_file):
     log_output(f"\nTesting Tesseract OCR on: {os.path.basename(image_path)}", log_file, "=")
     
-    from ocr_methods import OCRMethods
     raw_text = OCRMethods.extract_with_pytesseract(image_path)
     stats['ocr_attempts'] += 1
     
@@ -109,7 +109,6 @@ def main():
     sample_size = max(1, int(len(image_files) * 0.8))
     image_files = random.sample(image_files, sample_size)
 
-    from ocr_methods import OCRMethods
     TextExtractor.set_testing_mode(True, OCRMethods.extract_with_pytesseract)
     
     if not image_files:
