@@ -8,7 +8,6 @@ from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
 
 def export_statistics(stats, ocr_name, all_texts=None):
-    """Export test statistics and text outputs to a log file"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
@@ -39,7 +38,6 @@ def export_statistics(stats, ocr_name, all_texts=None):
     print(f"\nStatistics exported to: {log_file}")
 
 def log_output(message, file, separator=None):
-    """Write to log file with optional separator"""
     if separator:
         sep_line = separator * 80 if separator == '=' else separator * 40
         file.write(sep_line + "\n")
@@ -50,13 +48,13 @@ def log_output(message, file, separator=None):
 def test_paddle_ocr(image_path, stats, log_file):
     log_output(f"\nTesting PaddleOCR on: {os.path.basename(image_path)}", log_file, "=")
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods()
     raw_text = ocr.extract_with_paddleocr(image_path)
     stats['ocr_attempts'] += 1
     
     if not raw_text:
         stats['ocr_failures'] += 1
-        stats['total_fields'] += 7  # Date, Time, Tax Office, Tax Number, Total Cost, VAT, Payment Method
+        stats['total_fields'] += 7
         stats['failed_extractions'] += 7
         log_output("OCR failed to read the image - counting all fields as failed", log_file)
         return None
@@ -86,7 +84,6 @@ def test_paddle_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    # Get images from uploads folder
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -103,7 +100,7 @@ def main():
         print("No image files found in uploads folder.")
         return
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods()
     TextExtractor.set_testing_mode(True, ocr.extract_with_paddleocr)
     
     stats = {
@@ -126,8 +123,7 @@ def main():
             output_text = test_paddle_ocr(image_path, stats, f)
             if output_text:
                 all_texts[os.path.basename(image_path)] = output_text
-        
-        # Write final statistics
+
         log_output("\nFINAL STATISTICS:", f, "=")
         log_output(f"Total images processed: {stats['total_images']}", f)
         log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)

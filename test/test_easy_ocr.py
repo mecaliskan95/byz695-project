@@ -7,7 +7,6 @@ from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
 
 def log_output(message, file, separator=None):
-    """Write to log file with optional separator"""
     if separator:
         sep_line = separator * 80 if separator == '=' else separator * 40
         file.write(sep_line + "\n")
@@ -16,8 +15,6 @@ def log_output(message, file, separator=None):
         file.write(str(message) + "\n")
 
 def export_statistics(stats, ocr_name, all_results, log_file=None):
-    """Write test statistics and results to a log file"""
-    # Write statistics
     log_output("\nFINAL STATISTICS:", log_file, "=")
     log_output(f"Total images processed: {stats['total_images']}", log_file)
     log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", log_file)
@@ -31,7 +28,7 @@ def export_statistics(stats, ocr_name, all_results, log_file=None):
 def test_easy_ocr(image_path, stats, log_file):
     log_output(f"\nTesting EasyOCR on: {os.path.basename(image_path)}", log_file, "=")
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods()
     raw_text = ocr.extract_with_easyocr(image_path)
     stats['ocr_attempts'] += 1
     
@@ -67,7 +64,6 @@ def test_easy_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    # Get images from uploads folder
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -93,7 +89,7 @@ def main():
         'failed_extractions': 0
     }
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods() 
     TextExtractor.set_testing_mode(True, ocr.extract_with_easyocr)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -108,7 +104,6 @@ def main():
             if output_text:
                 all_texts[os.path.basename(image_path)] = output_text
         
-        # Write final statistics
         log_output("\nFINAL STATISTICS:", f, "=")
         log_output(f"Total images processed: {stats['total_images']}", f)
         log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)

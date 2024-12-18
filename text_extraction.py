@@ -34,7 +34,7 @@ class TextExtractor:
             r'\b(\d{2}).(\d{2}).(\d{4})\b',
             r'\b(\d{4})/(\d{2})/(\d{2})\b',
             r'\b(\d{4})-(\d{2})-(\d{2})\b',
-            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',  # Fixed the malformed pattern
+            r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',
             r'\bTARİH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b', 
             r'\bTARIH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b',
             r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b'
@@ -60,7 +60,7 @@ class TextExtractor:
             r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
             r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
             r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r"TOPLAM\s*\+\s*(\d+)[.,](\d{2})"  # New pattern for TOPLAM +360,00 format
+            r"TOPLAM\s*\+\s*(\d+)[.,](\d{2})"
         ],
         'vat': [
             r"KDV\s*\*\s*(\d+[.,]\d{2})",
@@ -354,6 +354,35 @@ class TextExtractor:
                     break
 
         return types.upper()
+
+    def divideText(text):
+        lines = text.split('\n')
+
+        a, lines_a, match_type_a,match_word_a = TextExtractor.search_similar_word_in_text("tarih", text.lower(), 0.7)
+        b, lines_b, match_type_b,match_word_b = TextExtractor.search_similar_word_in_text("saat", text.lower(), 0.7)
+        c, lines_c, match_type_c,match_word_c = TextExtractor.search_similar_word_in_text("fis", text.lower(), 0.6)
+
+
+        d, lines_d, match_type_d,match_word_d = TextExtractor.search_similar_word_in_text("topkdv", text.lower(), 0.7)
+        e, lines_e, match_type_e,match_word_e = TextExtractor.search_similar_word_in_text("kdv", text.lower(), 0.6)
+        kdv, line_kdv = find_lines_starting_with_or_similar("TOPKDV", text)
+
+        f, lines_f, match_type_f,match_word_f = TextExtractor.search_similar_word_in_text("top", text.lower(), 0.6)
+        g, lines_g, match_type_g,match_word_g = TextExtractor.search_similar_word_in_text("toplam", text.lower(), 0.7)
+        top, line_top = find_lines_starting_with_or_similar("TOPLAM", text.lower())
+
+
+        non_empty_lists = [lst[0] for lst in [lines_a,lines_b,lines_c] if lst]
+        firstLast = max(non_empty_lists) if non_empty_lists else None
+
+        non_empty_lists = [lst[0] for lst in [lines_d,lines_e,lines_f,lines_g] if lst]
+        thirdBegin = min(non_empty_lists) if non_empty_lists else None
+
+        if firstLast is None:
+            firstLast=0
+        if thirdBegin is None:
+            thirdBegin = len(lines)
+        return firstLast,thirdBegin
 
     @staticmethod
     def search_similar_word_in_text(word, text, cutoff=0.6):

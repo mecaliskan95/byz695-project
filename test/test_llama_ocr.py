@@ -8,7 +8,6 @@ from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
 
 def log_output(message, file, separator=None):
-    """Write to log file with optional separator"""
     if separator:
         sep_line = separator * 80 if separator == '=' else separator * 40
         file.write(sep_line + "\n")
@@ -17,7 +16,6 @@ def log_output(message, file, separator=None):
         file.write(str(message) + "\n")
 
 def export_statistics(stats, ocr_name, all_results=None):
-    """Export test statistics and all results to a log file"""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
@@ -29,7 +27,6 @@ def export_statistics(stats, ocr_name, all_results=None):
         log_output(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
         log_output("", f, "=")
 
-        # Write statistics
         log_output("STATISTICS:", f)
         log_output("", f, "-")
         log_output(f"Total images processed: {stats['total_images']}", f)
@@ -40,7 +37,6 @@ def export_statistics(stats, ocr_name, all_results=None):
         log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
         log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
         
-        # Write results
         if all_results:
             for filename, result in all_results.items():
                 log_output(f"\nFile: {filename}", f)
@@ -59,7 +55,7 @@ def export_statistics(stats, ocr_name, all_results=None):
 def test_llama_ocr(image_path, stats, log_file):
     log_output(f"\nTesting LlamaOCR on: {os.path.basename(image_path)}", log_file, "=")
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods()
     raw_text = ocr.extract_with_llamaocr(image_path)
     stats['ocr_attempts'] += 1
     
@@ -95,7 +91,6 @@ def test_llama_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    # Get images from uploads folder
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -126,7 +121,7 @@ def main():
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f'LlamaOCR_stats_{timestamp}.log')
     
-    ocr = OCRMethods()  # Create instance
+    ocr = OCRMethods()
     TextExtractor.set_testing_mode(True, ocr.extract_with_llamaocr)
     
     with open(log_file, 'w', encoding='utf-8') as f:
@@ -136,7 +131,6 @@ def main():
             if output_text:
                 all_texts[os.path.basename(image_path)] = output_text
         
-        # Write final statistics
         log_output("\nFINAL STATISTICS:", f, "=")
         log_output(f"Total images processed: {stats['total_images']}", f)
         log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)

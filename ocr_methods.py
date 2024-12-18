@@ -63,23 +63,18 @@ class OCRMethods:
         if not results:
             return None
 
-        # Group text by vertical position
         lines = {}
         for (bbox, text, conf) in results:
-            if conf < 0.1:  # Skip low confidence results
+            if conf < 0.1:
                 continue
                 
-            # Calculate average y-coordinate of the text box
             y_coord = sum(point[1] for point in bbox) / 4
-            # Round to nearest 10 pixels to group nearby lines
             y_bucket = round(y_coord / 10) * 10
             
-            # Add text to corresponding line
             if y_bucket not in lines:
                 lines[y_bucket] = []
             lines[y_bucket].append(text)
 
-        # Sort by y-coordinate and join each line's text
         sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
         text = '\n'.join(sorted_lines)
         
@@ -101,7 +96,7 @@ class OCRMethods:
 
         lines = {}
         for line in result[0]:
-            if line[1][1] < 0.5:  # confidence threshold
+            if line[1][1] < 0.5:
                 continue
             y_coord = sum(point[1] for point in line[0]) / 4
             y_bucket = round(y_coord / 10) * 10
