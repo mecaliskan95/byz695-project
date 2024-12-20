@@ -55,23 +55,28 @@ class TextExtractor:
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})"
         ],
         'total_cost': [
-            r"TOPLAM\s*[\*\#:X]?\s*(\d+)[.,\s]*(\d{2})?[;:]?",
-            r"TUTAR\s*(\d{1,3}(?:\.\d{3})*(?:,\d{2}|\.\d{2})?)\s*TL?",
-            r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\*\*TOTAL COST:\s*\*\*\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r"TOPLAM\s*\+\s*(\d+)[.,](\d{2})"
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b",  # Ensures 2 decimals
+            r"TUTAR\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})(?:\s*TL)?\b",
+            r"\bTOPLAM\s*[*#:X]?\s*[*]?(\d+(?:[.,]\d{3})*)[,.](\d{2})\b",
+            r"TOPLAM\s*[\*\#:X]?\s*(\d+)[,.](\d{2})\b",
+            r"TUTAR\s*(\d{1,3}(?:\.\d{3})*)[,.](\d{2})\s*TL?\b",
+            r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*)[,.](\d{2})\b',
+            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*)[,.](\d{2})\b',
+            r"TOPLAM\s*\+\s*(\d+)[,.](\d{2})\b"
         ],
         'vat': [
-            r"KDV\s*\*\s*(\d+[.,]\d{2})",
-            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+(?:[.,]\d{2})?)",
-            r"(?:KDV|TOPKDV)\s*:\s*(\d+(?:[.,]\d{2})?)",
-            r'\bATM FEES:\s*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b',
-            r'\bTOPKDV:\s*\*(\d{1,3}(?:[.,\s]\d{3})*(?:[.,]\d{2})?)\b'
+            r"KDV\s*\*\s*(\d+)[,.](\d{2})\b",
+            r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+)[,.](\d{2})\b",
+            r"(?:KDV|TOPKDV)\s*:\s*(\d+)[,.](\d{2})\b",
+            r'\bATM FEES:\s*(\d+)[,.](\d{2})\b',
+            r'\bTOPKDV:\s*\*(\d+)[,.](\d{2})\b'
         ],
         'tax_office_number': [
             r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
             r"\b([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*V\.?D\.?\s*[:\s]*([\d\s]{10,11})\b",
+            r"(?:V\.?D|VERGİ DAİRESİ)\s*[:\s]*(\d{10,11})\b",
+            r"^(\d{10,11})(?:\s|$)",
+            r"TEL[:\s][\d\s-]+\s+(\d{10,11})\b"
         ],
         'payment_method': [
             "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
@@ -211,26 +216,6 @@ class TextExtractor:
         return results
 
     @staticmethod
-    def validate_ocr_result(text):
-        if not text:
-            return False
-        
-        if len(text) < 20:
-            return False
-            
-        if not any(c.isdigit() for c in text):
-            return False
-            
-        if text.count('\n') < 2:
-            return False
-            
-        keywords = ['FATURA', 'INVOICE', 'TUTAR', 'TOTAL', 'KDV', 'VAT', 'TARİH', 'DATE']
-        if not any(keyword in text.upper() for keyword in keywords):
-            return False
-            
-        return True
-
-    @staticmethod
     def extract_tax_office_name(text):
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines()}
@@ -268,65 +253,63 @@ class TextExtractor:
     def extract_time(text):
         for pattern in TextExtractor._patterns['time']:
             if match := re.search(pattern, text):
-                if ':' in match.group():
-                    return match.group()
-                else:
-                    
+                try:
                     time_str = match.group()
+                    # Clean and validate time regardless of separator
                     if time_str.startswith('SAAT'):
                         time_parts = match.groups()
                     else:
-                        time_parts = [time_str[:2], time_str[2:]]
-                    try:
-                        hour, minute = map(int, time_parts)
+                        # Replace dots with colons and split
+                        time_str = time_str.replace('.', ':')
+                        time_parts = time_str.split(':')
+                        
+                    # Extract hours and minutes
+                    if len(time_parts) >= 2:
+                        hour = int(time_parts[0][-2:] if len(time_parts[0]) > 2 else time_parts[0])
+                        minute = int(time_parts[1][:2])  # Take only first 2 digits of minutes
+                        
                         if 0 <= hour < 24 and 0 <= minute < 60:
                             return f"{hour:02d}:{minute:02d}"
-                    except ValueError:
-                        continue
+                except (ValueError, IndexError):
+                    continue
         return "N/A"
 
-    @staticmethod
+    @staticmethod 
     def extract_total_cost(text):
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
-                if len(match.groups()) == 2:
-                    whole = match.group(1)
-                    decimal = match.group(2) if match.group(2) else "00"
-                    return f"{whole}.{decimal}"
-                else:
-                    value = match.group(1)
-                    if value:
-                        
-                        cleaned_value = (
-                            value.strip()
-                            .replace(' ', '')
-                            .replace(';', '')
-                            .replace(':', '')
-                            .rstrip('.')
-                        )
-                        if '.' not in cleaned_value and ',' not in cleaned_value:
-                            cleaned_value += ".00"
-                        return cleaned_value.replace(',', '.')
+                whole = match.group(1).replace('.', '')  # Remove thousand separators
+                decimal = match.group(2)
+                if len(decimal) < 2:  # Handle single digit decimals
+                    decimal = decimal + "0"
+                return f"{whole}.{decimal}"
         return "N/A"
 
     @staticmethod
     def extract_vat(text):
         for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text):
-                value = match.group(1)
-                if value:
-                    cleaned_value = value.strip().replace(' ', '')
-                    return cleaned_value.replace(',', '.')
+                whole = match.group(1).replace(' ', '').replace('.', '')
+                decimal = match.group(2) if len(match.groups()) > 1 else "00"
+                if len(decimal) < 2:
+                    decimal = decimal + "0" 
+                return f"{whole}.{decimal}"
         return "N/A"
 
     @staticmethod
     def extract_tax_office_number(text):
         for pattern in TextExtractor._patterns['tax_office_number']:
-            if match := re.search(pattern, text):
+            if match := re.search(pattern, text, re.IGNORECASE | re.MULTILINE):
                 number = match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
                 if len(number) in [10, 11] and number.isdigit():
                     return number
-                return "N/A"
+        
+        lines = text.split('\n')
+        for line in lines:
+            numbers = re.findall(r'\b\d{10,11}\b', line)
+            for number in numbers:
+                if number.isdigit():
+                    return number
         return "N/A"
 
     @staticmethod

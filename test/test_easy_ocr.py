@@ -2,6 +2,7 @@ import os
 import sys
 from datetime import datetime
 import random
+import time
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
@@ -64,6 +65,7 @@ def test_easy_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
+    start_time = time.time()  # Add start time tracking
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -112,6 +114,9 @@ def main():
         log_output(f"Successful extractions: {stats['successful_extractions']}", f)
         log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
         log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
+        
+        elapsed_time = time.time() - start_time
+        log_output(f"Total execution time: {elapsed_time:.2f} seconds", f)
         log_output("", f, "=")
         
     print(f"\nResults exported to: {log_file}")

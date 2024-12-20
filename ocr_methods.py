@@ -132,8 +132,3 @@ class OCRMethods:
             return text.upper() if text else None
         except:
             return None
-
-    @staticmethod
-    def batch_process_ocr(image_paths, method_name):
-        method = getattr(OCRMethods, f'extract_with_{method_name.lower()}')
-        return [method(image_path) for image_path in image_paths if os.path.isfile(image_path)]
