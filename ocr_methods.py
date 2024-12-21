@@ -105,20 +105,20 @@ class OCRMethods:
         sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
         return '\n'.join(sorted_lines).upper() if sorted_lines else None
 
-    @staticmethod
-    def extract_with_llamaocr(image_path):
-        try:
-            current_dir = os.path.dirname(os.path.abspath(__file__))
-            result = subprocess.run(
-                ['node', 'app.js', image_path],
-                capture_output=True,
-                text=True,
-                encoding='utf-8',
-                cwd=current_dir
-            )
-            return result.stdout.strip().upper() if result.returncode == 0 else None
-        except:
-            return None
+    # @staticmethod
+    # def extract_with_llamaocr(image_path):
+    #     try:
+    #         current_dir = os.path.dirname(os.path.abspath(__file__))
+    #         result = subprocess.run(
+    #             ['node', 'app.js', image_path],
+    #             capture_output=True,
+    #             text=True,
+    #             encoding='utf-8',
+    #             cwd=current_dir
+    #         )
+    #         return result.stdout.strip().upper() if result.returncode == 0 else None
+    #     except:
+    #         return None
 
     @staticmethod
     def extract_with_suryaocr(image_path):

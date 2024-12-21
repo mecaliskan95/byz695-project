@@ -13,7 +13,7 @@ def export_statistics(stats, ocr_name, all_texts=None):
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
     
-    log_file = os.path.join(log_dir, f'{ocr_name}_stats_{timestamp}.log')
+    log_file = os.path.join(log_dir, f'{ocr_name}_stats_{timestamp}.txt')
     
     with open(log_file, 'w', encoding='utf-8') as f:
         f.write(f"Test Results for {ocr_name}\n")
@@ -117,7 +117,7 @@ def main():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, f'PaddleOCR_stats_{timestamp}.log')
+    log_file = os.path.join(log_dir, f'PaddleOCR_stats_{timestamp}.txt')
     
     with open(log_file, 'w', encoding='utf-8') as f:
         all_texts = {}
