@@ -37,7 +37,11 @@ class TextExtractor:
             r'\bDATE:\s*(\d{2})-(\d{2})-(\d{4})\b',
             r'\bTARİH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b', 
             r'\bTARIH\s*[+:]?\s*(\d{2}).(\d{2}).(\d{4})\b',
-            r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b'
+            r'\bTARIH(?:\s*:)?\s*(\d{2})(\d{2})(\d{4})\b',
+            r'\b(\d{2})/(\d{2})/(\d{4})\b',
+            r'TARİH[\s:]*(\d{2})[./](\d{2})[./](\d{4})\b',
+            r'TARİH[\s:]*(\d{2})(\d{2})(\d{4})\b',
+            r'\b(\d{4})-(\d{2})-(\d{2})\b'
         ],
         'time': [
             r'\b\d{2}:\d{2}:\d{2}\b',
@@ -45,17 +49,26 @@ class TextExtractor:
             r'\b\d{2}.\d{2}\b',
             r'\bTIME:\s*(\d{2}:\d{2})\b',
             r'\bSAAT\s*:\s*(\d{2}:\d{2})\b',
-            r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b'
+            r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b',
+            r'\bSAAT(\d{2}):(\d{2})\b',  # New pattern for "SAAT15:32" format
+            r'\bSAAT(\d{2})\.(\d{2})\b',  # New pattern for "SAAT15.32" format
+            r'SAAT[\s:]*(\d{2})[:.:](\d{2})\b',  # Format like SAAT10:23 or SAAT 10:23
+            r'SAAT[\s:]*(\d{2})(\d{2})\b',  # Format like SAAT1023
+            r'\bSAAT(\d{2})[:.:](\d{2})\b',  # Format with no space
+            r'\bSAAT(\d{2})\.(\d{2})\b'  # Format with dot separator
         ],
         'tax_office_name': [
             r"(.+?)\s*V\.D", 
             r"VERGİ\s*DAİRESİ\s*[;:,]?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)",
             r"\b([A-ZÇĞİÖŞÜa-zçğıöşü.\s]+)\s*V\.?D\.?", 
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})"
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)VD:?\s*\d+",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)VD\.?\s*\d+",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)V\.?D\.?\s*:?\s*\d+"
         ],
         'total_cost': [
-            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b",  # Ensures 2 decimals
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b", 
             r"TUTAR\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})(?:\s*TL)?\b",
             r"\bTOPLAM\s*[*#:X]?\s*[*]?(\d+(?:[.,]\d{3})*)[,.](\d{2})\b",
             r"TOPLAM\s*[\*\#:X]?\s*(\d+)[,.](\d{2})\b",
@@ -69,14 +82,17 @@ class TextExtractor:
             r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+)[,.](\d{2})\b",
             r"(?:KDV|TOPKDV)\s*:\s*(\d+)[,.](\d{2})\b",
             r'\bATM FEES:\s*(\d+)[,.](\d{2})\b',
-            r'\bTOPKDV:\s*\*(\d+)[,.](\d{2})\b'
+            r'\bTOPKDV:\s*\*(\d+)[,.](\d{2})\b',
+            r"TOPKDV\s*[*]?\s*(\d+)[,.](\d{2})\b",  # Added specific pattern for TOPKDV
         ],
         'tax_office_number': [
             r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
             r"\b([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*V\.?D\.?\s*[:\s]*([\d\s]{10,11})\b",
             r"(?:V\.?D|VERGİ DAİRESİ)\s*[:\s]*(\d{10,11})\b",
             r"^(\d{10,11})(?:\s|$)",
-            r"TEL[:\s][\d\s-]+\s+(\d{10,11})\b"
+            r"VD:?\s*(\d+(?:\s+\d+)*)",  # Matches "VD:7103 200 7640"
+            r"VD\.?\s*:?\s*(\d+(?:\s+\d+)*)", # More flexible format
+            r"[A-ZÇĞİÖŞÜa-zçğıöşü\s]+VD:?\s*(\d+(?:\s+\d+)*)" # Matches with office name prefix
         ],
         'payment_method': [
             "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
@@ -255,7 +271,7 @@ class TextExtractor:
             if match := re.search(pattern, text):
                 try:
                     time_str = match.group()
-                    # Clean and validate time regardless of separator
+                    
                     if time_str.startswith('SAAT'):
                         time_parts = match.groups()
                     else:
@@ -266,7 +282,7 @@ class TextExtractor:
                     # Extract hours and minutes
                     if len(time_parts) >= 2:
                         hour = int(time_parts[0][-2:] if len(time_parts[0]) > 2 else time_parts[0])
-                        minute = int(time_parts[1][:2])  # Take only first 2 digits of minutes
+                        minute = int(time_parts[1][:2])
                         
                         if 0 <= hour < 24 and 0 <= minute < 60:
                             return f"{hour:02d}:{minute:02d}"
@@ -278,9 +294,9 @@ class TextExtractor:
     def extract_total_cost(text):
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
-                whole = match.group(1).replace('.', '')  # Remove thousand separators
+                whole = match.group(1).replace('.', '')
                 decimal = match.group(2)
-                if len(decimal) < 2:  # Handle single digit decimals
+                if len(decimal) < 2:
                     decimal = decimal + "0"
                 return f"{whole}.{decimal}"
         return "N/A"
@@ -288,12 +304,14 @@ class TextExtractor:
     @staticmethod
     def extract_vat(text):
         for pattern in TextExtractor._patterns['vat']:
-            if match := re.search(pattern, text):
-                whole = match.group(1).replace(' ', '').replace('.', '')
+            if match := re.search(pattern, text, re.IGNORECASE):
+                whole = match.group(1).replace('.', '').replace(' ', '')
                 decimal = match.group(2) if len(match.groups()) > 1 else "00"
                 if len(decimal) < 2:
-                    decimal = decimal + "0" 
-                return f"{whole}.{decimal}"
+                    decimal = decimal + "0"
+
+                if not re.search(rf"TOPLAM.*{whole}[,.]({decimal})", text):
+                    return f"{whole}.{decimal}"
         return "N/A"
 
     @staticmethod
