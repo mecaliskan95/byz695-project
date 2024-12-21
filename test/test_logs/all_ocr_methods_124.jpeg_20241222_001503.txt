@@ -1,0 +1,253 @@
+================================================================================
+Test Results for 124.jpeg
+Date: 2024-12-22 00:15:03
+================================================================================
+
+================================================================================
+
+Testing PaddleOCR on: 124.jpeg
+----------------------------------------
+
+Processed Text Output:
+BAKLAVACI HACIBABA GIDA SANAYI VE
+TİCARET A.S.
+PROF. DR. HİZMET TANER KISIALI MAH.
+ALACAATII CAD.NO: 16/17 ANKARA
+ANKARA
+5337622042
+ANKARA VERGİ DAİRESİ : 1330048777
+ANKARA VERGİ DAİRESİ VKN 1330048777
+E-ARSIV FATURA BILGI FISI
+GMU 507 TEBLIGI'NE ILYGUNDUR
+TARIN/SAAL 02.11.202412:36
+SALL$NO YP30618543242052
+TUTAR E ALSIV
+E AR$IV BELGEYİ NO RS52024000010857
+MUGTERI VKN/TCKN A11
+K1.0/KO
+OZEL KARE BAKLAVA KG %10 1.208,00
+103KIL X 1000,00 1/K
+SOBIYET KG %10 1.032,00
+TOPLAM KDV 203,64 TL
+TOPLAM 2.240,00 TL
+KDV ORANI KDV TOPLAM
+410 203,64 2240,00 TL
+BKM TECHPOS 2.240,00 TL
+ODEMELER
+KART/KAREKOD ODEMESI
+AKBANK T.A.S
+IARIH:02.11.2024 SAAI:12:36
+ISYIRI NO:000000002054515 POS NO:02115272
+BAICH NO:000541 112
+ISIEM NO000001 SIAN.000001
+SN:PAV6OW681665PAV/NGX VER1001
+SATIŞ
+**** **** **** 8012
+YURT IGI MASTERCARD KREDİ
+TUTAR
+2240,00 TL
+ONAY KODU413491 RRN:430/12902/84
+MASTERCARD
+AID: A0000000041010 AC/5028I012216422
+ACQUIRER ID:46
+SIFRE KULLANILMISTIR
+BU BHIGEYI SAKI SAKLAYINIZ
+AKBANK
+MUSTERI NÜSHASI
+SALLSN ALL E BELGELERINIZE
+KAREKODU OKULARAK
+ULASABILIRSINIZ.
+TERMİNAL NO N860W681665
+PAVO A.S.[1.0.0] KASİYER [5187]
+EK BILGILER
+M: NIHAI TUKETICI
+MN.
+----------------------------------------
+
+Extracted Fields:
+Date: N/A ✗
+Time: 12:36 ✓
+Tax Office: N/A ✗
+Tax Number: 1330048777 ✓
+Total Cost: 2240.00 ✓
+VAT: 203.64 ✓
+Payment Method: KREDİ KARTI ✓
+----------------------------------------
+
+================================================================================
+
+Testing EasyOCR on: 124.jpeg
+----------------------------------------
+
+Processed Text Output:
+BAKLAVACI HACIBABA GIDA SANAYI VE
+PROF, DR HİZMET TANER KIŞLALI MAH.
+ALACAATLI CAD NO 16/17 ANKARA
+ANKARA
+5337622042
+ANKARA VERGİ DAİRESİ 1330048777
+ANKARA VERGİ DURESI VKN 13300.18777
+E-ARŞİV FATURA BLLGİ FİŞ
+GMU 507 TCHLIGI'NE
+TARI/SAAL 02 /1.2024 12.36
+SATIŞ NO YP30618543242052
+TUTAR E AI GIV
+ARPLV BELGEYİ NO RS52024000010857
+MUSTEN VINITCKN
+L'BKILO
+910 1.208,0G
+SOBIYET KG 'Y 10 1.032,0U
+TOPLAM KDV 203,64 TL
+TOPLAM 2.240,00 TL
+KDV ORAL/ KDV TOPLAM
+Y 10 203,64 2 240,00 TL
+BKM TECHPOS 2. 240,00 TL
+ODEMELER
+KART/KAR KODU ODEMESI
+SAAT 12.36
+POS NO 021/52/2
+RAICIINO 000541 12
+NG
+VFR: 1UU1
+SATIŞ
+TUTAR
+2240,00 TL
+ONAY KODU 413491 RRN 430/12')62 /8 |
+IJANKA IEF{ RANS; 2411021236413491
+MASTGRCAII)
+ACQUIREI ID; 46
+TUIAI KAIVŞII IGL MAI VYA IIIZME MAL ALDIM
+ŞIFRE KULLANILMIŞTIR
+AKBANK
+##** TEMASSIZ İŞLEM **#T
+MUSTIRI NÜSHASI
+SALIY.) ALL C DELGELCRINIZE
+KAREKODII OKULARAK
+ULASABILIRSINIZ ,
+TERMİNAL NO N86OW681665
+PAVO ^ $ |V1,0 0] KASİYER /5 /87/
+EK BİLGİLER
+M; NII IA/ TUKETICI
+MN;
+----------------------------------------
+
+Extracted Fields:
+Date: N/A ✗
+Time: 12:36 ✓
+Tax Office: N/A ✗
+Tax Number: 1330048777 ✓
+Total Cost: 2240.00 ✓
+VAT: 203.64 ✓
+Payment Method: KREDİ KARTI ✓
+----------------------------------------
+
+================================================================================
+
+Testing Tesseract on: 124.jpeg
+----------------------------------------
+
+Processed Text Output:
+BAKLAVACI HACIBABA GIDA SANAYİ VE
+TİCARET A.Ş.
+PROF, DR. HİZMET TANER KIŞLALI MAH,
+ALACAATLI CAD.NO: 16/17 ANKARA /
+ANKARA
+5337622042
+ANKARA VERGİ DAİRESİ : 1330048777
+ANKARA VERGİ DAİRESİ VKN 1330018777
+AN
+FIS T I
+G E-ARŞİV FATURA BİLGİ FİŞ
+VE, Sİ GMU 507 TEBLIGI'NE UYGUNDUR
+“RAYI GER”
+TARIN/SAAL 02.11.2024 12:36
+SATIŞ NO YP30618543242052
+TUTAR E ARŞIV :
+E ARŞIV BELGEYİ NO RS52024000010857
+MUSGTERI VKN/TCKN KP
+L2USKKILO A 1 000,00 TT AKIO. *
+OZEL KARE BAKLAVA KG %10 1.208,00
+1,03/K1L0 X 1 00Y 00 [ERO
+SOBIYET KG W10 1.032,00
+TOPLAM KDV 203,64 TL II
+TOPLAM ZANDAN >
+KDV ORANI KDV TOPLAM
+W10 203,64 2 240,00 TL
+BKM TECHPOS 2.240,00 TL
+ODEMELER A
+KART/KAREKOD ODEMESI /
+AKBANK T.A.Ş.
+ARİN: 02.11.2024 SAAT 12:36
+İŞYERİ NO 0000000204515 POS NO 021152/2
+BAICH NO 000541 112
+İŞLEM NO 000001 SIRA 000001 7
+SN: PAVOOWG81005 PAV/NGX VER: 1001
+SATIŞ
+KİK KIKI KKK 8012
+YURT İÇI MASTERCARD KREDİ
+TUTAR
+2240,00 TL
+ONAY KODU 413491 RRN: 430712907 /84
+ANKARA REFERANS: 24110212364 14431
+MASTERCARD
+AL: A0000U000410 10 AC; /502801 01221642
+ACQUIRER ID: 46
+TUTAR KARŞILIĞI MAL VEYA HİZMET 1 ALDIM
+ŞİFRE KULLANILMIŞTIR
+BU BH BELGEYİ SAKLAYINIZ
+I TEMASSIZ İŞLEM II
+MÜŞTERİ NÜSHASI
+; SATIŞ ALL E BELGELERINIZE ORE E
+KAREKODU OKULARAK ‘ 3
+ULAŞABILIRSINIZ, EA
+LI
+TERMİNAL NO NB60W681665 Z
+PAVO A.Ş. (V1.0.0| KASİYER [5187]
+ASE EK BILGILER
+M: NIWAT TUKETICI
+MN.
+----------------------------------------
+
+Extracted Fields:
+Date: N/A ✗
+Time: 12:36 ✓
+Tax Office: N/A ✗
+Tax Number: 1330048777 ✓
+Total Cost: 2240.00 ✓
+VAT: 203.64 ✓
+Payment Method: KREDİ KARTI ✓
+----------------------------------------
+
+================================================================================
+
+FINAL STATISTICS
+----------------------------------------
+
+PaddleOCR Statistics:
+OCR Success Rate: 100.00%
+OCR Failed: 0 of 1 attempts
+Total fields attempted: 7
+Successful extractions: 5
+Failed extractions (N/A): 2
+Success rate: 71.43%
+----------------------------------------
+
+EasyOCR Statistics:
+OCR Success Rate: 100.00%
+OCR Failed: 0 of 1 attempts
+Total fields attempted: 7
+Successful extractions: 5
+Failed extractions (N/A): 2
+Success rate: 71.43%
+----------------------------------------
+
+Tesseract Statistics:
+OCR Success Rate: 100.00%
+OCR Failed: 0 of 1 attempts
+Total fields attempted: 7
+Successful extractions: 5
+Failed extractions (N/A): 2
+Success rate: 71.43%
+================================================================================
+
+Total execution time: 73.28 seconds

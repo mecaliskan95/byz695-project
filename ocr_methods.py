@@ -13,6 +13,14 @@ from surya.model.recognition.model import load_model as load_rec_model
 from surya.model.recognition.processor import load_processor as load_rec_processor
 from image_processing import ImageProcessor
 
+# Add these imports at the top with the other imports
+import warnings
+import logging
+
+# Add after imports
+warnings.filterwarnings('ignore')  # This will disable the GPU warning
+logging.getLogger('easyocr').setLevel(logging.ERROR)  # This will disable EasyOCR's warnings
+
 TESSERACT_PATHS = [
     r'C:\Program Files\Tesseract-OCR\tesseract.exe',
     r'C:\Program Files (x86)\Tesseract-OCR\tesseract.exe',
@@ -46,7 +54,7 @@ class OCRMethods:
             elif isinstance(image, (list, tuple)):
                 height = image[1] if len(image) > 1 else 1000
 
-            base_threshold = 20
+            base_threshold = 10
             min_threshold = 10
             max_threshold = 30
             
@@ -135,7 +143,7 @@ class OCRMethods:
                 return None
 
             if _paddle_ocr is None:
-                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
+                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)  # Added show_log=False
                 
             # Get image dimensions for threshold calculation
             if hasattr(image, 'shape'):
