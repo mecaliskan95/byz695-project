@@ -25,6 +25,8 @@ class TextExtractor:
     _cache = {}
     _patterns = {
         'date': [
+            r'\b(?:TAR[İIH]*|TARH|TRH)\s*[:\s.]?\s*(\d{2})[./](\d{2})[./](\d{4})\b',  # Matches partial/misspelled prefixes
+            r'\b(?:TAR[İIH]*|TARH|TRH)\s*[:\s.]?\s*(\d{2})(\d{2})(\d{4})\b',  # Matches without separators
             r'\*\s*\*\*TAR[İI]H:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
             r'\*\s*\*\*TARIH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
             r'\*\s*\*\*TARİH:\*\*\s*(\d{2}).(\d{2}).(\d{4})\b',
@@ -44,46 +46,68 @@ class TextExtractor:
             r'\b(\d{4})-(\d{2})-(\d{2})\b'
         ],
         'time': [
+            r'\b(?:SAA?T?|SA)\s*[:\s.]?\s*(\d{2})[:\s.](\d{2})\b',  # Matches partial/misspelled prefixes
+            r'\b(?:SAA?T?|SA)\s*[:\s.]?\s*(\d{2})(\d{2})\b',  # Matches without separator
             r'\b\d{2}:\d{2}:\d{2}\b',
             r'\b\d{2}:\d{2}\b',
             r'\b\d{2}.\d{2}\b',
             r'\bTIME:\s*(\d{2}:\d{2})\b',
             r'\bSAAT\s*:\s*(\d{2}:\d{2})\b',
             r'\bSAAT(?:\s*:)?\s*(\d{2})(\d{2})\b',
-            r'\bSAAT(\d{2}):(\d{2})\b',  # New pattern for "SAAT15:32" format
-            r'\bSAAT(\d{2})\.(\d{2})\b',  # New pattern for "SAAT15.32" format
-            r'SAAT[\s:]*(\d{2})[:.:](\d{2})\b',  # Format like SAAT10:23 or SAAT 10:23
-            r'SAAT[\s:]*(\d{2})(\d{2})\b',  # Format like SAAT1023
-            r'\bSAAT(\d{2})[:.:](\d{2})\b',  # Format with no space
-            r'\bSAAT(\d{2})\.(\d{2})\b'  # Format with dot separator
+            r'\bSAAT(\d{2}):(\d{2})\b',
+            r'\bSAAT(\d{2})\.(\d{2})\b',
+            r'SAAT[\s:]*(\d{2})[:.:](\d{2})\b',
+            r'SAAT[\s:]*(\d{2})(\d{2})\b',
+            r'\bSAAT(\d{2})[:.:](\d{2})\b',
+            r'\bSAAT(\d{2})\.(\d{2})\b',
+            r'\b(\d{2})(\d{2})(\d{2})\b'
         ],
         'tax_office_name': [
-            r"(.+?)\s*V\.D", 
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\$\s]+?)(?:V\.D\.?|VD\.?|V\.D|VERGİ\s*DAİRESİ)", 
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\$\s]+?)\s*V[\.\s]?D[\.\s]?", 
+            r"(.+?)(?:\s*V\.D\.?|VD\.?|V\.D|VERGİ\s*DAİRESİ)", 
             r"VERGİ\s*DAİRESİ\s*[;:,]?\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)",
             r"\b([A-ZÇĞİÖŞÜa-zçğıöşü.\s]+)\s*V\.?D\.?", 
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*(V\.D\.|VERGİ DAİRESİ)",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*([\d\s]{10,11})",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)(?:\s*V\.D\.|VERGİ DAİRESİ)",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VD\s*[:\s]*(?:[\d\s]{10,11})",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)VD:?\s*\d+",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)VD\.?\s*\d+",
-            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)V\.?D\.?\s*:?\s*\d+"
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)V\.?D\.?\s*:?\s*\d+",
+            r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+?)(?:VD|V\.D\.|V\.D)",  # Added pattern for no space before VD
         ],
         'total_cost': [
-            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b", 
+            # Add this new pattern at the beginning
+            r"TOPLAM\s*[+]?\s*(\d+)[\s.]+(\d{3})\s*[,.](\d{2})\b",
+            r"TOPLAM\s*[+]?\s*(\d+)[\s.]*(\d{3})[,.](\d{2})\b", 
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+)[\s.](\d{3})[,.](\d{2})\b",
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+\s+\d{3})[,.](\d{2})\b",  
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+)\.(\d{3})[,.](\d{2})\b", 
+            r"TUTAR\s*[*]?(\d+)\.(\d{3})[,.](\d{2})(?:\s*TL)?\b", 
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+)[,](\d{3})[,.](\d{2})\b",
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b",
             r"TUTAR\s*[*]?(\d+(?:\.\d{3})*)[,.](\d{2})(?:\s*TL)?\b",
             r"\bTOPLAM\s*[*#:X]?\s*[*]?(\d+(?:[.,]\d{3})*)[,.](\d{2})\b",
             r"TOPLAM\s*[\*\#:X]?\s*(\d+)[,.](\d{2})\b",
             r"TUTAR\s*(\d{1,3}(?:\.\d{3})*)[,.](\d{2})\s*TL?\b",
-            r'\bTOTAL:\s*(\d{1,3}(?:[.,\s]\d{3})*)[,.](\d{2})\b',
-            r'\bTOPLAM:\s*\*(\d{1,3}(?:[.,\s]\d{3})*)[,.](\d{2})\b',
-            r"TOPLAM\s*\+\s*(\d+)[,.](\d{2})\b"
+            r"TOPLAM\s*\n\s*[*]?(\d+)[.,](\d+)",
+            r"TOPLAM.*?\n\s*[*]?(\d+)[.,](\d+)",
+            r"TOPLAM\s*\n\s*[*]?(\d+)[.](\d+)\b", 
+            r"TOPLAM\s*[*#:X]?\s*[*]?(\d+)[.](\d+)\b",
+            r"(?:[A-ZÇĞİÖŞÜ\s]+\s+)?TOPLAM\s*[*#:X+]?\s*[*]?(\d+)[\s.](\d{3})[,.](\d{2})\b",  # For format: "TC TOPLAM 6.732,28"
+            r"(?:[A-ZÇĞİÖŞÜ\s]+\s+)?TOPLAM\s*[*#:X+]?\s*[*]?(\d+)[,.](\d{2})\b",  # For format: "TC TOPLAM 62,00"
         ],
         'vat': [
-            r"KDV\s*\*\s*(\d+)[,.](\d{2})\b",
+            # Add patterns for cases with thousands separators
+            r"(?:KDV|TOPKDV)\s*[*]?\s*[*]?(\d+)\.(\d{3})[,.](\d{2})\b",  # For format: 1.122,05
+            r"(?:KDV|TOPKDV)\s*[*]?\s*[*]?(\d+)[,](\d{3})[,.](\d{2})\b",  # For format: 1,122,05
+            # Keep existing patterns
             r"(?:KDV|TOPKDV)\s*[#*«Xx]?\s*(\d+)[,.](\d{2})\b",
             r"(?:KDV|TOPKDV)\s*:\s*(\d+)[,.](\d{2})\b",
-            r'\bATM FEES:\s*(\d+)[,.](\d{2})\b',
-            r'\bTOPKDV:\s*\*(\d+)[,.](\d{2})\b',
-            r"TOPKDV\s*[*]?\s*(\d+)[,.](\d{2})\b",  # Added specific pattern for TOPKDV
+            r"TOPKDV\s*[*]?\s*(\d+)[,.](\d{2})\b",
+            r"TOPKDV.*?[*]?(\d+)[,.](\d{2})\b",
+            r"[*]?(\d+)[,.](\d{2})\s*TOPKDV\b",
+            # Add new pattern for text prefixes before KDV/TOPKDV
+            r"(?:[A-ZÇĞİÖŞÜ\s]+\s+)?(?:KDV|TOPKDV)\s*[*#:X+]?\s*[*]?(\d+)[,.](\d{2})\b",  # For format: "TC KDV 0,61"
         ],
         'tax_office_number': [
             r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
@@ -96,7 +120,8 @@ class TextExtractor:
         ],
         'payment_method': [
             "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
-            "ORTAK POS", "BANK", "VISA CREDIT", r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
+            "ORTAK POS", "BANK", "VISA CREDIT", "YEMEK FISI/KARTI",
+            r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
         ]
     }
 
@@ -131,7 +156,14 @@ class TextExtractor:
         dictionary = TextExtractor.get_dictionary()
         corrected_lines = []
         
-        for line in text.split('\n'):
+        # Handle both string and list inputs
+        lines = text.split('\n') if isinstance(text, str) else text
+        
+        for line in lines:
+            # Handle both string and list items
+            if not isinstance(line, str):
+                line = str(line)
+                
             words = line.split()
             corrected_words = []
             
@@ -272,46 +304,138 @@ class TextExtractor:
                 try:
                     time_str = match.group()
                     
-                    if time_str.startswith('SAAT'):
-                        time_parts = match.groups()
-                    else:
-                        # Replace dots with colons and split
-                        time_str = time_str.replace('.', ':')
-                        time_parts = time_str.split(':')
-                        
-                    # Extract hours and minutes
-                    if len(time_parts) >= 2:
-                        hour = int(time_parts[0][-2:] if len(time_parts[0]) > 2 else time_parts[0])
-                        minute = int(time_parts[1][:2])
-                        
+                    # Special handling for squished digits pattern
+                    if len(time_str) == 6 and time_str.isdigit():
+                        hour = int(time_str[:2])
+                        minute = int(time_str[2:4])
+                        # Ignore seconds portion for consistency
                         if 0 <= hour < 24 and 0 <= minute < 60:
                             return f"{hour:02d}:{minute:02d}"
+                            
+                    # Special handling for SAAT prefix with squished digits
+                    elif time_str.startswith('SAAT'):
+                        # Extract just the numeric portion
+                        digits = ''.join(c for c in time_str if c.isdigit())
+                        if len(digits) >= 4:
+                            hour = int(digits[:2])
+                            minute = int(digits[2:4])
+                            if 0 <= hour < 24 and 0 <= minute < 60:
+                                return f"{hour:02d}:{minute:02d}"
+                    else:
+                        # Handle normal time formats
+                        time_str = time_str.replace('.', ':')
+                        parts = time_str.split(':')
+                        if len(parts) >= 2:
+                            hour = int(parts[0][-2:] if len(parts[0]) > 2 else parts[0])
+                            minute = int(parts[1][:2])
+                            if 0 <= hour < 24 and 0 <= minute < 60:
+                                return f"{hour:02d}:{minute:02d}"
                 except (ValueError, IndexError):
                     continue
+        
+        # Try to find squished time pattern in raw text if no other patterns match
+        for line in text.split('\n'):
+            if 'SAAT' in line.upper():
+                digits = ''.join(c for c in line if c.isdigit())
+                if len(digits) >= 4:
+                    try:
+                        hour = int(digits[:2])
+                        minute = int(digits[2:4])
+                        if 0 <= hour < 24 and 0 <= minute < 60:
+                            return f"{hour:02d}:{minute:02d}"
+                    except (ValueError, IndexError):
+                        continue
+        
         return "N/A"
 
     @staticmethod 
     def extract_total_cost(text):
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
-                whole = match.group(1).replace('.', '')
-                decimal = match.group(2)
+                if len(match.groups()) == 3:  # Pattern with thousands separator
+                    whole = match.group(1) + match.group(2)
+                    decimal = match.group(3)
+                else:
+                    # Handle special case where decimal part needs splitting
+                    whole = match.group(1)
+                    decimal = match.group(2)
+                    
+                    # If decimal is not present (whole number)
+                    if not decimal:
+                        decimal = "00"
+                    elif len(decimal) > 2:  # Like in 73228 or 13800
+                        if len(decimal) == 4:  # Handle 13800 -> 138.00
+                            whole = whole + decimal[:-2]
+                            decimal = decimal[-2:]
+                        else:  # Handle other cases
+                            decimal_str = str(decimal)
+                            whole = whole + decimal_str[:-2]
+                            decimal = decimal_str[-2:]
+                
                 if len(decimal) < 2:
                     decimal = decimal + "0"
-                return f"{whole}.{decimal}"
+                    
+                # Convert to standardized format
+                value = f"{whole.strip()}.{decimal}"
+                return value
         return "N/A"
 
     @staticmethod
     def extract_vat(text):
+        # First try to find total cost for validation
+        total_cost = None
+        for pattern in TextExtractor._patterns['total_cost']:
+            if match := re.search(pattern, text, re.IGNORECASE):
+                if len(match.groups()) == 3:
+                    total_cost = float(f"{match.group(1)}{match.group(2)}.{match.group(3)}")
+                else:
+                    whole = match.group(1)
+                    decimal = match.group(2)
+                    if len(decimal) > 2:
+                        decimal_str = str(decimal)
+                        whole = whole + decimal_str[:-2]
+                        decimal = decimal_str[-2:]
+                    total_cost = float(f"{whole}.{decimal}")
+                break
+
+        # First try to find TOPKDV amount by context
+        lines = text.split('\n')
+        for i, line in enumerate(lines):
+            if 'TOPKDV' in line:
+                # Check current line for amount
+                amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', line)
+                if amount_match:
+                    vat = float(f"{amount_match.group(1).replace('.', '')}.{amount_match.group(2)}")
+                    if total_cost is None or vat < total_cost:
+                        return f"{amount_match.group(1).replace('.', '')}.{amount_match.group(2)}"
+
+                # Check next line for amount if exists
+                if i + 1 < len(lines):
+                    next_line = lines[i + 1]
+                    amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', next_line)
+                    if amount_match:
+                        vat = float(f"{amount_match.group(1).replace('.', '')}.{amount_match.group(2)}")
+                        if total_cost is None or vat < total_cost:
+                            return f"{amount_match.group(1).replace('.', '')}.{amount_match.group(2)}"
+
+        # If not found by context, try standard patterns
         for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text, re.IGNORECASE):
-                whole = match.group(1).replace('.', '').replace(' ', '')
-                decimal = match.group(2) if len(match.groups()) > 1 else "00"
+                if len(match.groups()) == 3:
+                    whole = match.group(1) + match.group(2)
+                    decimal = match.group(3)
+                else:
+                    whole = match.group(1).replace('.', '').replace(',', '')
+                    decimal = match.group(2)
+
                 if len(decimal) < 2:
                     decimal = decimal + "0"
 
-                if not re.search(rf"TOPLAM.*{whole}[,.]({decimal})", text):
+                vat = float(f"{whole}.{decimal}")
+                # Only return if VAT is less than total cost
+                if total_cost is None or vat < total_cost:
                     return f"{whole}.{decimal}"
+
         return "N/A"
 
     @staticmethod

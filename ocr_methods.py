@@ -32,6 +32,32 @@ _paddle_ocr = None
 
 class OCRMethods:
     @staticmethod
+    def _calculate_adaptive_threshold(image):
+        """Calculate adaptive threshold based on image height"""
+        try:
+            height = None
+            
+            if isinstance(image, (int, float)): 
+                height = int(image)
+            elif isinstance(image, Image.Image):
+                height = image.size[1]
+            elif hasattr(image, 'shape'):
+                height = image.shape[0]
+            elif isinstance(image, (list, tuple)):
+                height = image[1] if len(image) > 1 else 1000
+
+            base_threshold = 20
+            min_threshold = 10
+            max_threshold = 30
+            
+            adaptive_threshold = int((height / 1000.0) * base_threshold)
+            return max(min_threshold, min(adaptive_threshold, max_threshold))
+            
+        except Exception as e:
+            print(f"Error calculating threshold: {e}, using default")
+            return 20
+
+    @staticmethod
     def extract_with_pytesseract(image_path):
         if not os.path.isfile(image_path):
             return None
@@ -51,74 +77,109 @@ class OCRMethods:
 
     @staticmethod
     def extract_with_easyocr(image_path):
-        global _easyocr_reader
-        image = ImageProcessor.process_image(image_path)
-        if image is None:
-            return None
-            
-        if _easyocr_reader is None:
-            _easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
-        
-        results = _easyocr_reader.readtext(image)
-        if not results:
-            return None
-
-        lines = {}
-        for (bbox, text, conf) in results:
-            if conf < 0.1:
-                continue
+        try:
+            global _easyocr_reader
+            image = ImageProcessor.process_image(image_path)
+            if image is None:
+                return None
                 
-            y_coord = sum(point[1] for point in bbox) / 4
-            y_bucket = round(y_coord / 10) * 10
+            if _easyocr_reader is None:
+                _easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
             
-            if y_bucket not in lines:
-                lines[y_bucket] = []
-            lines[y_bucket].append(text)
+            results = _easyocr_reader.readtext(image)
+            if not results:
+                return None
 
-        sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
-        text = '\n'.join(sorted_lines)
-        
-        return text.upper() if text else None
+            # Calculate adaptive threshold based on image size
+            y_threshold = OCRMethods._calculate_adaptive_threshold(image)
+
+            lines = []
+            current_line = []
+            last_y = None
+
+            # Sort boxes by y-coordinate first
+            sorted_boxes = sorted(results, key=lambda x: sum(point[1] for point in x[0]) / 4)
+
+            for bbox, text, conf in sorted_boxes:
+                if conf < 0.3: 
+                    continue
+
+                y_coord = sum(point[1] for point in bbox) / 4
+                x_coord = sum(point[0] for point in bbox) / 4
+
+                # Start new line if y-coordinate differs significantly
+                if last_y is not None and abs(y_coord - last_y) > y_threshold:
+                    if current_line:
+                        current_line.sort(key=lambda x: x[1])
+                        lines.append(' '.join(word[0] for word in current_line))
+                        current_line = []
+
+                current_line.append((text, x_coord))
+                last_y = y_coord
+
+            if current_line:
+                current_line.sort(key=lambda x: x[1])
+                lines.append(' '.join(word[0] for word in current_line))
+
+            return '\n'.join(lines).upper() if lines else None
+        except Exception as e:
+            print(f"EasyOCR error: {e}")
+            return None
 
     @staticmethod
     def extract_with_paddleocr(image_path):
-        global _paddle_ocr
-        image = ImageProcessor.process_image(image_path)
-        if image is None:
+        try:
+            global _paddle_ocr
+            image = ImageProcessor.process_image(image_path)
+            if image is None:
+                return None
+
+            if _paddle_ocr is None:
+                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
+                
+            # Get image dimensions for threshold calculation
+            if hasattr(image, 'shape'):
+                height = image.shape[0]
+            elif isinstance(image, Image.Image):
+                height = image.size[1]
+
+            result = _paddle_ocr.ocr(image)
+            if not result or not result[0]:
+                return None
+
+            y_threshold = OCRMethods._calculate_adaptive_threshold(height)
+
+            lines = []
+            current_line = []
+            last_y = None
+
+            sorted_boxes = sorted(result[0], key=lambda x: sum(point[1] for point in x[0]) / 4)
+
+            for detection in sorted_boxes:
+                bbox, (text, conf) = detection
+                if conf < 0.3:
+                    continue
+
+                y_coord = sum(point[1] for point in bbox) / 4
+                x_coord = sum(point[0] for point in bbox) / 4
+
+                if last_y is not None and abs(y_coord - last_y) > y_threshold:
+                    if current_line:
+                        current_line.sort(key=lambda x: x[1])
+                        lines.append(' '.join(word[0] for word in current_line))
+                        current_line = []
+
+                current_line.append((text, x_coord))
+                last_y = y_coord
+
+            if current_line:
+                current_line.sort(key=lambda x: x[1])
+                lines.append(' '.join(word[0] for word in current_line))
+
+            return '\n'.join(lines).upper() if lines else None
+        except Exception as e:
+            print(f"PaddleOCR error: {e}")
             return None
-
-        if _paddle_ocr is None:
-            _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False)
-            
-        result = _paddle_ocr.ocr(image)
-        if not result or not result[0]:
-            return None
-
-        lines = {}
-        for line in result[0]:
-            if line[1][1] < 0.5:
-                continue
-            y_coord = sum(point[1] for point in line[0]) / 4
-            y_bucket = round(y_coord / 10) * 10
-            lines.setdefault(y_bucket, []).append(line[1][0])
-
-        sorted_lines = [' '.join(lines[y]) for y in sorted(lines.keys())]
-        return '\n'.join(sorted_lines).upper() if sorted_lines else None
-
-    # @staticmethod
-    # def extract_with_llamaocr(image_path):
-    #     try:
-    #         current_dir = os.path.dirname(os.path.abspath(__file__))
-    #         result = subprocess.run(
-    #             ['node', 'app.js', image_path],
-    #             capture_output=True,
-    #             text=True,
-    #             encoding='utf-8',
-    #             cwd=current_dir
-    #         )
-    #         return result.stdout.strip().upper() if result.returncode == 0 else None
-    #     except:
-    #         return None
 
     @staticmethod
     def extract_with_suryaocr(image_path):
