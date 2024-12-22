@@ -181,55 +181,79 @@ class TextExtractor:
             text1 = OCRMethods.extract_with_paddleocr(image_path)
             if text1:
                 text1 = TextExtractor.correct_text(text1)
+                # Get text sections
+                first_last, third_begin = TextExtractor.divideText(text1)
+                text1_sections = text1.split('\n')
+                header_section = '\n'.join(text1_sections[:first_last+1])
+                middle_section = '\n'.join(text1_sections[first_last+1:third_begin])
+                footer_section = '\n'.join(text1_sections[third_begin:])
             
-            def try_extraction(extraction_method, field_name):
+            def try_extraction(extraction_method, field_name, preferred_section=None):
                 nonlocal text1, text2, text3, text4
                 
-                result = "N/A"
                 if text1:
-                    result = extraction_method(text1)
-                    if result != "N/A":
-                        return result
+                    if preferred_section == "header" and header_section:
+                        result = extraction_method(header_section)
+                        if result != "N/A":
+                            return result
+                    elif preferred_section == "footer" and footer_section:
+                        result = extraction_method(footer_section)
+                        if result != "N/A":
+                            return result
 
-                if result == "N/A" and text2 is None:
+                if text2 is None:
                     text2 = OCRMethods.extract_with_easyocr(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
-                        result = extraction_method(text2)
+                        first_last, third_begin = TextExtractor.divideText(text2)
+                        text2_sections = text2.split('\n')
+                        if preferred_section == "header":
+                            section = '\n'.join(text2_sections[:first_last+1])
+                        elif preferred_section == "footer":
+                            section = '\n'.join(text2_sections[third_begin:])
+                        result = extraction_method(section)
                         if result != "N/A":
                             return result
-                
-                if result == "N/A" and text3 is None:
+
+                if text3 is None:
                     text3 = OCRMethods.extract_with_pytesseract(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
-                        result = extraction_method(text3)
+                        first_last, third_begin = TextExtractor.divideText(text3)
+                        text3_sections = text3.split('\n')
+                        if preferred_section == "header":
+                            section = '\n'.join(text3_sections[:first_last+1])
+                        elif preferred_section == "footer":
+                            section = '\n'.join(text3_sections[third_begin:])
+                        result = extraction_method(section)
                         if result != "N/A":
                             return result
 
-                if result == "N/A" and text4 is None:
+                if text4 is None:
                     text4 = OCRMethods.extract_with_suryaocr(image_path)
                     if text4:
                         text4 = TextExtractor.correct_text(text4)
-                        result = extraction_method(text4)
+                        first_last, third_begin = TextExtractor.divideText(text4)
+                        text4_sections = text4.split('\n')
+                        if preferred_section == "header":
+                            section = '\n'.join(text4_sections[:first_last+1])
+                        elif preferred_section == "footer":
+                            section = '\n'.join(text4_sections[third_begin:])
+                        result = extraction_method(section)
                         if result != "N/A":
                             return result
-                
-                return "N/A"
 
-            total_cost = try_extraction(TextExtractor.extract_total_cost, "total_cost")
-            vat = try_extraction(TextExtractor.extract_vat, "vat")
-            total_cost, vat = TextExtractor.validate_cost_and_vat(total_cost, vat)
+                return "N/A"
 
             results.append({
                 "filename": filename,
-                "date": try_extraction(TextExtractor.extract_date, "date"),
-                "time": try_extraction(TextExtractor.extract_time, "time"),
-                "tax_office_name": try_extraction(TextExtractor.extract_tax_office_name, "tax_office_name"),
-                "tax_office_number": try_extraction(TextExtractor.extract_tax_office_number, "tax_office_number"),
-                "total_cost": total_cost,
-                "vat": vat,
-                "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
+                "date": try_extraction(TextExtractor.extract_date, "date", "header"),
+                "time": try_extraction(TextExtractor.extract_time, "time", "header"),
+                "tax_office_name": try_extraction(TextExtractor.extract_tax_office_name, "tax_office_name", "header"),
+                "tax_office_number": try_extraction(TextExtractor.extract_tax_office_number, "tax_office_number", "header"),
+                "total_cost": try_extraction(TextExtractor.extract_total_cost, "total_cost", "footer"),
+                "vat": try_extraction(TextExtractor.extract_vat, "vat", "footer"),
+                "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method", "footer")
             })
 
         return results
@@ -238,6 +262,8 @@ class TextExtractor:
     def extract_tax_office_name(text):
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines()}
+        
+        # First try existing patterns
         for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
@@ -246,14 +272,53 @@ class TextExtractor:
                 best_match = max(valid_offices, key=lambda office: fuzz.ratio(found_name, office), default=None)
                 if best_match and fuzz.ratio(found_name, best_match) >= 80:
                     return best_match
+        
+        # If no match found, try looking near tax number
+        lines = text.split('\n')
+        for i, line in enumerate(lines):
+            tax_number_match = re.search(r'\b\d{10,11}\b', line)
+            if tax_number_match:
+                # Check current line for tax office name
+                for office in valid_offices:
+                    if office in line.upper():
+                        return office
+                
+                # Check line above
+                if i > 0:
+                    for office in valid_offices:
+                        if office in lines[i-1].upper():
+                            return office
+                
+                # Check line below
+                if i < len(lines) - 1:
+                    for office in valid_offices:
+                        if office in lines[i+1].upper():
+                            return office
+                
+                # Try fuzzy matching on nearby lines
+                nearby_lines = []
+                if i > 0:
+                    nearby_lines.append(lines[i-1])
+                nearby_lines.append(line)
+                if i < len(lines) - 1:
+                    nearby_lines.append(lines[i+1])
+                
+                for nearby_line in nearby_lines:
+                    best_match = max(valid_offices, key=lambda office: fuzz.ratio(nearby_line.upper(), office), default=None)
+                    if best_match and fuzz.ratio(nearby_line.upper(), best_match) >= 80:
+                        return best_match
+        
+        # If still no match, try existing fallback methods
         for line in text.split('\n'):
             line = line.strip().upper()
             if line in valid_offices:
                 return line
+        
         for office in valid_offices:
             matching_lines, _, _, _ = TextExtractor.search_similar_word_in_text(office, text, 0.9)
             if matching_lines:
                 return office
+
         return "N/A"
 
     @staticmethod
