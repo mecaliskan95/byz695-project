@@ -96,7 +96,6 @@ def test_single_file(filename):
                 all_texts[method_name] = output_text
             all_stats[method_name] = stats
 
-        # Print final statistics for all methods
         log_output("\nFINAL STATISTICS", f, "=")
         for method_name, stats in all_stats.items():
             log_output(f"\n{method_name} Statistics:", f, "-")
@@ -116,10 +115,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Test OCR methods on a single image file.')
     parser.add_argument('input', nargs='?', help='Name or number of the image file to process')
     
-    # Parse known args to handle filenames with spaces
     args, unknown = parser.parse_known_args()
     
-    # If there are unknown args, assume they're part of a filename with spaces
     if unknown:
         if args.input:
             args.input = args.input + ' ' + ' '.join(unknown)
@@ -137,7 +134,6 @@ if __name__ == "__main__":
         print(f"{i}. {file}")
 
     if args.input:
-        # Try to find exact or partial matches for filenames
         matching_files = [f for f in image_files if args.input in f]
         try:
             file_index = int(args.input)
@@ -170,7 +166,6 @@ if __name__ == "__main__":
         while True:
             choice = input("\nEnter the number or name of the file you want to test: ")
             try:
-                # Try as number first
                 file_index = int(choice)
                 if 1 <= file_index <= len(image_files):
                     test_single_file(image_files[file_index - 1])
@@ -178,7 +173,6 @@ if __name__ == "__main__":
                 else:
                     print(f"Invalid choice. Please enter a number between 1 and {len(image_files)} or a valid filename")
             except ValueError:
-                # Try as filename
                 if choice in image_files:
                     test_single_file(choice)
                     break

@@ -65,7 +65,7 @@ def test_easy_ocr(image_path, stats, log_file):
     return output_text
 
 def main():
-    start_time = time.time()  # Add start time tracking
+    start_time = time.time()
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):

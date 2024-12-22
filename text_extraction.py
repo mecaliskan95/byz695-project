@@ -79,7 +79,8 @@ class TextExtractor:
             r"TOPKDV\s*[*]?\s*(\d+)[,.](\d{2})\b",
             r"TOPKDV.*?[*]?(\d+)[,.](\d{2})\b",
             r"[*]?(\d+)[,.](\d{2})\s*TOPKDV\b",
-            r"(?:[A-ZÇĞİÖŞÜ\s]+\s+)?(?:KDV|TOPKDV)\s*[*#:X+]?\s*[*]?(\d+)[,.](\d{2})\b", 
+            r"(?:[A-ZÇĞİÖŞÜ\s]+\s+)?(?:KDV|TOPKDV)\s*[*#:X+]?\s*[*]?(\d+)[,.](\d{2})\b",
+            r"TOPKDV\s*\*(\d+)[,.](\d{2})\b", 
         ],
         'tax_office_number': [
             r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
@@ -128,11 +129,9 @@ class TextExtractor:
         dictionary = TextExtractor.get_dictionary()
         corrected_lines = []
         
-        # Handle both string and list inputs
         lines = text.split('\n') if isinstance(text, str) else text
         
         for line in lines:
-            # Handle both string and list items
             if not isinstance(line, str):
                 line = str(line)
                 
@@ -276,17 +275,13 @@ class TextExtractor:
                 try:
                     time_str = match.group()
                     
-                    # Special handling for squished digits pattern
                     if len(time_str) == 6 and time_str.isdigit():
                         hour = int(time_str[:2])
                         minute = int(time_str[2:4])
-                        # Ignore seconds portion for consistency
                         if 0 <= hour < 24 and 0 <= minute < 60:
                             return f"{hour:02d}:{minute:02d}"
                             
-                    # Special handling for SAAT prefix with squished digits
                     elif time_str.startswith('SAAT'):
-                        # Extract just the numeric portion
                         digits = ''.join(c for c in time_str if c.isdigit())
                         if len(digits) >= 4:
                             hour = int(digits[:2])
@@ -294,7 +289,6 @@ class TextExtractor:
                             if 0 <= hour < 24 and 0 <= minute < 60:
                                 return f"{hour:02d}:{minute:02d}"
                     else:
-                        # Handle normal time formats
                         time_str = time_str.replace('.', ':')
                         parts = time_str.split(':')
                         if len(parts) >= 2:
@@ -305,7 +299,6 @@ class TextExtractor:
                 except (ValueError, IndexError):
                     continue
         
-        # Try to find squished time pattern in raw text if no other patterns match
         for line in text.split('\n'):
             if 'SAAT' in line.upper():
                 digits = ''.join(c for c in line if c.isdigit())
@@ -326,18 +319,14 @@ class TextExtractor:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
                     if len(match.groups()) == 3:
-                        # Handle format with explicit thousands group
                         whole = match.group(1) + match.group(2)
                         decimal = match.group(3)
                     else:
-                        # Handle standard format
                         whole = match.group(1)
                         decimal = match.group(2)
                     
-                    # Remove thousand separators (both . and ,)
                     whole = whole.replace('.', '').replace(',', '')
                     
-                    # If decimal part looks like thousands (e.g., 800 in 1.800)
                     if len(decimal) > 2:
                         whole = whole + decimal[:-2]
                         decimal = decimal[-2:]
@@ -345,7 +334,6 @@ class TextExtractor:
                     if len(decimal) < 2:
                         decimal = decimal + "0"
                         
-                    # Convert to standardized format
                     return f"{whole}.{decimal}"
                 except (IndexError, AttributeError):
                     continue
@@ -353,62 +341,55 @@ class TextExtractor:
 
     @staticmethod
     def extract_vat(text):
-        # First try to find total cost for validation
         total_cost = None
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
                     if len(match.groups()) == 3:
-                        # Handle format with explicit thousands group
                         whole = match.group(1) + match.group(2)
                         decimal = match.group(3)
                     else:
-                        # Handle standard format
-                        whole = match.group(1).replace('.', '')  # Remove thousand separators
+                        whole = match.group(1).replace('.', '') 
                         decimal = match.group(2)
                     
-                    # Convert to float for comparison
                     total_cost = float(f"{whole}.{decimal}")
                     break
                 except (IndexError, ValueError, AttributeError):
                     continue
 
-        # Try to find TOPKDV amount by context
         lines = text.split('\n')
         for i, line in enumerate(lines):
             if 'TOPKDV' in line:
-                # Check current line for amount
+
                 amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', line)
                 if amount_match:
-                    whole = amount_match.group(1).replace('.', '')  # Remove thousand separators
+                    whole = amount_match.group(1).replace('.', '')
                     decimal = amount_match.group(2)
                     vat = float(f"{whole}.{decimal}")
                     if total_cost is None or vat < total_cost:
                         return f"{whole}.{decimal}"
 
-                # Check next line for amount if exists
                 if i + 1 < len(lines):
                     next_line = lines[i + 1]
                     amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', next_line)
                     if amount_match:
-                        whole = amount_match.group(1).replace('.', '')  # Remove thousand separators
+                        whole = amount_match.group(1).replace('.', '')
                         decimal = amount_match.group(2)
                         vat = float(f"{whole}.{decimal}")
                         if total_cost is None or vat < total_cost:
                             return f"{whole}.{decimal}"
 
-        # If not found by context, try standard patterns
         for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
-                    whole = match.group(1).replace('.', '')  # Remove thousand separators
+                    whole = match.group(1).replace('.', '')
                     decimal = match.group(2)
                     
                     if len(decimal) < 2:
                         decimal = decimal + "0"
                     
                     vat = float(f"{whole}.{decimal}")
-                    # Only return if VAT is less than total cost
+
                     if total_cost is None or vat < total_cost:
                         return f"{whole}.{decimal}"
                 except (IndexError, ValueError, AttributeError):

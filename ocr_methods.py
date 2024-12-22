@@ -13,13 +13,11 @@ from surya.model.recognition.model import load_model as load_rec_model
 from surya.model.recognition.processor import load_processor as load_rec_processor
 from image_processing import ImageProcessor
 
-# Add these imports at the top with the other imports
 import warnings
 import logging
 
-# Add after imports
-warnings.filterwarnings('ignore')  # This will disable the GPU warning
-logging.getLogger('easyocr').setLevel(logging.ERROR)  # This will disable EasyOCR's warnings
+warnings.filterwarnings('ignore')  
+logging.getLogger('easyocr').setLevel(logging.ERROR)
 
 TESSERACT_PATHS = [
     r'C:\Program Files\Tesseract-OCR\tesseract.exe',
@@ -98,14 +96,12 @@ class OCRMethods:
             if not results:
                 return None
 
-            # Calculate adaptive threshold based on image size
             y_threshold = OCRMethods._calculate_adaptive_threshold(image)
 
             lines = []
             current_line = []
             last_y = None
 
-            # Sort boxes by y-coordinate first
             sorted_boxes = sorted(results, key=lambda x: sum(point[1] for point in x[0]) / 4)
 
             for bbox, text, conf in sorted_boxes:
@@ -115,7 +111,6 @@ class OCRMethods:
                 y_coord = sum(point[1] for point in bbox) / 4
                 x_coord = sum(point[0] for point in bbox) / 4
 
-                # Start new line if y-coordinate differs significantly
                 if last_y is not None and abs(y_coord - last_y) > y_threshold:
                     if current_line:
                         current_line.sort(key=lambda x: x[1])
@@ -143,9 +138,8 @@ class OCRMethods:
                 return None
 
             if _paddle_ocr is None:
-                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)  # Added show_log=False
+                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)
                 
-            # Get image dimensions for threshold calculation
             if hasattr(image, 'shape'):
                 height = image.shape[0]
             elif isinstance(image, Image.Image):
