@@ -28,14 +28,12 @@ class TextExtractor:
             r'(?:^|[^\d])(\d{2})\.(\d{2})\.(\d{4})(?:$|[^\d])',
             r'(?:^|[^\d])(\d{2})/(\d{2})/(\d{4})(?:$|[^\d])',
             r'(?:^|[^\d])(\d{2})-(\d{2})-(\d{4})(?:$|[^\d])',
-            r'(\d{2})\s*/\s*(\d{2})\s*/\s*(\d{4})',
         ],
         'time': [
             r'(?:^|[^\d])(\d{2}):(\d{2})(?::\d{2})?(?:$|[^\d])',
             r'(?:^|[^\d])(\d{2})\.(\d{2})(?:\.\d{2})?(?:$|[^\d])',
         ],
         'tax_office_name': [
-            r"VERGİ\s*DAİRESİ\s*:\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\b",  # New pattern
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VERGİ\s*DAİRESİ\s*VKN\s*\d+",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\$\s]+?)(?:V\.D\.?|VD\.?|V\.D|VERGİ\s*DAİRESİ)", 
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+?)\s*V[\.\s]?D[\.\s]?", 
@@ -183,20 +181,37 @@ class TextExtractor:
             text1 = OCRMethods.extract_with_paddleocr(image_path)
             if text1:
                 text1 = TextExtractor.correct_text(text1)
+                # Get text sections
+                first_last, third_begin = TextExtractor.divideText(text1)
+                text1_sections = text1.split('\n')
+                header_section = '\n'.join(text1_sections[:first_last+1])
+                middle_section = '\n'.join(text1_sections[first_last+1:third_begin])
+                footer_section = '\n'.join(text1_sections[third_begin:])
             
-            def try_extraction(extraction_method, field_name):
+            def try_extraction(extraction_method, field_name, preferred_section=None):
                 nonlocal text1, text2, text3, text4
                 
                 if text1:
-                    result = extraction_method(text1)
-                    if result != "N/A":
-                        return result
+                    if preferred_section == "header" and header_section:
+                        result = extraction_method(header_section)
+                        if result != "N/A":
+                            return result
+                    elif preferred_section == "footer" and footer_section:
+                        result = extraction_method(footer_section)
+                        if result != "N/A":
+                            return result
 
                 if text2 is None:
                     text2 = OCRMethods.extract_with_easyocr(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
-                        result = extraction_method(text2)
+                        first_last, third_begin = TextExtractor.divideText(text2)
+                        text2_sections = text2.split('\n')
+                        if preferred_section == "header":
+                            section = '\n'.join(text2_sections[:first_last+1])
+                        elif preferred_section == "footer":
+                            section = '\n'.join(text2_sections[third_begin:])
+                        result = extraction_method(section)
                         if result != "N/A":
                             return result
 
@@ -204,21 +219,41 @@ class TextExtractor:
                     text3 = OCRMethods.extract_with_pytesseract(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
-                        result = extraction_method(text3)
+                        first_last, third_begin = TextExtractor.divideText(text3)
+                        text3_sections = text3.split('\n')
+                        if preferred_section == "header":
+                            section = '\n'.join(text3_sections[:first_last+1])
+                        elif preferred_section == "footer":
+                            section = '\n'.join(text3_sections[third_begin:])
+                        result = extraction_method(section)
                         if result != "N/A":
                             return result
+
+                # if text4 is None:
+                #   text4 = OCRMethods.extract_with_suryaocr(image_path)
+                #   if text4:
+                #       text4 = TextExtractor.correct_text(text4)
+                #       first_last, third_begin = TextExtractor.divideText(text4)
+                #       text4_sections = text4.split('\n')
+                #       if preferred_section == "header":
+                #           section = '\n'.join(text4_sections[:first_last+1])
+                #       elif preferred_section == "footer":
+                #           section = '\n'.join(text4_sections[third_begin:])
+                #       result = extraction_method(section)
+                #       if result != "N/A":
+                #           return result
 
                 return "N/A"
 
             results.append({
                 "filename": filename,
-                "date": try_extraction(TextExtractor.extract_date, "date"),
-                "time": try_extraction(TextExtractor.extract_time, "time"),
-                "tax_office_name": try_extraction(TextExtractor.extract_tax_office_name, "tax_office_name"),
-                "tax_office_number": try_extraction(TextExtractor.extract_tax_office_number, "tax_office_number"),
-                "total_cost": try_extraction(TextExtractor.extract_total_cost, "total_cost"),
-                "vat": try_extraction(TextExtractor.extract_vat, "vat"),
-                "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
+                "date": try_extraction(TextExtractor.extract_date, "date", "header"),
+                "time": try_extraction(TextExtractor.extract_time, "time", "header"),
+                "tax_office_name": try_extraction(TextExtractor.extract_tax_office_name, "tax_office_name", "header"),
+                "tax_office_number": try_extraction(TextExtractor.extract_tax_office_number, "tax_office_number", "header"),
+                "total_cost": try_extraction(TextExtractor.extract_total_cost, "total_cost", "footer"),
+                "vat": try_extraction(TextExtractor.extract_vat, "vat", "footer"),
+                "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method", "footer")
             })
 
         return results
@@ -467,6 +502,35 @@ class TextExtractor:
                     break
 
         return types.upper()
+
+    def divideText(text):
+        lines = text.split('\n')
+
+        a, lines_a, match_type_a,match_word_a = TextExtractor.search_similar_word_in_text("tarih", text.lower(), 0.7)
+        b, lines_b, match_type_b,match_word_b = TextExtractor.search_similar_word_in_text("saat", text.lower(), 0.7)
+        c, lines_c, match_type_c,match_word_c = TextExtractor.search_similar_word_in_text("fis", text.lower(), 0.6)
+
+
+        d, lines_d, match_type_d,match_word_d = TextExtractor.search_similar_word_in_text("topkdv", text.lower(), 0.7)
+        e, lines_e, match_type_e,match_word_e = TextExtractor.search_similar_word_in_text("kdv", text.lower(), 0.6)
+        kdv, line_kdv = find_lines_starting_with_or_similar("TOPKDV", text)
+
+        f, lines_f, match_type_f,match_word_f = TextExtractor.search_similar_word_in_text("top", text.lower(), 0.6)
+        g, lines_g, match_type_g,match_word_g = TextExtractor.search_similar_word_in_text("toplam", text.lower(), 0.7)
+        top, line_top = find_lines_starting_with_or_similar("TOPLAM", text.lower())
+
+
+        non_empty_lists = [lst[0] for lst in [lines_a,lines_b,lines_c] if lst]
+        firstLast = max(non_empty_lists) if non_empty_lists else None
+
+        non_empty_lists = [lst[0] for lst in [lines_d,lines_e,lines_f,lines_g] if lst]
+        thirdBegin = min(non_empty_lists) if non_empty_lists else None
+
+        if firstLast is None:
+            firstLast=0
+        if thirdBegin is None:
+            thirdBegin = len(lines)
+        return firstLast,thirdBegin
 
     @staticmethod
     def search_similar_word_in_text(word, text, cutoff=0.6):

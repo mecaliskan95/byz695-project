@@ -9014,7 +9014,7 @@ MF 20 19682898
 Extracted Fields:
 Date: 28/10/2024 ✓
 Time: 13:17 ✓
-Tax Office: ÇANKAYA ✓
+Tax Office: ÇAN ✓
 Tax Number: 3810816130 ✓
 Total Cost: 1100.00 ✓
 VAT: 1.100 ✓
@@ -9073,7 +9073,7 @@ MF 2C 19669917
 Extracted Fields:
 Date: 01/11/2024 ✓
 Time: 12:59 ✓
-Tax Office: ÇANKAYA ✓
+Tax Office: ÇAN ✓
 Tax Number: 3810816130 ✓
 Total Cost: N/A ✗
 VAT: 650.00 ✓
@@ -11615,7 +11615,7 @@ TC: E3637DD3399D9811
 Extracted Fields:
 Date: 04/10/2019 ✓
 Time: 17:30 ✓
-Tax Office: YENİMAHALLE ✓
+Tax Office: OF ✓
 Tax Number: N/A ✗
 Total Cost: N/A ✗
 VAT: N/A ✗
@@ -12139,7 +12139,7 @@ ANKARA
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 04/08/2023 ✓
 Time: 14:24 ✓
 Tax Office: SEĞMENLER ✓
 Tax Number: 3333333331 ✓
@@ -12155,9 +12155,9 @@ Total images processed: 182
 OCR Success Rate: 100.00%
 OCR Failed: 0 of 182 attempts
 Total fields processed: 1274
-Successful extractions: 984
-Failed extractions (N/A): 290
-Success rate: 77.24%
-Total execution time: 14893.40 seconds
+Successful extractions: 985
+Failed extractions (N/A): 289
+Success rate: 77.32%
+Total execution time: 14941.29 seconds
 ================================================================================
 

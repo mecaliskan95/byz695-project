@@ -16,6 +16,7 @@ from flask import Flask, render_template, request, send_file
 from text_extraction import TextExtractor
 from werkzeug.utils import secure_filename
 from ocr_methods import OCRMethods
+from datetime import datetime
 
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tiff', 'bmp'}
 
@@ -72,6 +73,11 @@ def export_csv():
     data = request.get_json()
     if not data:
         return "No data received", 400
+    
+    # Generate timestamp for filename
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"invoice_data_{timestamp}.csv"
+    
     output = StringIO()
     writer = csv.writer(output, quoting=csv.QUOTE_MINIMAL)
     headers = ['Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 'Total Cost', 'VAT', 'Payment Methods']
@@ -81,7 +87,7 @@ def export_csv():
         writer.writerow([str(row.get(field, 'N/A')) for field in fields])
     output.seek(0)
     file_data = BytesIO(output.getvalue().encode('utf-8-sig'))
-    return send_file(file_data, mimetype='text/csv', as_attachment=True, download_name='invoice_data.csv')
+    return send_file(file_data, mimetype='text/csv', as_attachment=True, download_name=filename)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, threaded=False)

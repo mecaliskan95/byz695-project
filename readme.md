@@ -1,108 +1,128 @@
 # Turkish Invoice OCR Scanner
 
-An advanced OCR system that extracts data from Turkish invoices using multiple OCR engines, intelligent text processing, and machine learning techniques.
+A multi-engine OCR system optimized for Turkish invoices, integrating Tesseract, PaddleOCR, EasyOCR, and SuryaOCR with a web interface.
 
 ## 📖 Table of Contents
-- [Features](#-features)
+- [Current Implementation Status](#-current-implementation-status)
+  - [Image Processing](#image-processing-image_processingpy)
+  - [OCR Engine Integration](#ocr-engine-integration)
+  - [Web Interface Features](#web-interface-features)
 - [System Requirements](#-system-requirements)
-- [Installation](#-installation)
-- [Configuration](#-configuration)
+  - [Hardware Requirements](#hardware-requirements)
+  - [Software Dependencies](#software-dependencies)
+- [Installation Guide](#-installation-guide)
 - [Usage](#-usage)
-- [Architecture](#-architecture)
-- [OCR Engines](#-ocr-engines)
-- [Text Processing](#-text-processing)
-- [Data Extraction](#-data-extraction)
-- [API Reference](#-api-reference)
+- [Project Structure](#-project-structure)
+- [Technical Details](#-technical-details)
+  - [OCR Pipeline](#ocr-pipeline)
+  - [Supported File Types](#supported-file-types)
+  - [Error Handling](#error-handling)
+- [Performance Metrics](#-performance-metrics)
+  - [OCR Engine Comparison](#ocr-engine-comparison)
+  - [Field Extraction Success Rates](#field-extraction-success-rates)
 - [Testing](#-testing)
-- [Performance](#-performance)
-- [Troubleshooting](#-troubleshooting)
+  - [Test Suite Overview](#test-suite-overview)
+  - [Running Tests](#running-tests)
 - [Contributing](#-contributing)
-- [License](#-license)
+- [Contact](#-contact)
 
-## 🎯 Features
+## 🎯 Project Overview
 
-### Multiple OCR Engine Support
-- **Tesseract OCR**
-  - Language support: Turkish + English
-  - Custom configuration options
-  - Automatic language detection
+### Key Features
 
-- **EasyOCR**
-  - GPU acceleration support
-  - Vertical text detection
-  - Confidence scoring
-  - Multi-language support
+## 🔬 Current Implementation Status
 
-- **PaddleOCR**
-  - Angle classification
-  - Line grouping
-  - Adaptive thresholding
-  - High performance
+### Image Processing (image_processing.py)
+Currently implemented:
+- Basic grayscale conversion using OpenCV
+- Image format validation
+- Simple error handling
 
-- **SuryaOCR**
-  - Advanced text detection
-  - Custom model support
-  - Fast processing
+Commented out but prepared for future implementation:
+- Contrast enhancement (CLAHE)
+- Image sharpening
+- Dynamic thresholding
+- Noise reduction
+- Rotation correction
+- Border removal
 
-### Text Processing
-- Turkish character handling
-- Fuzzy matching
-- Dictionary-based correction
-- Pattern matching
-- Confidence thresholds
-- Line merging algorithms
+### OCR Engine Integration
 
-### Data Extraction
-- **Fields Supported:**
-  - Invoice Date (multiple formats)
-  - Time
-  - Tax Office Name (verified against database)
-  - Tax Office Number (10-11 digits)
-  - Total Cost
-  - VAT Amount
-  - Payment Method
+#### Active Engines
 
-### Web Interface
-- Drag-and-drop file upload
-- Batch processing
-- Real-time progress tracking
-- CSV export
-- Result visualization
-- Responsive design
+##### PaddleOCR (Primary)
+- Confidence threshold: 0.3
+- Basic line merging with adaptive thresholds
+- No GPU optimization currently enabled
+- Text grouping based on Y-coordinates
+
+##### Tesseract OCR (Secondary)
+- Basic configuration with OEM 3 and PSM 6
+- Turkish and English language support
+- Direct text extraction without preprocessing
+- Path detection for multiple OS support
+
+##### EasyOCR (Tertiary)
+- Multi-language support (TR/EN)
+- Basic confidence filtering (0.3 threshold)
+- CPU-only mode implementation
+- Line merging with adaptive spacing
+
+#### Implemented but Inactive
+
+##### SuryaOCR
+- Status: Implemented but disabled
+- Reason: Excessive processing time
+- Note: Available in codebase but not used in production
+- Consider enabling for non-time-critical batch processing
+
+##### LlamaOCR
+- Status: Implementation ready but not integrated
+- Reason: Requires paid API access
+- Note: Code structure prepared for future integration
+- Consider adding if budget allows for API costs
+
+### Web Interface Features
+- File upload functionality
+- Multiple file processing
+- CSV export capability
+- Bilingual interface (TR/EN)
+- Real-time processing status
 
 ## 💻 System Requirements
 
-### Hardware
-- CPU: Multi-core processor recommended
-- RAM: Minimum 8GB, 16GB recommended
-- GPU: Optional, supports NVIDIA CUDA
+### Hardware Requirements
+- CPU: Intel Core i5/AMD Ryzen 5 or better
+- RAM: 8GB minimum (16GB recommended)
 - Storage: 2GB free space
+- GPU: Optional, NVIDIA CUDA-compatible
 
-### Software
+### Software Dependencies
 - Python 3.9+
-- Node.js 14+ (for Llama OCR)
-- Tesseract 4.1+
-- CUDA Toolkit 11.0+ (optional)
+- Tesseract OCR 4.1+
+- OpenCV 4.10+
+- Flask 3.1.0
+- Required packages listed in requirements.txt
 
-## 🔧 Installation
+## 🔧 Installation Guide
 
-### 1. Clone Repository
+1. **Clone Repository**
 ```bash
 git clone [repository-url]
 cd byz695-project
 ```
 
-### 2. Install Dependencies
+2. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Install Tesseract OCR
+3. **Install Tesseract OCR**
 - Windows: Install from [GitHub Releases](https://github.com/UB-Mannheim/tesseract/wiki)
 - Linux: `sudo apt install tesseract-ocr`
 - MacOS: `brew install tesseract`
 
-### 4. Verify Tesseract Installation
+4. **Verify Tesseract Installation**
 Default paths:
 ```
 Windows: C:\Program Files\Tesseract-OCR\tesseract.exe
@@ -166,6 +186,7 @@ byz695-project/
 
 ### Image Processing Pipeline
 - **Preprocessing**
+  - Image upscaling (EDSR model)
   - Dynamic thresholding
   - Noise reduction
   - Contrast enhancement
@@ -215,13 +236,14 @@ byz695-project/
 
 ## 📊 Performance Metrics
 
-### OCR Engine Comparison
-| Engine      | Speed | Accuracy | Memory Usage | GPU Support |
-|-------------|-------|----------|--------------|-------------|
-| Tesseract   | ★★★☆☆ | ★★★★☆    | ★★★★★       | ❌          |
-| EasyOCR     | ★★★★☆ | ★★★★☆    | ★★★☆☆       | ✅          |
-| PaddleOCR   | ★★★★★ | ★★★★★    | ★★★☆☆       | ✅          |
-| SuryaOCR    | ★★★★☆ | ★★★★☆    | ★★★★☆       | ✅          |
+### OCR Engine Comparison (Active Engines Only)
+| Engine      | Speed | Accuracy | Memory Usage | GPU Support | Status    |
+|-------------|-------|----------|--------------|-------------|-----------|
+| Tesseract   | ★★★★☆ | ★★★★☆    | ★★★★★       | ❌          | Active    |
+| PaddleOCR   | ★★★★★ | ★★★★★    | ★★★☆☆       | ✅          | Active    |
+| EasyOCR     | ★★★★☆ | ★★★★☆    | ★★★☆☆       | ✅          | Active    |
+| SuryaOCR    | ★☆☆☆☆ | ★★★★☆    | ★★★★☆       | ✅          | Disabled  |
+| LlamaOCR    | N/A   | N/A      | N/A         | N/A        | Planned   |
 
 ### Field Extraction Success Rates
 - Date: ~95%

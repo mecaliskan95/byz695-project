@@ -6851,7 +6851,7 @@ VKN KAAN ARAA ARDA 8012
 EM SATIŞ TUTAR :
 500.00 TI
 BU İŞI LI TENRSSİZ BIR KARTI HE
-GERÇEKLEŞ 1 IRILMES TARİH YERINI
+GERÇEKLEŞ 1 IRILMES TUTAR YERINI
 ONAY NUMARAS1:656518
 MERSİS NO 8879 001? SEON W379
 UU. GARANT BBYA. CON. TR
@@ -7370,7 +7370,7 @@ TC: 1C146B22AEA9907B
 Extracted Fields:
 Date: 08/10/2019 ✓
 Time: 21:49 ✓
-Tax Office: ÇINAR ✓
+Tax Office: ZAFER ✓
 Tax Number: N/A ✗
 Total Cost: 179.90 ✓
 VAT: N/A ✗
@@ -7456,7 +7456,7 @@ TC: 1CI46B22REN9407P
 Extracted Fields:
 Date: 08/10/2019 ✓
 Time: 21:49 ✓
-Tax Office: ÇINAR ✓
+Tax Office: ZAFER ✓
 Tax Number: N/A ✗
 Total Cost: 179.90 ✓
 VAT: N/A ✗
@@ -8200,7 +8200,7 @@ WE GARAHTT. CONTR
 Extracted Fields:
 Date: 04/10/2019 ✓
 Time: 17:30 ✓
-Tax Office: BEŞİKTAŞ ✓
+Tax Office: YALOVA ✓
 Tax Number: N/A ✗
 Total Cost: N/A ✗
 VAT: N/A ✗
@@ -8577,7 +8577,7 @@ VERGİ NO : 1234567801
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 04/08/2023 ✓
 Time: 14:24 ✓
 Tax Office: SEĞMENLER ✓
 Tax Number: 3333333331 ✓
@@ -8593,9 +8593,9 @@ Total images processed: 182
 OCR Success Rate: 100.00%
 OCR Failed: 0 of 182 attempts
 Total fields attempted: 1274
-Successful extractions: 948
-Failed extractions (N/A): 326
-Overall success rate: 74.41%
-Total execution time: 193.81 seconds
+Successful extractions: 949
+Failed extractions (N/A): 325
+Overall success rate: 74.49%
+Total execution time: 332.62 seconds
 ================================================================================
 

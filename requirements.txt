@@ -28,6 +28,9 @@ torchvision==0.20.1
 tensorflow-intel==2.18.0
 keras==3.7.0
 
+# Image Super Resolution
+super-image==2.0.0
+
 # Utilities
 python-dotenv==1.0.1
 aiofiles==23.2.1

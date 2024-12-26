@@ -1186,7 +1186,7 @@ AKBANK
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 03/10/2024 ✓
 Time: 12:49 ✓
 Tax Office: GÖLBAŞI ✓
 Tax Number: 5411283458 ✓
@@ -3429,7 +3429,7 @@ NF 2B 25010934
 Extracted Fields:
 Date: 27/08/2024 ✓
 Time: 16:30 ✓
-Tax Office: ÇAN ✓
+Tax Office: ÇANKAYA ✓
 Tax Number: 1311528619 ✓
 Total Cost: N/A ✗
 VAT: 14.55 ✓
@@ -5062,7 +5062,7 @@ NF 2B 25010934
 Extracted Fields:
 Date: 27/08/2024 ✓
 Time: 16:30 ✓
-Tax Office: ÇAN ✓
+Tax Office: ÇANKAYA ✓
 Tax Number: 1311528619 ✓
 Total Cost: N/A ✗
 VAT: 14.55 ✓
@@ -5552,7 +5552,7 @@ NF 19682898
 Extracted Fields:
 Date: 28/10/2024 ✓
 Time: 13:17 ✓
-Tax Office: ÇAN ✓
+Tax Office: ÇANKAYA ✓
 Tax Number: 3810816130 ✓
 Total Cost: 1100.00 ✓
 VAT: 100.00 ✓
@@ -5901,7 +5901,7 @@ MISTERT NÜSHASI
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 03/10/2224 ✓
 Time: 12:49 ✓
 Tax Office: KARŞIYAKA ✓
 Tax Number: 5411283458 ✓
@@ -6648,7 +6648,7 @@ TC :
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 08/10/2019 ✓
 Time: N/A ✗
 Tax Office: ZAFER ✓
 Tax Number: N/A ✗
@@ -7221,7 +7221,7 @@ GARANTI CCM. TR
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 11/10/2019 ✓
 Time: 09:12 ✓
 Tax Office: SANCAKTEPE ✓
 Tax Number: N/A ✗
@@ -7726,9 +7726,9 @@ Total images processed: 182
 OCR Success Rate: 100.00%
 OCR Failed: 0 of 182 attempts
 Total fields processed: 1274
-Successful extractions: 836
-Failed extractions (N/A): 438
-Success rate: 65.62%
-Total execution time: 1172.87 seconds
+Successful extractions: 840
+Failed extractions (N/A): 434
+Success rate: 65.93%
+Total execution time: 2749.80 seconds
 ================================================================================
 

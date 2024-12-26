@@ -811,7 +811,7 @@ MIF0000010180
 Extracted Fields:
 Date: 12/09/2024 ✓
 Time: 20:18 ✓
-Tax Office: N/A ✗
+Tax Office: KADIKÖY ✓
 Tax Number: 03122356003 ✓
 Total Cost: 959.89 ✓
 VAT: 159.98 ✓
@@ -1360,7 +1360,7 @@ EKU NT 2NO:0328
 Extracted Fields:
 Date: 03/11/2024 ✓
 Time: 13:21 ✓
-Tax Office: N/A ✗
+Tax Office: KADIKÖY ✓
 Tax Number: 0000010173 ✓
 Total Cost: 1317.04 ✓
 VAT: 219.51 ✓
@@ -6656,7 +6656,7 @@ EKU N 2NO:0328
 Extracted Fields:
 Date: 03/11/2024 ✓
 Time: 13:21 ✓
-Tax Office: N/A ✗
+Tax Office: KADIKÖY ✓
 Tax Number: 0000010173 ✓
 Total Cost: 1317.04 ✓
 VAT: 219.51 ✓
@@ -8693,7 +8693,7 @@ VERGİ NO : 1234567801
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
+Date: 04/08/2023 ✓
 Time: 14:24 ✓
 Tax Office: N/A ✗
 Tax Number: 3333333331 ✓
@@ -8709,9 +8709,9 @@ Total images processed: 182
 OCR Success Rate: 100.00%
 OCR Failed: 0 of 182 attempts
 Total fields attempted: 1274
-Successful extractions: 1109
-Failed extractions (N/A): 165
-Overall success rate: 87.05%
-Total execution time: 997.90 seconds
+Successful extractions: 1113
+Failed extractions (N/A): 161
+Overall success rate: 87.36%
+Total execution time: 593.11 seconds
 ================================================================================
 
