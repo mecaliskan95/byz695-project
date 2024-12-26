@@ -121,13 +121,13 @@ def main():
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f'PaddleOCR_stats_{timestamp}.txt')
-    csv_file = os.path.join(log_dir, f'extracted_data_{timestamp}.csv')
+    csv_file = os.path.join(log_dir, f'PaddleOCR_data_{timestamp}.csv')
     
-    # Initialize CSV file with headers
-    with open(csv_file, 'w', newline='', encoding='utf-8') as f:
+    # Initialize CSV file with headers - Add BOM for Excel compatibility
+    with open(csv_file, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
         writer.writerow(['Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 
-                        'Total Cost', 'VAT', 'Payment Methods'])
+                        'Total Cost', 'VAT', 'Payment Method'])
 
     with open(log_file, 'w', encoding='utf-8') as f:
         all_texts = {}
@@ -139,8 +139,8 @@ def main():
                 all_texts[os.path.basename(image_path)] = output_text
                 all_fields.append(fields)
 
-        # Write results to CSV
-        with open(csv_file, 'a', newline='', encoding='utf-8') as csvf:
+        # Write results to CSV with utf-8-sig encoding
+        with open(csv_file, 'a', newline='', encoding='utf-8-sig') as csvf:
             writer = csv.writer(csvf)
             for fields in all_fields:
                 writer.writerow([

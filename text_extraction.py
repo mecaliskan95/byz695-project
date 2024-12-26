@@ -51,6 +51,10 @@ class TextExtractor:
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+?)(?:VD|V\.D\.|V\.D)", 
         ],
         'total_cost': [
+            r"TOP\s*[*+]?\s*(\d+)[\s,.]?\s*(\d{3})\s*[,.]?\s*(\d{2})\b",
+            r"TOP\s*[*+]?\s*(\d+(?:[\s,.]\d{3})*)[,.\s]*(\d{2})\b",
+            r"TOPLAM\s*[*+]?\s*(\d+)[\s,.]?\s*(\d{3})\s*[,.]?\s*(\d{2})\b",
+            r"TOPLAM\s*[*+]?\s*(\d+(?:[\s,.]\d{3})*)[,.\s]*(\d{2})\b",
             r"TOPLAM\s*\*?\s*\*(\d+(?:\.\d{3})*)[,.](\d{2})\b",  
             r"TOPLAM.*?\*(\d+(?:\.\d{3})*)[,.](\d{2})\b",    
             r"TOPLAM\s*[+]?\s*(\d+)[\s.]+(\d{3})\s*[,.](\d{2})\b",
@@ -86,6 +90,10 @@ class TextExtractor:
             r"TOPKDV\s*\*(\d+)[,.](\d{2})\b", 
         ],
         'tax_office_number': [
+            r"(?:V\.D\.?|VD\.?|VERGİ\s*DAİRESİ)\s*[.:]?\s*(\d+(?:\s+\d{3}\s+\d{4}|\s*\d{3}\s*\d{4}))\b",
+            r"(?:V\.D\.?|VD\.?|VERGİ\s*DAİRESİ)[^0-9]*?(\d+)[\s.]*(\d{3})[\s.]*(\d{4})\b", 
+            r"(?:VKN|TCKN|VKNTCKN)\s*:?\s*(\d{10,11})\b",
+            r"(?:VKN|TCKN|VKNTCKN)\s*:?\s*(\d+(?:\s+\d+)*)",
             r"\b(?:V\.?D\.?|VN\.?|VKN\\TCKN)\s*[./-]?\s*(\d{10,11})\b",
             r"\b([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*V\.?D\.?\s*[:\s]*([\d\s]{10,11})\b",
             r"(?:V\.?D|VERGİ DAİRESİ)\s*[:\s]*(\d{10,11})\b",
@@ -96,7 +104,7 @@ class TextExtractor:
         ],
         'payment_method': [
             "NAKİT", "NAKIT", "KREDI", "KREDİ", "KREDI KARTI", "KREDİ KARTI", 
-            "ORTAK POS", "BANK", "VISA CREDIT", "YEMEK FISI/KARTI",
+            "ORTAK POS", "BANK", "VISA CREDIT", "YEMEK FISI/KARTI", "KARTI", "KART" 
             r'\*\*PAYMENT METHOD:\s*\*\*\s*(KRED[İI] KARTI|NAK[İI]T)\b'
         ]
     }
@@ -137,6 +145,8 @@ class TextExtractor:
         for line in lines:
             if not isinstance(line, str):
                 line = str(line)
+            
+            line = line.replace('$', 'Ş')
                 
             words = line.split()
             corrected_words = []
@@ -156,20 +166,29 @@ class TextExtractor:
         return '\n'.join(corrected_lines)
 
     @staticmethod
-    def validate_cost_and_vat(total_cost, vat):
+    def validate_total_cost_and_vat(total_cost, vat):
         try:
             if total_cost == "N/A" or vat == "N/A":
-                return total_cost, vat
+                return "N/A", "N/A"
                 
             cost_value = float(total_cost)
             vat_value = float(vat)
             
+            # Check if VAT is larger than total cost
             if vat_value >= cost_value:
+                return "N/A", "N/A"
+                
+            # Calculate and validate VAT percentage
+            vat_percentage = (vat_value / cost_value) * 100
+            valid_percentages = [1, 10, 15, 20]
+            
+            # Check if VAT percentage is valid (with 2 margin of error)
+            if not any(abs(vat_percentage - valid_pct) <= 2 for valid_pct in valid_percentages):
                 return "N/A", "N/A"
                 
             return total_cost, vat
             
-        except (ValueError, TypeError):
+        except (ValueError, TypeError, ZeroDivisionError):
             return "N/A", "N/A"
 
     @staticmethod
@@ -189,12 +208,19 @@ class TextExtractor:
                 nonlocal text1, text2, text3, text4
                 
                 if text1:
-                    result = extraction_method(text1)
-                    if result != "N/A":
-                        return result
+                    if field_name in ["total_cost", "vat"]:
+                        # Special handling for total_cost and vat to validate together
+                        total = TextExtractor.extract_total_cost(text1)
+                        vat = TextExtractor.extract_vat(text1)
+                        total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
+                        return total if field_name == "total_cost" else vat
+                    else:
+                        result = extraction_method(text1)
+                        if result != "N/A":
+                            return result
 
                 if text2 is None:
-                    text2 = OCRMethods.extract_with_easyocr(image_path)
+                    text2 = OCRMethods.extract_with_pytesseract(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
                         result = extraction_method(text2)
@@ -202,7 +228,7 @@ class TextExtractor:
                             return result
 
                 if text3 is None:
-                    text3 = OCRMethods.extract_with_pytesseract(image_path)
+                    text3 = OCRMethods.extract_with_easyocr(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
                         result = extraction_method(text3)
@@ -227,13 +253,43 @@ class TextExtractor:
     @staticmethod
     def extract_tax_office_name(text):
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
-            valid_offices = {office.strip().upper() for office in f.readlines()}
+            valid_offices = {office.strip().upper() for office in f.readlines() if office.strip()}
         
+        keywords = ['VERGİ DAİRESİ', 'V.D.', 'VD.', 'V.D', 'VD', 'V.D', 'VERGİ', 'DAİRESİ']
+        
+        # Search line by line
+        lines = text.split('\n')
+        for line in lines:
+            upper_line = line.upper()
+            if any(keyword in upper_line for keyword in keywords):
+                cleaned_line = re.sub(r'[©@"\'*:;.,]', ' ', upper_line)
+                words = cleaned_line.split()
+                
+                best_match = None
+                highest_ratio = 0
+                
+                for office in valid_offices:
+                    office_words = office.split()
+                    
+                    for i in range(len(words)):
+                        for j in range(i + 1, len(words) + 1):
+                            candidate = ' '.join(words[i:j])
+                            ratio = fuzz.ratio(candidate, office)
+                            
+                            if ratio > highest_ratio and ratio >= 90:
+                                highest_ratio = ratio
+                                best_match = office
+                
+                if best_match:
+                    return best_match
+        
+        # If no match found with keywords, try the existing pattern matching
         for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
                 if found_name in valid_offices:
                     return found_name
+
                 best_match = max(valid_offices, key=lambda office: fuzz.ratio(found_name, office), default=None)
                 if best_match and fuzz.ratio(found_name, best_match) >= 80:
                     return best_match
@@ -242,41 +298,40 @@ class TextExtractor:
         for i, line in enumerate(lines):
             tax_number_match = re.search(r'\b\d{10,11}\b', line)
             if tax_number_match:
-                # Check current line for tax office name
+                # Check current line for tax office name using fuzzy matching
+                best_match = None
+                highest_ratio = 0
+                upper_line = line.upper()
+                
                 for office in valid_offices:
-                    if office in line.upper():
-                        return office
+                    ratio = fuzz.ratio(office, upper_line)
+                    if ratio > highest_ratio and ratio >= 80:
+                        highest_ratio = ratio
+                        best_match = office
+                
+                if best_match:
+                    return best_match
                 
                 # Check line above
                 if i > 0:
+                    upper_prev_line = lines[i-1].upper()
+                    best_match = None
+                    highest_ratio = 0
+                    
                     for office in valid_offices:
-                        if office in lines[i-1].upper():
-                            return office
-                
-                # Check line below
-                if i < len(lines) - 1:
-                    for office in valid_offices:
-                        if office in lines[i+1].upper():
-                            return office
-                
-                # Try fuzzy matching on nearby lines
-                nearby_lines = []
-                if i > 0:
-                    nearby_lines.append(lines[i-1])
-                nearby_lines.append(line)
-                if i < len(lines) - 1:
-                    nearby_lines.append(lines[i+1])
-                
-                for nearby_line in nearby_lines:
-                    best_match = max(valid_offices, key=lambda office: fuzz.ratio(nearby_line.upper(), office), default=None)
-                    if best_match and fuzz.ratio(nearby_line.upper(), best_match) >= 80:
+                        ratio = fuzz.ratio(office, upper_prev_line)
+                        if ratio > highest_ratio and ratio >= 80:
+                            highest_ratio = ratio
+                            best_match = office
+                    
+                    if best_match:
                         return best_match
-        
+
         # If still no match, try fallback methods
-        for line in text.split('\n'):
-            line = line.strip().upper()
-            if line in valid_offices:
-                return line
+        # for line in text.split('\n'):
+        #     line = line.strip().upper()
+        #     if line in valid_offices:
+        #         return line
         
         # for office in valid_offices:
         #     matching_lines, _, _, _ = TextExtractor.search_similar_word_in_text(office, text, 0.9)
@@ -344,6 +399,7 @@ class TextExtractor:
 
     @staticmethod 
     def extract_total_cost(text):
+        """Extract total cost without validation"""
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
@@ -367,57 +423,11 @@ class TextExtractor:
                 except (IndexError, AttributeError):
                     continue
 
-        # Add handling for missing decimal point
-        lines = text.split('\n')
-        for line in lines:
-            if 'TOPLAM' in line:
-                if match := re.search(r'\*?(\d+)\b', line):
-                    amount = match.group(1)
-                    if len(amount) >= 3:
-                        return f"{amount[:-2]}.{amount[-2:]}"
-
         return "N/A"
 
     @staticmethod
     def extract_vat(text):
-        total_cost = None
-        for pattern in TextExtractor._patterns['total_cost']:
-            if match := re.search(pattern, text, re.IGNORECASE):
-                try:
-                    if len(match.groups()) == 3:
-                        whole = match.group(1) + match.group(2)
-                        decimal = match.group(3)
-                    else:
-                        whole = match.group(1).replace('.', '') 
-                        decimal = match.group(2)
-                    
-                    total_cost = float(f"{whole}.{decimal}")
-                    break
-                except (IndexError, ValueError, AttributeError):
-                    continue
-
-        lines = text.split('\n')
-        for i, line in enumerate(lines):
-            if 'TOPKDV' in line:
-
-                amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', line)
-                if amount_match:
-                    whole = amount_match.group(1).replace('.', '')
-                    decimal = amount_match.group(2)
-                    vat = float(f"{whole}.{decimal}")
-                    if total_cost is None or vat < total_cost:
-                        return f"{whole}.{decimal}"
-
-                if i + 1 < len(lines):
-                    next_line = lines[i + 1]
-                    amount_match = re.search(r'[*]?(\d+(?:\.\d{3})*)[,.](\d{2})\b', next_line)
-                    if amount_match:
-                        whole = amount_match.group(1).replace('.', '')
-                        decimal = amount_match.group(2)
-                        vat = float(f"{whole}.{decimal}")
-                        if total_cost is None or vat < total_cost:
-                            return f"{whole}.{decimal}"
-
+        """Extract VAT without validation"""
         for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
@@ -427,40 +437,39 @@ class TextExtractor:
                     if len(decimal) < 2:
                         decimal = decimal + "0"
                     
-                    vat = float(f"{whole}.{decimal}")
-
-                    if total_cost is None or vat < total_cost:
-                        return f"{whole}.{decimal}"
+                    return f"{whole}.{decimal}"
                 except (IndexError, ValueError, AttributeError):
                     continue
 
-        # Add handling for missing decimal point
-        lines = text.split('\n')
-        for line in lines:
+        # Try TOPKDV specific patterns
+        for line in text.split('\n'):
             if 'TOPKDV' in line:
                 if match := re.search(r'\*?(\d+)\b', line):
                     amount = match.group(1)
                     if len(amount) >= 3:
-                        vat = f"{amount[:-2]}.{amount[-2:]}"
-                        if total_cost is None or float(vat) < total_cost:
-                            return vat
+                        return f"{amount[:-2]}.{amount[-2:]}"
 
         return "N/A"
 
     @staticmethod
     def extract_tax_office_number(text):
+
         for pattern in TextExtractor._patterns['tax_office_number']:
             if match := re.search(pattern, text, re.IGNORECASE | re.MULTILINE):
                 number = match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
-                if len(number) in [10, 11] and number.isdigit():
-                    return number
+                if number.isdigit() and len(number) in [10, 11]:
+                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number == '11111111111'):
+                        return number
         
+        # Last resort - look for any 10-11 digit number
         lines = text.split('\n')
         for line in lines:
             numbers = re.findall(r'\b\d{10,11}\b', line)
             for number in numbers:
-                if number.isdigit():
-                    return number
+                if number.isdigit() and len(number) in [10, 11]:
+                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number == '11111111111'):
+                        return number
+
         return "N/A"
 
     @staticmethod
@@ -493,21 +502,24 @@ class TextExtractor:
     def search_similar_word_in_text(word, text, cutoff=0.6):
         lines = text.split('\n')
         matching_lines = []
-        matching_matching_line_numbers = []
+        matching_line_numbers = []
         matching_word = []
         match_type = []
-        for line in range(len(lines)):
-            words = lines[line].split()
+        
+        for i, line in enumerate(lines):
+            words = line.split()
             if word in words:
                 match_type.append("exact match")
-                matching_lines.append(lines[line])
-                matching_matching_line_numbers.append(line)
+                matching_lines.append(line)
+                matching_line_numbers.append(i)
                 matching_word.append(word)
                 continue
+                
             close_matches = difflib.get_close_matches(word, words, n=1, cutoff=cutoff)
             if close_matches:
                 match_type.append("similar match")
-                matching_lines.append(lines[line])
-                matching_matching_line_numbers.append(line)
-                matching_word.append(close_matches)
-        return matching_lines, matching_matching_line_numbers, match_type, matching_word
+                matching_lines.append(line)
+                matching_line_numbers.append(i)
+                matching_word.append(close_matches[0])
+                
+        return matching_lines, matching_line_numbers, match_type, matching_word

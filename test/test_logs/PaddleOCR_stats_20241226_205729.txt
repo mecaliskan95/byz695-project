@@ -36,7 +36,7 @@ BU BELGEYİ SAKLAYINIZ
 KARTI HAMİLİ NÜSHASI
 VOLKAN SITKI
 TIC.SICIL NO-1
-TURKIE$BANKASI
+TURKIEŞBANKASI
 EKU NO:0001 Z NO:1489
 ----------------------------------------
 
@@ -100,7 +100,7 @@ ERTUGRUL GAZI BULVARI NO25
 BEYTEPECANKAYA/ANKARA
 TEL03122270601
 DOGANBEY.VD7810012370
-15-05-2024 FI$NO7
+15-05-2024 FIŞNO7
 SAAT15:35
 MUH YEMEK %10 *425,00
 TOPKDV *38,64
@@ -123,7 +123,7 @@ Extracted Fields:
 filename: 101.jpg ✓
 date: 15/05/2024 ✓
 time: 15:35 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 7810012370 ✓
 total_cost: 425.00 ✓
 vat: 38.64 ✓
@@ -276,7 +276,7 @@ UGUR MUMCU CADDEST NO:22/5
 GAZIOSMANPASA
 CANKAYA/ANKARA TEL:312)1111111
 KASİYER NO:122100000198391 POS NO:01321988
-$LEM NO:3P0082/0281 19/10/2024-19:15
+İŞLEM NO:3P0082/0281 19/10/2024-19:15
 DESK3500-VER:363-L10C1M
 ************6280
 SATIŞ
@@ -395,7 +395,7 @@ tax_office_name: N/A ✗
 tax_office_number: N/A ✗
 total_cost: 1886.13 ✓
 vat: 314.36 ✓
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -408,11 +408,11 @@ KENGIN PASTA VE CAFE
 RENGIN GUMUSAY
 ELYAL1 MH UGUR MUMCU CAD
 NA KULE APT ALTI NO2/A
-ZPA$AVD37024475866
+ZPAŞAVD37024475866
 TE03222353500
 RSNO3702447586600013
 TEŞEKKÜR EDERİZ
-SA/T442 19-2021 FI$NO6
+SA/T442 19-2021 FIŞNO6
 PU 7.1 62, 00
 TC KDV +0,61
 TC TOPLAM +62,00
@@ -451,10 +451,10 @@ BOYTAT GID.ORG.INS.TUR.REK.OTM.
 ITH.IHC.SAN.VE TIC.LTD.STI
 G.YALI MH.T.OZAL BLV.N80D
 TEL :2343030 :OVA/ADANA
-ZIYAPA$AV.D.8890411429
+ZIYAPAŞAV.D.8890411429
 TARİH 26/06/2021
 SAAT 10:58:03
-FI$ NO 0018
+FIŞ NO 0018
 BOREK %01 *190,00
 TOPKDV *1,08
 TOPLAM *190,00
@@ -468,7 +468,7 @@ Extracted Fields:
 filename: 108.png ✓
 date: 26/06/2021 ✓
 time: 10:58 ✓
-tax_office_name: N/A ✗
+tax_office_name: ZİYAPAŞA ✓
 tax_office_number: 8890411429 ✓
 total_cost: 190.00 ✓
 vat: 1.08 ✓
@@ -521,7 +521,7 @@ Extracted Fields:
 filename: 109.jpeg ✓
 date: 22/10/2024 ✓
 time: 13:47 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6680392783 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -610,7 +610,7 @@ Extracted Fields:
 filename: 110.jpeg ✓
 date: 22/10/2024 ✓
 time: 13:47 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6680392783 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -628,7 +628,7 @@ SOS.TES.VE ISL
 SAMANPAZARI HACETIEPE UNIV
 ALTINDAG/ANKARA
 KIZILBEY VD:4543378239
-30/10/2024 FI$ NO:00000
+30/10/2024 FIŞ NO:00000
 SAAT:16:27
 OTOPARK CRET! 920 X60.00
 06EXP819 SURE28 0AKIKA
@@ -741,7 +741,7 @@ Extracted Fields:
 filename: 113.jpeg ✓
 date: 14/09/2024 ✓
 time: 09:49 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 9971738979 ✓
 total_cost: 595.00 ✓
 vat: 54.09 ✓
@@ -785,7 +785,7 @@ Extracted Fields:
 filename: 114.jpeg ✓
 date: 11/09/2024 ✓
 time: 12:33 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 4611136897 ✓
 total_cost: 850.00 ✓
 vat: 77.27 ✓
@@ -830,10 +830,10 @@ filename: 115.jpeg ✓
 date: 12/09/2024 ✓
 time: 20:18 ✓
 tax_office_name: KADIKÖY ✓
-tax_office_number: 03122356003 ✓
+tax_office_number: 3320941054 ✓
 total_cost: 959.89 ✓
 vat: 159.98 ✓
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -849,7 +849,7 @@ NO.1B.8 ANKARA ANKARA
 SEGMENLER V.D.7010338220
 TARİH 11/09/2024
 SAAT 19:19
-FI$ NO :00004
+FIŞ NO :00004
 YIYECEK %10 1.205,00
 TOPKDV +109,55
 TOPLAM *1.205,00
@@ -933,7 +933,7 @@ Testing PaddleOCR on: 118.jpeg
 
 Processed Text Output:
 HACETTEPE UNIV.SAG.KUL.VE SPOR
-DAIR.BASK.$OS.TES.VE ISL
+DAIR.BASK.ŞOS.TES.VE ISL
 SIHIYE/ANKARA
 KIZILBEY VD.454 0378239
 TEŞEKKÜR EDERİZ
@@ -1008,10 +1008,10 @@ Extracted Fields:
 filename: 119.jpeg ✓
 date: 03/10/2024 ✓
 time: 11:32 ✓
-tax_office_name: MALTEPE ✓
+tax_office_name: N/A ✗
 tax_office_number: 6090009466 ✓
 total_cost: 2929.20 ✓
-vat: 2.66 ✓
+vat: 266.29 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -1073,7 +1073,7 @@ Processed Text Output:
 OZLEM DONER
 OZLEMCE GID.HAY.IML.TUR
 SAN.VE TIC.LTD.ST
-$B:ALACAATLI MH.4921 SK
+ŞB:ALACAATLI MH.4921 SK
 NO:1/B-8 CANKAYA/ANKARA
 SEGMENLER VD 7010338220
 SAAT 13:41
@@ -1151,7 +1151,7 @@ K.N.** ***1304
 EMU SATIŞ TUTAR
 1.036.00TL
 BU 1SLEM TEMASSIZ BIR KARTI ILE
-GERCEKLE$TIRLMISTIR
+GERCEKLEŞTIRLMISTIR
 ONAY NUMARASI:878434 REF NO:423659299901
 XGARANTI BBV^
 MERSİS NO:0879 0017 56600379
@@ -1204,7 +1204,7 @@ AID:A0000000031010 APP.LABELUISA
 UER:SBGTE8DR OP:0000009
 EMU SATIŞ TUTAR
 1.575,00TL
-BU I$LEM TEMASSIZ BIR KARTI ILE
+BU İŞLEM TEMASSIZ BIR KARTI ILE
 GERCEKLESTIRILMISTIR
 ONAY NUMARASI232206 REFNO:423355622720
 ISLEMINIZ SIFRENIZ ILE DOGRULANMISTIR.
@@ -1221,7 +1221,7 @@ Extracted Fields:
 filename: 122.jpeg ✓
 date: 20/08/2024 ✓
 time: 12:47 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 30232626600 ✓
 total_cost: 1575.00 ✓
 vat: 143.18 ✓
@@ -1236,10 +1236,10 @@ Testing PaddleOCR on: 123.jpeg
 Processed Text Output:
 KAZANILAN HİZMET GIDA SAAT
 GAYRIMENKUL HAYANCTLIK OTO
-ET URN.LOK.SAN.TIC.FID.$11
+ET URN.LOK.SAN.TIC.FID.Ş11
 KARSIYAKA MAH. HAYMANA BLV.
 NO18/B GOLBASI/ANKARA
-GOLBA$IV.D.5411283458
+GOLBAŞIV.D.5411283458
 TEL:03124846099
 TARİH :03/10/2024
 SAAT 12:49
@@ -1274,7 +1274,7 @@ Extracted Fields:
 filename: 123.jpeg ✓
 date: 03/10/2024 ✓
 time: 12:49 ✓
-tax_office_name: HAYMANA ✓
+tax_office_name: GÖLBAŞI ✓
 tax_office_number: 5411283458 ✓
 total_cost: 1300.00 ✓
 vat: 118.18 ✓
@@ -1298,9 +1298,9 @@ ANKARA VERGİ DAİRESİ VKN 1330048777
 E-ARSIV FATURA BILGI FISI
 GMU 507 TEBLIGI'NE ILYGUNDUR
 TARIN/SAAL 02.11.202412:36
-SALL$NO YP30618543242052
+SALLŞNO YP30618543242052
 TUTAR E ALSIV
-E AR$IV BELGEYİ NO RS52024000010857
+E ARŞIV BELGEYİ NO RS52024000010857
 MUGTERI VKN/TCKN A11
 K1.0/KO
 OZEL KARE BAKLAVA KG %10 1.208,00
@@ -1346,7 +1346,7 @@ Extracted Fields:
 filename: 124.jpeg ✓
 date: 02/11/2024 ✓
 time: 02:11 ✓
-tax_office_name: ANKARA VERGİ DAİRESİ ✓
+tax_office_name: N/A ✗
 tax_office_number: 1330048777 ✓
 total_cost: 2240.00 ✓
 vat: 203.64 ✓
@@ -1390,10 +1390,10 @@ filename: 125.jpeg ✓
 date: 03/11/2024 ✓
 time: 13:21 ✓
 tax_office_name: KADIKÖY ✓
-tax_office_number: 0000010173 ✓
+tax_office_number: 3320941054 ✓
 total_cost: 1317.04 ✓
 vat: 219.51 ✓
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1425,7 +1425,7 @@ ISYER1 NO:000252011! TERMINAL03359954
 AID A0000000041010 MASTERCARD
 TUTAR:1100.00TL
 KARTI IGI MAL DEYA HİZMET MAL INOI
-BU I$LEN TEMASSIZ YAPILMISTIR
+BU IŞLEN TEMASSIZ YAPILMISTIR
 BU BELGEYİ SAKLAYINIZ
 ONAY KGDU:154118 VICIN:0096 SIRA NO:0003
 IS1EM KODU:2410 161253 154118
@@ -1489,7 +1489,7 @@ Extracted Fields:
 filename: 127.jpeg ✓
 date: 19/10/2024 ✓
 time: 17:19 ✓
-tax_office_name: N/A ✗
+tax_office_name: EREGLI ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: N/A ✗
@@ -1508,7 +1508,7 @@ GIDA SAGLIK TIC.LTD SATIŞ
 CANKAYA/ANKARA
 DOGANBEY VD6101085077
 TIC.SICIL NO436138
-FI$NO20
+FIŞNO20
 14-10-2024
 SAAT1416
 YIYECEK 7.10 60000
@@ -1543,10 +1543,10 @@ Extracted Fields:
 filename: 128.jpeg ✓
 date: 14/10/2024 ✓
 time: 14:16 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6101085077 ✓
 total_cost: 600.00 ✓
-vat: 54.55 ✓
+vat: 600.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -1598,7 +1598,7 @@ Extracted Fields:
 filename: 129.jpeg ✓
 date: 24/10/2024 ✓
 time: 12:53 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 4611136897 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -1666,10 +1666,10 @@ Extracted Fields:
 filename: 13.jpeg ✓
 date: 05/09/2024 ✓
 time: 10:23 ✓
-tax_office_name: N/A ✗
-tax_office_number: 03122956800 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 1500053692 ✓
 total_cost: 1230.00 ✓
-vat: 230.00 ✓
+vat: 1230.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -1702,7 +1702,7 @@ T.SICIL NO:0
 Z NO:1190
 EKU NO:0001
 TERMINAL:03359954
-I$VER1 NO:0002520111
+IŞVER1 NO:0002520111
 (4)
 28/10/24 13:18SATIS
 AID:H0000006723010 D1SC0VER TROY
@@ -1726,7 +1726,7 @@ time: 13:17 ✓
 tax_office_name: N/A ✗
 tax_office_number: 3810816130 ✓
 total_cost: 1100.00 ✓
-vat: 1.100 ✓
+vat: 1100.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -1759,7 +1759,7 @@ EKU NO:0001 Z NO:1206
 AID:A0000006723010 DISC0VER TROY
 TUTAR:650.00TL
 KARŞILIĞI MAL UEYA HİZMET ALINDI
-BU I$LEM TEMASSIZ YAPILMISTIR
+BU İŞLEM TEMASSIZ YAPILMISTIR
 BU BELGEYİ SAKLAYINIZ
 ISLEM KODU:2411 011300 921479
 AKBANK
@@ -1874,7 +1874,7 @@ Extracted Fields:
 filename: 133.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:30 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -1932,10 +1932,10 @@ Extracted Fields:
 filename: 134.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:30 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
-vat: 45.45 ✓
+vat: 500.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -1972,8 +1972,8 @@ VERSB0TS8DR OP:0010003
 K.N.**** ******8012
 EMU SATIŞ TUTAR
 170.00TL
-BU I$LEM TEMASSIZ BIR KARTI ILE
-GERCEKLE$TIRILMISTIR.
+BU İŞLEM TEMASSIZ BIR KARTI ILE
+GERCEKLEŞTIRILMISTIR.
 ONAY NUMARASI:603412 REFN0:429958080363
 GARANTI BBVA
 MERSİS NO:0879 0017 5660 0379
@@ -1987,7 +1987,7 @@ Extracted Fields:
 filename: 135.jpeg ✓
 date: 25/10/2024 ✓
 time: 14:49 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 3880713693 ✓
 total_cost: 170.00 ✓
 vat: 15.45 ✓
@@ -2014,7 +2014,7 @@ KDV 56,18
 TOP *61800
 EFT-POS 618,00
 .GHRANT BANKASI H.S.
-1$YERI:000000009903736 POS:03791499
+1ŞYERI:000000009903736 POS:03791499
 DIGER ÖDEME S1S1SYERI:9096095716
 BATCH NO:000301 L11
 ISLEM NO:000093 STAN:018798
@@ -2028,7 +2028,7 @@ ONAY K00U:138984 RRN430312652776
 ANKARA REFERANS:4303517766720000
 MASTERCARD
 A10H0000000041010REF:2R203080EBEE0607
-1$LEM TEMASSIZ YAPILMISTIR
+İŞLEM TEMASSIZ YAPILMISTIR
 ACQUIRER ID:Q062
 TUTAR KARŞILIĞI MAL VEYA HIZMEI ALDIM
 BU BELGEYİ SHKL AY INI2
@@ -2046,7 +2046,7 @@ Extracted Fields:
 filename: 136.jpeg ✓
 date: 29/10/2024 ✓
 time: 12:41 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6890168979 ✓
 total_cost: 618.00 ✓
 vat: 56.18 ✓
@@ -2060,7 +2060,7 @@ Testing PaddleOCR on: 137.jpeg
 
 Processed Text Output:
 HACETTEPE UNIV.SAG.KUL.VE SPOR
-DAIR.BASK.$OS.TES.VE ISL
+DAIR.BASK.ŞOS.TES.VE ISL
 SIHIYE.ANKARA
 KIZILBEYVD.454 0378239
 TEŞEKKÜR EDERİZ
@@ -2130,7 +2130,7 @@ Extracted Fields:
 filename: 138.jpeg ✓
 date: 25/10/2024 ✓
 time: 13:20 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 30232626600 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -2144,7 +2144,7 @@ Testing PaddleOCR on: 139.jpeg
 
 Processed Text Output:
 HACETTEPE UNIV.SAG.KUL.VE SPOR
-DAIR.BASK.$OS.TES.VE ISL
+DAIR.BASK.ŞOS.TES.VE ISL
 SIHIYE/ANKARA
 KIZILBEY VD.454 0378239
 TEŞEKKÜR EDERİZ
@@ -2222,7 +2222,7 @@ Extracted Fields:
 filename: 14.jpeg ✓
 date: 22/08/2024 ✓
 time: 11:57 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: 9480423762 ✓
 total_cost: 96.75 ✓
 vat: 1.00 ✓
@@ -2259,8 +2259,8 @@ VER:SBETS8DR OP:0000009
 K.N.************8012
 EMU SATIŞ TUTAR
 95500TL
-BU I$LEM TEMASSIZ BIR KARTI ILE
-GERCEKLE$TIRILMISTIR.
+BU İŞLEM TEMASSIZ BIR KARTI ILE
+GERCEKLEŞTIRILMISTIR.
 ONAY NUMARASI906923 REF.NO430465080379
 GARANTI BBVA
 MERSİS NO:0879 0017 56600379
@@ -2370,7 +2370,7 @@ Extracted Fields:
 filename: 142.jpeg ✓
 date: 31/10/2024 ✓
 time: 16:50 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6101085077 ✓
 total_cost: 750.00 ✓
 vat: 68.18 ✓
@@ -2426,10 +2426,10 @@ Extracted Fields:
 filename: 143.jpeg ✓
 date: 06/11/2024 ✓
 time: 11:18 ✓
-tax_office_name: EMET ✓
+tax_office_name: N/A ✗
 tax_office_number: 6220529513 ✓
 total_cost: 191.36 ✓
-vat: 1.90 ✓
+vat: 191.36 ✓
 payment_method: N/A ✗
 ----------------------------------------
 
@@ -2468,7 +2468,7 @@ AIDA00000041010 ONAY KODU074123 YKBWORLDCARD2
 TUTAR KARŞILIĞI MAL UEYA HİZMET ALDIM
 BU BELGEYİ SAKLAYINIZ
 ***SADECE TEMASSIZ
-EL $I TUHAFIVE HOBI SANAVI VE
+EL ŞI TUHAFIVE HOBI SANAVI VE
 MUTLUKFNT MAH2432CDNO:25106741
 CA6741ANKARA
 ZIRAATBANKASI
@@ -2481,8 +2481,8 @@ Extracted Fields:
 filename: 144.jpeg ✓
 date: 04/11/2024 ✓
 time: 16:27 ✓
-tax_office_name: DOĞANBEY ✓
-tax_office_number: 03122363167 ✓
+tax_office_name: DOGANBEY ✓
+tax_office_number: 3301664580 ✓
 total_cost: 1165.00 ✓
 vat: 105.91 ✓
 payment_method: KREDİ KARTI ✓
@@ -2526,7 +2526,7 @@ BU BELGEYİ SAKLAYINIZ
 KARTI HAMİLİ NÜSHASI
 VOLKAN SITKI
 TIC.SICIL NO-1
-TURKIE$BANKASI
+TURKIEŞBANKASI
 EKU NO:0001 Z NO:1489
 ----------------------------------------
 
@@ -2565,7 +2565,7 @@ TAHIN 100O G TORKU %01 *390,00
 TOPKDV *386
 TOPLAM *390,00
 KREDİ KARTI 390,00
-YAPIKREDI PE$IN (1)
+YAPIKREDI PEŞIN (1)
 PROVİZYON NO:859100
 PUAN:0,00
 GARANTI BANKASI
@@ -2587,10 +2587,10 @@ Extracted Fields:
 filename: 146.jpeg ✓
 date: 02/11/2024 ✓
 time: 13:31 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: 9480423762 ✓
 total_cost: 390.00 ✓
-vat: 3.86 ✓
+vat: 390.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -2633,7 +2633,7 @@ BU BELGEYİ SAKLAYINIZ
 KARTI HAMILI NÜSHASI
 OZKAN SIZGIN
 TIC.SICIL NO:-1
-TURKIYE$BANKASI
+TURKIYEŞBANKASI
 MASTERCARD PAYPASS
 Z NO:0572
 0001
@@ -2848,7 +2848,7 @@ SAAT 10:22
 FISNO0036
 BILGI FTST
 TOR :E-ARSIV FATURA
-MU$TERITCKN11111111111
+MUŞTERITCKN11111111111
 BELGEYİ NO:92230012409401980036 MWW 29
 ETTN N0A39ED59E-8534-46CD-B72C-0E3FC391A5D9
 2X025
@@ -2876,10 +2876,10 @@ Extracted Fields:
 filename: 151.jpeg ✓
 date: 24/09/2024 ✓
 time: 10:22 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: N/A ✗
 total_cost: 293.92 ✓
-vat: 176.42 ✓
+vat: 293.92 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -2931,7 +2931,7 @@ filename: 152.jpeg ✓
 date: 23/10/2024 ✓
 time: 12:37 ✓
 tax_office_name: M.KARAGÜZEL ✓
-tax_office_number: 03123532590 ✓
+tax_office_number: 0070589507 ✓
 total_cost: 117.00 ✓
 vat: 19.50 ✓
 payment_method: KREDİ KARTI ✓
@@ -2989,8 +2989,8 @@ Extracted Fields:
 filename: 153.jpeg ✓
 date: 23/10/2024 ✓
 time: 13:50 ✓
-tax_office_name: N/A ✗
-tax_office_number: 85033102229 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 6220529513 ✓
 total_cost: 402.49 ✓
 vat: 0.25 ✓
 payment_method: KREDİ KARTI ✓
@@ -3010,7 +3010,7 @@ OSK0DAR V.D./9480423762
 TARİH 19.10.2024
 SAAT09:10
 FISNO:0007
-BTLGT FT$T
+BTLGT FTŞT
 TOR E-ARSIV FATURA
 MOSTER TCKN11111111111
 BELGEYİ NO:92230011910400330008
@@ -3095,7 +3095,7 @@ Extracted Fields:
 filename: 155.jpeg ✓
 date: 29/10/2024 ✓
 time: 15:47 ✓
-tax_office_name: N/A ✗
+tax_office_name: ISKILIP ✓
 tax_office_number: 8010706009 ✓
 total_cost: 911.00 ✓
 vat: 9.02 ✓
@@ -3131,7 +3131,7 @@ time: 11:02 ✓
 tax_office_name: N/A ✗
 tax_office_number: 2250145047 ✓
 total_cost: 200.00 ✓
-vat: N/A ✗
+vat: 200.00 ✓
 payment_method: NAKIT ✓
 ----------------------------------------
 
@@ -3164,7 +3164,7 @@ GHRANT1 80,16
 K ORANI K IAHITUTA KEV
 %1 E0,16 079
 YUNJS MAFKET
-TEPEB$IAH.SANATRYUM CAD.NOB2/11-12/13
+TEPEBŞIAH.SANATRYUM CAD.NOB2/11-12/13
 KEC1OREN 0E29C ANKARA
 TEL:3188154747
 UUS ARKET ISLETELERI TİCARET A.S.
@@ -3199,7 +3199,7 @@ tax_office_name: N/A ✗
 tax_office_number: 3188154747 ✓
 total_cost: N/A ✗
 vat: N/A ✗
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3216,7 +3216,7 @@ BUVUMUKLLEFLERV.D.6220529513
 MERKEZİ ADIESIATATOFK MAH TURGUT OZAL
 BULV.NO: ATAEHIR/ISANBUL
 TARI1:18/10/204 SAAT:09:46
-FI$0036
+FIŞ0036
 0.485 KG59.95 TL/WG
 BEOKLI KG. %1 29,03
 0.4KG59.95 TL/VG
@@ -3247,7 +3247,7 @@ KDV KDV TLTAEI KDV TOPLAM
 %1 6.24 *630.17
 KASİYER 007 37865
 69952637/002/007+8/10/2409:43 AC-00
-M$TERI 1LETISIM MERKEZI:0850 200 40 00
+MÜŞTERİ 1LETISIM MERKEZI:0850 200 40 00
 26370026995241018
 SATIŞ
 52986**1105
@@ -3266,8 +3266,8 @@ Extracted Fields:
 filename: 158.jpeg ✓
 date: N/A ✗
 time: 09:46 ✓
-tax_office_name: OF ✓
-tax_office_number: 8503102229 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 6220529513 ✓
 total_cost: 630.17 ✓
 vat: 630.17 ✓
 payment_method: N/A ✗
@@ -3314,10 +3314,10 @@ Extracted Fields:
 filename: 159.jpeg ✓
 date: 13/09/2024 ✓
 time: 12:25 ✓
-tax_office_name: N/A ✗
+tax_office_name: BUYUK MUKELLEFLER ✓
 tax_office_number: 6220529513 ✓
-total_cost: 194.95 ✓
-vat: 1.94 ✓
+total_cost: 194.70 ✓
+vat: 194.95 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -3373,7 +3373,7 @@ Extracted Fields:
 filename: 16.jpeg ✓
 date: 22/08/2024 ✓
 time: 16:47 ✓
-tax_office_name: KIZILBEY ✓
+tax_office_name: N/A ✗
 tax_office_number: 6340007853 ✓
 total_cost: 6732.28 ✓
 vat: 1122.05 ✓
@@ -3536,8 +3536,8 @@ Extracted Fields:
 filename: 162.jpeg ✓
 date: 30/10/2024 ✓
 time: 12:13 ✓
-tax_office_name: OF ✓
-tax_office_number: 8503102229 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
 total_cost: 583.51 ✓
 vat: 5.78 ✓
 payment_method: NAKIT ✓
@@ -3570,7 +3570,7 @@ Extracted Fields:
 filename: 163.jpeg ✓
 date: 16/08/2024 ✓
 time: 11:55 ✓
-tax_office_name: N/A ✗
+tax_office_name: M.K.GÜZEL ✓
 tax_office_number: 31177197118 ✓
 total_cost: 28.00 ✓
 vat: 4.67 ✓
@@ -3726,7 +3726,7 @@ Testing PaddleOCR on: 167.jpeg
 Processed Text Output:
 HAZAL CAFE EV YEMEKLERI
 ERHAN POLAT
-$B:11.SOKAK20/B EMEK
+ŞB:11.SOKAK20/B EMEK
 CANKAYA/ANKARA
 SINCAN VD:1462 9453 048
 TEL:05418080406
@@ -3740,7 +3740,7 @@ TOPLAM *580,00
 BANKA/KREDI KARTI *580,00
 T.C.ZIRAAT BANKASI A5.
 SYERI08088001910215 POS:01765884
-I$LEM NO088837 BATCH NO:888762 STAN:086219 L11
+İŞLEM NO088837 BATCH NO:888762 STAN:086219 L11
 SN:5A8021020536 PYG/630 VER:2.0.1
 SATIŞ
 92***********
@@ -3768,7 +3768,7 @@ time: 14:03 ✓
 tax_office_name: SİNCAN ✓
 tax_office_number: 14629453048 ✓
 total_cost: 580.00 ✓
-vat: 52.73 ✓
+vat: 580.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -3786,11 +3786,11 @@ ANK47L2137265
 TVD124
 TARIN
 SAAT 1317.12
-FI$NO 002
+FIŞNO 002
 REROARRT 20
 TOPKDV *110,00
 TOPLAM *660,00
-KREDİ $0.00
+KREDİ Ş0.00
 QEFINNAN
 2NO:38
 TERNINAP4366
@@ -3864,7 +3864,7 @@ time: 11:45 ✓
 tax_office_name: MALTEPE ✓
 tax_office_number: 0021024673 ✓
 total_cost: 360.00 ✓
-vat: 32.73 ✓
+vat: 360.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -3881,7 +3881,7 @@ KAZIM KARABEKIR CAD
 OGUNHAN NO:40/17 ANK
 TEL:03123122821
 K.BEY.VD:17444835860
-28-08-2024 FI$NO:1
+28-08-2024 FIŞNO:1
 SAAT:09:26
 VITRIFYE %20 +55000
 KDV *91,67
@@ -3905,9 +3905,9 @@ Extracted Fields:
 filename: 17.jpeg ✓
 date: 28/08/2024 ✓
 time: 09:26 ✓
-tax_office_name: N/A ✗
+tax_office_name: K.BEY ✓
 tax_office_number: 17444835860 ✓
-total_cost: N/A ✗
+total_cost: 550.00 ✓
 vat: 91.67 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
@@ -3939,7 +3939,7 @@ Extracted Fields:
 filename: 170.jpeg ✓
 date: 27/08/2024 ✓
 time: 16:30 ✓
-tax_office_name: MALTEPE ✓
+tax_office_name: N/A ✗
 tax_office_number: 1311528619 ✓
 total_cost: 160.00 ✓
 vat: 14.55 ✓
@@ -4062,7 +4062,7 @@ KAZIM KARABEKIR CAD
 OGUNHAN NO:40/17 ANK
 TEL:03123122821
 K.BEY.VD:17444835860
-28-08-2024 FI$NO:1
+28-08-2024 FIŞNO:1
 SAAT:09:26
 VITRIFYE %20 +55000
 KDV *91,67
@@ -4086,9 +4086,9 @@ Extracted Fields:
 filename: 173.jpeg ✓
 date: 28/08/2024 ✓
 time: 09:26 ✓
-tax_office_name: N/A ✗
+tax_office_name: K.BEY ✓
 tax_office_number: 17444835860 ✓
-total_cost: N/A ✗
+total_cost: 550.00 ✓
 vat: 91.67 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
@@ -4105,8 +4105,8 @@ YAPI MALZEMELERI
 BASINEVLERI BASIN C.N76/E
 KECIOREN/ANKARA
 TEL:3525550
-DI$KAP1 VD13649996030
-22-08-2024 FI$NO6
+DIŞKAP1 VD13649996030
+22-08-2024 FIŞNO6
 SAAT19:48
 HIRDAVAT %20 *190,00
 TOPKDV *3167
@@ -4120,10 +4120,10 @@ Extracted Fields:
 filename: 174.jpeg ✓
 date: 22/08/2024 ✓
 time: 19:48 ✓
-tax_office_name: YILDIRIM ✓
+tax_office_name: DIŞKAPI ✓
 tax_office_number: 13649996030 ✓
 total_cost: 190.00 ✓
-vat: 31.67 ✓
+vat: 190.00 ✓
 payment_method: NAKIT ✓
 ----------------------------------------
 
@@ -4179,7 +4179,7 @@ Extracted Fields:
 filename: 175.jpeg ✓
 date: 22/08/2024 ✓
 time: 16:47 ✓
-tax_office_name: KIZILBEY ✓
+tax_office_name: N/A ✗
 tax_office_number: 6340007853 ✓
 total_cost: 6732.28 ✓
 vat: 1122.05 ✓
@@ -4287,7 +4287,7 @@ Extracted Fields:
 filename: 177.jpeg ✓
 date: 22/08/2024 ✓
 time: 11:57 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: 9480423762 ✓
 total_cost: 96.75 ✓
 vat: 1.00 ✓
@@ -4355,10 +4355,10 @@ Extracted Fields:
 filename: 178.jpeg ✓
 date: 05/09/2024 ✓
 time: 10:23 ✓
-tax_office_name: N/A ✗
-tax_office_number: 03122956800 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 1500053692 ✓
 total_cost: 1230.00 ✓
-vat: 230.00 ✓
+vat: 1230.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -4423,8 +4423,8 @@ YAPI MALZEMELERI
 BASINEVLERI BASIN C.N76/E
 KECIOREN/ANKARA
 TEL:3525550
-DI$KAP1 VD13649996030
-22-08-2024 FI$NO6
+DIŞKAP1 VD13649996030
+22-08-2024 FIŞNO6
 SAAT19:48
 HIRDAVAT %20 *190,00
 TOPKDV *3167
@@ -4438,10 +4438,10 @@ Extracted Fields:
 filename: 18.jpeg ✓
 date: 22/08/2024 ✓
 time: 19:48 ✓
-tax_office_name: YILDIRIM ✓
+tax_office_name: DIŞKAPI ✓
 tax_office_number: 13649996030 ✓
 total_cost: 190.00 ✓
-vat: 31.67 ✓
+vat: 190.00 ✓
 payment_method: NAKIT ✓
 ----------------------------------------
 
@@ -4516,90 +4516,6 @@ tax_office_number: 16090025496 ✓
 total_cost: 280.00 ✓
 vat: 46.67 ✓
 payment_method: NAKIT ✓
-----------------------------------------
-
-================================================================================
-
-Testing PaddleOCR on: 182.jpeg
-----------------------------------------
-
-Processed Text Output:
-M.ADBAHGELIEVLER 7CAD/M.KODU9223
-A101 YENI MAGAZACILIK A.S
-YUKAR BAHCELIEVLER MH.
-69.SK.17.SK.
-OSK0DAR V.D./9480423762
-TARİH 25.09.2024
-SAAT 13:54
-FSNO0187
-BTLGT FT$T
-TUTAR :E-ARSIV FATURA BEP
-MUSTERI TCKN 11111111111
-BELGEYİ NO:92230012509401990187
-ETTN N0:78059D1D-5144-44C0-AF46-DA0BF9ECDFBC
-YUMURTA 30LUM %01 *99,00
-TOPLAM TOPKDV *99,00 *0.98
-KREDİ KARTI YAPKREDI PESIN (1) COES.WWY 99,00
-PROVİZYON NO : 198795
-PUAN:000
-YAPI KREDİ
-I2690518895 T0063026453115701***9580
-25.09.202413:52B:58S:56
-RRN/REF.NO:1127838755 REF.NO
-92230012509401990187
-MERSİS NO0948042376200016
-IRSALIYE YERINE GECER
-IMZA>>
-KASIYERG***Z***
-ZN0:1177
-FYAB 15011065 EKO NO:0001
-----------------------------------------
-
-Extracted Fields:
-filename: 182.jpeg ✓
-date: 25/09/2024 ✓
-time: 13:54 ✓
-tax_office_name: N/A ✗
-tax_office_number: 9480423762 ✓
-total_cost: 99.00 ✓
-vat: N/A ✗
-payment_method: KREDİ KARTI ✓
-----------------------------------------
-
-================================================================================
-
-Testing PaddleOCR on: 183.jpeg
-----------------------------------------
-
-Processed Text Output:
-ATAHAN ECZANESI
-BENGU OZDEMIR
-BAHCELI EVLER MAH.7.CAD NO:5
-CANKAYA/ANKARA
-MALTEPEV.D.25001204004
-TEL0 312213 4455 FAX:0 312 212 4240
-21/09/2024 FIS NO:000073
-SAAT15:32
-BEYBI VINIL MEDIUM E %10 *150,00
-HASPET SIYAH NITRIL %10 *190,00
-TOPKDV *30,91
-TOPLAM *340,00
-DIGER *340,00
-YAPI KREDİ KK
-TPOS00033/001/00101-KASIYERG
-Z NO:001500 EKU NO:0002
-3E16174478
-----------------------------------------
-
-Extracted Fields:
-filename: 183.jpeg ✓
-date: 21/09/2024 ✓
-time: 15:32 ✓
-tax_office_name: MALTEPE ✓
-tax_office_number: 25001204004 ✓
-total_cost: 340.00 ✓
-vat: 30.91 ✓
-payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4703,10 +4619,10 @@ Extracted Fields:
 filename: 2.jpeg ✓
 date: 06/11/2024 ✓
 time: 11:18 ✓
-tax_office_name: EMET ✓
+tax_office_name: N/A ✗
 tax_office_number: 6220529513 ✓
 total_cost: 191.36 ✓
-vat: 1.90 ✓
+vat: 191.36 ✓
 payment_method: N/A ✗
 ----------------------------------------
 
@@ -4808,10 +4724,10 @@ Extracted Fields:
 filename: 21.jpeg ✓
 date: 13/09/2024 ✓
 time: 12:25 ✓
-tax_office_name: N/A ✗
+tax_office_name: BUYUK MUKELLEFLER ✓
 tax_office_number: 6220529513 ✓
-total_cost: 194.95 ✓
-vat: 1.94 ✓
+total_cost: 194.70 ✓
+vat: 194.95 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -4829,7 +4745,7 @@ BUVUMUKLLEFLERV.D.6220529513
 MERKEZİ ADIESIATATOFK MAH TURGUT OZAL
 BULV.NO: ATAEHIR/ISANBUL
 TARI1:18/10/204 SAAT:09:46
-FI$0036
+FIŞ0036
 0.485 KG59.95 TL/WG
 BEOKLI KG. %1 29,03
 0.4KG59.95 TL/VG
@@ -4860,7 +4776,7 @@ KDV KDV TLTAEI KDV TOPLAM
 %1 6.24 *630.17
 KASİYER 007 37865
 69952637/002/007+8/10/2409:43 AC-00
-M$TERI 1LETISIM MERKEZI:0850 200 40 00
+MÜŞTERİ 1LETISIM MERKEZI:0850 200 40 00
 26370026995241018
 SATIŞ
 52986**1105
@@ -4879,8 +4795,8 @@ Extracted Fields:
 filename: 22.jpeg ✓
 date: N/A ✗
 time: 09:46 ✓
-tax_office_name: OF ✓
-tax_office_number: 8503102229 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 6220529513 ✓
 total_cost: 630.17 ✓
 vat: 630.17 ✓
 payment_method: N/A ✗
@@ -4915,7 +4831,7 @@ GHRANT1 80,16
 K ORANI K IAHITUTA KEV
 %1 E0,16 079
 YUNJS MAFKET
-TEPEB$IAH.SANATRYUM CAD.NOB2/11-12/13
+TEPEBŞIAH.SANATRYUM CAD.NOB2/11-12/13
 KEC1OREN 0E29C ANKARA
 TEL:3188154747
 UUS ARKET ISLETELERI TİCARET A.S.
@@ -4950,7 +4866,7 @@ tax_office_name: N/A ✗
 tax_office_number: 3188154747 ✓
 total_cost: N/A ✗
 vat: N/A ✗
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4999,7 +4915,7 @@ Extracted Fields:
 filename: 24.jpeg ✓
 date: 29/10/2024 ✓
 time: 15:47 ✓
-tax_office_name: N/A ✗
+tax_office_name: ISKILIP ✓
 tax_office_number: 8010706009 ✓
 total_cost: 911.00 ✓
 vat: 9.02 ✓
@@ -5056,7 +4972,7 @@ time: 11:45 ✓
 tax_office_name: MALTEPE ✓
 tax_office_number: 0021024673 ✓
 total_cost: 360.00 ✓
-vat: 32.73 ✓
+vat: 360.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -5183,7 +5099,7 @@ Extracted Fields:
 filename: 28.jpeg ✓
 date: 16/08/2024 ✓
 time: 11:55 ✓
-tax_office_name: N/A ✗
+tax_office_name: M.K.GÜZEL ✓
 tax_office_number: 31177197118 ✓
 total_cost: 28.00 ✓
 vat: 4.67 ✓
@@ -5198,7 +5114,7 @@ Testing PaddleOCR on: 29.jpeg
 Processed Text Output:
 HAZAL CAFE EV YEMEKLERI
 ERHAN POLAT
-$B:11.SOKAK20/B EMEK
+ŞB:11.SOKAK20/B EMEK
 CANKAYA/ANKARA
 SINCAN VD:1462 9453 048
 TEL:05418080406
@@ -5212,7 +5128,7 @@ TOPLAM *580,00
 BANKA/KREDI KARTI *580,00
 T.C.ZIRAAT BANKASI A5.
 SYERI08088001910215 POS:01765884
-I$LEM NO088837 BATCH NO:888762 STAN:086219 L11
+İŞLEM NO088837 BATCH NO:888762 STAN:086219 L11
 SN:5A8021020536 PYG/630 VER:2.0.1
 SATIŞ
 92***********
@@ -5240,7 +5156,7 @@ time: 14:03 ✓
 tax_office_name: SİNCAN ✓
 tax_office_number: 14629453048 ✓
 total_cost: 580.00 ✓
-vat: 52.73 ✓
+vat: 580.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -5279,7 +5195,7 @@ AIDA00000041010 ONAY KODU074123 YKBWORLDCARD2
 TUTAR KARŞILIĞI MAL UEYA HİZMET ALDIM
 BU BELGEYİ SAKLAYINIZ
 ***SADECE TEMASSIZ
-EL $I TUHAFIVE HOBI SANAVI VE
+EL ŞI TUHAFIVE HOBI SANAVI VE
 MUTLUKFNT MAH2432CDNO:25106741
 CA6741ANKARA
 ZIRAATBANKASI
@@ -5292,8 +5208,8 @@ Extracted Fields:
 filename: 3.jpeg ✓
 date: 04/11/2024 ✓
 time: 16:27 ✓
-tax_office_name: DOĞANBEY ✓
-tax_office_number: 03122363167 ✓
+tax_office_name: DOGANBEY ✓
+tax_office_number: 3301664580 ✓
 total_cost: 1165.00 ✓
 vat: 105.91 ✓
 payment_method: KREDİ KARTI ✓
@@ -5405,8 +5321,8 @@ Extracted Fields:
 filename: 31.jpeg ✓
 date: 30/10/2024 ✓
 time: 12:13 ✓
-tax_office_name: OF ✓
-tax_office_number: 8503102229 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
 total_cost: 583.51 ✓
 vat: 5.78 ✓
 payment_method: NAKIT ✓
@@ -5426,11 +5342,11 @@ ANK47L2137265
 TVD124
 TARIN
 SAAT 1317.12
-FI$NO 002
+FIŞNO 002
 REROARRT 20
 TOPKDV *110,00
 TOPLAM *660,00
-KREDİ $0.00
+KREDİ Ş0.00
 QEFINNAN
 2NO:38
 TERNINAP4366
@@ -5483,7 +5399,7 @@ time: 11:02 ✓
 tax_office_name: N/A ✗
 tax_office_number: 2250145047 ✓
 total_cost: 200.00 ✓
-vat: N/A ✗
+vat: 200.00 ✓
 payment_method: NAKIT ✓
 ----------------------------------------
 
@@ -5501,7 +5417,7 @@ OSK0DAR V.D./9480423762
 TARİH 19.10.2024
 SAAT09:10
 FISNO:0007
-BTLGT FT$T
+BTLGT FTŞT
 TOR E-ARSIV FATURA
 MOSTER TCKN11111111111
 BELGEYİ NO:92230011910400330008
@@ -5588,7 +5504,7 @@ filename: 35.jpeg ✓
 date: 23/10/2024 ✓
 time: 12:37 ✓
 tax_office_name: M.KARAGÜZEL ✓
-tax_office_number: 03123532590 ✓
+tax_office_number: 0070589507 ✓
 total_cost: 117.00 ✓
 vat: 19.50 ✓
 payment_method: KREDİ KARTI ✓
@@ -5610,7 +5526,7 @@ SAAT 10:22
 FISNO0036
 BILGI FTST
 TOR :E-ARSIV FATURA
-MU$TERITCKN11111111111
+MUŞTERITCKN11111111111
 BELGEYİ NO:92230012409401980036 MWW 29
 ETTN N0A39ED59E-8534-46CD-B72C-0E3FC391A5D9
 2X025
@@ -5638,10 +5554,10 @@ Extracted Fields:
 filename: 36.jpeg ✓
 date: 24/09/2024 ✓
 time: 10:22 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: N/A ✗
 total_cost: 293.92 ✓
-vat: 176.42 ✓
+vat: 293.92 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -5697,8 +5613,8 @@ Extracted Fields:
 filename: 37.jpeg ✓
 date: 23/10/2024 ✓
 time: 13:50 ✓
-tax_office_name: N/A ✗
-tax_office_number: 85033102229 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 6220529513 ✓
 total_cost: 402.49 ✓
 vat: 0.25 ✓
 payment_method: KREDİ KARTI ✓
@@ -5817,7 +5733,7 @@ TAHIN 100O G TORKU %01 *390,00
 TOPKDV *386
 TOPLAM *390,00
 KREDİ KARTI 390,00
-YAPIKREDI PE$IN (1)
+YAPIKREDI PEŞIN (1)
 PROVİZYON NO:859100
 PUAN:0,00
 GARANTI BANKASI
@@ -5839,10 +5755,10 @@ Extracted Fields:
 filename: 4.jpeg ✓
 date: 02/11/2024 ✓
 time: 13:31 ✓
-tax_office_name: N/A ✗
+tax_office_name: USKADAR ✓
 tax_office_number: 9480423762 ✓
 total_cost: 390.00 ✓
-vat: 3.86 ✓
+vat: 390.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -5873,7 +5789,7 @@ Extracted Fields:
 filename: 40.jpeg ✓
 date: 27/08/2024 ✓
 time: 16:30 ✓
-tax_office_name: MALTEPE ✓
+tax_office_name: N/A ✗
 tax_office_number: 1311528619 ✓
 total_cost: 160.00 ✓
 vat: 14.55 ✓
@@ -5994,7 +5910,7 @@ Extracted Fields:
 filename: 43.jpeg ✓
 date: 22/10/2024 ✓
 time: 13:47 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6680392783 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -6039,7 +5955,7 @@ Extracted Fields:
 filename: 44.jpeg ✓
 date: 14/09/2024 ✓
 time: 09:49 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 9971738979 ✓
 total_cost: 595.00 ✓
 vat: 54.09 ✓
@@ -6232,10 +6148,10 @@ Extracted Fields:
 filename: 48.jpeg ✓
 date: 03/10/2024 ✓
 time: 11:32 ✓
-tax_office_name: MALTEPE ✓
+tax_office_name: N/A ✗
 tax_office_number: 6090009466 ✓
 total_cost: 2929.20 ✓
-vat: 2.66 ✓
+vat: 266.29 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -6328,7 +6244,7 @@ BU BELGEYİ SAKLAYINIZ
 KARTI HAMILI NÜSHASI
 OZKAN SIZGIN
 TIC.SICIL NO:-1
-TURKIYE$BANKASI
+TURKIYEŞBANKASI
 MASTERCARD PAYPASS
 Z NO:0572
 0001
@@ -6376,7 +6292,7 @@ AIDA0000000031010 APP.LABEL:UISA
 VERSBGTE8DR OP:0000009
 EMU SATIŞ TUTAR
 1.575,00TL
-BU I$LEH TEMASSIZ BIR KARTI ILE
+BU IŞLEH TEMASSIZ BIR KARTI ILE
 GERCEKLESTIRILMISTIR.
 ONAY NUMARASI:232206 REFNO:423355622720
 ISLEMINIZ SIFRENIZ ILE DOGRULANNISTIR
@@ -6393,7 +6309,7 @@ Extracted Fields:
 filename: 50.jpeg ✓
 date: 20/08/2024 ✓
 time: 12:47 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 30232626600 ✓
 total_cost: 1575.00 ✓
 vat: 143.18 ✓
@@ -6511,7 +6427,7 @@ GIDA SAGLIK TIC.LTD SATIŞ
 CANKAYA/ANKARA
 DOGANBEY VD6101085077
 TIC.SICIL NO436138
-14-10-2024 FI$NO 20
+14-10-2024 FIŞNO 20
 SAAT1416
 YIYECEK 7.10 600.00
 TOPKDV +54,55
@@ -6543,7 +6459,7 @@ Extracted Fields:
 filename: 53.jpeg ✓
 date: 14/10/2024 ✓
 time: 14:16 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6101085077 ✓
 total_cost: 600.00 ✓
 vat: 54.55 ✓
@@ -6596,7 +6512,7 @@ Extracted Fields:
 filename: 54.jpeg ✓
 date: 24/10/2024 ✓
 time: 12:53 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 4611136897 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -6652,10 +6568,10 @@ Extracted Fields:
 filename: 55.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:30 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
-vat: 45.45 ✓
+vat: 500.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -6750,7 +6666,7 @@ Extracted Fields:
 filename: 57.jpeg ✓
 date: 19/10/2024 ✓
 time: 17:19 ✓
-tax_office_name: N/A ✗
+tax_office_name: EREGLI ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: 53.18 ✓
@@ -6794,10 +6710,10 @@ filename: 58.jpeg ✓
 date: 03/11/2024 ✓
 time: 13:21 ✓
 tax_office_name: KADIKÖY ✓
-tax_office_number: 0000010173 ✓
+tax_office_number: 3320941054 ✓
 total_cost: 1317.04 ✓
 vat: 219.51 ✓
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6811,7 +6727,7 @@ GAYRIMENKUL HAYANCTLIK OIO
 ET URN.LOK.SAN.TIC.IID.S11
 KARSIYAKA MAH. HAYMANA BLV.
 NO:18/B GOLBASI/ANKARA
-GOLBA$1V.D.5411283458
+GOLBAŞ1V.D.5411283458
 TEL03124846099
 TARİH 03/10/2024
 SAAT 12:49
@@ -6824,7 +6740,7 @@ AKBANK T.A.S.
 TARIH:03.10.2024 SAAT:12:49
 ISYERI:00000005415061 POS:03416060
 BATCH NO:088037 L11
-I$LEM NO00004 STAN:001283
+İŞLEM NO00004 STAN:001283
 SN580024056934 PYG/630 VER3.2.1
 SATIŞ
 5243 ******7644
@@ -6846,10 +6762,10 @@ Extracted Fields:
 filename: 59.jpeg ✓
 date: 03/10/2024 ✓
 time: 12:49 ✓
-tax_office_name: HAYMANA ✓
+tax_office_name: N/A ✗
 tax_office_number: 5411283458 ✓
 total_cost: 1300.00 ✓
-vat: 1.18 ✓
+vat: 118.18 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -6898,7 +6814,7 @@ MUIIU LOKANTASI
 AYRANCI
 34842
 HVD4570013091
-24-10-2024 FI$NO 10
+24-10-2024 FIŞNO 10
 SAAI1153
 YIYECEK 710 1800.00
 TOPKDV +163,64
@@ -6991,7 +6907,7 @@ SAAT ALE BELGELERINIZE
 HAREKODU OKUTARAK
 ULASABILIRSINIZ.
 TERMINALNO:N860W681665
-PAVOA.$1.00 KASİYER 5187
+PAVOA.Ş1.00 KASİYER 5187
 EKBILGILER
 M. NIHIAI TUKETICI
 MN
@@ -7001,8 +6917,8 @@ Extracted Fields:
 filename: 61.jpeg ✓
 date: N/A ✗
 time: 02:11 ✓
-tax_office_name: ANKARA VERGİ DAİRESİ ✓
-tax_office_number: 5337622042 ✓
+tax_office_name: N/A ✗
+tax_office_number: 1330018777 ✓
 total_cost: 410203.64 ✓
 vat: 203.64 ✓
 payment_method: KREDİ KARTI ✓
@@ -7108,7 +7024,7 @@ Extracted Fields:
 filename: 63.jpeg ✓
 date: 25/10/2024 ✓
 time: 14:49 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 3880713693 ✓
 total_cost: 170.00 ✓
 vat: 15.45 ✓
@@ -7165,7 +7081,7 @@ Extracted Fields:
 filename: 64.jpeg ✓
 date: 29/10/2024 ✓
 time: 12:41 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6890168979 ✓
 total_cost: 618.00 ✓
 vat: 56.18 ✓
@@ -7211,7 +7127,7 @@ Extracted Fields:
 filename: 65.jpeg ✓
 date: 25/10/2024 ✓
 time: 13:20 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 30232626600 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -7255,7 +7171,7 @@ Extracted Fields:
 filename: 66.jpeg ✓
 date: 11/09/2024 ✓
 time: 12:33 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 4611136897 ✓
 total_cost: 850.00 ✓
 vat: 77.27 ✓
@@ -7300,10 +7216,10 @@ filename: 67.jpeg ✓
 date: 12/09/2024 ✓
 time: 20:18 ✓
 tax_office_name: N/A ✗
-tax_office_number: N/A ✗
+tax_office_number: 3320941054 ✓
 total_cost: 959.89 ✓
 vat: 159.98 ✓
-payment_method: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7350,7 +7266,7 @@ Extracted Fields:
 filename: 68.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:30 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -7456,7 +7372,7 @@ Testing PaddleOCR on: 70.jpeg
 
 Processed Text Output:
 VADI PETROL OTO TIC.A.S
-$BDIKMEN CADDESI NO:93
+ŞBDIKMEN CADDESI NO:93
 CANKAYA/ANKARA
 TEL:03124672580
 CUMHURIYETVD:9220229212
@@ -7702,7 +7618,7 @@ BONUS UNUZLA BEDAUA YAPABIL IRDINIZ
 T.GARANTI BANKASI AS
 MERSİS NO:0879 0017 5660 0379
 GENEL MUDURLUKNISPETIYE MAHAYTAR CAD
-NO2.BE$IKTAS.34340.LEUENT.1STANBUL
+NO2.BEŞIKTAS.34340.LEUENT.1STANBUL
 WWW.GARANTI.COM.TR
 2.NUSHA KARTI SAHIBINE AITTIR.)
 TC1C145B22AEA9307B
@@ -7712,7 +7628,7 @@ Extracted Fields:
 filename: 75.jpg ✓
 date: 08/10/2019 ✓
 time: 21:49 ✓
-tax_office_name: ZAFER ✓
+tax_office_name: N/A ✗
 tax_office_number: N/A ✗
 total_cost: N/A ✗
 vat: N/A ✗
@@ -7784,7 +7700,7 @@ SECMELI TAKSIT TUTAR
 ÖDEME PLANI
 02 TAKSITLI 89.95TL
 ONAY NUMARAS1:509394 REFNO:928183447914
-BU ALI$UERI$INIZIN 6.29 TL SINT
+BU ALIŞUERIŞINIZIN 6.29 TL SINT
 BONUS UNUZLA BEDAUA YAPABIL IRDINIZ
 T.GARANT BANKASI A.S
 MERSİS NO:0879 0017 5660 0379
@@ -7797,7 +7713,7 @@ Extracted Fields:
 filename: 77.jpg ✓
 date: 08/10/2019 ✓
 time: 21:49 ✓
-tax_office_name: ZAFER ✓
+tax_office_name: N/A ✗
 tax_office_number: N/A ✗
 total_cost: N/A ✗
 vat: N/A ✗
@@ -7854,7 +7770,7 @@ date: 11/10/2019 ✓
 time: 17:01 ✓
 tax_office_name: N/A ✗
 tax_office_number: N/A ✗
-total_cost: 72.97 ✓
+total_cost: 73.22 ✓
 vat: 5.45 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
@@ -7888,7 +7804,7 @@ Extracted Fields:
 filename: 79.jpg ✓
 date: 11/09/2019 ✓
 time: 12:44 ✓
-tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
 tax_office_number: 1750051846 ✓
 total_cost: 20.35 ✓
 vat: 0.71 ✓
@@ -8101,9 +8017,9 @@ Extracted Fields:
 filename: 83.jpg ✓
 date: 03/10/2019 ✓
 time: 18:27 ✓
-tax_office_name: BOZTEPE ✓
+tax_office_name: GÖZTEPE ✓
 tax_office_number: 92768647960 ✓
-total_cost: N/A ✗
+total_cost: 330.00 ✓
 vat: 50.34 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
@@ -8199,12 +8115,12 @@ AYSE GURBULAK
 EMU SATIŞ TUTAR
 59.90TL
 ONAY NUMARASI:439144 REFNO:928158853717
-BU ALISUERI$INIZIN 4.54 TL SINI
+BU ALISUERIŞINIZIN 4.54 TL SINI
 BONUS UNUZLA BEDAUA YAPABILIRDINIZ
 T.GARANTI BANKASI AS
 MERSİS NO:0879 00!7 5660 0379
 GENEL MUDURLUKNISPETIYE MAHAYTAR CAD
-NO2.BE$IKTAS.34340.LEUENT.ISTANBUL
+NO2.BEŞIKTAS.34340.LEUENT.ISTANBUL
 WWW.GARANT1.COM.TR
 2.NUSHA KARTI SAHIBINE AITTIR.)
 TC6FCB83F0F24C2A31
@@ -8214,7 +8130,7 @@ Extracted Fields:
 filename: 85.jpg ✓
 date: 08/10/2019 ✓
 time: 12:24 ✓
-tax_office_name: BATMAN ✓
+tax_office_name: N/A ✗
 tax_office_number: 2163390615 ✓
 total_cost: 59.90 ✓
 vat: N/A ✗
@@ -8301,7 +8217,7 @@ date: 07/10/2019 ✓
 time: 13:46 ✓
 tax_office_name: KADIKÖY ✓
 tax_office_number: 44491640642 ✓
-total_cost: N/A ✗
+total_cost: 45.00 ✓
 vat: 3.33 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
@@ -8347,7 +8263,7 @@ Extracted Fields:
 filename: 88.jpg ✓
 date: 11/10/2019 ✓
 time: 09:12 ✓
-tax_office_name: SANCAKTEPE ✓
+tax_office_name: N/A ✗
 tax_office_number: 2165462766 ✓
 total_cost: N/A ✗
 vat: N/A ✗
@@ -8377,7 +8293,7 @@ IS BANKASI
 ************6579
 T.SICIL NO
 EKU NO:0001 Z NO:0562
-1$YER1 NO663287761 TERMNO:SOHIJ101
+1ŞYER1 NO663287761 TERMNO:SOHIJ101
 BOLUM0004/ACIBADEN
 11/10/2019 09:17
 SATTS
@@ -8395,7 +8311,7 @@ BU BELGEYİ SAKLAYINIZ
 KARTI HAMILI NÜSHASI
 GAMZE CAKICI
 TIC.SICIL NO-1
-TURKIYE$BANKASI
+TURKIYEŞBANKASI
 EKU NO:0001 Z NO:0562
 NFJI 20077689
 ----------------------------------------
@@ -8425,7 +8341,7 @@ OSK0DAR V.D./9480423762
 TARİH 25.09.2024
 SAAT 13:54
 FSNO0187
-BTLGT FT$T
+BTLGT FTŞT
 TUTAR :E-ARSIV FATURA BEP
 MUSTERI TCKN 11111111111
 BELGEYİ NO:92230012509401990187
@@ -8455,7 +8371,7 @@ time: 13:54 ✓
 tax_office_name: N/A ✗
 tax_office_number: 9480423762 ✓
 total_cost: 99.00 ✓
-vat: N/A ✗
+vat: 99.00 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -8533,7 +8449,7 @@ Extracted Fields:
 filename: 91.jpg ✓
 date: 04/10/2019 ✓
 time: 17:30 ✓
-tax_office_name: YENİMAHALLE ✓
+tax_office_name: N/A ✗
 tax_office_number: N/A ✗
 total_cost: 170.00 ✓
 vat: N/A ✗
@@ -8571,7 +8487,7 @@ Extracted Fields:
 filename: 92.jpg ✓
 date: 11/10/2019 ✓
 time: 09:12 ✓
-tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_name: BUYUK MÜKELLEFLER ✓
 tax_office_number: 1750051846 ✓
 total_cost: N/A ✗
 vat: 35.85 ✓
@@ -8754,89 +8670,85 @@ payment_method: NAKIT ✓
 
 ================================================================================
 
-Testing PaddleOCR on: 97.png
+Testing PaddleOCR on: 97.jpeg
 ----------------------------------------
 
 Processed Text Output:
-ORNEK FATURA
-SERI-SIRA NO A2
-SEVK IRSALIYE NO451-592
-SANAYI SITESI EFE SOKAK NO:34 AYDIN
-AYDIN V.D TARİH 12/20/2019
-SAYIN
-SULE KAPLAN
-YENI SAN.SIT.42 N:13,MERKEZ
-BALIKESIR,266454
-TURKEY
-VERGİ DAİRESİ
-GONEN
-CINSI MIKTARI FIYATI(T) TUTAR
-URUN 1 1 100 100
-URUN2 2 145 290
-URUN 3 1 250 250
-URUN 4 5 15 75
-URUN 5 1 100 100
-URUN 6 1 245 245
-URUN 7 3 246 738
-URUN8 2 110 220
-URUN9 1 55 55
-URUN 10 10 72 720
-TOPLAM $2793
-KDV 18
-GENEL TOPLAM 3295.74
+M.ADBAHGELIEVLER 7CAD/M.KODU9223
+A101 YENI MAGAZACILIK A.S
+YUKAR BAHCELIEVLER MH.
+69.SK.17.SK.
+OSK0DAR V.D./9480423762
+TARİH 25.09.2024
+SAAT 13:54
+FSNO0187
+BTLGT FTŞT
+TUTAR :E-ARSIV FATURA BEP
+MUSTERI TCKN 11111111111
+BELGEYİ NO:92230012509401990187
+ETTN N0:78059D1D-5144-44C0-AF46-DA0BF9ECDFBC
+YUMURTA 30LUM %01 *99,00
+TOPLAM TOPKDV *99,00 *0.98
+KREDİ KARTI YAPKREDI PESIN (1) COES.WWY 99,00
+PROVİZYON NO : 198795
+PUAN:000
+YAPI KREDİ
+I2690518895 T0063026453115701***9580
+25.09.202413:52B:58S:56
+RRN/REF.NO:1127838755 REF.NO
+92230012509401990187
+MERSİS NO0948042376200016
+IRSALIYE YERINE GECER
+IMZA>>
+KASIYERG***Z***
+ZN0:1177
+FYAB 15011065 EKO NO:0001
 ----------------------------------------
 
 Extracted Fields:
-filename: 97.png ✓
-date: N/A ✗
-time: N/A ✗
+filename: 97.jpeg ✓
+date: 25/09/2024 ✓
+time: 13:54 ✓
 tax_office_name: N/A ✗
-tax_office_number: N/A ✗
-total_cost: 3295.74 ✓
-vat: N/A ✗
-payment_method: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 99.00 ✓
+vat: 99.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
 
-Testing PaddleOCR on: 98.png
+Testing PaddleOCR on: 98.jpeg
 ----------------------------------------
 
 Processed Text Output:
-HELENKA VOCASKOVA FAKTURA C. 0501001
-PARMOVA 5
-66600 BRNO
-TEL.: 777 123456
-IC735 64427,DIC:CZ 8502171262
-FAKTURA
-ODBERATEL DATUM
-JMENO KAREL VIK VYSTAVENI 8.9.2007
-ADRESA ZA OVCINEM 968/8 SPLATNOSTI 22.9.2007
-PSC 635 00 MESTO BRNO-BYSTRC
-TELEFON
-ICO 63363451
-DIC CZ7301192767
-KS POPIS CENA/KS CENA CELKEM
-VYTVOIENI WWW STRANEK 2 500 000,00 KC
-ZPUSOB PLATBY
-HOTOVE CELKEM K UHRADE 2500000,00KC
-SEKEM
-KREDIT. KARTI NEJSEM PLATCE DPH
-BEZNY UCET
-CISLO UCTU 2157339001 / 2400
-RAZITKO A PODPIS
-JAKO VARIABILNI SYMBOL UVEDTE PROSIM CISLO FAKTURY
-ZIVNOSTENSKY LIST VYDAN OBECNIM ZIVNOSTENSKYM URADEM V CESKYCH BUDEJOVICICH, S C.J.: Z-01-05-04642
+ATAHAN ECZANESI
+BENGU OZDEMIR
+BAHCELI EVLER MAH.7.CAD NO:5
+CANKAYA/ANKARA
+MALTEPEV.D.25001204004
+TEL0 312213 4455 FAX:0 312 212 4240
+21/09/2024 FIS NO:000073
+SAAT15:32
+BEYBI VINIL MEDIUM E %10 *150,00
+HASPET SIYAH NITRIL %10 *190,00
+TOPKDV *30,91
+TOPLAM *340,00
+DIGER *340,00
+YAPI KREDİ KK
+TPOS00033/001/00101-KASIYERG
+Z NO:001500 EKU NO:0002
+3E16174478
 ----------------------------------------
 
 Extracted Fields:
-filename: 98.png ✓
-date: N/A ✗
-time: N/A ✗
-tax_office_name: N/A ✗
-tax_office_number: 8502171262 ✓
-total_cost: N/A ✗
-vat: N/A ✗
+filename: 98.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:32 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 25001204004 ✓
+total_cost: 340.00 ✓
+vat: 30.91 ✓
 payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
@@ -8887,13 +8799,13 @@ payment_method: N/A ✗
 ================================================================================
 
 FINAL STATISTICS:
-Total images processed: 182
+Total images processed: 180
 OCR Success Rate: 100.00%
-OCR Failed: 0 of 182 attempts
-Total fields attempted: 1274
-Successful extractions: 1136
-Failed extractions (N/A): 138
-Overall success rate: 89.17%
-Total execution time: 638.67 seconds
+OCR Failed: 0 of 180 attempts
+Total fields attempted: 1260
+Successful extractions: 1152
+Failed extractions (N/A): 108
+Overall success rate: 91.43%
+Total execution time: 782.20 seconds
 ================================================================================
 
