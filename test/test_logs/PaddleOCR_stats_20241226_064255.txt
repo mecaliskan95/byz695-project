@@ -41,13 +41,14 @@ EKU NO:0001 Z NO:1489
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 10:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 16564026202 ✓
-Total Cost: 594.00 ✓
-VAT: 99.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 1.jpeg ✓
+date: 02/11/2024 ✓
+time: 10:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 16564026202 ✓
+total_cost: 594.00 ✓
+vat: 99.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -77,13 +78,14 @@ EKU NO:0002 Z NO:339
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 10:24 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 280.00 ✓
-VAT: 46.67 ✓
-Payment Method: NAKIT ✓
+filename: 10.jpeg ✓
+date: 21/09/2024 ✓
+time: 10:24 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 280.00 ✓
+vat: 46.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -118,13 +120,14 @@ EKO NO
 ----------------------------------------
 
 Extracted Fields:
-Date: 15/05/2024 ✓
-Time: 15:35 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 7810012370 ✓
-Total Cost: 425.00 ✓
-VAT: 38.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 101.jpg ✓
+date: 15/05/2024 ✓
+time: 15:35 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 7810012370 ✓
+total_cost: 425.00 ✓
+vat: 38.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -174,13 +177,14 @@ NF JI 20105755
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/07/2024 ✓
-Time: 10:49 ✓
-Tax Office: ESENLER ✓
-Tax Number: 3950878106 ✓
-Total Cost: 138.00 ✓
-VAT: 12.55 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 102.png ✓
+date: 01/07/2024 ✓
+time: 10:49 ✓
+tax_office_name: ESENLER ✓
+tax_office_number: 3950878106 ✓
+total_cost: 138.00 ✓
+vat: 12.55 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -220,13 +224,14 @@ NFJI 20097437
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/10/2024 ✓
-Time: 18:05 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 7820712583 ✓
-Total Cost: 279.00 ✓
-VAT: 25.36 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 103.jpg ✓
+date: 22/10/2024 ✓
+time: 18:05 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 7820712583 ✓
+total_cost: 279.00 ✓
+vat: 25.36 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -290,13 +295,14 @@ FARK
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 19:14 ✓
-Tax Office: ANKARA KURUMLAR ✓
-Tax Number: 8450627145 ✓
-Total Cost: 307.85 ✓
-VAT: 3.09 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 104.jpg ✓
+date: 19/10/2024 ✓
+time: 19:14 ✓
+tax_office_name: ANKARA KURUMLAR ✓
+tax_office_number: 8450627145 ✓
+total_cost: 307.85 ✓
+vat: 3.09 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -346,13 +352,14 @@ NF2B20129106
 ----------------------------------------
 
 Extracted Fields:
-Date: 20/10/2024 ✓
-Time: 15:42 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4550036954 ✓
-Total Cost: 140.00 ✓
-VAT: 12.73 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 105.jpg ✓
+date: 20/10/2024 ✓
+time: 15:42 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4550036954 ✓
+total_cost: 140.00 ✓
+vat: 12.73 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -381,13 +388,14 @@ MIF0000008639
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 07:30 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 1886.13 ✓
-VAT: 314.36 ✓
-Payment Method: N/A ✗
+filename: 106.jpg ✓
+date: 04/11/2024 ✓
+time: 07:30 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 1886.13 ✓
+vat: 314.36 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -422,13 +430,14 @@ AT0000157448
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 14:43 ✓
-Tax Office: N/A ✗
-Tax Number: 37024475866 ✓
-Total Cost: 62.00 ✓
-VAT: 0.61 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 107.png ✓
+date: N/A ✗
+time: 14:43 ✓
+tax_office_name: N/A ✗
+tax_office_number: 37024475866 ✓
+total_cost: 62.00 ✓
+vat: 0.61 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -456,13 +465,14 @@ MF2A 20157280
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/06/2021 ✓
-Time: 10:58 ✓
-Tax Office: N/A ✗
-Tax Number: 8890411429 ✓
-Total Cost: 190.00 ✓
-VAT: 1.08 ✓
-Payment Method: NAKIT ✓
+filename: 108.png ✓
+date: 26/06/2021 ✓
+time: 10:58 ✓
+tax_office_name: N/A ✗
+tax_office_number: 8890411429 ✓
+total_cost: 190.00 ✓
+vat: 1.08 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -508,13 +518,14 @@ MF HC 2000
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/10/2024 ✓
-Time: 13:47 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6680392783 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 109.jpeg ✓
+date: 22/10/2024 ✓
+time: 13:47 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6680392783 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -543,13 +554,14 @@ MFJI20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 15:36 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 45.00 ✓
-VAT: 7.50 ✓
-Payment Method: NAKIT ✓
+filename: 11.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:36 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 45.00 ✓
+vat: 7.50 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -595,13 +607,14 @@ MF HC 2000
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/10/2024 ✓
-Time: 13:47 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6680392783 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 110.jpeg ✓
+date: 22/10/2024 ✓
+time: 13:47 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6680392783 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -629,13 +642,14 @@ Z NO:001416 EKU NO:0004
 ----------------------------------------
 
 Extracted Fields:
-Date: 30/10/2024 ✓
-Time: 16:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4543378239 ✓
-Total Cost: 60.00 ✓
-VAT: 10.00 ✓
-Payment Method: NAKIT ✓
+filename: 111.jpeg ✓
+date: 30/10/2024 ✓
+time: 16:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4543378239 ✓
+total_cost: 60.00 ✓
+vat: 10.00 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -676,13 +690,14 @@ AT 0000365925
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 11:53 ✓
-Tax Office: N/A ✗
-Tax Number: 4570013091 ✓
-Total Cost: 1800.00 ✓
-VAT: 163.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 112.jpeg ✓
+date: 24/10/2024 ✓
+time: 11:53 ✓
+tax_office_name: N/A ✗
+tax_office_number: 4570013091 ✓
+total_cost: 1800.00 ✓
+vat: 163.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -723,13 +738,14 @@ FBCJ00046741
 ----------------------------------------
 
 Extracted Fields:
-Date: 14/09/2024 ✓
-Time: 09:49 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 9971738979 ✓
-Total Cost: 595.00 ✓
-VAT: 54.09 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 113.jpeg ✓
+date: 14/09/2024 ✓
+time: 09:49 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 9971738979 ✓
+total_cost: 595.00 ✓
+vat: 54.09 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -766,13 +782,14 @@ VAKIFBANK
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/09/2024 ✓
-Time: 12:33 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 4611136897 ✓
-Total Cost: 850.00 ✓
-VAT: 77.27 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 114.jpeg ✓
+date: 11/09/2024 ✓
+time: 12:33 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 4611136897 ✓
+total_cost: 850.00 ✓
+vat: 77.27 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -809,13 +826,14 @@ MIF0000010180
 ----------------------------------------
 
 Extracted Fields:
-Date: 12/09/2024 ✓
-Time: 20:18 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 03122356003 ✓
-Total Cost: 959.89 ✓
-VAT: 159.98 ✓
-Payment Method: N/A ✗
+filename: 115.jpeg ✓
+date: 12/09/2024 ✓
+time: 20:18 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 03122356003 ✓
+total_cost: 959.89 ✓
+vat: 159.98 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -858,13 +876,14 @@ YAPIKREDI
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/09/2024 ✓
-Time: 19:19 ✓
-Tax Office: SEĞMENLER ✓
-Tax Number: 7010338220 ✓
-Total Cost: 1205.00 ✓
-VAT: 109.55 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 116.jpeg ✓
+date: 11/09/2024 ✓
+time: 19:19 ✓
+tax_office_name: SEĞMENLER ✓
+tax_office_number: 7010338220 ✓
+total_cost: 1205.00 ✓
+vat: 109.55 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -897,13 +916,14 @@ EKU NO:1 ZNO:0775
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 12:27 ✓
-Tax Office: CUMHURİYET ✓
-Tax Number: 9220229212 ✓
-Total Cost: 800.00 ✓
-VAT: 133.33 ✓
-Payment Method: NAKIT ✓
+filename: 117.jpeg ✓
+date: 24/10/2024 ✓
+time: 12:27 ✓
+tax_office_name: CUMHURİYET ✓
+tax_office_number: 9220229212 ✓
+total_cost: 800.00 ✓
+vat: 133.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -930,13 +950,14 @@ Z NO:000552 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 09:52 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 70.00 ✓
-VAT: 11.67 ✓
-Payment Method: NAKIT ✓
+filename: 118.jpeg ✓
+date: 24/10/2024 ✓
+time: 09:52 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 70.00 ✓
+vat: 11.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -984,13 +1005,14 @@ VVAKIFBANK
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/10/2024 ✓
-Time: 11:32 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 6090009466 ✓
-Total Cost: 2929.20 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 119.jpeg ✓
+date: 03/10/2024 ✓
+time: 11:32 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 6090009466 ✓
+total_cost: 2929.20 ✓
+vat: 2.66 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1032,13 +1054,14 @@ NFAT 0000277306 ZNO1.306
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 09:13 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 33746213908 ✓
-Total Cost: 850.00 ✓
-VAT: 141.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 12.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:13 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 33746213908 ✓
+total_cost: 850.00 ✓
+vat: 141.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1087,13 +1110,14 @@ SD0024120997
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 13:41 ✓
-Tax Office: SEĞMENLER ✓
-Tax Number: 7010338220 ✓
-Total Cost: N/A ✗
-VAT: 1080.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 120.jpeg ✓
+date: 22/08/2024 ✓
+time: 13:41 ✓
+tax_office_name: SEĞMENLER ✓
+tax_office_number: 7010338220 ✓
+total_cost: N/A ✗
+vat: 1080.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1139,13 +1163,14 @@ NF 2C 51785178
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/08/2024 ✓
-Time: 13:48 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 1036.00 ✓
-VAT: 94.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 121.jpeg ✓
+date: 23/08/2024 ✓
+time: 13:48 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 1036.00 ✓
+vat: 94.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1193,13 +1218,14 @@ NFJI 20001856
 ----------------------------------------
 
 Extracted Fields:
-Date: 20/08/2024 ✓
-Time: 12:47 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 30232626600 ✓
-Total Cost: 1575.00 ✓
-VAT: 143.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 122.jpeg ✓
+date: 20/08/2024 ✓
+time: 12:47 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 30232626600 ✓
+total_cost: 1575.00 ✓
+vat: 143.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1245,13 +1271,14 @@ Z NO:00025 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/10/2024 ✓
-Time: 12:49 ✓
-Tax Office: HAYMANA ✓
-Tax Number: 5411283458 ✓
-Total Cost: 1300.00 ✓
-VAT: 118.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 123.jpeg ✓
+date: 03/10/2024 ✓
+time: 12:49 ✓
+tax_office_name: HAYMANA ✓
+tax_office_number: 5411283458 ✓
+total_cost: 1300.00 ✓
+vat: 118.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1316,13 +1343,14 @@ MN.
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 02:11 ✓
-Tax Office: ANKARA VERGİ DAİRESİ ✓
-Tax Number: 1330048777 ✓
-Total Cost: 2240.00 ✓
-VAT: 203.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 124.jpeg ✓
+date: 02/11/2024 ✓
+time: 02:11 ✓
+tax_office_name: ANKARA VERGİ DAİRESİ ✓
+tax_office_number: 1330048777 ✓
+total_cost: 2240.00 ✓
+vat: 203.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1358,13 +1386,14 @@ EKU NT 2NO:0328
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/11/2024 ✓
-Time: 13:21 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 0000010173 ✓
-Total Cost: 1317.04 ✓
-VAT: 219.51 ✓
-Payment Method: N/A ✗
+filename: 125.jpeg ✓
+date: 03/11/2024 ✓
+time: 13:21 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 0000010173 ✓
+total_cost: 1317.04 ✓
+vat: 219.51 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -1407,13 +1436,14 @@ NF 2C 19682898
 ----------------------------------------
 
 Extracted Fields:
-Date: 16/10/2024 ✓
-Time: 12:53 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 1100.00 ✓
-VAT: 100.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 126.jpeg ✓
+date: 16/10/2024 ✓
+time: 12:53 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 1100.00 ✓
+vat: 100.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1456,13 +1486,14 @@ SD0024079397
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 17:19 ✓
-Tax Office: N/A ✗
-Tax Number: 5970008422 ✓
-Total Cost: 585.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 127.jpeg ✓
+date: 19/10/2024 ✓
+time: 17:19 ✓
+tax_office_name: N/A ✗
+tax_office_number: 5970008422 ✓
+total_cost: 585.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1509,13 +1540,14 @@ MF AT 0000235893
 ----------------------------------------
 
 Extracted Fields:
-Date: 14/10/2024 ✓
-Time: 14:16 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6101085077 ✓
-Total Cost: 600.00 ✓
-VAT: 54.55 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 128.jpeg ✓
+date: 14/10/2024 ✓
+time: 14:16 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6101085077 ✓
+total_cost: 600.00 ✓
+vat: 54.55 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1563,13 +1595,14 @@ NF 2C 53450772
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 12:53 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 4611136897 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 129.jpeg ✓
+date: 24/10/2024 ✓
+time: 12:53 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 4611136897 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1630,13 +1663,14 @@ F3E 17494239
 ----------------------------------------
 
 Extracted Fields:
-Date: 05/09/2024 ✓
-Time: 10:23 ✓
-Tax Office: N/A ✗
-Tax Number: 03122956800 ✓
-Total Cost: 1230.00 ✓
-VAT: 230.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 13.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: N/A ✗
+tax_office_number: 03122956800 ✓
+total_cost: 1230.00 ✓
+vat: 230.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1686,13 +1720,14 @@ NFC19682898
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/10/2024 ✓
-Time: 13:17 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 1100.00 ✓
-VAT: 1.100 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 130.jpeg ✓
+date: 28/10/2024 ✓
+time: 13:17 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 1100.00 ✓
+vat: 1.100 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1733,13 +1768,14 @@ MF 2C 19669917
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 12:59 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 650.00 ✓
-VAT: 59.09 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 131.jpeg ✓
+date: 01/11/2024 ✓
+time: 12:59 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 650.00 ✓
+vat: 59.09 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1783,13 +1819,14 @@ NF 2C 51789114
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:31 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 132.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:31 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1834,13 +1871,14 @@ EKO NO:0001 ZNO:0341
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:30 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 133.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:30 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1891,13 +1929,14 @@ EKO NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:30 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 134.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:30 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -1945,13 +1984,14 @@ MF 2C 51567454
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/10/2024 ✓
-Time: 14:49 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 3880713693 ✓
-Total Cost: 170.00 ✓
-VAT: 15.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 135.jpeg ✓
+date: 25/10/2024 ✓
+time: 14:49 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 3880713693 ✓
+total_cost: 170.00 ✓
+vat: 15.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2003,13 +2043,14 @@ MFFT 30049544
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/10/2024 ✓
-Time: 12:41 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6890168979 ✓
-Total Cost: 618.00 ✓
-VAT: 56.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 136.jpeg ✓
+date: 29/10/2024 ✓
+time: 12:41 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6890168979 ✓
+total_cost: 618.00 ✓
+vat: 56.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2040,13 +2081,14 @@ MF3E 16160747
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 13:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 60.00 ✓
-VAT: 10.00 ✓
-Payment Method: NAKIT ✓
+filename: 137.jpeg ✓
+date: 24/10/2024 ✓
+time: 13:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 60.00 ✓
+vat: 10.00 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -2085,13 +2127,14 @@ FKUNO NO 160
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/10/2024 ✓
-Time: 13:20 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 30232626600 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 138.jpeg ✓
+date: 25/10/2024 ✓
+time: 13:20 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 30232626600 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2121,13 +2164,14 @@ MF3E16160747
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 09:48 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 70.00 ✓
-VAT: 11.67 ✓
-Payment Method: NAKIT ✓
+filename: 139.jpeg ✓
+date: 01/11/2024 ✓
+time: 09:48 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 70.00 ✓
+vat: 11.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -2175,13 +2219,14 @@ YAB 15011065
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:57 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 96.75 ✓
-VAT: 1.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 14.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:57 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 96.75 ✓
+vat: 1.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2226,13 +2271,14 @@ NFJH 20006824
 ----------------------------------------
 
 Extracted Fields:
-Date: 30/10/2024 ✓
-Time: 15:28 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 30232626600 ✓
-Total Cost: 955.00 ✓
-VAT: 86.82 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 140.jpeg ✓
+date: 30/10/2024 ✓
+time: 15:28 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 30232626600 ✓
+total_cost: 955.00 ✓
+vat: 86.82 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2269,13 +2315,14 @@ EKU NO.0001 ZNO:3025
 ----------------------------------------
 
 Extracted Fields:
-Date: 06/11/2024 ✓
-Time: 15:43 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 3020451733 ✓
-Total Cost: 2475.00 ✓
-VAT: 225.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 141.jpeg ✓
+date: 06/11/2024 ✓
+time: 15:43 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 3020451733 ✓
+total_cost: 2475.00 ✓
+vat: 225.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2320,13 +2367,14 @@ M AT 0000235803
 ----------------------------------------
 
 Extracted Fields:
-Date: 31/10/2024 ✓
-Time: 16:50 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6101085077 ✓
-Total Cost: 750.00 ✓
-VAT: 68.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 142.jpeg ✓
+date: 31/10/2024 ✓
+time: 16:50 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6101085077 ✓
+total_cost: 750.00 ✓
+vat: 68.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2375,13 +2423,14 @@ V1008201
 ----------------------------------------
 
 Extracted Fields:
-Date: 06/11/2024 ✓
-Time: 11:18 ✓
-Tax Office: EMET ✓
-Tax Number: 6220529513 ✓
-Total Cost: 191.36 ✓
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 143.jpeg ✓
+date: 06/11/2024 ✓
+time: 11:18 ✓
+tax_office_name: EMET ✓
+tax_office_number: 6220529513 ✓
+total_cost: 191.36 ✓
+vat: 1.90 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -2429,13 +2478,14 @@ NF JI2010/50
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 16:27 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 03122363167 ✓
-Total Cost: 1165.00 ✓
-VAT: 105.91 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 144.jpeg ✓
+date: 04/11/2024 ✓
+time: 16:27 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 03122363167 ✓
+total_cost: 1165.00 ✓
+vat: 105.91 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2481,13 +2531,14 @@ EKU NO:0001 Z NO:1489
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 10:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 16564026202 ✓
-Total Cost: 594.00 ✓
-VAT: 99.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 145.jpeg ✓
+date: 02/11/2024 ✓
+time: 10:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 16564026202 ✓
+total_cost: 594.00 ✓
+vat: 99.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2533,13 +2584,14 @@ MFYAC21008161
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 13:31 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 390.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 146.jpeg ✓
+date: 02/11/2024 ✓
+time: 13:31 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 390.00 ✓
+vat: 3.86 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2589,13 +2641,14 @@ Z NO:0572
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/09/2024 ✓
-Time: 22:50 ✓
-Tax Office: CUMHURİYET ✓
-Tax Number: 10584056638 ✓
-Total Cost: 700.00 ✓
-VAT: 63.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 147.jpeg ✓
+date: 28/09/2024 ✓
+time: 22:50 ✓
+tax_office_name: CUMHURİYET ✓
+tax_office_number: 10584056638 ✓
+total_cost: 700.00 ✓
+vat: 63.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2623,13 +2676,14 @@ NF
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 11:19 ✓
-Tax Office: N/A ✗
-Tax Number: 1609002496 ✓
-Total Cost: 80.00 ✓
-VAT: 13.33 ✓
-Payment Method: NAKIT ✓
+filename: 148.jpeg ✓
+date: 02/11/2024 ✓
+time: 11:19 ✓
+tax_office_name: N/A ✗
+tax_office_number: 1609002496 ✓
+total_cost: 80.00 ✓
+vat: 13.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -2680,13 +2734,14 @@ MP//WW.MIGROS.COR.R
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 11:01 ✓
-Tax Office: N/A ✗
-Tax Number: 6220529513 ✓
-Total Cost: 670.67 ✓
-VAT: 12.35 ✓
-Payment Method: N/A ✗
+filename: 149.jpeg ✓
+date: 01/11/2024 ✓
+time: 11:14 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
+total_cost: 670.67 ✓
+vat: 12.35 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -2732,13 +2787,14 @@ MF 5A0021059981
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/08/2024 ✓
-Time: 17:02 ✓
-Tax Office: DIŞKAPI ✓
-Tax Number: 71032007640 ✓
-Total Cost: 250.00 ✓
-VAT: 41.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 15.jpeg ✓
+date: 25/08/2024 ✓
+time: 17:02 ✓
+tax_office_name: DIŞKAPI ✓
+tax_office_number: 71032007640 ✓
+total_cost: 250.00 ✓
+vat: 41.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2766,13 +2822,14 @@ JI20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/10/2024 ✓
-Time: 12:24 ✓
-Tax Office: N/A ✗
-Tax Number: 16090025496 ✓
-Total Cost: 207.50 ✓
-VAT: 34.58 ✓
-Payment Method: NAKIT ✓
+filename: 150.jpeg ✓
+date: 26/10/2024 ✓
+time: 12:24 ✓
+tax_office_name: N/A ✗
+tax_office_number: 16090025496 ✓
+total_cost: 207.50 ✓
+vat: 34.58 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -2816,13 +2873,14 @@ FYAB 15011065
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/09/2024 ✓
-Time: 10:22 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 293.92 ✓
-VAT: 176.42 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 151.jpeg ✓
+date: 24/09/2024 ✓
+time: 10:22 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 293.92 ✓
+vat: 176.42 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2869,13 +2927,14 @@ NF 2A 20133455
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 12:37 ✓
-Tax Office: M.KARAGÜZEL ✓
-Tax Number: 03123532590 ✓
-Total Cost: 117.00 ✓
-VAT: 19.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 152.jpeg ✓
+date: 23/10/2024 ✓
+time: 12:37 ✓
+tax_office_name: M.KARAGÜZEL ✓
+tax_office_number: 03123532590 ✓
+total_cost: 117.00 ✓
+vat: 19.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2927,13 +2986,14 @@ HTP//WW.MIGROS.COR.R
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 12:31 ✓
-Tax Office: N/A ✗
-Tax Number: 85033102229 ✓
-Total Cost: 402.49 ✓
-VAT: 0.25 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 153.jpeg ✓
+date: 23/10/2024 ✓
+time: 13:50 ✓
+tax_office_name: N/A ✗
+tax_office_number: 85033102229 ✓
+total_cost: 402.49 ✓
+vat: 0.25 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -2979,13 +3039,14 @@ FYAC 21008161 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 09:10 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 154.jpeg ✓
+date: 19/10/2024 ✓
+time: 09:10 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 137.60 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3031,13 +3092,14 @@ NFJH 20097304
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/10/2024 ✓
-Time: 15:47 ✓
-Tax Office: N/A ✗
-Tax Number: 8010706009 ✓
-Total Cost: 911.00 ✓
-VAT: 9.02 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 155.jpeg ✓
+date: 29/10/2024 ✓
+time: 15:47 ✓
+tax_office_name: N/A ✗
+tax_office_number: 8010706009 ✓
+total_cost: 911.00 ✓
+vat: 9.02 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3063,13 +3125,14 @@ SD0024125189
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 19:10 ✓
-Tax Office: N/A ✗
-Tax Number: 2250145047 ✓
-Total Cost: 200.00 ✓
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 156.jpeg ✓
+date: 19/10/2024 ✓
+time: 11:02 ✓
+tax_office_name: N/A ✗
+tax_office_number: 2250145047 ✓
+total_cost: 200.00 ✓
+vat: N/A ✗
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -3129,13 +3192,14 @@ ILEM102024102313210653
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 19:21 ✓
-Tax Office: N/A ✗
-Tax Number: 3188154747 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 157.jpeg ✓
+date: 23/10/2024 ✓
+time: 19:21 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3188154747 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -3199,13 +3263,14 @@ EHU0:00 Z NO:1849
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: N/A ✗
-Tax Office: OF ✓
-Tax Number: 8503102229 ✓
-Total Cost: N/A ✗
-VAT: 630.17 ✓
-Payment Method: N/A ✗
+filename: 158.jpeg ✓
+date: N/A ✗
+time: 09:46 ✓
+tax_office_name: OF ✓
+tax_office_number: 8503102229 ✓
+total_cost: 630.17 ✓
+vat: 630.17 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -3246,13 +3311,14 @@ MFTY 10008909
 ----------------------------------------
 
 Extracted Fields:
-Date: 13/09/2024 ✓
-Time: 00:23 ✓
-Tax Office: N/A ✗
-Tax Number: 6220529513 ✓
-Total Cost: 194.95 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 159.jpeg ✓
+date: 13/09/2024 ✓
+time: 12:25 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
+total_cost: 194.95 ✓
+vat: 1.94 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3304,13 +3370,14 @@ BATCH:1195 **71 STAN:000005
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 16:47 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 6340007853 ✓
-Total Cost: 6732.28 ✓
-VAT: 1122.05 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 16.jpeg ✓
+date: 22/08/2024 ✓
+time: 16:47 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 6340007853 ✓
+total_cost: 6732.28 ✓
+vat: 1122.05 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3360,13 +3427,14 @@ MFJH 20015005
 ----------------------------------------
 
 Extracted Fields:
-Date: 06/09/2024 ✓
-Time: 10:35 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 2951186868 ✓
-Total Cost: 189.00 ✓
-VAT: 1.87 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 160.jpeg ✓
+date: 06/09/2024 ✓
+time: 10:35 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 2951186868 ✓
+total_cost: 189.00 ✓
+vat: 1.87 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3397,13 +3465,14 @@ NFJI 20084168
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 08:49 ✓
-Tax Office: YILDIRIM BEYAZIT ✓
-Tax Number: 4550277896 ✓
-Total Cost: 1400.00 ✓
-VAT: 157.58 ✓
-Payment Method: NAKIT ✓
+filename: 161.jpeg ✓
+date: 28/08/2024 ✓
+time: 08:49 ✓
+tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_number: 4550277896 ✓
+total_cost: 1400.00 ✓
+vat: 157.58 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -3464,13 +3533,14 @@ FV1C008201
 ----------------------------------------
 
 Extracted Fields:
-Date: 30/10/2024 ✓
-Time: 13:01 ✓
-Tax Office: OF ✓
-Tax Number: 8503102229 ✓
-Total Cost: 583.51 ✓
-VAT: 5.78 ✓
-Payment Method: NAKIT ✓
+filename: 162.jpeg ✓
+date: 30/10/2024 ✓
+time: 12:13 ✓
+tax_office_name: OF ✓
+tax_office_number: 8503102229 ✓
+total_cost: 583.51 ✓
+vat: 5.78 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -3497,13 +3567,14 @@ Z NO001804 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 16/08/2024 ✓
-Time: 11:55 ✓
-Tax Office: N/A ✗
-Tax Number: 31177197118 ✓
-Total Cost: 28.00 ✓
-VAT: 4.67 ✓
-Payment Method: NAKIT ✓
+filename: 163.jpeg ✓
+date: 16/08/2024 ✓
+time: 11:55 ✓
+tax_office_name: N/A ✗
+tax_office_number: 31177197118 ✓
+total_cost: 28.00 ✓
+vat: 4.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -3545,13 +3616,14 @@ FJI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/08/2024 ✓
-Time: 15:30 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 400.00 ✓
-VAT: 66.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 164.jpeg ✓
+date: 19/08/2024 ✓
+time: 15:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 400.00 ✓
+vat: 66.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3589,13 +3661,14 @@ EO:0002 Z.331
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:41 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16030025496 ✓
-Total Cost: 122.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 165.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:41 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16030025496 ✓
+total_cost: 122.00 ✓
+vat: 20.33 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3635,13 +3708,14 @@ TEB
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/08/2024 ✓
-Time: 09:55 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 14881741532 ✓
-Total Cost: 155.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 166.jpeg ✓
+date: 29/08/2024 ✓
+time: 09:55 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 14881741532 ✓
+total_cost: 155.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3688,13 +3762,14 @@ TARTY /08/2024
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 14:03 ✓
-Tax Office: SİNCAN ✓
-Tax Number: 14629453048 ✓
-Total Cost: 580.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 167.jpeg ✓
+date: 22/08/2024 ✓
+time: 14:03 ✓
+tax_office_name: SİNCAN ✓
+tax_office_number: 14629453048 ✓
+total_cost: 580.00 ✓
+vat: 52.73 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3729,13 +3804,14 @@ NDNO2 7NO:38
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 13:17 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 660.00 ✓
-VAT: 110.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 168.jpeg ✓
+date: N/A ✗
+time: 13:17 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 660.00 ✓
+vat: 110.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3782,13 +3858,14 @@ NF2A 20132952
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:45 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 0021024673 ✓
-Total Cost: 360.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 169.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:45 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 0021024673 ✓
+total_cost: 360.00 ✓
+vat: 32.73 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3825,13 +3902,14 @@ AS0000270208
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 09:26 ✓
-Tax Office: N/A ✗
-Tax Number: 17444835860 ✓
-Total Cost: N/A ✗
-VAT: 91.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 17.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:26 ✓
+tax_office_name: N/A ✗
+tax_office_number: 17444835860 ✓
+total_cost: N/A ✗
+vat: 91.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3858,13 +3936,14 @@ NF 2B25010934
 ----------------------------------------
 
 Extracted Fields:
-Date: 27/08/2024 ✓
-Time: 16:30 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 1311528619 ✓
-Total Cost: 160.00 ✓
-VAT: 14.55 ✓
-Payment Method: NAKIT ✓
+filename: 170.jpeg ✓
+date: 27/08/2024 ✓
+time: 16:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 1311528619 ✓
+total_cost: 160.00 ✓
+vat: 14.55 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -3908,13 +3987,14 @@ NF JI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/08/2024 ✓
-Time: 13:50 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 375.00 ✓
-VAT: 62.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 171.jpeg ✓
+date: 26/08/2024 ✓
+time: 13:50 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 375.00 ✓
+vat: 62.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -3959,13 +4039,14 @@ MF JI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/08/2024 ✓
-Time: 11:43 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 75.00 ✓
-VAT: 12.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 172.jpeg ✓
+date: 26/08/2024 ✓
+time: 11:43 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 75.00 ✓
+vat: 12.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4002,13 +4083,14 @@ AS0000270208
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 09:26 ✓
-Tax Office: N/A ✗
-Tax Number: 17444835860 ✓
-Total Cost: N/A ✗
-VAT: 91.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 173.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:26 ✓
+tax_office_name: N/A ✗
+tax_office_number: 17444835860 ✓
+total_cost: N/A ✗
+vat: 91.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4035,13 +4117,14 @@ NFAS 0001007074
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 19:48 ✓
-Tax Office: YILDIRIM ✓
-Tax Number: 13649996030 ✓
-Total Cost: 190.00 ✓
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 174.jpeg ✓
+date: 22/08/2024 ✓
+time: 19:48 ✓
+tax_office_name: YILDIRIM ✓
+tax_office_number: 13649996030 ✓
+total_cost: 190.00 ✓
+vat: 31.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -4093,13 +4176,14 @@ BATCH:1195 **71 STAN:000005
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 16:47 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 6340007853 ✓
-Total Cost: 6732.28 ✓
-VAT: 1122.05 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 175.jpeg ✓
+date: 22/08/2024 ✓
+time: 16:47 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 6340007853 ✓
+total_cost: 6732.28 ✓
+vat: 1122.05 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4145,13 +4229,14 @@ MF 5A0021059981
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/08/2024 ✓
-Time: 17:02 ✓
-Tax Office: DIŞKAPI ✓
-Tax Number: 71032007640 ✓
-Total Cost: 250.00 ✓
-VAT: 41.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 176.jpeg ✓
+date: 25/08/2024 ✓
+time: 17:02 ✓
+tax_office_name: DIŞKAPI ✓
+tax_office_number: 71032007640 ✓
+total_cost: 250.00 ✓
+vat: 41.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4199,13 +4284,14 @@ YAB 15011065
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:57 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 96.75 ✓
-VAT: 1.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 177.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:57 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 96.75 ✓
+vat: 1.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4266,13 +4352,14 @@ F3E 17494239
 ----------------------------------------
 
 Extracted Fields:
-Date: 05/09/2024 ✓
-Time: 10:23 ✓
-Tax Office: N/A ✗
-Tax Number: 03122956800 ✓
-Total Cost: 1230.00 ✓
-VAT: 230.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 178.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: N/A ✗
+tax_office_number: 03122956800 ✓
+total_cost: 1230.00 ✓
+vat: 230.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4314,13 +4401,14 @@ NFAT 0000277306 ZNO1.306
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 09:13 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 33746213908 ✓
-Total Cost: 850.00 ✓
-VAT: 141.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 179.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:13 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 33746213908 ✓
+total_cost: 850.00 ✓
+vat: 141.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4347,13 +4435,14 @@ NFAS 0001007074
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 19:48 ✓
-Tax Office: YILDIRIM ✓
-Tax Number: 13649996030 ✓
-Total Cost: 190.00 ✓
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 18.jpeg ✓
+date: 22/08/2024 ✓
+time: 19:48 ✓
+tax_office_name: YILDIRIM ✓
+tax_office_number: 13649996030 ✓
+total_cost: 190.00 ✓
+vat: 31.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -4382,13 +4471,14 @@ MFJI20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 15:36 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 45.00 ✓
-VAT: 7.50 ✓
-Payment Method: NAKIT ✓
+filename: 180.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:36 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 45.00 ✓
+vat: 7.50 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -4418,13 +4508,14 @@ EKU NO:0002 Z NO:339
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 10:24 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 280.00 ✓
-VAT: 46.67 ✓
-Payment Method: NAKIT ✓
+filename: 181.jpeg ✓
+date: 21/09/2024 ✓
+time: 10:24 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 280.00 ✓
+vat: 46.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -4465,13 +4556,14 @@ FYAB 15011065 EKO NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/09/2024 ✓
-Time: 13:54 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 99.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 182.jpeg ✓
+date: 25/09/2024 ✓
+time: 13:54 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 99.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4500,13 +4592,14 @@ Z NO:001500 EKU NO:0002
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 15:32 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 25001204004 ✓
-Total Cost: 340.00 ✓
-VAT: 30.91 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 183.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:32 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 25001204004 ✓
+total_cost: 340.00 ✓
+vat: 30.91 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4551,13 +4644,14 @@ MF JI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/08/2024 ✓
-Time: 11:43 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 75.00 ✓
-VAT: 12.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 19.jpeg ✓
+date: 26/08/2024 ✓
+time: 11:43 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 75.00 ✓
+vat: 12.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4606,13 +4700,14 @@ V1008201
 ----------------------------------------
 
 Extracted Fields:
-Date: 06/11/2024 ✓
-Time: 11:18 ✓
-Tax Office: EMET ✓
-Tax Number: 6220529513 ✓
-Total Cost: 191.36 ✓
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 2.jpeg ✓
+date: 06/11/2024 ✓
+time: 11:18 ✓
+tax_office_name: EMET ✓
+tax_office_number: 6220529513 ✓
+total_cost: 191.36 ✓
+vat: 1.90 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -4662,13 +4757,14 @@ MFJH 20015005
 ----------------------------------------
 
 Extracted Fields:
-Date: 06/09/2024 ✓
-Time: 10:35 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 2951186868 ✓
-Total Cost: 189.00 ✓
-VAT: 1.87 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 20.jpeg ✓
+date: 06/09/2024 ✓
+time: 10:35 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 2951186868 ✓
+total_cost: 189.00 ✓
+vat: 1.87 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4709,13 +4805,14 @@ MFTY 10008909
 ----------------------------------------
 
 Extracted Fields:
-Date: 13/09/2024 ✓
-Time: 00:23 ✓
-Tax Office: N/A ✗
-Tax Number: 6220529513 ✓
-Total Cost: 194.95 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 21.jpeg ✓
+date: 13/09/2024 ✓
+time: 12:25 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
+total_cost: 194.95 ✓
+vat: 1.94 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4779,13 +4876,14 @@ EHU0:00 Z NO:1849
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 09:46 ✗
-Tax Office: OF ✓
-Tax Number: 8503102229 ✓
-Total Cost: N/A ✗
-VAT: 630.17 ✓
-Payment Method: N/A ✗
+filename: 22.jpeg ✓
+date: N/A ✗
+time: 09:46 ✓
+tax_office_name: OF ✓
+tax_office_number: 8503102229 ✓
+total_cost: 630.17 ✓
+vat: 630.17 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -4845,13 +4943,14 @@ ILEM102024102313210653
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 19:21 ✓
-Tax Office: N/A ✗
-Tax Number: 3188154747 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 23.jpeg ✓
+date: 23/10/2024 ✓
+time: 19:21 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3188154747 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -4897,13 +4996,14 @@ NFJH 20097304
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/10/2024 ✓
-Time: 15:47 ✓
-Tax Office: N/A ✗
-Tax Number: 8010706009 ✓
-Total Cost: 911.00 ✓
-VAT: 9.02 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 24.jpeg ✓
+date: 29/10/2024 ✓
+time: 15:47 ✓
+tax_office_name: N/A ✗
+tax_office_number: 8010706009 ✓
+total_cost: 911.00 ✓
+vat: 9.02 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4950,13 +5050,14 @@ NF2A 20132952
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:45 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 0021024673 ✓
-Total Cost: 360.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 25.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:45 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 0021024673 ✓
+total_cost: 360.00 ✓
+vat: 32.73 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -4996,13 +5097,14 @@ TEB
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/08/2024 ✓
-Time: 09:55 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 14881741532 ✓
-Total Cost: 155.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 26.jpeg ✓
+date: 29/08/2024 ✓
+time: 09:55 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 14881741532 ✓
+total_cost: 155.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5044,13 +5146,14 @@ FJI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/08/2024 ✓
-Time: 15:30 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 400.00 ✓
-VAT: 66.67 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 27.jpeg ✓
+date: 19/08/2024 ✓
+time: 15:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 400.00 ✓
+vat: 66.67 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5077,13 +5180,14 @@ Z NO001804 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 16/08/2024 ✓
-Time: 11:55 ✓
-Tax Office: N/A ✗
-Tax Number: 31177197118 ✓
-Total Cost: 28.00 ✓
-VAT: 4.67 ✓
-Payment Method: NAKIT ✓
+filename: 28.jpeg ✓
+date: 16/08/2024 ✓
+time: 11:55 ✓
+tax_office_name: N/A ✗
+tax_office_number: 31177197118 ✓
+total_cost: 28.00 ✓
+vat: 4.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5130,13 +5234,14 @@ TARTY /08/2024
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 14:03 ✓
-Tax Office: SİNCAN ✓
-Tax Number: 14629453048 ✓
-Total Cost: 580.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 29.jpeg ✓
+date: 22/08/2024 ✓
+time: 14:03 ✓
+tax_office_name: SİNCAN ✓
+tax_office_number: 14629453048 ✓
+total_cost: 580.00 ✓
+vat: 52.73 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5184,13 +5289,14 @@ NF JI2010/50
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 16:27 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 03122363167 ✓
-Total Cost: 1165.00 ✓
-VAT: 105.91 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 3.jpeg ✓
+date: 04/11/2024 ✓
+time: 16:27 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 03122363167 ✓
+total_cost: 1165.00 ✓
+vat: 105.91 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5228,13 +5334,14 @@ EO:0002 Z.331
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 11:41 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16030025496 ✓
-Total Cost: 122.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 30.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:41 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16030025496 ✓
+total_cost: 122.00 ✓
+vat: 20.33 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5295,13 +5402,14 @@ FV1C008201
 ----------------------------------------
 
 Extracted Fields:
-Date: 30/10/2024 ✓
-Time: 13:01 ✓
-Tax Office: OF ✓
-Tax Number: 8503102229 ✓
-Total Cost: 583.51 ✓
-VAT: 5.78 ✓
-Payment Method: NAKIT ✓
+filename: 31.jpeg ✓
+date: 30/10/2024 ✓
+time: 12:13 ✓
+tax_office_name: OF ✓
+tax_office_number: 8503102229 ✓
+total_cost: 583.51 ✓
+vat: 5.78 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5336,13 +5444,14 @@ NDNO2 7NO:38
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 13:17 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 660.00 ✓
-VAT: 110.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 32.jpeg ✓
+date: N/A ✗
+time: 13:17 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 660.00 ✓
+vat: 110.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5368,13 +5477,14 @@ SD0024125189
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 19:10 ✓
-Tax Office: N/A ✗
-Tax Number: 2250145047 ✓
-Total Cost: 200.00 ✓
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 33.jpeg ✓
+date: 19/10/2024 ✓
+time: 11:02 ✓
+tax_office_name: N/A ✗
+tax_office_number: 2250145047 ✓
+total_cost: 200.00 ✓
+vat: N/A ✗
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5420,13 +5530,14 @@ FYAC 21008161 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 09:10 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 34.jpeg ✓
+date: 19/10/2024 ✓
+time: 09:10 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 137.60 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5473,13 +5584,14 @@ NF 2A 20133455
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 12:37 ✓
-Tax Office: M.KARAGÜZEL ✓
-Tax Number: 03123532590 ✓
-Total Cost: 117.00 ✓
-VAT: 19.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 35.jpeg ✓
+date: 23/10/2024 ✓
+time: 12:37 ✓
+tax_office_name: M.KARAGÜZEL ✓
+tax_office_number: 03123532590 ✓
+total_cost: 117.00 ✓
+vat: 19.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5523,13 +5635,14 @@ FYAB 15011065
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/09/2024 ✓
-Time: 10:22 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 293.92 ✓
-VAT: 176.42 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 36.jpeg ✓
+date: 24/09/2024 ✓
+time: 10:22 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 293.92 ✓
+vat: 176.42 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5581,13 +5694,14 @@ HTP//WW.MIGROS.COR.R
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/10/2024 ✓
-Time: 12:31 ✓
-Tax Office: N/A ✗
-Tax Number: 85033102229 ✓
-Total Cost: 402.49 ✓
-VAT: 0.25 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 37.jpeg ✓
+date: 23/10/2024 ✓
+time: 13:50 ✓
+tax_office_name: N/A ✗
+tax_office_number: 85033102229 ✓
+total_cost: 402.49 ✓
+vat: 0.25 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5618,13 +5732,14 @@ NFJI 20084168
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/08/2024 ✓
-Time: 08:49 ✓
-Tax Office: YILDIRIM BEYAZIT ✓
-Tax Number: 4550277896 ✓
-Total Cost: 1400.00 ✓
-VAT: 157.58 ✓
-Payment Method: NAKIT ✓
+filename: 38.jpeg ✓
+date: 28/08/2024 ✓
+time: 08:49 ✓
+tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_number: 4550277896 ✓
+total_cost: 1400.00 ✓
+vat: 157.58 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5668,13 +5783,14 @@ NF JI 20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/08/2024 ✓
-Time: 13:50 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 16090025496 ✓
-Total Cost: 375.00 ✓
-VAT: 62.50 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 39.jpeg ✓
+date: 26/08/2024 ✓
+time: 13:50 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 375.00 ✓
+vat: 62.50 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5720,13 +5836,14 @@ MFYAC21008161
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 13:31 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 390.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 4.jpeg ✓
+date: 02/11/2024 ✓
+time: 13:31 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 390.00 ✓
+vat: 3.86 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5753,13 +5870,14 @@ NF 2B25010934
 ----------------------------------------
 
 Extracted Fields:
-Date: 27/08/2024 ✓
-Time: 16:30 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 1311528619 ✓
-Total Cost: 160.00 ✓
-VAT: 14.55 ✓
-Payment Method: NAKIT ✓
+filename: 40.jpeg ✓
+date: 27/08/2024 ✓
+time: 16:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 1311528619 ✓
+total_cost: 160.00 ✓
+vat: 14.55 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5787,13 +5905,14 @@ JI20066309
 ----------------------------------------
 
 Extracted Fields:
-Date: 26/10/2024 ✓
-Time: 12:24 ✓
-Tax Office: N/A ✗
-Tax Number: 16090025496 ✓
-Total Cost: 207.50 ✓
-VAT: 34.58 ✓
-Payment Method: NAKIT ✓
+filename: 41.jpeg ✓
+date: 26/10/2024 ✓
+time: 12:24 ✓
+tax_office_name: N/A ✗
+tax_office_number: 16090025496 ✓
+total_cost: 207.50 ✓
+vat: 34.58 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5819,13 +5938,14 @@ ZMO:001416 EKO NO:0004
 ----------------------------------------
 
 Extracted Fields:
-Date: 30/10/2024 ✓
-Time: 16:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4543378239 ✓
-Total Cost: 60.00 ✓
-VAT: 10.00 ✓
-Payment Method: NAKIT ✓
+filename: 42.jpeg ✓
+date: 30/10/2024 ✓
+time: 16:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4543378239 ✓
+total_cost: 60.00 ✓
+vat: 10.00 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5871,13 +5991,14 @@ NF HC 2007
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/10/2024 ✓
-Time: 13:47 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6680392783 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 43.jpeg ✓
+date: 22/10/2024 ✓
+time: 13:47 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6680392783 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5915,13 +6036,14 @@ FBCJ00046741
 ----------------------------------------
 
 Extracted Fields:
-Date: 14/09/2024 ✓
-Time: 09:49 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 9971738979 ✓
-Total Cost: 595.00 ✓
-VAT: 54.09 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 44.jpeg ✓
+date: 14/09/2024 ✓
+time: 09:49 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 9971738979 ✓
+total_cost: 595.00 ✓
+vat: 54.09 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -5965,13 +6087,14 @@ SD0024120997
 ----------------------------------------
 
 Extracted Fields:
-Date: 22/08/2024 ✓
-Time: 22:08 ✓
-Tax Office: SEĞMENLER ✓
-Tax Number: 7010338220 ✓
-Total Cost: N/A ✗
-VAT: 1080.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 45.jpeg ✓
+date: 22/08/2024 ✓
+time: 13:41 ✓
+tax_office_name: SEĞMENLER ✓
+tax_office_number: 7010338220 ✓
+total_cost: N/A ✗
+vat: 1080.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6017,13 +6140,14 @@ NF 2C51785178
 ----------------------------------------
 
 Extracted Fields:
-Date: 23/08/2024 ✓
-Time: 13:48 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 1036.00 ✓
-VAT: 94.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 46.jpeg ✓
+date: 23/08/2024 ✓
+time: 13:48 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 1036.00 ✓
+vat: 94.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6050,13 +6174,14 @@ MF3E16160747
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 09:52 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 70.00 ✓
-VAT: 11.67 ✓
-Payment Method: NAKIT ✓
+filename: 47.jpeg ✓
+date: 24/10/2024 ✓
+time: 09:52 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 70.00 ✓
+vat: 11.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -6104,13 +6229,14 @@ VAKIFBANK
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/10/2024 ✓
-Time: 11:32 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 6090009466 ✓
-Total Cost: 2929.20 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 48.jpeg ✓
+date: 03/10/2024 ✓
+time: 11:32 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 6090009466 ✓
+total_cost: 2929.20 ✓
+vat: 2.66 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6153,13 +6279,14 @@ YAPIKREDI
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/09/2024 ✓
-Time: 19:19 ✓
-Tax Office: SEĞMENLER ✓
-Tax Number: 7010338220 ✓
-Total Cost: 1205.00 ✓
-VAT: 109.55 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 49.jpeg ✓
+date: 11/09/2024 ✓
+time: 19:19 ✓
+tax_office_name: SEĞMENLER ✓
+tax_office_number: 7010338220 ✓
+total_cost: 1205.00 ✓
+vat: 109.55 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6209,13 +6336,14 @@ Z NO:0572
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/09/2024 ✓
-Time: 22:50 ✓
-Tax Office: CUMHURİYET ✓
-Tax Number: 10584056638 ✓
-Total Cost: 700.00 ✓
-VAT: 63.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 5.jpeg ✓
+date: 28/09/2024 ✓
+time: 22:50 ✓
+tax_office_name: CUMHURİYET ✓
+tax_office_number: 10584056638 ✓
+total_cost: 700.00 ✓
+vat: 63.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6262,13 +6390,14 @@ NFJI 20001856
 ----------------------------------------
 
 Extracted Fields:
-Date: 20/08/2024 ✓
-Time: 12:47 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 30232626600 ✓
-Total Cost: 1575.00 ✓
-VAT: 143.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 50.jpeg ✓
+date: 20/08/2024 ✓
+time: 12:47 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 30232626600 ✓
+total_cost: 1575.00 ✓
+vat: 143.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6312,13 +6441,14 @@ NE19682898
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/10/2024 ✓
-Time: 13:17 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 1100.00 ✓
-VAT: 100.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 51.jpeg ✓
+date: 28/10/2024 ✓
+time: 13:17 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 1100.00 ✓
+vat: 100.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6359,13 +6489,14 @@ MF 2C 19669917
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 12:59 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 650.00 ✓
-VAT: 59.09 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 52.jpeg ✓
+date: 01/11/2024 ✓
+time: 12:59 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 650.00 ✓
+vat: 59.09 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6409,13 +6540,14 @@ FAT 0000235893
 ----------------------------------------
 
 Extracted Fields:
-Date: 14/10/2024 ✓
-Time: 14:16 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6101085077 ✓
-Total Cost: 600.00 ✓
-VAT: 54.55 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 53.jpeg ✓
+date: 14/10/2024 ✓
+time: 14:16 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6101085077 ✓
+total_cost: 600.00 ✓
+vat: 54.55 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6461,13 +6593,14 @@ NF 2C 53450772
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 12:53 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 4611136897 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 54.jpeg ✓
+date: 24/10/2024 ✓
+time: 12:53 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 4611136897 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6516,13 +6649,14 @@ EKNO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:30 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 55.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:30 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6565,13 +6699,14 @@ NF 2C 19682898
 ----------------------------------------
 
 Extracted Fields:
-Date: 16/10/2024 ✓
-Time: 12:53 ✓
-Tax Office: N/A ✗
-Tax Number: 3810816130 ✓
-Total Cost: 1100.00 ✓
-VAT: 100.00 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 56.jpeg ✓
+date: 16/10/2024 ✓
+time: 12:53 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3810816130 ✓
+total_cost: 1100.00 ✓
+vat: 100.00 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6612,13 +6747,14 @@ MSD0024079397
 ----------------------------------------
 
 Extracted Fields:
-Date: 19/10/2024 ✓
-Time: 17:19 ✓
-Tax Office: N/A ✗
-Tax Number: 5970008422 ✓
-Total Cost: 585.00 ✓
-VAT: 53.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 57.jpeg ✓
+date: 19/10/2024 ✓
+time: 17:19 ✓
+tax_office_name: N/A ✗
+tax_office_number: 5970008422 ✓
+total_cost: 585.00 ✓
+vat: 53.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6654,13 +6790,14 @@ EKU N 2NO:0328
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/11/2024 ✓
-Time: 13:21 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 0000010173 ✓
-Total Cost: 1317.04 ✓
-VAT: 219.51 ✓
-Payment Method: N/A ✗
+filename: 58.jpeg ✓
+date: 03/11/2024 ✓
+time: 13:21 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 0000010173 ✓
+total_cost: 1317.04 ✓
+vat: 219.51 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -6706,13 +6843,14 @@ Z NO:00025 EKU NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/10/2024 ✓
-Time: 12:49 ✓
-Tax Office: HAYMANA ✓
-Tax Number: 5411283458 ✓
-Total Cost: 1300.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 59.jpeg ✓
+date: 03/10/2024 ✓
+time: 12:49 ✓
+tax_office_name: HAYMANA ✓
+tax_office_number: 5411283458 ✓
+total_cost: 1300.00 ✓
+vat: 1.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6740,13 +6878,14 @@ NF
 ----------------------------------------
 
 Extracted Fields:
-Date: 02/11/2024 ✓
-Time: 11:19 ✓
-Tax Office: N/A ✗
-Tax Number: 1609002496 ✓
-Total Cost: 80.00 ✓
-VAT: 13.33 ✓
-Payment Method: NAKIT ✓
+filename: 6.jpeg ✓
+date: 02/11/2024 ✓
+time: 11:19 ✓
+tax_office_name: N/A ✗
+tax_office_number: 1609002496 ✓
+total_cost: 80.00 ✓
+vat: 13.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -6787,13 +6926,14 @@ EKU NO ZNO902
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 11:53 ✓
-Tax Office: N/A ✗
-Tax Number: 4570013091 ✓
-Total Cost: 1800.00 ✓
-VAT: 163.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 60.jpeg ✓
+date: 24/10/2024 ✓
+time: 11:53 ✓
+tax_office_name: N/A ✗
+tax_office_number: 4570013091 ✓
+total_cost: 1800.00 ✓
+vat: 163.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6858,13 +6998,14 @@ MN
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 02:11 ✓
-Tax Office: ANKARA VERGİ DAİRESİ ✓
-Tax Number: 5337622042 ✓
-Total Cost: 410203.64 ✓
-VAT: 203.64 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 61.jpeg ✓
+date: N/A ✗
+time: 02:11 ✓
+tax_office_name: ANKARA VERGİ DAİRESİ ✓
+tax_office_number: 5337622042 ✓
+total_cost: 410203.64 ✓
+vat: 203.64 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6909,13 +7050,14 @@ MF2C51789114
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:31 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 62.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:31 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -6963,13 +7105,14 @@ MF2C 51567454
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/10/2024 ✓
-Time: 14:49 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 3880713693 ✓
-Total Cost: 170.00 ✓
-VAT: 15.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 63.jpeg ✓
+date: 25/10/2024 ✓
+time: 14:49 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 3880713693 ✓
+total_cost: 170.00 ✓
+vat: 15.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7019,13 +7162,14 @@ MFT 30049544
 ----------------------------------------
 
 Extracted Fields:
-Date: 29/10/2024 ✓
-Time: 12:41 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6890168979 ✓
-Total Cost: 618.00 ✓
-VAT: 56.18 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 64.jpeg ✓
+date: 29/10/2024 ✓
+time: 12:41 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6890168979 ✓
+total_cost: 618.00 ✓
+vat: 56.18 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7064,13 +7208,14 @@ FKU NO 1 NO 166
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/10/2024 ✓
-Time: 13:20 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 30232626600 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 65.jpeg ✓
+date: 25/10/2024 ✓
+time: 13:20 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 30232626600 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7107,13 +7252,14 @@ VAKIFBANK
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/09/2024 ✓
-Time: 12:33 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 4611136897 ✓
-Total Cost: 850.00 ✓
-VAT: 77.27 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 66.jpeg ✓
+date: 11/09/2024 ✓
+time: 12:33 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 4611136897 ✓
+total_cost: 850.00 ✓
+vat: 77.27 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7150,13 +7296,14 @@ MIF0000010180
 ----------------------------------------
 
 Extracted Fields:
-Date: 12/09/2024 ✓
-Time: 20:18 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 959.89 ✓
-VAT: 159.98 ✓
-Payment Method: N/A ✗
+filename: 67.jpeg ✓
+date: 12/09/2024 ✓
+time: 20:18 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 959.89 ✓
+vat: 159.98 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -7200,13 +7347,14 @@ EKONO:0001 ZNO:0341
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/11/2024 ✓
-Time: 13:30 ✓
-Tax Office: DOĞANBEY ✓
-Tax Number: 6230344381 ✓
-Total Cost: 500.00 ✓
-VAT: 45.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 68.jpeg ✓
+date: 04/11/2024 ✓
+time: 13:30 ✓
+tax_office_name: DOĞANBEY ✓
+tax_office_number: 6230344381 ✓
+total_cost: 500.00 ✓
+vat: 45.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7233,13 +7381,14 @@ MF3E 16160747
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 13:27 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 60.00 ✓
-VAT: 10.00 ✓
-Payment Method: NAKIT ✓
+filename: 69.jpeg ✓
+date: 24/10/2024 ✓
+time: 13:27 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 60.00 ✓
+vat: 10.00 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7290,13 +7439,14 @@ MP//WW.MIGROS.COR.R
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 11:01 ✓
-Tax Office: N/A ✗
-Tax Number: 6220529513 ✓
-Total Cost: 670.67 ✓
-VAT: 12.35 ✓
-Payment Method: N/A ✗
+filename: 7.jpeg ✓
+date: 01/11/2024 ✓
+time: 11:14 ✓
+tax_office_name: N/A ✗
+tax_office_number: 6220529513 ✓
+total_cost: 670.67 ✓
+vat: 12.35 ✓
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -7326,13 +7476,14 @@ EKU NO:1 ZNO:0775
 ----------------------------------------
 
 Extracted Fields:
-Date: 24/10/2024 ✓
-Time: 12:27 ✓
-Tax Office: CUMHURİYET ✓
-Tax Number: 9220229212 ✓
-Total Cost: 800.00 ✓
-VAT: 133.33 ✓
-Payment Method: NAKIT ✓
+filename: 70.jpeg ✓
+date: 24/10/2024 ✓
+time: 12:27 ✓
+tax_office_name: CUMHURİYET ✓
+tax_office_number: 9220229212 ✓
+total_cost: 800.00 ✓
+vat: 133.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7359,13 +7510,14 @@ MF3E 16160747
 ----------------------------------------
 
 Extracted Fields:
-Date: 01/11/2024 ✓
-Time: 09:48 ✓
-Tax Office: KIZILBEY ✓
-Tax Number: 4540378239 ✓
-Total Cost: 70.00 ✓
-VAT: 11.67 ✓
-Payment Method: NAKIT ✓
+filename: 71.jpeg ✓
+date: 01/11/2024 ✓
+time: 09:48 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 4540378239 ✓
+total_cost: 70.00 ✓
+vat: 11.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7403,13 +7555,14 @@ FYAB15035916
 ----------------------------------------
 
 Extracted Fields:
-Date: 07/10/2019 ✓
-Time: 17:47 ✓
-Tax Office: ALEMDAR ✓
-Tax Number: 9480423762 ✓
-Total Cost: 44.40 ✓
-VAT: 3.29 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 72.jpg ✓
+date: 07/10/2019 ✓
+time: 17:47 ✓
+tax_office_name: ALEMDAR ✓
+tax_office_number: 9480423762 ✓
+total_cost: 44.40 ✓
+vat: 3.29 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7455,13 +7608,14 @@ MF FO00056828
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/10/2019 ✓
-Time: 16:35 ✓
-Tax Office: ANADOLU KURUMLAR ✓
-Tax Number: 6210168028 ✓
-Total Cost: 149.90 ✓
-VAT: 11.10 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 73.jpg ✓
+date: 11/10/2019 ✓
+time: 16:35 ✓
+tax_office_name: ANADOLU KURUMLAR ✓
+tax_office_number: 6210168028 ✓
+total_cost: 149.90 ✓
+vat: 11.10 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7508,13 +7662,14 @@ MFYN07059652
 ----------------------------------------
 
 Extracted Fields:
-Date: 27/09/2019 ✓
-Time: 17:33 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 61.84 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 74.jpg ✓
+date: 27/09/2019 ✓
+time: 17:33 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 61.84 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7554,13 +7709,14 @@ TC1C145B22AEA9307B
 ----------------------------------------
 
 Extracted Fields:
-Date: 08/10/2019 ✓
-Time: 21:49 ✓
-Tax Office: ZAFER ✓
-Tax Number: N/A ✗
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 75.jpg ✓
+date: 08/10/2019 ✓
+time: 21:49 ✓
+tax_office_name: ZAFER ✓
+tax_office_number: N/A ✗
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7593,13 +7749,14 @@ MFYN07052067
 ----------------------------------------
 
 Extracted Fields:
-Date: 27/09/2019 ✓
-Time: 13:20 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 16.05 ✓
-VAT: 14.25 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 76.jpg ✓
+date: 27/09/2019 ✓
+time: 13:20 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 16.05 ✓
+vat: 14.25 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7637,13 +7794,14 @@ TC1C145B22AEA9307B
 ----------------------------------------
 
 Extracted Fields:
-Date: 08/10/2019 ✓
-Time: 21:49 ✓
-Tax Office: ZAFER ✓
-Tax Number: N/A ✗
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: NAKIT ✓
+filename: 77.jpg ✓
+date: 08/10/2019 ✓
+time: 21:49 ✓
+tax_office_name: ZAFER ✓
+tax_office_number: N/A ✗
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7691,13 +7849,14 @@ ZNO:1277
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/10/2019 ✓
-Time: 17:01 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 72.97 ✓
-VAT: 5.45 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 78.jpg ✓
+date: 11/10/2019 ✓
+time: 17:01 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 72.97 ✓
+vat: 5.45 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7726,13 +7885,14 @@ F3E17494487
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/09/2019 ✓
-Time: 12:44 ✓
-Tax Office: BÜYÜK MÜKELLEFLER ✓
-Tax Number: 1750051846 ✓
-Total Cost: 20.35 ✓
-VAT: 0.71 ✓
-Payment Method: NAKIT ✓
+filename: 79.jpg ✓
+date: 11/09/2019 ✓
+time: 12:44 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 1750051846 ✓
+total_cost: 20.35 ✓
+vat: 0.71 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7761,13 +7921,14 @@ Z NO:001500 EKU NO:0002
 ----------------------------------------
 
 Extracted Fields:
-Date: 21/09/2024 ✓
-Time: 15:32 ✓
-Tax Office: MALTEPE ✓
-Tax Number: 25001204004 ✓
-Total Cost: 340.00 ✓
-VAT: 30.91 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 8.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:32 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 25001204004 ✓
+total_cost: 340.00 ✓
+vat: 30.91 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7802,13 +7963,14 @@ WWW.COLINS.COM.TR
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: 08:10 ✓
-Tax Office: N/A ✗
-Tax Number: 02623353632 ✓
-Total Cost: 166.57 ✓
-VAT: 13.33 ✓
-Payment Method: NAKIT ✓
+filename: 80.jpg ✓
+date: N/A ✗
+time: 08:10 ✓
+tax_office_name: N/A ✗
+tax_office_number: 02623353632 ✓
+total_cost: 166.57 ✓
+vat: 13.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -7844,13 +8006,14 @@ MFYAB15014958
 ----------------------------------------
 
 Extracted Fields:
-Date: 12/10/2019 ✓
-Time: 15:19 ✓
-Tax Office: BAKIRKÖY ✓
-Tax Number: 7350667910 ✓
-Total Cost: 3.99 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 81.jpg ✓
+date: 12/10/2019 ✓
+time: 15:19 ✓
+tax_office_name: BAKIRKÖY ✓
+tax_office_number: 7350667910 ✓
+total_cost: 3.99 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7887,13 +8050,14 @@ TURKIYE A BANKASI
 ----------------------------------------
 
 Extracted Fields:
-Date: 12/10/2019 ✓
-Time: 15:07 ✓
-Tax Office: N/A ✗
-Tax Number: 2164280515 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 82.jpg ✓
+date: 12/10/2019 ✓
+time: 15:07 ✓
+tax_office_name: N/A ✗
+tax_office_number: 2164280515 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7934,13 +8098,14 @@ MAS000270595
 ----------------------------------------
 
 Extracted Fields:
-Date: 03/10/2019 ✓
-Time: 18:27 ✓
-Tax Office: BOZTEPE ✓
-Tax Number: 92768647960 ✓
-Total Cost: N/A ✗
-VAT: 50.34 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 83.jpg ✓
+date: 03/10/2019 ✓
+time: 18:27 ✓
+tax_office_name: BOZTEPE ✓
+tax_office_number: 92768647960 ✓
+total_cost: N/A ✗
+vat: 50.34 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -7999,13 +8164,14 @@ ZNO:039
 ----------------------------------------
 
 Extracted Fields:
-Date: 08/10/2019 ✓
-Time: 13:14 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 43918434130 ✓
-Total Cost: 129.31 ✓
-VAT: 9.58 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 84.jpg ✓
+date: 08/10/2019 ✓
+time: 13:14 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 43918434130 ✓
+total_cost: 129.31 ✓
+vat: 9.58 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8045,13 +8211,14 @@ TC6FCB83F0F24C2A31
 ----------------------------------------
 
 Extracted Fields:
-Date: 08/10/2019 ✓
-Time: 12:24 ✓
-Tax Office: BATMAN ✓
-Tax Number: 2163390615 ✓
-Total Cost: 59.90 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 85.jpg ✓
+date: 08/10/2019 ✓
+time: 12:24 ✓
+tax_office_name: BATMAN ✓
+tax_office_number: 2163390615 ✓
+total_cost: 59.90 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8083,13 +8250,14 @@ KARTI HAMILI NÜSHASI
 ----------------------------------------
 
 Extracted Fields:
-Date: 05/10/2019 ✓
-Time: 10:27 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 86.jpg ✓
+date: 05/10/2019 ✓
+time: 10:27 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8128,13 +8296,14 @@ MAS0000318200
 ----------------------------------------
 
 Extracted Fields:
-Date: 07/10/2019 ✓
-Time: 13:46 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 44491640642 ✓
-Total Cost: N/A ✗
-VAT: 3.33 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 87.jpg ✓
+date: 07/10/2019 ✓
+time: 13:46 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 44491640642 ✓
+total_cost: N/A ✗
+vat: 3.33 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8175,13 +8344,14 @@ TC:081689E9626631BD
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/10/2019 ✓
-Time: 09:12 ✓
-Tax Office: SANCAKTEPE ✓
-Tax Number: 2165462766 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 88.jpg ✓
+date: 11/10/2019 ✓
+time: 09:12 ✓
+tax_office_name: SANCAKTEPE ✓
+tax_office_number: 2165462766 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8231,13 +8401,14 @@ NFJI 20077689
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/10/2019 ✓
-Time: 09:16 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 23887386128 ✓
-Total Cost: 109.00 ✓
-VAT: 8.07 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 89.jpg ✓
+date: 11/10/2019 ✓
+time: 09:16 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 23887386128 ✓
+total_cost: 109.00 ✓
+vat: 8.07 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8278,13 +8449,14 @@ FYAB 15011065 EKO NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 25/09/2024 ✓
-Time: 13:54 ✓
-Tax Office: N/A ✗
-Tax Number: 9480423762 ✓
-Total Cost: 99.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 9.jpeg ✓
+date: 25/09/2024 ✓
+time: 13:54 ✓
+tax_office_name: N/A ✗
+tax_office_number: 9480423762 ✓
+total_cost: 99.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8314,13 +8486,14 @@ ZIRAAT BANKAS
 ----------------------------------------
 
 Extracted Fields:
-Date: 05/10/2019 ✓
-Time: 11:32 ✓
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 83.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 90.jpg ✓
+date: 05/10/2019 ✓
+time: 11:32 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 83.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8357,13 +8530,14 @@ TCE353700339909811
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/10/2019 ✓
-Time: 17:30 ✓
-Tax Office: YENİMAHALLE ✓
-Tax Number: N/A ✗
-Total Cost: 170.00 ✓
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 91.jpg ✓
+date: 04/10/2019 ✓
+time: 17:30 ✓
+tax_office_name: YENİMAHALLE ✓
+tax_office_number: N/A ✗
+total_cost: 170.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8394,13 +8568,14 @@ MFYAB 15026993
 ----------------------------------------
 
 Extracted Fields:
-Date: 11/10/2019 ✓
-Time: 09:12 ✓
-Tax Office: BÜYÜK MÜKELLEFLER ✓
-Tax Number: 1750051846 ✓
-Total Cost: N/A ✗
-VAT: 35.85 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 92.jpg ✓
+date: 11/10/2019 ✓
+time: 09:12 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 1750051846 ✓
+total_cost: N/A ✗
+vat: 35.85 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8439,13 +8614,14 @@ TUTAR KARŞILIĞI MAL VEVA HİZMET ALDIM
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/10/2019 ✓
-Time: 22:15 ✓
-Tax Office: ALEMDAR ✓
-Tax Number: 6090520717 ✓
-Total Cost: 24.00 ✓
-VAT: 1.78 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 93.jpg ✓
+date: 04/10/2019 ✓
+time: 22:15 ✓
+tax_office_name: ALEMDAR ✓
+tax_office_number: 6090520717 ✓
+total_cost: 24.00 ✓
+vat: 1.78 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8487,13 +8663,14 @@ MF JH 20055959
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/09/2019 ✓
-Time: 14:25 ✓
-Tax Office: KADIKÖY ✓
-Tax Number: 21353187088 ✓
-Total Cost: 24.00 ✓
-VAT: 1.78 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 94.jpg ✓
+date: 28/09/2019 ✓
+time: 14:25 ✓
+tax_office_name: KADIKÖY ✓
+tax_office_number: 21353187088 ✓
+total_cost: 24.00 ✓
+vat: 1.78 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8524,13 +8701,14 @@ Z NO:1015 YAB 15048135 EKO NO:0001
 ----------------------------------------
 
 Extracted Fields:
-Date: 28/04/2024 ✓
-Time: 13:47 ✓
-Tax Office: N/A ✗
-Tax Number: 1750051846 ✓
-Total Cost: 172.25 ✓
-VAT: 6.60 ✓
-Payment Method: KREDİ KARTI ✓
+filename: 95.jpg ✓
+date: 28/04/2024 ✓
+time: 13:47 ✓
+tax_office_name: N/A ✗
+tax_office_number: 1750051846 ✓
+total_cost: 172.25 ✓
+vat: 6.60 ✓
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8564,13 +8742,14 @@ FYAB 15041733
 ----------------------------------------
 
 Extracted Fields:
-Date: 27/04/2024 ✓
-Time: 09:18 ✓
-Tax Office: SİNCAN ✓
-Tax Number: 4910324513 ✓
-Total Cost: 140.00 ✓
-VAT: 23.33 ✓
-Payment Method: NAKIT ✓
+filename: 96.jpg ✓
+date: 27/04/2024 ✓
+time: 09:18 ✓
+tax_office_name: SİNCAN ✓
+tax_office_number: 4910324513 ✓
+total_cost: 140.00 ✓
+vat: 23.33 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -8608,13 +8787,14 @@ GENEL TOPLAM 3295.74
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: N/A ✗
-Tax Office: N/A ✗
-Tax Number: N/A ✗
-Total Cost: 3295.74 ✓
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 97.png ✓
+date: N/A ✗
+time: N/A ✗
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 3295.74 ✓
+vat: N/A ✗
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -8650,13 +8830,14 @@ ZIVNOSTENSKY LIST VYDAN OBECNIM ZIVNOSTENSKYM URADEM V CESKYCH BUDEJOVICICH, S C
 ----------------------------------------
 
 Extracted Fields:
-Date: N/A ✗
-Time: N/A ✗
-Tax Office: N/A ✗
-Tax Number: 8502171262 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: KREDİ KARTI ✓
+filename: 98.png ✓
+date: N/A ✗
+time: N/A ✗
+tax_office_name: N/A ✗
+tax_office_number: 8502171262 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
 ----------------------------------------
 
 ================================================================================
@@ -8693,13 +8874,14 @@ VERGİ NO : 1234567801
 ----------------------------------------
 
 Extracted Fields:
-Date: 04/08/2023 ✓
-Time: 14:24 ✓
-Tax Office: N/A ✗
-Tax Number: 3333333331 ✓
-Total Cost: N/A ✗
-VAT: N/A ✗
-Payment Method: N/A ✗
+filename: 99.png ✓
+date: 04/08/2023 ✓
+time: 14:24 ✓
+tax_office_name: N/A ✗
+tax_office_number: 3333333331 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: N/A ✗
 ----------------------------------------
 
 ================================================================================
@@ -8709,9 +8891,9 @@ Total images processed: 182
 OCR Success Rate: 100.00%
 OCR Failed: 0 of 182 attempts
 Total fields attempted: 1274
-Successful extractions: 1113
-Failed extractions (N/A): 161
-Overall success rate: 87.36%
-Total execution time: 593.11 seconds
+Successful extractions: 1136
+Failed extractions (N/A): 138
+Overall success rate: 89.17%
+Total execution time: 638.67 seconds
 ================================================================================
 

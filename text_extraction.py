@@ -31,8 +31,9 @@ class TextExtractor:
             r'(\d{2})\s*/\s*(\d{2})\s*/\s*(\d{4})',
         ],
         'time': [
-            r'(?:^|[^\d])(\d{2}):(\d{2})(?::\d{2})?(?:$|[^\d])',
-            r'(?:^|[^\d])(\d{2})\.(\d{2})(?:\.\d{2})?(?:$|[^\d])',
+            r"SAAT\s*[:.]?\s*(\d{2})[:.](\d{2})", # Add this as first pattern
+            r"(?:^|[^\d])(\d{2}):(\d{2})(?::\d{2})?(?:$|[^\d])",
+            r"(?:^|[^\d])(\d{2})\.(\d{2})(?:\.\d{2})?(?:$|[^\d])",
         ],
         'tax_office_name': [
             r"VERGİ\s*DAİRESİ\s*:\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\b",  # New pattern
@@ -367,6 +368,16 @@ class TextExtractor:
                     return f"{whole}.{decimal}"
                 except (IndexError, AttributeError):
                     continue
+
+        # Add handling for missing decimal point
+        lines = text.split('\n')
+        for line in lines:
+            if 'TOPLAM' in line:
+                if match := re.search(r'\*?(\d+)\b', line):
+                    amount = match.group(1)
+                    if len(amount) >= 3:
+                        return f"{amount[:-2]}.{amount[-2:]}"
+
         return "N/A"
 
     @staticmethod
@@ -424,6 +435,18 @@ class TextExtractor:
                         return f"{whole}.{decimal}"
                 except (IndexError, ValueError, AttributeError):
                     continue
+
+        # Add handling for missing decimal point
+        lines = text.split('\n')
+        for line in lines:
+            if 'TOPKDV' in line:
+                if match := re.search(r'\*?(\d+)\b', line):
+                    amount = match.group(1)
+                    if len(amount) >= 3:
+                        vat = f"{amount[:-2]}.{amount[-2:]}"
+                        if total_cost is None or float(vat) < total_cost:
+                            return vat
+
         return "N/A"
 
     @staticmethod
