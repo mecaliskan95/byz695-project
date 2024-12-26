@@ -229,7 +229,6 @@ class TextExtractor:
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines()}
         
-        # First try existing patterns
         for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
@@ -239,7 +238,6 @@ class TextExtractor:
                 if best_match and fuzz.ratio(found_name, best_match) >= 80:
                     return best_match
         
-        # If no match found, try looking near tax number
         lines = text.split('\n')
         for i, line in enumerate(lines):
             tax_number_match = re.search(r'\b\d{10,11}\b', line)
@@ -274,16 +272,16 @@ class TextExtractor:
                     if best_match and fuzz.ratio(nearby_line.upper(), best_match) >= 80:
                         return best_match
         
-        # If still no match, try existing fallback methods
+        # If still no match, try fallback methods
         for line in text.split('\n'):
             line = line.strip().upper()
             if line in valid_offices:
                 return line
         
-        for office in valid_offices:
-            matching_lines, _, _, _ = TextExtractor.search_similar_word_in_text(office, text, 0.9)
-            if matching_lines:
-                return office
+        # for office in valid_offices:
+        #     matching_lines, _, _, _ = TextExtractor.search_similar_word_in_text(office, text, 0.9)
+        #     if matching_lines:
+        #         return office
 
         return "N/A"
 
