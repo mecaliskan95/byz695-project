@@ -168,36 +168,38 @@ class TextExtractor:
     @staticmethod
     def validate_total_cost_and_vat(total_cost, vat):
         try:
-            if total_cost == "N/A":
+            # First validate total_cost independently
+            if total_cost != "N/A":
+                try:
+                    cost_value = float(total_cost)
+                    # If total_cost is valid but no VAT, return the total_cost with N/A for VAT
+                    if vat == "N/A":
+                        return total_cost, "N/A"
+                except (ValueError, TypeError):
+                    return "N/A", "N/A"
+            else:
                 return "N/A", "N/A"
             
-            cost_value = float(total_cost)
-            
-            # If VAT is N/A or invalid, still return the total cost
-            if vat == "N/A":
-                return total_cost, "N/A"
-                
-            vat_value = float(vat)
-            
-            # Check if VAT is larger than total cost
-            if vat_value >= cost_value:
-                return total_cost, "N/A"
-                
-            # Calculate and validate VAT percentage
-            vat_percentage = (vat_value / cost_value) * 100
-
-            # Add check for VAT not exceeding 20% (+2% margin)
-            if vat_percentage > 22:  # 20% + 2% margin
-                return total_cost, "N/A"
-                
-            return total_cost, vat
-            
-        except (ValueError, TypeError, ZeroDivisionError):
+            # Now validate VAT if present
             try:
-                float(total_cost)
+                vat_value = float(vat)
+                # Check if VAT is larger than total cost
+                if vat_value >= cost_value:
+                    return total_cost, "N/A"
+                
+                # Calculate and validate VAT percentage
+                vat_percentage = (vat_value / cost_value) * 100
+                # Add check for VAT not exceeding 20% (+2% margin)
+                if vat_percentage > 22:  # 20% + 2% margin
+                    return total_cost, "N/A"
+                
+                return total_cost, vat
+                
+            except (ValueError, TypeError, ZeroDivisionError):
                 return total_cost, "N/A"
-            except (ValueError, TypeError):
-                return "N/A", "N/A"
+                
+        except Exception:
+            return "N/A", "N/A"
 
     @staticmethod
     def extract_all(texts, filenames=None):
@@ -215,23 +217,25 @@ class TextExtractor:
             def try_extraction(extraction_method, field_name):
                 nonlocal text1, text2, text3, text4
                 
-                if text1:
+                def validate_and_extract(text):
                     if field_name in ["total_cost", "vat"]:
-                        # Special handling for total_cost and vat to validate together
-                        total = TextExtractor.extract_total_cost(text1)
-                        vat = TextExtractor.extract_vat(text1)
+                        total = TextExtractor.extract_total_cost(text)
+                        vat = TextExtractor.extract_vat(text)
                         total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
                         return total if field_name == "total_cost" else vat
                     else:
-                        result = extraction_method(text1)
-                        if result != "N/A":
-                            return result
+                        return extraction_method(text)
+
+                if text1:
+                    result = validate_and_extract(text1)
+                    if result != "N/A":
+                        return result
 
                 if text2 is None:
                     text2 = OCRMethods.extract_with_pytesseract(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
-                        result = extraction_method(text2)
+                        result = validate_and_extract(text2)
                         if result != "N/A":
                             return result
 
@@ -239,7 +243,7 @@ class TextExtractor:
                     text3 = OCRMethods.extract_with_easyocr(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
-                        result = extraction_method(text3)
+                        result = validate_and_extract(text3)
                         if result != "N/A":
                             return result
 
@@ -527,7 +531,7 @@ class TextExtractor:
             if close_matches:
                 match_type.append("similar match")
                 matching_lines.append(line)
-                matching_line_numbers.append(i)
+                matching_line_numbers.append(i)                
                 matching_word.append(close_matches[0])
                 
         return matching_lines, matching_line_numbers, match_type, matching_word
