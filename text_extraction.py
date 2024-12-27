@@ -168,28 +168,36 @@ class TextExtractor:
     @staticmethod
     def validate_total_cost_and_vat(total_cost, vat):
         try:
-            if total_cost == "N/A" or vat == "N/A":
+            if total_cost == "N/A":
                 return "N/A", "N/A"
-                
+            
             cost_value = float(total_cost)
+            
+            # If VAT is N/A or invalid, still return the total cost
+            if vat == "N/A":
+                return total_cost, "N/A"
+                
             vat_value = float(vat)
             
             # Check if VAT is larger than total cost
             if vat_value >= cost_value:
-                return "N/A", "N/A"
+                return total_cost, "N/A"
                 
             # Calculate and validate VAT percentage
             vat_percentage = (vat_value / cost_value) * 100
-            valid_percentages = [1, 10, 15, 20]
-            
-            # Check if VAT percentage is valid (with 2 margin of error)
-            if not any(abs(vat_percentage - valid_pct) <= 2 for valid_pct in valid_percentages):
-                return "N/A", "N/A"
+
+            # Add check for VAT not exceeding 20% (+2% margin)
+            if vat_percentage > 22:  # 20% + 2% margin
+                return total_cost, "N/A"
                 
             return total_cost, vat
             
         except (ValueError, TypeError, ZeroDivisionError):
-            return "N/A", "N/A"
+            try:
+                float(total_cost)
+                return total_cost, "N/A"
+            except (ValueError, TypeError):
+                return "N/A", "N/A"
 
     @staticmethod
     def extract_all(texts, filenames=None):

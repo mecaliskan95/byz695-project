@@ -1519,7 +1519,7 @@ Extracted Fields:
 filename: 127.jpeg ✓
 date: 19/10/2024 ✓
 time: 17:19 ✓
-tax_office_name: EREGLI ✓
+tax_office_name: EREĞLİ ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: 53.18 ✓
@@ -1802,7 +1802,7 @@ TOPKDV 45,45
 TOPLAM *500,00 AA
 KREDİ +500, 00
 GARANTİ BBVA
-APSR EER SATIŞ OAA
+APSR EER KARTI OAA
 SİCİL NO .
 EKÜ NO 0001 Z N0:0341
 I: 2264199 T: 03768482
@@ -3422,7 +3422,7 @@ Extracted Fields:
 filename: 161.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_name: YILDIRIM ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -4313,36 +4313,6 @@ payment_method: N/A ✗
 
 ================================================================================
 
-Testing Tesseract OCR on: 181.jpeg
-----------------------------------------
-
-Processed Text Output:
-© — GÜNGÖR TİCARET X
-İÜ MONO BANCELIEVLE ,
-1 ANKARA TEL:213 7265
-HALTEPE V.D 16090025496
-X TARİH KĞ |
-PE EWES 5 ZS
-SIHMİ TESISAT 0 0 4250,00
-SIHMİ TESİSAT © 20 30,00
-ARATOPLAN SS M= AŞ F
-IE FO EEE
-© F TOPKDV *46,67,—
-----------------------------------------
-
-Extracted Fields:
-filename: 181.jpeg ✓
-date: N/A ✗
-time: N/A ✗
-tax_office_name: MALTEPE ✓
-tax_office_number: 16090025496 ✓
-total_cost: N/A ✗
-vat: 46.67 ✓
-payment_method: N/A ✗
-----------------------------------------
-
-================================================================================
-
 Testing Tesseract OCR on: 19.jpeg
 ----------------------------------------
 
@@ -5106,35 +5076,17 @@ Testing Tesseract OCR on: 32.jpeg
 ----------------------------------------
 
 Processed Text Output:
-I ALT RGR }
-SAAT CAD OD) OS OF
-NORA RAELEVUR © ©
-ANKARA TEL 213 &S
-
-PALTEPE V.D ARAYIŞ
-TARIK REF İ
-SAAT BURR
-FIS NO A
-AI MS
-TOPRDY #2110, 00
-TOPLAM X660,00
-RRİ Aİ
-YE FİNANSBANK
-, ÖTEDEKI | |
-2 (SEA *
-BR NO POE OD NIRS
-TERMİNAL 5840366
-SEAGER OE THEA
-LR? ARR BAR V
-NEE VANA VAA JR)
-SATIŞ
-TOPLAM 668.28 TL
-OAL KE IT AA
-RY ARRAY AE
-ONAY KODU 934433
-#4 TEMASSIZ VX
-E WRUE ATT
-LİN DEEEWES
+© — GÜNGÖR TİCARET X
+İÜ MONO BANCELIEVLE ,
+1 ANKARA TEL:213 7265
+HALTEPE V.D 16090025496
+X TARİH KĞ |
+PE EWES 5 ZS
+SIHMİ TESISAT 0 0 4250,00
+SIHMİ TESİSAT © 20 30,00
+ARATOPLAN SS M= AŞ F
+IE FO EEE
+© F TOPKDV *46,67,—
 ----------------------------------------
 
 Extracted Fields:
@@ -5142,9 +5094,9 @@ filename: 32.jpeg ✓
 date: N/A ✗
 time: N/A ✗
 tax_office_name: MALTEPE ✓
-tax_office_number: N/A ✗
-total_cost: 668.28 ✓
-vat: N/A ✗
+tax_office_number: 16090025496 ✓
+total_cost: N/A ✗
+vat: 46.67 ✓
 payment_method: N/A ✗
 ----------------------------------------
 
@@ -5430,7 +5382,7 @@ Extracted Fields:
 filename: 38.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_name: YILDIRIM ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -6459,7 +6411,7 @@ Extracted Fields:
 filename: 57.jpeg ✓
 date: 19/10/2024 ✓
 time: 17:19 ✓
-tax_office_name: EREGLI ✓
+tax_office_name: EREĞLİ ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: 453.18 ✓
@@ -6917,7 +6869,7 @@ VKN KAAN ARAA ARDA 8012
 EM SATIŞ TUTAR :
 500.00 TI
 BU İŞI LI TENRSSİZ BIR KARTI HE
-GERÇEKLEŞ 1 IRILMES TUTAR YERINI
+GERÇEKLEŞ 1 IRILMES TARİH YERINI
 ONAY NUMARAS1:656518
 MERSİS NO 8879 001? SEON W379
 UU. GARANT BBYA. CON. TR
@@ -8678,13 +8630,13 @@ payment_method: N/A ✗
 ================================================================================
 
 FINAL STATISTICS:
-Total images processed: 180
+Total images processed: 179
 OCR Success Rate: 100.00%
-OCR Failed: 0 of 180 attempts
-Total fields attempted: 1440
-Successful extractions: 1132
-Failed extractions (N/A): 308
-Overall success rate: 78.61%
-Total execution time: 360.67 seconds
+OCR Failed: 0 of 179 attempts
+Total fields attempted: 1432
+Successful extractions: 1129
+Failed extractions (N/A): 303
+Overall success rate: 78.84%
+Total execution time: 345.34 seconds
 ================================================================================
 

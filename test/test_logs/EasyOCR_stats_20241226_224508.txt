@@ -1413,7 +1413,7 @@ Extracted Fields:
 filename: 127.jpeg ✓
 date: 19/10/2024 ✓
 time: 19:10 ✓
-tax_office_name: EREGLI ✓
+tax_office_name: EREĞLİ ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: N/A ✗
@@ -3143,7 +3143,7 @@ Extracted Fields:
 filename: 161.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM ✓
+tax_office_name: YILDIRIM BEYAZIT ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -4003,42 +4003,6 @@ payment_method: NAKIT ✓
 
 ================================================================================
 
-Testing EasyOCR on: 181.jpeg
-----------------------------------------
-
-Processed Text Output:
-GUNGÖR TİCARET
-#Lİ €ÜNGÖR
-ASKAABAT (AD (7. CD_
-NO 19/A BAHÇELİEVLER
-ANKARA TEL: 213 72 65
-HALTEPE V.D 16090625496
-TARİH 21/09/2024
-10:24 :28
-FİŞ NO 0059
-620 *250,@ 00
-826 00
-*280,00
-TOPKDV *46,67
-TOPLAM *280,00
-NAKİT *280 , 00
-SİCİL NO
-Z NO:339R
-----------------------------------------
-
-Extracted Fields:
-filename: 181.jpeg ✓
-date: 21/09/2024 ✓
-time: 10:24 ✓
-tax_office_name: MALTEPE ✓
-tax_office_number: 16090625496 ✓
-total_cost: 280.00 ✓
-vat: 46.67 ✓
-payment_method: NAKIT ✓
-----------------------------------------
-
-================================================================================
-
 Testing EasyOCR on: 19.jpeg
 ----------------------------------------
 
@@ -4702,19 +4666,34 @@ Testing EasyOCR on: 32.jpeg
 ----------------------------------------
 
 Processed Text Output:
-T
-@NB
+GUNGÖR TİCARET
+#Lİ €ÜNGÖR
+ASKAABAT (AD (7. CD_
+NO 19/A BAHÇELİEVLER
+ANKARA TEL: 213 72 65
+HALTEPE V.D 16090625496
+TARİH 21/09/2024
+10:24 :28
+FİŞ NO 0059
+620 *250,@ 00
+826 00
+*280,00
+TOPKDV *46,67
+TOPLAM *280,00
+NAKİT *280 , 00
+SİCİL NO
+Z NO:339R
 ----------------------------------------
 
 Extracted Fields:
 filename: 32.jpeg ✓
-date: N/A ✗
-time: N/A ✗
-tax_office_name: N/A ✗
-tax_office_number: N/A ✗
-total_cost: N/A ✗
-vat: N/A ✗
-payment_method: N/A ✗
+date: 21/09/2024 ✓
+time: 10:24 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090625496 ✓
+total_cost: 280.00 ✓
+vat: 46.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -4966,7 +4945,7 @@ Extracted Fields:
 filename: 38.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM ✓
+tax_office_name: YILDIRIM BEYAZIT ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -5870,7 +5849,7 @@ Extracted Fields:
 filename: 57.jpeg ✓
 date: 19/10/2024 ✓
 time: 19:10 ✓
-tax_office_name: EREGLI ✓
+tax_office_name: EREĞLİ ✓
 tax_office_number: 5970008422 ✓
 total_cost: 585.00 ✓
 vat: 53.18 ✓
@@ -7817,13 +7796,13 @@ payment_method: N/A ✗
 ================================================================================
 
 FINAL STATISTICS:
-Total images processed: 180
+Total images processed: 179
 OCR Success Rate: 100.00%
-OCR Failed: 0 of 180 attempts
-Total fields attempted: 1260
+OCR Failed: 0 of 179 attempts
+Total fields attempted: 1253
 Successful extractions: 888
-Failed extractions (N/A): 372
-Overall success rate: 70.48%
-Total execution time: 2918.73 seconds
+Failed extractions (N/A): 365
+Overall success rate: 70.87%
+Total execution time: 2761.18 seconds
 ================================================================================
 

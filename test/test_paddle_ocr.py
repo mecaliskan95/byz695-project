@@ -1,3 +1,4 @@
+# python test/test_paddle_ocr.py && python test/test_easy_ocr.py && python test/test_tesseract_ocr.py && python test/test_surya_ocr.py
 import os
 import sys
 from datetime import datetime

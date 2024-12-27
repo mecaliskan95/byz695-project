@@ -1166,7 +1166,7 @@ Extracted Fields:
 filename: 121.jpeg ✓
 date: 23/08/2024 ✓
 time: 13:48 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 1036.00 ✓
 vat: 94.18 ✓
@@ -1822,7 +1822,7 @@ Extracted Fields:
 filename: 132.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:31 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -2274,7 +2274,7 @@ Extracted Fields:
 filename: 140.jpeg ✓
 date: 30/10/2024 ✓
 time: 15:28 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 30232626600 ✓
 total_cost: 955.00 ✓
 vat: 86.82 ✓
@@ -2318,7 +2318,7 @@ Extracted Fields:
 filename: 141.jpeg ✓
 date: 06/11/2024 ✓
 time: 15:43 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 3020451733 ✓
 total_cost: 2475.00 ✓
 vat: 225.00 ✓
@@ -3468,7 +3468,7 @@ Extracted Fields:
 filename: 161.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_name: BEYAZIT ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -4483,43 +4483,6 @@ payment_method: NAKIT ✓
 
 ================================================================================
 
-Testing PaddleOCR on: 181.jpeg
-----------------------------------------
-
-Processed Text Output:
-GUNGOR TİCARET
-ALDIM GUNGOR
-ASKAABAT CAD.7.CD.)
-NO:19/A BAHCELIEVLER
-ANKARA TEL:2137265
-HALTEPE V.D.16090025496
-TARİH 21/09/2024
-SAAT 10:24:28
-FISNO 6000
-SIHHI TESISAT 920 *250,00
-SIHHI TESISAT %20 *30,00
-TOPLAM *280,00
-TOPKDV *46,67
-TOPLAM *280,00
-NAKİT *280,00
-T.SICIL NO
-EKU NO:0002 Z NO:339
-100
-----------------------------------------
-
-Extracted Fields:
-filename: 181.jpeg ✓
-date: 21/09/2024 ✓
-time: 10:24 ✓
-tax_office_name: MALTEPE ✓
-tax_office_number: 16090025496 ✓
-total_cost: 280.00 ✓
-vat: 46.67 ✓
-payment_method: NAKIT ✓
-----------------------------------------
-
-================================================================================
-
 Testing PaddleOCR on: 19.jpeg
 ----------------------------------------
 
@@ -5334,40 +5297,35 @@ Testing PaddleOCR on: 32.jpeg
 ----------------------------------------
 
 Processed Text Output:
-RNGOR TİCARET
-ALIQNGOR
-AST7
-NOASRELIEVLER
-ANK47L2137265
-TVD124
-TARIN
-SAAT 1317.12
-FIŞNO 002
-REROARRT 20
-TOPKDV *110,00
-TOPLAM *660,00
-KREDİ Ş0.00
-QEFINNAN
-2NO:38
-TERNINAP4366
-SATIŞ
-TOPLANSG0 TL
-ONAYK0DU:934431
-***TENASSIZ**
-XQNB
-NDNO2 7NO:38
-120066309
+GUNGOR TİCARET
+ALDIM GUNGOR
+ASKAABAT CAD.7.CD.)
+NO:19/A BAHCELIEVLER
+ANKARA TEL:2137265
+HALTEPE V.D.16090025496
+TARİH 21/09/2024
+SAAT 10:24:28
+FISNO 6000
+SIHHI TESISAT 920 *250,00
+SIHHI TESISAT %20 *30,00
+TOPLAM *280,00
+TOPKDV *46,67
+TOPLAM *280,00
+NAKİT *280,00
+T.SICIL NO
+EKU NO:0002 Z NO:339
+100
 ----------------------------------------
 
 Extracted Fields:
 filename: 32.jpeg ✓
-date: N/A ✗
-time: 13:17 ✓
-tax_office_name: N/A ✗
-tax_office_number: N/A ✗
-total_cost: 660.00 ✓
-vat: 110.00 ✓
-payment_method: KREDİ KARTI ✓
+date: 21/09/2024 ✓
+time: 10:24 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 280.00 ✓
+vat: 46.67 ✓
+payment_method: NAKIT ✓
 ----------------------------------------
 
 ================================================================================
@@ -5651,7 +5609,7 @@ Extracted Fields:
 filename: 38.jpeg ✓
 date: 28/08/2024 ✓
 time: 08:49 ✓
-tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_name: BEYAZIT ✓
 tax_office_number: 4550277896 ✓
 total_cost: 1400.00 ✓
 vat: 157.58 ✓
@@ -6059,7 +6017,7 @@ Extracted Fields:
 filename: 46.jpeg ✓
 date: 23/08/2024 ✓
 time: 13:48 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 1036.00 ✓
 vat: 94.18 ✓
@@ -6969,7 +6927,7 @@ Extracted Fields:
 filename: 62.jpeg ✓
 date: 04/11/2024 ✓
 time: 13:31 ✓
-tax_office_name: DOĞANBEY ✓
+tax_office_name: DOGANBEY ✓
 tax_office_number: 6230344381 ✓
 total_cost: 500.00 ✓
 vat: 45.45 ✓
@@ -8799,13 +8757,13 @@ payment_method: N/A ✗
 ================================================================================
 
 FINAL STATISTICS:
-Total images processed: 180
+Total images processed: 179
 OCR Success Rate: 100.00%
-OCR Failed: 0 of 180 attempts
-Total fields attempted: 1260
-Successful extractions: 1152
-Failed extractions (N/A): 108
-Overall success rate: 91.43%
-Total execution time: 782.20 seconds
+OCR Failed: 0 of 179 attempts
+Total fields attempted: 1253
+Successful extractions: 1148
+Failed extractions (N/A): 105
+Overall success rate: 91.62%
+Total execution time: 688.35 seconds
 ================================================================================
 
