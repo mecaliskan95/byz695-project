@@ -181,7 +181,6 @@ class TextExtractor:
             text1 = OCRMethods.extract_with_paddleocr(image_path)
             if text1:
                 text1 = TextExtractor.correct_text(text1)
-                # Get text sections
                 first_last, third_begin = TextExtractor.divideText(text1)
                 text1_sections = text1.split('\n')
                 header_section = '\n'.join(text1_sections[:first_last+1])

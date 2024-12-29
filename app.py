@@ -74,7 +74,6 @@ def export_csv():
     if not data:
         return "No data received", 400
     
-    # Generate timestamp for filename
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"invoice_data_{timestamp}.csv"
     

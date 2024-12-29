@@ -123,7 +123,6 @@ def main():
     log_file = os.path.join(log_dir, f'Tesseract_stats_{timestamp}.txt')
     csv_file = os.path.join(log_dir, f'Tesseract_data_{timestamp}.csv')
     
-    # Initialize CSV file with headers - Add BOM for Excel compatibility
     with open(csv_file, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
         writer.writerow(['Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 
@@ -139,7 +138,6 @@ def main():
                 all_texts[os.path.basename(image_path)] = output_text
                 all_fields.append(fields)
 
-        # Write results to CSV with utf-8-sig encoding
         with open(csv_file, 'a', newline='', encoding='utf-8-sig') as csvf:
             writer = csv.writer(csvf)
             for fields in all_fields:
