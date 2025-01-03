@@ -3,6 +3,7 @@ import sys
 from datetime import datetime
 import time
 import argparse
+import psutil  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from text_extraction import TextExtractor
@@ -16,6 +17,11 @@ def log_output(message, file, separator=None):
         file.write(str(message) + "\n")
 
 def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
+    method_start_time = time.time()
+    method_start_cpu = psutil.cpu_percent()
+    process = psutil.Process()
+    method_start_memory = process.memory_info().rss / 1024 / 1024
+    
     log_output(f"\nTesting {method_name} on: {os.path.basename(image_path)}", log_file, "=")
     
     raw_text = ocr_method(image_path)
@@ -50,10 +56,23 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
         log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
+    # Add performance metrics for this method
+    method_end_time = time.time()
+    method_end_memory = process.memory_info().rss / 1024 / 1024
+    method_cpu_usage = psutil.cpu_percent() - method_start_cpu
+    
+    stats['execution_time'] = method_end_time - method_start_time
+    stats['cpu_usage'] = method_cpu_usage
+    stats['memory_used'] = method_end_memory - method_start_memory
+    
     return output_text
 
 def test_single_file(filename):
     start_time = time.time()
+    start_cpu_percent = psutil.cpu_percent()
+    process = psutil.Process()
+    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     image_path = os.path.join(uploads_path, filename)
     
@@ -88,7 +107,10 @@ def test_single_file(filename):
                 'ocr_failures': 0,
                 'total_fields': 0,
                 'successful_extractions': 0,
-                'failed_extractions': 0
+                'failed_extractions': 0,
+                'execution_time': 0,
+                'cpu_usage': 0,
+                'memory_used': 0
             }
             
             output_text = test_ocr_method(image_path, method_name, ocr_method, stats, f)
@@ -96,7 +118,30 @@ def test_single_file(filename):
                 all_texts[method_name] = output_text
             all_stats[method_name] = stats
 
-        log_output("\nFINAL STATISTICS", f, "=")
+        # Karşılaştırmalı sonuçları göster
+        log_output("\nCOMPARATIVE RESULTS", f, "=")
+        
+        # OCR Başarı Oranları
+        log_output("\nOCR Success Rates:", f, "-")
+        for method_name, stats in all_stats.items():
+            success_rate = (stats['successful_extractions']/stats['total_fields']*100)
+            log_output(f"{method_name}: {success_rate:.2f}%", f)
+        
+        # Performans Metrikleri
+        log_output("\nExecution Times:", f, "-")
+        for method_name, stats in all_stats.items():
+            log_output(f"{method_name}: {stats['execution_time']:.2f} seconds", f)
+        
+        log_output("\nCPU Usage:", f, "-")
+        for method_name, stats in all_stats.items():
+            log_output(f"{method_name}: {stats['cpu_usage']:.2f}%", f)
+        
+        log_output("\nMemory Usage:", f, "-")
+        for method_name, stats in all_stats.items():
+            log_output(f"{method_name}: {stats['memory_used']:.2f} MB", f)
+        
+        # Detaylı İstatistikler
+        log_output("\nDETAILED STATISTICS", f, "=")
         for method_name, stats in all_stats.items():
             log_output(f"\n{method_name} Statistics:", f, "-")
             log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)
@@ -105,9 +150,23 @@ def test_single_file(filename):
             log_output(f"Successful extractions: {stats['successful_extractions']}", f)
             log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
             log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
+            log_output(f"Execution time: {stats['execution_time']:.2f} seconds", f)
+            log_output(f"CPU Usage: {stats['cpu_usage']:.2f}%", f)
+            log_output(f"Memory Used: {stats['memory_used']:.2f} MB", f)
         
+        log_output("\nPERFORMANCE METRICS:", f, "=")
         elapsed_time = time.time() - start_time
-        log_output(f"\nTotal execution time: {elapsed_time:.2f} seconds", f, "=")
+        final_memory = process.memory_info().rss / 1024 / 1024
+        memory_used = final_memory - initial_memory
+        end_cpu_percent = psutil.cpu_percent()
+        cpu_usage = end_cpu_percent - start_cpu_percent
+        
+        log_output(f"Total execution time: {elapsed_time:.2f} seconds", f)
+        log_output(f"CPU Usage: {cpu_usage:.2f}%", f)
+        log_output(f"Initial memory: {initial_memory:.2f} MB", f)
+        log_output(f"Final memory: {final_memory:.2f} MB", f)
+        log_output(f"Memory used: {memory_used:.2f} MB", f)
+        log_output("", f, "=")
         
     print(f"\nResults exported to: {log_file}")
 

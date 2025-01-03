@@ -4,6 +4,7 @@ from datetime import datetime
 import random
 import time
 import csv
+import psutil  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
@@ -89,6 +90,10 @@ def test_tesseract_ocr(image_path, stats, log_file):
 
 def main():
     start_time = time.time()
+    start_cpu_percent = psutil.cpu_percent()
+    process = psutil.Process()
+    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
     if not os.path.exists(uploads_path):
@@ -162,7 +167,14 @@ def main():
         log_output(f"Overall success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
         
         elapsed_time = time.time() - start_time
+        final_memory = process.memory_info().rss / 1024 / 1024
+        memory_used = final_memory - initial_memory
+        end_cpu_percent = psutil.cpu_percent()
+        cpu_usage = end_cpu_percent - start_cpu_percent
+        
         log_output(f"Total execution time: {elapsed_time:.2f} seconds", f)
+        log_output(f"CPU Usage: {cpu_usage:.2f}%", f)
+        log_output(f"Memory Usage: {memory_used:.2f} MB", f)
         log_output("", f, "=")
         
     print(f"\nResults exported to:")
