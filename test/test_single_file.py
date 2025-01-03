@@ -182,7 +182,7 @@ if __name__ == "__main__":
     
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     image_files = [f for f in os.listdir(uploads_path) 
-                  if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp'))]
+                  if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))]
     
     if not image_files:
         print("No image files found in uploads folder.")

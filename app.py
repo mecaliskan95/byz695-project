@@ -18,7 +18,7 @@ from werkzeug.utils import secure_filename
 from ocr_methods import OCRMethods
 from datetime import datetime
 
-ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tiff', 'bmp'}
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png', 'tiff', 'bmp', 'jfif'}
 
 logging.basicConfig(level=logging.WARNING)
 app = Flask(__name__)

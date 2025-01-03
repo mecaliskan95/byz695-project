@@ -109,7 +109,7 @@ def main():
     image_files = [
         os.path.join(uploads_path, f) 
         for f in os.listdir(uploads_path) 
-        if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp'))
+        if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))
     ]
     
     if not image_files:
