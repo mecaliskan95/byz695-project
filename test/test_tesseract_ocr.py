@@ -5,6 +5,7 @@ import random
 import time
 import csv
 import psutil  # Add this import
+import re
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
@@ -36,7 +37,7 @@ def export_statistics(stats, ocr_name, all_texts=None):
         f.write(f"Total fields processed: {stats['total_fields']}\n")
         f.write(f"Successful extractions: {stats['successful_extractions']}\n")
         f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
-        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100)::.2f}%\n\n")
         
         if all_texts:
             f.write("\nPROCESSED OUTPUTS:\n")
@@ -78,6 +79,11 @@ def test_tesseract_ocr(image_path, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
+    # Validate total cost and VAT
+    fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
+        fields['total_cost'], fields['vat']
+    )
+    
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
         stats['total_fields'] += 1
@@ -87,6 +93,10 @@ def test_tesseract_ocr(image_path, stats, log_file):
     log_output("", log_file, "-")
 
     return output_text, fields
+
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split('([0-9]+)', s)]
 
 def main():
     start_time = time.time()
@@ -105,6 +115,9 @@ def main():
         for f in os.listdir(uploads_path) 
         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))
     ]
+    
+    # Sort files naturally
+    image_files.sort(key=lambda x: natural_sort_key(os.path.basename(x)))
     
     if not image_files:
         print("No image files found in uploads folder.")

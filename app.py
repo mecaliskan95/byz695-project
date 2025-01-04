@@ -3,6 +3,11 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['KERAS_BACKEND'] = 'tensorflow'
 
+import time
+import psutil
+import json
+from pathlib import Path
+
 import warnings
 warnings.filterwarnings('ignore', category=DeprecationWarning)
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -27,7 +32,42 @@ app.config['MAX_CONTENT_LENGTH'] = 120 * 1024 * 1024
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def save_statistics(stats, results, elapsed_time):
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    stats_dir = Path("statistics")
+    stats_dir.mkdir(exist_ok=True)
+    
+    csv_path = stats_dir / f"invoice_data_{timestamp}.csv"
+    with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
+        writer = csv.writer(f)
+        headers = ['Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 'Total Cost', 'VAT', 'Payment Methods']
+        writer.writerow(headers)
+        fields = ['filename', 'date', 'time', 'tax_office_name', 'tax_office_number', 'total_cost', 'vat', 'payment_method']
+        for row in results:
+            writer.writerow([str(row.get(field, 'N/A')) for field in fields])
+
+    stats_path = stats_dir / f"invoice_stats_{timestamp}.txt"
+    with open(stats_path, 'w', encoding='utf-8') as f:
+        f.write("=" * 80 + "\n\n")
+        f.write("FINAL STATISTICS:\n")
+        f.write(f"Total images processed: {stats['total_images']}\n")
+        f.write(f"Total fields attempted: {stats['total_fields_attempted']}\n")
+        f.write(f"Successful extractions: {stats['successful_extractions']}\n")
+        f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
+        f.write(f"Overall success rate: {stats['success_rate']:.2f}%\n")
+        f.write(f"Total execution time: {stats['processing_time']:.2f} seconds\n")
+        f.write(f"CPU Usage: {stats['cpu_usage']:.2f}%\n")
+        f.write(f"Memory Usage: {stats['memory_used_mb']:.2f} MB\n")
+        f.write("\n" + "=" * 80 + "\n")
+        
+    return csv_path, stats_path
+
 def process_files(files):
+    start_time = time.time()
+    start_cpu_percent = psutil.cpu_percent()
+    process = psutil.Process()
+    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    
     temp_dir = tempfile.mkdtemp()
     try:
         files_info = {'paths': [], 'names': []}
@@ -42,7 +82,42 @@ def process_files(files):
         if not files_info['paths']:
             return None
             
-        return TextExtractor.extract_all(files_info['paths'], files_info['names'])
+        results = TextExtractor.extract_all(files_info['paths'], files_info['names'])
+        
+        # Calculate statistics
+        total_fields = len(results) * 7  # 7 fields per result
+        successful_extractions = sum(1 for result in results for field in 
+            ['date', 'time', 'tax_office_name', 'tax_office_number', 'total_cost', 'vat', 'payment_method']
+            if result.get(field) != 'N/A')
+        
+        elapsed_time = time.time() - start_time
+        end_cpu_percent = psutil.cpu_percent()
+        final_memory = process.memory_info().rss / 1024 / 1024
+        
+        stats = {
+            'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'total_images': len(files_info['paths']),
+            'total_fields_attempted': total_fields,
+            'successful_extractions': successful_extractions,
+            'failed_extractions': total_fields - successful_extractions,
+            'success_rate': round((successful_extractions / total_fields * 100), 2),
+            'processing_time': round(elapsed_time, 2),
+            'cpu_usage': round(end_cpu_percent - start_cpu_percent, 2),
+            'memory_used_mb': round(final_memory - initial_memory, 2)
+        }
+        
+        # Save results and stats
+        csv_path, stats_path = save_statistics(stats, results, elapsed_time)
+        
+        # Add paths and stats to results
+        results.append({
+            'statistics': stats,
+            'csv_path': str(csv_path),
+            'stats_path': str(stats_path)
+        })
+        
+        return results
+        
     except Exception as e:
         app.logger.error(f"Error processing files: {str(e)}")
         return None
@@ -60,8 +135,13 @@ def index():
             results = process_files(files)
             if not results:
                 return render_template("index.html", error="No valid results were extracted")
+            
+            # Extract statistics from results
+            stats = next((item for item in results if 'statistics' in item), None)
+            if stats:
+                results.remove(stats)  # Remove stats from results list
                 
-            return render_template("index.html", results=results)
+            return render_template("index.html", results=results, statistics=stats['statistics'] if stats else None)
             
         except Exception as e:
             app.logger.error(f"Error processing files: {str(e)}")

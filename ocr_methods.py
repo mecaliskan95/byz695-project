@@ -186,12 +186,18 @@ class OCRMethods:
     @staticmethod
     def extract_with_suryaocr(image_path):
         try:
-            image = Image.open(image_path)
+            image = ImageProcessor.process_image(image_path)
+            if image is None:
+                return None
+                
+            pil_image = Image.fromarray(image)
+            
             det_processor, det_model = load_det_processor(), load_det_model()
             rec_model, rec_processor = load_rec_model(), load_rec_processor()
             
-            predictions = run_ocr([image], [["tr", "en"]], det_model, det_processor, rec_model, rec_processor)
+            predictions = run_ocr([pil_image], [["tr", "en"]], det_model, det_processor, rec_model, rec_processor)
             text = '\n'.join([line.text for page in predictions for line in page.text_lines])
             return text.upper() if text else None
-        except:
+        except Exception as e:
+            print(f"SuryaOCR error: {e}")
             return None

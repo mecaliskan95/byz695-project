@@ -5,6 +5,7 @@ import random
 import time
 import csv
 import psutil  # Add this import at the top with other imports
+import re
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
@@ -57,6 +58,11 @@ def test_easy_ocr(image_path, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
+    # Add VAT validation
+    fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
+        fields['total_cost'], fields['vat']
+    )
+    
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
         if field_name != "filename":  # Don't count filename in statistics
@@ -67,6 +73,10 @@ def test_easy_ocr(image_path, stats, log_file):
     log_output("", log_file, "-")
 
     return output_text, fields
+
+def natural_sort_key(s):
+    return [int(text) if text.isdigit() else text.lower()
+            for text in re.split('([0-9]+)', s)]
 
 def main():
     start_time = time.time()
@@ -85,6 +95,9 @@ def main():
         for f in os.listdir(uploads_path) 
         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))
     ]
+    
+    # Sort files naturally
+    image_files.sort(key=lambda x: natural_sort_key(os.path.basename(x)))
     
     if not image_files:
         print("No image files found in uploads folder.")

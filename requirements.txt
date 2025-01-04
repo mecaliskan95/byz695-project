@@ -1,48 +1,57 @@
-# Core Web Framework
-Flask==3.1.0
-Werkzeug==3.1.3
-asgiref==3.8.1
+# Web Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+asgiref==3.7.2
 
 # Image Processing
-Pillow==11.0.0
-opencv-python==4.10.0.84
-opencv-python-headless==4.10.0.84
-numpy==1.26.4
-scikit-image==0.25.0
+Pillow==10.1.0
+opencv-python==4.8.1
+numpy==1.26.2
+scikit-image==0.22.0
 
-# OCR Engines
-pytesseract==0.3.13
-easyocr==1.7.2
-paddlepaddle==2.6.2
-paddleocr==2.9.1
+# OCR Engines & Dependencies
+pytesseract==0.3.10
+easyocr==1.7.1
+paddlepaddle==2.5.2
+paddleocr==2.7.0
 surya-ocr==0.8.0
 
 # Text Processing
-python-Levenshtein==0.26.1
+python-Levenshtein==0.23.0
 fuzzywuzzy==0.18.0
-regex==2024.11.6
+regex==2023.10.3
 
-# Deep Learning
-torch==2.5.1
-torchvision==0.20.1
-tensorflow-intel==2.18.0
-keras==3.7.0
+# System Monitoring & Utils
+psutil==5.9.6
+python-dotenv==1.0.0
+pathlib==1.0.1
 
-# Image Super Resolution
-super-image==2.0.0
+# Deep Learning (Required by OCR engines)
+torch==2.1.1
+torchvision==0.16.1
+tensorflow==2.15.0
 
-# Utilities
-python-dotenv==1.0.1
-aiofiles==23.2.1
-colorlog==6.9.0
-filetype==1.2.0
-
-# Optional GPU Support
+# Optional - GPU Support
 # cuda-python>=11.8.0
 # cupy>=12.0.0
 
 # Notes:
 # 1. Tesseract-OCR must be installed separately:
 #    Windows: https://github.com/UB-Mannheim/tesseract/wiki
-#    Don't forget to add Turkish language data during installation
-# 2. Make sure Tesseract is in your system PATH
+#    Linux: sudo apt-get install tesseract-ocr
+#    macOS: brew install tesseract
+#
+# 2. Turkish language data required:
+#    Download: https://github.com/tesseract-ocr/tessdata/raw/main/tur.traineddata
+#    Place in Tesseract tessdata directory
+#
+# 3. Environment setup:
+#    python -m venv venv
+#    source venv/bin/activate  # Linux/macOS
+#    venv\Scripts\activate     # Windows
+#    pip install --upgrade pip
+#    pip install -r requirements.txt
+#
+# 4. Additional files needed:
+#    - words.dic (Turkish dictionary)
+#    - vergidaireleri.txt (Tax office list)
