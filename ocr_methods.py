@@ -39,7 +39,6 @@ _paddle_ocr = None
 class OCRMethods:
     @staticmethod
     def _calculate_adaptive_threshold(image):
-        """Calculate adaptive threshold based on image height"""
         try:
             height = None
             

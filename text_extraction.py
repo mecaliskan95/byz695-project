@@ -7,22 +7,14 @@ import json
 from functools import lru_cache
 from ocr_methods import OCRMethods
 
-def find_lines_starting_with_or_similar(word, text, threshold=0.7):
-    lines = text.split('\n')
-    matching_lines = []
-    matching_line_numbers = []
-    for i, line in enumerate(lines):
-        if line.strip().startswith(word) or any(fuzz.ratio(word.lower(), w.lower()) > threshold * 100 for w in line.split()):
-            matching_lines.append(line)
-            matching_line_numbers.append(i)
-    return matching_lines, matching_line_numbers
-
 class TextExtractor:
     _dictionary = None
     _testing_mode = False
     _test_ocr_method = None
     _valid_offices = None
     _cache = {}
+    _tax_office_mapping_file = 'vn_vd.json'
+    _tax_office_mapping = {}
     _patterns = {
         'date': [
             r'(?:^|[^\d])(\d{2})\.(\d{2})\.(\d{4})(?:$|[^\d])',
@@ -201,6 +193,9 @@ class TextExtractor:
 
     @staticmethod
     def extract_all(texts, filenames=None):
+        # Initialize tax office mapping at start
+        TextExtractor.initialize_tax_office_mapping()
+
         if filenames is None:
             filenames = ["Unnamed"] * len(texts)
         results = []
@@ -255,10 +250,52 @@ class TextExtractor:
                 "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
             })
 
+            # After extraction, update mapping if both values are found
+            tax_number = results[-1]["tax_office_number"]
+            tax_office = results[-1]["tax_office_name"]
+            if tax_number != "N/A" and tax_office != "N/A":
+                TextExtractor.update_tax_office_mapping(tax_number, tax_office)
+
         return results
+
+    @classmethod
+    def initialize_tax_office_mapping(cls):
+        if not os.path.exists(cls._tax_office_mapping_file):
+            with open(cls._tax_office_mapping_file, 'w') as f:
+                json.dump({}, f)
+        
+        try:
+            with open(cls._tax_office_mapping_file, 'r', encoding='utf-8') as f:
+                cls._tax_office_mapping = json.load(f)
+        except (json.JSONDecodeError, ValueError) as e:
+            print(f"Error reading tax office mapping file: {e}")
+            cls._tax_office_mapping = {}
+
+    @classmethod
+    def update_tax_office_mapping(cls, tax_number, tax_office):
+        if not tax_number or tax_number == "N/A" or not tax_office or tax_office == "N/A":
+            return
+
+        if tax_number not in cls._tax_office_mapping:
+            cls._tax_office_mapping[tax_number] = tax_office
+            try:
+                with open(cls._tax_office_mapping_file, 'w', encoding='utf-8') as f:
+                    json.dump(cls._tax_office_mapping, f, ensure_ascii=False, indent=2)
+            except Exception as e:
+                print(f"Error updating tax office mapping file: {e}")
 
     @staticmethod
     def extract_tax_office_name(text):
+        # Initialize mapping if not already done
+        if not TextExtractor._tax_office_mapping:
+            TextExtractor.initialize_tax_office_mapping()
+
+        # First try to find tax number and use mapping
+        tax_number = TextExtractor.extract_tax_office_number(text)
+        if tax_number != "N/A" and tax_number in TextExtractor._tax_office_mapping:
+            return TextExtractor._tax_office_mapping[tax_number]
+
+        # If no mapping found, use existing extraction logic
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines() if office.strip()}
         
@@ -345,7 +382,13 @@ class TextExtractor:
         #     if matching_lines:
         #         return office
 
-        return "N/A"
+        result = "N/A"
+
+        # If we found both tax number and office name, update mapping
+        if result != "N/A" and tax_number != "N/A":
+            TextExtractor.update_tax_office_mapping(tax_number, result)
+
+        return result
 
     @staticmethod
     def extract_date(text):
@@ -406,7 +449,6 @@ class TextExtractor:
 
     @staticmethod 
     def extract_total_cost(text):
-        """Extract total cost without validation"""
         for pattern in TextExtractor._patterns['total_cost']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
@@ -434,7 +476,6 @@ class TextExtractor:
 
     @staticmethod
     def extract_vat(text):
-        """Extract VAT without validation"""
         for pattern in TextExtractor._patterns['vat']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 try:
@@ -465,7 +506,7 @@ class TextExtractor:
             if match := re.search(pattern, text, re.IGNORECASE | re.MULTILINE):
                 number = match.group(2).replace(' ', '') if len(match.groups()) > 1 else match.group(1).replace(' ', '')
                 if number.isdigit() and len(number) in [10, 11]:
-                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number == '11111111111'):
+                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number.startswith('0216') or number.startswith('216') or number == '11111111111'):
                         return number
         
         # Last resort - look for any 10-11 digit number
@@ -474,7 +515,7 @@ class TextExtractor:
             numbers = re.findall(r'\b\d{10,11}\b', line)
             for number in numbers:
                 if number.isdigit() and len(number) in [10, 11]:
-                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number == '11111111111'):
+                    if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number.startswith('0216') or number.startswith('216') or number == '11111111111'):
                         return number
 
         return "N/A"

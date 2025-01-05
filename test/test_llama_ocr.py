@@ -6,6 +6,7 @@ import time
 import csv
 import psutil  # Import psutil at the top with other imports
 import re
+import json  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ocr_methods import OCRMethods
@@ -98,6 +99,24 @@ def test_llama_ocr(image_path, stats, log_file):
         log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
+    # After fields extraction, update and verify mapping
+    if fields['tax_office_number'] != "N/A" and fields['tax_office_name'] != "N/A":
+        # Update mapping
+        TextExtractor.update_tax_office_mapping(
+            fields['tax_office_number'], 
+            fields['tax_office_name']
+        )
+        
+        # Verify mapping
+        try:
+            with open(TextExtractor._tax_office_mapping_file, 'r', encoding='utf-8') as f:
+                mapping = json.load(f)
+                if fields['tax_office_number'] in mapping:
+                    log_output("\nTax Office Mapping:", log_file, "-")
+                    log_output(f"Mapped: {fields['tax_office_number']} -> {mapping[fields['tax_office_number']]}", log_file)
+        except Exception as e:
+            log_output(f"\nError verifying tax office mapping: {e}", log_file)
+
     return output_text, fields
 
 def natural_sort_key(s):
@@ -105,6 +124,9 @@ def natural_sort_key(s):
             for text in re.split('([0-9]+)', s)]
 
 def main():
+    # Initialize tax office mapping at start
+    TextExtractor.initialize_tax_office_mapping()
+    
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()

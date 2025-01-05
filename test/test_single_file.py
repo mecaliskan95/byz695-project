@@ -4,6 +4,7 @@ from datetime import datetime
 import time
 import argparse
 import psutil  # Add this import
+import json  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from text_extraction import TextExtractor
@@ -56,6 +57,23 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
         log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
+    # After extraction, check if mapping was updated
+    if fields['Tax Number'] != "N/A" and fields['Tax Office'] != "N/A":
+        # Update mapping
+        TextExtractor.update_tax_office_mapping(
+            fields['Tax Number'],
+            fields['Tax Office']
+        )
+        
+        # Verify mapping (existing verification code)
+        try:
+            with open(TextExtractor._tax_office_mapping_file, 'r', encoding='utf-8') as f:
+                mapping = json.load(f)
+                if fields['Tax Number'] in mapping:
+                    log_output(f"\nTax office mapping verified: {fields['Tax Number']} -> {mapping[fields['Tax Number']]}", log_file)
+        except Exception as e:
+            log_output(f"\nError checking tax office mapping: {e}", log_file)
+
     # Add performance metrics for this method
     method_end_time = time.time()
     method_end_memory = process.memory_info().rss / 1024 / 1024
@@ -68,6 +86,9 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     return output_text
 
 def test_single_file(filename):
+    # Initialize mapping at start
+    TextExtractor.initialize_tax_office_mapping()
+    
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
