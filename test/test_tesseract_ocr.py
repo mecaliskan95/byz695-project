@@ -10,6 +10,7 @@ import json  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
+from app import track_resources  # Import track_resources from app.py
 
 def log_output(message, file, separator=None):
     if separator:
@@ -38,7 +39,7 @@ def export_statistics(stats, ocr_name, all_texts=None):
         f.write(f"Total fields processed: {stats['total_fields']}\n")
         f.write(f"Successful extractions: {stats['successful_extractions']}\n")
         f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
-        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100)::.2f}%\n\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n\n")
         
         if all_texts:
             f.write("\nPROCESSED OUTPUTS:\n")
@@ -63,7 +64,7 @@ def test_tesseract_ocr(image_path, stats, log_file):
         stats['total_fields'] += 7
         stats['failed_extractions'] += 7
         log_output("OCR failed to read the image - counting all fields as failed", log_file)
-        return None
+        return None, None
 
     output_text = TextExtractor.correct_text(raw_text)
     log_output("\nProcessed Text Output:", log_file, "-")
@@ -118,27 +119,8 @@ def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower()
             for text in re.split('([0-9]+)', s)]
 
-def track_resources():
-    cpu_percentages = []
-    memory_usage = []
-    process = psutil.Process()
-    
-    def update():
-        cpu_percentages.append(psutil.cpu_percent())
-        memory_usage.append(process.memory_info().rss / 1024 / 1024)
-        
-    def get_stats():
-        return {
-            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
-            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
-            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
-            'memory_max': max(memory_usage) if memory_usage else 0
-        }
-        
-    return update, get_stats
-
 def main():
-    update_resources, get_resource_stats = track_resources()
+    update_resources, get_resource_stats = track_resources()  # Use app.py's track_resources
     
     # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
@@ -176,7 +158,8 @@ def main():
         'ocr_failures': 0,
         'total_fields': 0,
         'successful_extractions': 0,
-        'failed_extractions': 0
+        'failed_extractions': 0,
+        'field_stats': {}  # Initialize field_stats at the start
     }
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

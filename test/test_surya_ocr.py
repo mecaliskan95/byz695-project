@@ -4,13 +4,14 @@ from datetime import datetime
 import random
 import time
 import csv
-import psutil  # Add this import at the top with other imports
+import psutil
 import re
-import json  # Add this import
+import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
+from app import track_resources  # Import track_resources from app.py
 
 def log_output(message, file, separator=None):
     if separator:
@@ -117,26 +118,8 @@ def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower()
             for text in re.split('([0-9]+)', s)]
 
-def track_resources():
-    cpu_usage = []
-    memory_usage = []
-
-    def update_resources():
-        cpu_usage.append(psutil.cpu_percent())
-        memory_usage.append(psutil.Process().memory_info().rss / 1024 / 1024)  # Convert to MB
-
-    def get_resource_stats():
-        return {
-            'cpu_avg': sum(cpu_usage) / len(cpu_usage) if cpu_usage else 0,
-            'cpu_max': max(cpu_usage) if cpu_usage else 0,
-            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
-            'memory_max': max(memory_usage) if memory_usage else 0
-        }
-
-    return update_resources, get_resource_stats
-
 def main():
-    update_resources, get_resource_stats = track_resources()
+    update_resources, get_resource_stats = track_resources()  # Use app.py's track_resources
     
     # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
@@ -174,7 +157,8 @@ def main():
         'ocr_failures': 0,
         'total_fields': 0,
         'successful_extractions': 0,
-        'failed_extractions': 0
+        'failed_extractions': 0,
+        'field_stats': {}  # Initialize field_stats at start
     }
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

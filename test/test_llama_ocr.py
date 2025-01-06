@@ -11,6 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
+from app import track_resources  # Import track_resources from app.py
 
 def log_output(message, file, separator=None):
     if separator:
@@ -20,7 +21,7 @@ def log_output(message, file, separator=None):
     if message is not None:
         file.write(str(message) + "\n")
 
-def export_statistics(stats, ocr_name, all_results=None):
+def export_statistics(stats, ocr_name, all_texts=None):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
@@ -28,34 +29,29 @@ def export_statistics(stats, ocr_name, all_results=None):
     log_file = os.path.join(log_dir, f'{ocr_name}_stats_{timestamp}.txt')
     
     with open(log_file, 'w', encoding='utf-8') as f:
-        log_output(f"Test Results for {ocr_name}", f)
-        log_output(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
-        log_output("", f, "=")
-
-        log_output("STATISTICS:", f)
-        log_output("", f, "-")
-        log_output(f"Total images processed: {stats['total_images']}", f)
-        log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)
-        log_output(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts", f)
-        log_output(f"Total fields processed: {stats['total_fields']}", f)
-        log_output(f"Successful extractions: {stats['successful_extractions']}", f)
-        log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
-        log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100)::.2f}%", f)
+        f.write(f"Test Results for {ocr_name}\n")
+        f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        f.write("="*50 + "\n\n")
+        f.write("STATISTICS:\n")  # Added for consistency
+        f.write("-"*20 + "\n")    # Added for consistency
+        f.write(f"Total images processed: {stats['total_images']}\n")
+        f.write(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%\n")
+        f.write(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts\n")
+        f.write(f"Total fields processed: {stats['total_fields']}\n")
+        f.write(f"Successful extractions: {stats['successful_extractions']}\n")
+        f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n")
         
-        if all_results:
-            for filename, result in all_results.items():
-                log_output(f"\nFile: {filename}", f)
-                log_output("", f, "-")
-                
-                log_output("Processed Text:", f)
-                log_output(result['text'], f)
-                log_output("", f, "-")
-                
-                log_output("Extracted Fields:", f)
-                for field_name, value in result['fields'].items():
-                    success = "✓" if value != "N/A" else "✗"
-                    log_output(f"{field_name}: {value} {success}", f)
-                log_output("", f, "-")
+        if all_texts:
+            f.write("\nPROCESSED OUTPUTS:\n")
+            f.write("="*50 + "\n\n")
+            for filename, text in all_texts.items():
+                f.write(f"\nFile: {filename}\n")
+                f.write("-"*50 + "\n")
+                f.write(f"Output Text:\n{text}\n")
+                f.write("-"*50 + "\n")
+    
+    print(f"\nStatistics exported to: {log_file}")
 
 def test_llama_ocr(image_path, stats, log_file):
     log_output(f"\nTesting LlamaOCR on: {os.path.basename(image_path)}", log_file, "=")
@@ -69,7 +65,7 @@ def test_llama_ocr(image_path, stats, log_file):
         stats['total_fields'] += 7
         stats['failed_extractions'] += 7
         log_output("OCR failed to read the image - counting all fields as failed", log_file)
-        return None
+        return None, None
 
     output_text = TextExtractor.correct_text(raw_text)
     log_output("\nProcessed Text Output:", log_file, "-")
@@ -93,9 +89,10 @@ def test_llama_ocr(image_path, stats, log_file):
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        stats['total_fields'] += 1
-        success = value != "N/A"
-        stats['successful_extractions' if success else 'failed_extractions'] += 1
+        if field_name != "filename":  # Standardized field counting
+            stats['total_fields'] += 1
+            success = value != "N/A"
+            stats['successful_extractions' if success else 'failed_extractions'] += 1
         log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
@@ -106,32 +103,26 @@ def test_llama_ocr(image_path, stats, log_file):
             fields['tax_office_name']
         )
 
+    # Update field-level statistics
+    if 'field_stats' not in stats:
+        stats['field_stats'] = {}
+    
+    for field_name, value in fields.items():
+        if field_name != "filename":
+            if field_name not in stats['field_stats']:
+                stats['field_stats'][field_name] = {'success': 0, 'total': 0}
+            stats['field_stats'][field_name]['total'] += 1
+            if value != "N/A":
+                stats['field_stats'][field_name]['success'] += 1
+
     return output_text, fields
 
 def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower()
             for text in re.split('([0-9]+)', s)]
 
-def track_resources():
-    cpu_percentages = []
-    memory_usage = []
-    process = psutil.Process()
-    
-    def update():
-        cpu_percentages.append(psutil.cpu_percent())
-        memory_usage.append(process.memory_info().rss / 1024 / 1024)
-        
-    def get_stats():
-        return {
-            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
-            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
-            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
-            'memory_max': max(memory_usage) if memory_usage else 0
-        }
-    return update, get_stats
-
 def main():
-    update_resources, get_resource_stats = track_resources()
+    update_resources, get_resource_stats = track_resources()  # Use app.py's track_resources
     
     # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
@@ -169,7 +160,8 @@ def main():
         'ocr_failures': 0,
         'total_fields': 0,
         'successful_extractions': 0,
-        'failed_extractions': 0
+        'failed_extractions': 0,
+        'field_stats': {}  # Initialize field_stats at start
     }
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

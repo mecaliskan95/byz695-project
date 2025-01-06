@@ -10,6 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
+from app import track_resources  # Import track_resources from app.py
 
 def log_output(message, file, separator=None):
     if separator:
@@ -105,25 +106,6 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     
     return output_text, fields
 
-def track_resources():
-    cpu_percentages = []
-    memory_usage = []
-    process = psutil.Process()
-    
-    def update():
-        cpu_percentages.append(psutil.cpu_percent())
-        memory_usage.append(process.memory_info().rss / 1024 / 1024)
-        
-    def get_stats():
-        return {
-            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
-            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
-            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
-            'memory_max': max(memory_usage) if memory_usage else 0
-        }
-        
-    return update, get_stats
-
 def test_single_file(filename):
     # Initialize resource tracking
     update_resources, get_resource_stats = track_resources()
@@ -153,8 +135,8 @@ def test_single_file(filename):
     ocr_methods = {
         'PaddleOCR': OCRMethods.extract_with_paddleocr,
         'EasyOCR': OCRMethods.extract_with_easyocr,
-        'Tesseract': OCRMethods.extract_with_pytesseract,
-        'SuryaOCR': OCRMethods.extract_with_suryaocr
+        'Tesseract': OCRMethods.extract_with_pytesseract
+        # 'SuryaOCR': OCRMethods.extract_with_suryaocr
     }
     
     with open(log_file, 'w', encoding='utf-8') as f:
