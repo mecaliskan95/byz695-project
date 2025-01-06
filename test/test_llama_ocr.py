@@ -99,23 +99,12 @@ def test_llama_ocr(image_path, stats, log_file):
         log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
-    # After fields extraction, update and verify mapping
+    # After fields extraction, update mapping
     if fields['tax_office_number'] != "N/A" and fields['tax_office_name'] != "N/A":
-        # Update mapping
         TextExtractor.update_tax_office_mapping(
             fields['tax_office_number'], 
             fields['tax_office_name']
         )
-        
-        # Verify mapping
-        try:
-            with open(TextExtractor._tax_office_mapping_file, 'r', encoding='utf-8') as f:
-                mapping = json.load(f)
-                if fields['tax_office_number'] in mapping:
-                    log_output("\nTax Office Mapping:", log_file, "-")
-                    log_output(f"Mapped: {fields['tax_office_number']} -> {mapping[fields['tax_office_number']]}", log_file)
-        except Exception as e:
-            log_output(f"\nError verifying tax office mapping: {e}", log_file)
 
     return output_text, fields
 
@@ -123,7 +112,27 @@ def natural_sort_key(s):
     return [int(text) if text.isdigit() else text.lower()
             for text in re.split('([0-9]+)', s)]
 
+def track_resources():
+    cpu_percentages = []
+    memory_usage = []
+    process = psutil.Process()
+    
+    def update():
+        cpu_percentages.append(psutil.cpu_percent())
+        memory_usage.append(process.memory_info().rss / 1024 / 1024)
+        
+    def get_stats():
+        return {
+            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
+            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
+            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
+            'memory_max': max(memory_usage) if memory_usage else 0
+        }
+    return update, get_stats
+
 def main():
+    update_resources, get_resource_stats = track_resources()
+    
     # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
     
@@ -150,6 +159,9 @@ def main():
     if not image_files:
         print("No image files found in uploads folder.")
         return
+
+    ocr = OCRMethods()
+    TextExtractor.set_testing_mode(True, ocr.extract_with_llamaocr)
     
     stats = {
         'total_images': len(image_files),
@@ -164,22 +176,21 @@ def main():
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
     log_file = os.path.join(log_dir, f'LlamaOCR_stats_{timestamp}.txt')
-    csv_file = os.path.join(log_dir, f'LLamaOCR_data_{timestamp}.csv')
+    csv_file = os.path.join(log_dir, f'LlamaOCR_data_{timestamp}.csv')
     
     with open(csv_file, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
         writer.writerow(['Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 
                         'Total Cost', 'VAT', 'Payment Method'])
 
-    ocr = OCRMethods()
-    TextExtractor.set_testing_mode(True, ocr.extract_with_llamaocr)
-    
     with open(log_file, 'w', encoding='utf-8') as f:
         all_texts = {}
         all_fields = []
         
         for image_path in image_files:
+            update_resources()
             output_text, fields = test_llama_ocr(image_path, stats, f)
+            update_resources()
             if output_text:
                 all_texts[os.path.basename(image_path)] = output_text
                 all_fields.append(fields)
@@ -198,26 +209,27 @@ def main():
                     fields['payment_method']
                 ])
 
-        log_output("\nFINAL STATISTICS:", f, "=")
-        log_output(f"Total images processed: {stats['total_images']}", f)
-        log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)
-        log_output(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts", f)
-        log_output(f"Total fields processed: {stats['total_fields']}", f)
-        log_output(f"Successful extractions: {stats['successful_extractions']}", f)
-        log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
-        log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
-        
         elapsed_time = time.time() - start_time
         final_memory = process.memory_info().rss / 1024 / 1024
         memory_used = final_memory - initial_memory
         end_cpu_percent = psutil.cpu_percent()
         cpu_usage = end_cpu_percent - start_cpu_percent
-        
-        log_output(f"Total execution time: {elapsed_time:.2f} seconds", f)
-        log_output(f"CPU Usage: {cpu_usage:.2f}%", f)
-        log_output(f"Memory Usage: {memory_used:.2f} MB", f)
-        log_output("", f, "=")
-        
+        resource_stats = get_resource_stats()
+
+        f.write("=" * 80 + "\n\n")
+        f.write("FINAL STATISTICS:\n")
+        f.write(f"Total images processed: {stats['total_images']}\n")
+        f.write(f"Total fields attempted: {stats['total_fields']}\n")
+        f.write(f"Successful extractions: {stats['successful_extractions']}\n")
+        f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
+        f.write(f"Overall success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n")
+        f.write(f"Total execution time: {elapsed_time:.2f} seconds\n")
+        f.write(f"Average CPU Usage: {resource_stats['cpu_avg']:.2f}%\n")
+        f.write(f"Peak CPU Usage: {resource_stats['cpu_max']:.2f}%\n")
+        f.write(f"Average Memory Usage: {resource_stats['memory_avg']:.2f} MB\n")
+        f.write(f"Peak Memory Usage: {resource_stats['memory_max']:.2f} MB\n")
+        f.write("\n" + "=" * 80 + "\n")
+
     print(f"\nResults exported to:")
     print(f"Log file: {log_file}")
     print(f"CSV file: {csv_file}")

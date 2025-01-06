@@ -32,6 +32,24 @@ app.config['MAX_CONTENT_LENGTH'] = 120 * 1024 * 1024
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+def track_resources():
+    cpu_percentages = []
+    memory_usage = []
+    process = psutil.Process()
+    
+    def update():
+        cpu_percentages.append(psutil.cpu_percent())
+        memory_usage.append(process.memory_info().rss / 1024 / 1024)
+        
+    def get_stats():
+        return {
+            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
+            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
+            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
+            'memory_max': max(memory_usage) if memory_usage else 0
+        }
+    return update, get_stats
+
 def save_statistics(stats, results, elapsed_time):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     stats_dir = Path("statistics")
@@ -56,13 +74,16 @@ def save_statistics(stats, results, elapsed_time):
         f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
         f.write(f"Overall success rate: {stats['success_rate']:.2f}%\n")
         f.write(f"Total execution time: {stats['processing_time']:.2f} seconds\n")
-        f.write(f"CPU Usage: {stats['cpu_usage']:.2f}%\n")
-        f.write(f"Memory Usage: {stats['memory_used_mb']:.2f} MB\n")
+        f.write(f"Average CPU Usage: {stats['avg_cpu_usage']:.2f}%\n")
+        f.write(f"Peak CPU Usage: {stats['peak_cpu_usage']:.2f}%\n")
+        f.write(f"Average Memory Usage: {stats['avg_memory_usage']:.2f} MB\n")
+        f.write(f"Peak Memory Usage: {stats['peak_memory_usage']:.2f} MB\n")
         f.write("\n" + "=" * 80 + "\n")
         
     return csv_path, stats_path
 
 def process_files(files):
+    update_resources, get_resource_stats = track_resources()
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
@@ -82,7 +103,9 @@ def process_files(files):
         if not files_info['paths']:
             return None
             
+        update_resources()  # Before OCR processing
         results = TextExtractor.extract_all(files_info['paths'], files_info['names'])
+        update_resources()  # After OCR processing
         
         # Calculate statistics
         total_fields = len(results) * 7  # 7 fields per result
@@ -94,6 +117,8 @@ def process_files(files):
         end_cpu_percent = psutil.cpu_percent()
         final_memory = process.memory_info().rss / 1024 / 1024
         
+        resource_stats = get_resource_stats()
+        
         stats = {
             'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             'total_images': len(files_info['paths']),
@@ -103,7 +128,11 @@ def process_files(files):
             'success_rate': round((successful_extractions / total_fields * 100), 2),
             'processing_time': round(elapsed_time, 2),
             'cpu_usage': round(end_cpu_percent - start_cpu_percent, 2),
-            'memory_used_mb': round(final_memory - initial_memory, 2)
+            'memory_used_mb': round(final_memory - initial_memory, 2),
+            'avg_cpu_usage': round(resource_stats['cpu_avg'], 2),
+            'peak_cpu_usage': round(resource_stats['cpu_max'], 2),
+            'avg_memory_usage': round(resource_stats['memory_avg'], 2),
+            'peak_memory_usage': round(resource_stats['memory_max'], 2)
         }
         
         # Save results and stats

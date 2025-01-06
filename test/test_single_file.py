@@ -5,6 +5,7 @@ import time
 import argparse
 import psutil  # Add this import
 import json  # Add this import
+import csv  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from text_extraction import TextExtractor
@@ -40,41 +41,31 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     log_output(output_text, log_file)
     
     fields = {
-        "Date": TextExtractor.extract_date(output_text),
-        "Time": TextExtractor.extract_time(output_text),
-        "Tax Office": TextExtractor.extract_tax_office_name(output_text),
-        "Tax Number": TextExtractor.extract_tax_office_number(output_text),
-        "Total Cost": TextExtractor.extract_total_cost(output_text),
-        "VAT": TextExtractor.extract_vat(output_text),
-        "Payment Method": TextExtractor.extract_payment_method(output_text)
+        "filename": os.path.basename(image_path),
+        "date": TextExtractor.extract_date(output_text),
+        "time": TextExtractor.extract_time(output_text),
+        "tax_office_name": TextExtractor.extract_tax_office_name(output_text),
+        "tax_office_number": TextExtractor.extract_tax_office_number(output_text),
+        "total_cost": TextExtractor.extract_total_cost(output_text),
+        "vat": TextExtractor.extract_vat(output_text),
+        "payment_method": TextExtractor.extract_payment_method(output_text)
     }
+    
+    # Add VAT validation
+    fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
+        fields['total_cost'], fields['vat']
+    )
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        stats['total_fields'] += 1
-        success = value != "N/A"
-        stats['successful_extractions' if success else 'failed_extractions'] += 1
-        log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
+        if field_name != "filename":  # Don't count filename in statistics
+            stats['total_fields'] += 1
+            success = value != "N/A"
+            stats['successful_extractions' if success else 'failed_extractions'] += 1
+        log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
     log_output("", log_file, "-")
 
-    # After extraction, check if mapping was updated
-    if fields['Tax Number'] != "N/A" and fields['Tax Office'] != "N/A":
-        # Update mapping
-        TextExtractor.update_tax_office_mapping(
-            fields['Tax Number'],
-            fields['Tax Office']
-        )
-        
-        # Verify mapping (existing verification code)
-        try:
-            with open(TextExtractor._tax_office_mapping_file, 'r', encoding='utf-8') as f:
-                mapping = json.load(f)
-                if fields['Tax Number'] in mapping:
-                    log_output(f"\nTax office mapping verified: {fields['Tax Number']} -> {mapping[fields['Tax Number']]}", log_file)
-        except Exception as e:
-            log_output(f"\nError checking tax office mapping: {e}", log_file)
-
-    # Add performance metrics for this method
+    # Add performance metrics
     method_end_time = time.time()
     method_end_memory = process.memory_info().rss / 1024 / 1024
     method_cpu_usage = psutil.cpu_percent() - method_start_cpu
@@ -83,9 +74,31 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     stats['cpu_usage'] = method_cpu_usage
     stats['memory_used'] = method_end_memory - method_start_memory
     
-    return output_text
+    return output_text, fields
+
+def track_resources():
+    cpu_percentages = []
+    memory_usage = []
+    process = psutil.Process()
+    
+    def update():
+        cpu_percentages.append(psutil.cpu_percent())
+        memory_usage.append(process.memory_info().rss / 1024 / 1024)
+        
+    def get_stats():
+        return {
+            'cpu_avg': sum(cpu_percentages) / len(cpu_percentages) if cpu_percentages else 0,
+            'cpu_max': max(cpu_percentages) if cpu_percentages else 0,
+            'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
+            'memory_max': max(memory_usage) if memory_usage else 0
+        }
+        
+    return update, get_stats
 
 def test_single_file(filename):
+    # Initialize resource tracking
+    update_resources, get_resource_stats = track_resources()
+    
     # Initialize mapping at start
     TextExtractor.initialize_tax_office_mapping()
     
@@ -106,6 +119,7 @@ def test_single_file(filename):
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_file = os.path.join(log_dir, f'all_ocr_methods_{filename}_{timestamp}.txt')
+    csv_file = os.path.join(log_dir, f'all_ocr_methods_{filename}_{timestamp}.csv')
     
     ocr_methods = {
         'PaddleOCR': OCRMethods.extract_with_paddleocr,
@@ -115,81 +129,72 @@ def test_single_file(filename):
     }
     
     with open(log_file, 'w', encoding='utf-8') as f:
-        log_output(f"Test Results for {filename}", f, "=")
-        log_output(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
-        log_output("", f, "=")
+        with open(csv_file, 'w', newline='', encoding='utf-8-sig') as csvf:
+            writer = csv.writer(csvf)
+            writer.writerow(['Method', 'Filename', 'Date', 'Time', 'Tax Office Name', 'Tax Office Number', 
+                           'Total Cost', 'VAT', 'Payment Method'])
 
-        all_stats = {}
-        all_texts = {}
+            log_output(f"Test Results for {filename}", f, "=")
+            log_output(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", f)
+            log_output("", f, "=")
 
-        for method_name, ocr_method in ocr_methods.items():
-            stats = {
-                'ocr_attempts': 0,
-                'ocr_failures': 0,
-                'total_fields': 0,
-                'successful_extractions': 0,
-                'failed_extractions': 0,
-                'execution_time': 0,
-                'cpu_usage': 0,
-                'memory_used': 0
-            }
-            
-            output_text = test_ocr_method(image_path, method_name, ocr_method, stats, f)
-            if output_text:
-                all_texts[method_name] = output_text
-            all_stats[method_name] = stats
+            all_stats = {}
+            all_texts = {}
+            all_fields = {}
 
-        # Karşılaştırmalı sonuçları göster
-        log_output("\nCOMPARATIVE RESULTS", f, "=")
-        
-        # OCR Başarı Oranları
-        log_output("\nOCR Success Rates:", f, "-")
-        for method_name, stats in all_stats.items():
-            success_rate = (stats['successful_extractions']/stats['total_fields']*100)
-            log_output(f"{method_name}: {success_rate:.2f}%", f)
-        
-        # Performans Metrikleri
-        log_output("\nExecution Times:", f, "-")
-        for method_name, stats in all_stats.items():
-            log_output(f"{method_name}: {stats['execution_time']:.2f} seconds", f)
-        
-        log_output("\nCPU Usage:", f, "-")
-        for method_name, stats in all_stats.items():
-            log_output(f"{method_name}: {stats['cpu_usage']:.2f}%", f)
-        
-        log_output("\nMemory Usage:", f, "-")
-        for method_name, stats in all_stats.items():
-            log_output(f"{method_name}: {stats['memory_used']:.2f} MB", f)
-        
-        # Detaylı İstatistikler
-        log_output("\nDETAILED STATISTICS", f, "=")
-        for method_name, stats in all_stats.items():
-            log_output(f"\n{method_name} Statistics:", f, "-")
-            log_output(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%", f)
-            log_output(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts", f)
-            log_output(f"Total fields attempted: {stats['total_fields']}", f)
-            log_output(f"Successful extractions: {stats['successful_extractions']}", f)
-            log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
-            log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
-            log_output(f"Execution time: {stats['execution_time']:.2f} seconds", f)
-            log_output(f"CPU Usage: {stats['cpu_usage']:.2f}%", f)
-            log_output(f"Memory Used: {stats['memory_used']:.2f} MB", f)
-        
-        log_output("\nPERFORMANCE METRICS:", f, "=")
-        elapsed_time = time.time() - start_time
-        final_memory = process.memory_info().rss / 1024 / 1024
-        memory_used = final_memory - initial_memory
-        end_cpu_percent = psutil.cpu_percent()
-        cpu_usage = end_cpu_percent - start_cpu_percent
-        
-        log_output(f"Total execution time: {elapsed_time:.2f} seconds", f)
-        log_output(f"CPU Usage: {cpu_usage:.2f}%", f)
-        log_output(f"Initial memory: {initial_memory:.2f} MB", f)
-        log_output(f"Final memory: {final_memory:.2f} MB", f)
-        log_output(f"Memory used: {memory_used:.2f} MB", f)
-        log_output("", f, "=")
-        
-    print(f"\nResults exported to: {log_file}")
+            for method_name, ocr_method in ocr_methods.items():
+                stats = {
+                    'ocr_attempts': 0,
+                    'ocr_failures': 0,
+                    'total_fields': 0,
+                    'successful_extractions': 0,
+                    'failed_extractions': 0,
+                    'execution_time': 0,
+                    'cpu_usage': 0,
+                    'memory_used': 0
+                }
+                
+                update_resources()
+                output_text, fields = test_ocr_method(image_path, method_name, ocr_method, stats, f)
+                update_resources()
+                
+                if output_text:
+                    all_texts[method_name] = output_text
+                    all_fields[method_name] = fields
+                    writer.writerow([
+                        method_name,
+                        fields['filename'],
+                        fields['date'],
+                        fields['time'],
+                        fields['tax_office_name'],
+                        fields['tax_office_number'],
+                        fields['total_cost'],
+                        fields['vat'],
+                        fields['payment_method']
+                    ])
+                all_stats[method_name] = stats
+
+            resource_stats = get_resource_stats()
+            log_output("\nFINAL STATISTICS", f, "=")
+            for method_name, stats in all_stats.items():
+                log_output(f"\n{method_name}:", f)
+                log_output(f"Total fields attempted: {stats['total_fields']}", f)
+                log_output(f"Successful extractions: {stats['successful_extractions']}", f)
+                log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
+                log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
+                log_output(f"Execution time: {stats['execution_time']:.2f} seconds", f)
+                log_output(f"Average CPU Usage: {resource_stats['cpu_avg']:.2f}%", f)
+                log_output(f"Peak CPU Usage: {resource_stats['cpu_max']:.2f}%", f)
+                log_output(f"Average Memory Usage: {resource_stats['memory_avg']:.2f} MB", f)
+                log_output(f"Peak Memory Usage: {resource_stats['memory_max']:.2f} MB", f)
+
+    print(f"\nResults exported to:")
+    print(f"Log file: {log_file}")
+    print(f"CSV file: {csv_file}")
+
+def natural_sort_key(s):
+    import re
+    return [int(text) if text.isdigit() else text.lower() for text in re.split('([0-9]+)', s)]
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Test OCR methods on a single image file.')
@@ -202,8 +207,11 @@ if __name__ == "__main__":
             args.input = args.input + ' ' + ' '.join(unknown)
     
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
-    image_files = [f for f in os.listdir(uploads_path) 
-                  if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))]
+    image_files = sorted(
+        [f for f in os.listdir(uploads_path) 
+         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))],
+        key=natural_sort_key
+    )
     
     if not image_files:
         print("No image files found in uploads folder.")
