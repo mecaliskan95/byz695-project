@@ -100,6 +100,18 @@ def test_tesseract_ocr(image_path, stats, log_file):
             fields['tax_office_name']
         )
 
+    # Update field-level statistics
+    if 'field_stats' not in stats:
+        stats['field_stats'] = {}
+    
+    for field_name, value in fields.items():
+        if field_name != "filename":
+            if field_name not in stats['field_stats']:
+                stats['field_stats'][field_name] = {'success': 0, 'total': 0}
+            stats['field_stats'][field_name]['total'] += 1
+            if value != "N/A":
+                stats['field_stats'][field_name]['success'] += 1
+
     return output_text, fields
 
 def natural_sort_key(s):
@@ -223,6 +235,12 @@ def main():
         f.write(f"Peak CPU Usage: {resource_stats['cpu_max']:.2f}%\n")
         f.write(f"Average Memory Usage: {resource_stats['memory_avg']:.2f} MB\n")
         f.write(f"Peak Memory Usage: {resource_stats['memory_max']:.2f} MB\n")
+
+        log_output("\nFIELD-LEVEL ACCURACY:", f, "=")
+        for field_name, field_stats in stats['field_stats'].items():
+            accuracy = (field_stats['success'] / field_stats['total'] * 100) if field_stats['total'] > 0 else 0
+            log_output(f"{field_name}: {accuracy:.2f}% ({field_stats['success']}/{field_stats['total']})", f)
+
         f.write("\n" + "=" * 80 + "\n")
 
     print(f"\nResults exported to:")

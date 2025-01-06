@@ -18,6 +18,25 @@ def log_output(message, file, separator=None):
     if message is not None:
         file.write(str(message) + "\n")
 
+def calculate_field_accuracy(stats):
+    field_stats = {
+        'date': {'success': 0, 'total': 0},
+        'time': {'success': 0, 'total': 0},
+        'tax_office_name': {'success': 0, 'total': 0},
+        'tax_office_number': {'success': 0, 'total': 0},
+        'total_cost': {'success': 0, 'total': 0},
+        'vat': {'success': 0, 'total': 0},
+        'payment_method': {'success': 0, 'total': 0}
+    }
+    return {
+        field: {
+            'accuracy': (stats[field]['success'] / stats[field]['total'] * 100) if stats[field]['total'] > 0 else 0,
+            'success': stats[field]['success'],
+            'total': stats[field]['total']
+        }
+        for field in field_stats
+    }
+
 def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     method_start_time = time.time()
     method_start_cpu = psutil.cpu_percent()
@@ -63,6 +82,16 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
             success = value != "N/A"
             stats['successful_extractions' if success else 'failed_extractions'] += 1
         log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
+    
+    # Update field-level statistics
+    for field_name, value in fields.items():
+        if field_name != "filename":  # Don't count filename in statistics
+            if field_name not in stats['field_stats']:
+                stats['field_stats'][field_name] = {'success': 0, 'total': 0}
+            stats['field_stats'][field_name]['total'] += 1
+            if value != "N/A":
+                stats['field_stats'][field_name]['success'] += 1
+
     log_output("", log_file, "-")
 
     # Add performance metrics
@@ -125,7 +154,7 @@ def test_single_file(filename):
         'PaddleOCR': OCRMethods.extract_with_paddleocr,
         'EasyOCR': OCRMethods.extract_with_easyocr,
         'Tesseract': OCRMethods.extract_with_pytesseract,
-        # 'SuryaOCR': OCRMethods.extract_with_suryaocr
+        'SuryaOCR': OCRMethods.extract_with_suryaocr
     }
     
     with open(log_file, 'w', encoding='utf-8') as f:
@@ -151,7 +180,8 @@ def test_single_file(filename):
                     'failed_extractions': 0,
                     'execution_time': 0,
                     'cpu_usage': 0,
-                    'memory_used': 0
+                    'memory_used': 0,
+                    'field_stats': {}  # Add field-level statistics
                 }
                 
                 update_resources()
@@ -173,6 +203,12 @@ def test_single_file(filename):
                         fields['payment_method']
                     ])
                 all_stats[method_name] = stats
+
+                # Add field-level accuracy reporting
+                log_output(f"\nField-Level Accuracy for {method_name}:", f, "-")
+                for field_name, stats in stats['field_stats'].items():
+                    accuracy = (stats['success'] / stats['total'] * 100) if stats['total'] > 0 else 0
+                    log_output(f"{field_name}: {accuracy:.2f}% ({stats['success']}/{stats['total']})", f)
 
             resource_stats = get_resource_stats()
             log_output("\nFINAL STATISTICS", f, "=")

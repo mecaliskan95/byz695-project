@@ -1,0 +1,15 @@
+================================================================================
+
+FINAL STATISTICS:
+Total images processed: 3
+Total fields attempted: 21
+Successful extractions: 20
+Failed extractions (N/A): 1
+Overall success rate: 95.24%
+Total execution time: 22.62 seconds
+Average CPU Usage: 19.95%
+Peak CPU Usage: 33.30%
+Average Memory Usage: 1939.40 MB
+Peak Memory Usage: 3141.26 MB
+
+================================================================================

@@ -80,6 +80,28 @@ def save_statistics(stats, results, elapsed_time):
         f.write(f"Peak Memory Usage: {stats['peak_memory_usage']:.2f} MB\n")
         f.write("\n" + "=" * 80 + "\n")
         
+        # Add field-level statistics
+        f.write("\nFIELD-LEVEL ACCURACY:\n")
+        f.write("-" * 50 + "\n")
+        field_stats = {}
+        
+        # Calculate field-level statistics
+        for result in results:
+            for field in ['date', 'time', 'tax_office_name', 'tax_office_number', 
+                         'total_cost', 'vat', 'payment_method']:
+                if field not in field_stats:
+                    field_stats[field] = {'success': 0, 'total': 0}
+                field_stats[field]['total'] += 1
+                if result.get(field) != 'N/A':
+                    field_stats[field]['success'] += 1
+        
+        # Write field-level accuracy
+        for field, stats in field_stats.items():
+            accuracy = (stats['success'] / stats['total'] * 100) if stats['total'] > 0 else 0
+            f.write(f"{field}: {accuracy:.2f}% ({stats['success']}/{stats['total']})\n")
+        
+        f.write("\n" + "=" * 80 + "\n")
+        
     return csv_path, stats_path
 
 def process_files(files):

@@ -1,18 +1,24 @@
-# python test/test_paddle_ocr.py && python test/test_easy_ocr.py && python test/test_tesseract_ocr.py && python test/test_surya_ocr.py
-# python test/test_paddle_ocr.py; python test/test_easy_ocr.py; python test/test_tesseract_ocr.py; python test/test_surya_ocr.py
+
 import os
 import sys
 from datetime import datetime
 import random
 import time
 import csv
-import psutil  # Add this import at the top with other imports
+import psutil  # Add this import
 import re
-import json  # Add this import for mapping verification
+import json  # Add this import
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
+from ocr_methods import OCRMethods
+
+def log_output(message, file, separator=None):
+    if separator:
+        sep_line = separator * 80 if separator == '=' else separator * 40
+        file.write(sep_line + "\n")
+    
+    if message is not None:
+        file.write(str(message) + "\n")
 
 def export_statistics(stats, ocr_name, all_texts=None):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -25,13 +31,15 @@ def export_statistics(stats, ocr_name, all_texts=None):
         f.write(f"Test Results for {ocr_name}\n")
         f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write("="*50 + "\n\n")
+        f.write("STATISTICS:\n")
+        f.write("-"*20 + "\n")
         f.write(f"Total images processed: {stats['total_images']}\n")
         f.write(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%\n")
         f.write(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts\n")
         f.write(f"Total fields processed: {stats['total_fields']}\n")
         f.write(f"Successful extractions: {stats['successful_extractions']}\n")
         f.write(f"Failed extractions (N/A): {stats['failed_extractions']}\n")
-        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%\n")
+        f.write(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100)::.2f}%\n\n")
         
         if all_texts:
             f.write("\nPROCESSED OUTPUTS:\n")
@@ -42,21 +50,13 @@ def export_statistics(stats, ocr_name, all_texts=None):
                 f.write(f"Output Text:\n{text}\n")
                 f.write("-"*50 + "\n")
     
-    print(f"\nStatistics exported to: {log_file}")
+    print(f"\nResults exported to: {log_file}")
 
-def log_output(message, file, separator=None):
-    if separator:
-        sep_line = separator * 80 if separator == '=' else separator * 40
-        file.write(sep_line + "\n")
+def test_llama_extraction(image_path, stats, log_file):
+    log_output(f"\nTesting LLaMA Extraction on: {os.path.basename(image_path)}", log_file, "=")
     
-    if message is not None:
-        file.write(str(message) + "\n")
-
-def test_paddle_ocr(image_path, stats, log_file):
-    log_output(f"\nTesting PaddleOCR on: {os.path.basename(image_path)}", log_file, "=")
-    
-    ocr = OCRMethods()
-    raw_text = ocr.extract_with_paddleocr(image_path)
+    ocr = OCRMethods() 
+    raw_text = ocr.extract_with_llama(image_path)
     stats['ocr_attempts'] += 1
     
     if not raw_text:
@@ -81,18 +81,17 @@ def test_paddle_ocr(image_path, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
-    # Add VAT validation
+    # Validate total cost and VAT
     fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
         fields['total_cost'], fields['vat']
     )
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        if field_name != "filename":  # Don't count filename in statistics
-            stats['total_fields'] += 1
-            success = value != "N/A"
-            stats['successful_extractions' if success else 'failed_extractions'] += 1
-        log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
+        stats['total_fields'] += 1
+        success = value != "N/A"
+        stats['successful_extractions' if success else 'failed_extractions'] += 1
+        log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
     log_output("", log_file, "-")
 
     # After fields extraction, update mapping
@@ -101,28 +100,23 @@ def test_paddle_ocr(image_path, stats, log_file):
             fields['tax_office_number'], 
             fields['tax_office_name']
         )
-        
-        # Verify mapping
-        try:
-            with open(TextExtractor._tax_office_mapping_file, 'r', encoding='utf-8') as f:
-                mapping = json.load(f)
-                if fields['tax_office_number'] in mapping:
-                    log_output("\nTax Office Mapping:", log_file, "-")
-                    log_output(f"Mapped: {fields['tax_office_number']} -> {mapping[fields['tax_office_number']]}", log_file)
-        except Exception as e:
-            log_output(f"\nError verifying tax office mapping: {e}", log_file)
 
     # Update field-level statistics
     if 'field_stats' not in stats:
         stats['field_stats'] = {}
+        stats['field_confidence'] = []  # Add confidence tracking for LLM
     
     for field_name, value in fields.items():
         if field_name != "filename":
             if field_name not in stats['field_stats']:
                 stats['field_stats'][field_name] = {'success': 0, 'total': 0}
+                stats['field_confidence'][field_name] = []
+            
             stats['field_stats'][field_name]['total'] += 1
             if value != "N/A":
                 stats['field_stats'][field_name]['success'] += 1
+                if 'confidence' in result:  # If LLM provides confidence scores
+                    stats['field_confidence'][field_name].append(result['confidence'])
 
     return output_text, fields
 
@@ -146,6 +140,7 @@ def track_resources():
             'memory_avg': sum(memory_usage) / len(memory_usage) if memory_usage else 0,
             'memory_max': max(memory_usage) if memory_usage else 0
         }
+        
     return update, get_stats
 
 def main():
@@ -179,7 +174,7 @@ def main():
         return
 
     ocr = OCRMethods()
-    TextExtractor.set_testing_mode(True, ocr.extract_with_paddleocr)
+    TextExtractor.set_testing_mode(True, ocr.extract_with_llama)
     
     stats = {
         'total_images': len(image_files),
@@ -193,8 +188,8 @@ def main():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     log_dir = os.path.join(os.path.dirname(__file__), 'test_logs')
     os.makedirs(log_dir, exist_ok=True)
-    log_file = os.path.join(log_dir, f'PaddleOCR_stats_{timestamp}.txt')
-    csv_file = os.path.join(log_dir, f'PaddleOCR_data_{timestamp}.csv')
+    log_file = os.path.join(log_dir, f'LLaMA_stats_{timestamp}.txt')
+    csv_file = os.path.join(log_dir, f'LLaMA_data_{timestamp}.csv')
     
     with open(csv_file, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.writer(f)
@@ -207,7 +202,7 @@ def main():
         
         for image_path in image_files:
             update_resources()
-            output_text, fields = test_paddle_ocr(image_path, stats, f)
+            output_text, fields = test_llama_extraction(image_path, stats, f)
             update_resources()
             if output_text:
                 all_texts[os.path.basename(image_path)] = output_text
@@ -247,10 +242,13 @@ def main():
         f.write(f"Average Memory Usage: {resource_stats['memory_avg']:.2f} MB\n")
         f.write(f"Peak Memory Usage: {resource_stats['memory_max']:.2f} MB\n")
         
-        log_output("\nFIELD-LEVEL ACCURACY:", f, "=")
+        log_output("\nFIELD-LEVEL METRICS:", f, "=")
         for field_name, field_stats in stats['field_stats'].items():
             accuracy = (field_stats['success'] / field_stats['total'] * 100) if field_stats['total'] > 0 else 0
-            log_output(f"{field_name}: {accuracy:.2f}% ({field_stats['success']}/{field_stats['total']})", f)
+            avg_confidence = sum(stats['field_confidence'][field_name]) / len(stats['field_confidence'][field_name]) if stats['field_confidence'][field_name] else 0
+            log_output(f"{field_name}:", f)
+            log_output(f"  Accuracy: {accuracy:.2f}% ({field_stats['success']}/{field_stats['total']})", f)
+            log_output(f"  Avg Confidence: {avg_confidence:.2f}%", f)
 
         f.write("\n" + "=" * 80 + "\n")
 
