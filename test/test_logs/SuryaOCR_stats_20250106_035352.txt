@@ -9768,3 +9768,2170 @@ MEDS 3 NO 062205295 300016
 Z NO 1863
 ERE 10:0001
 ! / 10008201
+----------------------------------------
+
+Extracted Fields:
+filename: 149.jpeg ✓
+date: 01/11/2024 ✓
+time: 11:14 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 6220529513 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: N/A ✗
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6220529513 -> BÜYÜK MÜKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 150.jpeg
+----------------------------------------
+
+Processed Text Output:
+GÜNGOR TİCARET
+ALİ GÜNGÖR
+ASKAABAT CAD (7 CD.)
+NO 19/A BAHÇELİEVLER
+ANKARA TEL: 213 72 65
+IMI TEFE V.D 16090025496
+IARIH : 26/10/2024
+SAAT -
+12:24:35
+FIŞ NO
+A CAL 0024
+HIBDAVAT
+1.20 * 207,50 %
+- - - - - - - - -
+TOPKDV
+*34,58
+TOPLAM
+*207,50
+NAKİT
+* 207,50 C
+SİCİL NO
+ENÜ NO:0002
+Z NO 3431
+A GENER
+|
+----------------------------------------
+
+Extracted Fields:
+filename: 150.jpeg ✓
+date: 26/10/2024 ✓
+time: 12:24 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 207.50 ✓
+vat: 34.58 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 151.jpeg
+----------------------------------------
+
+Processed Text Output:
+M. ALDIM : BAHÇELIEVLER 7CAD / M. KODU 9223
+A101 YENI MAGAZACILIK A.Ş.
+KARTI BAHÇELIEVLER MH.
+69. SK. (17. SK.)
+ÜSKÜDAR V.D /9480423762 8 VVWWW
+A INSTITUTION IS AND THE PROGRAM OVER
+TARİH : 24.09.2024
+SAAT : 10:22
+FIŞ NO : 0036
+BİLGİ FİSİ
+MUSTERI TCKN : 11111111111
+BELGEYİ NO : 92230012409401980036
+ETTN NO A39ED59E-8534-46CD-B72C-0E3FC391A5D9
+2 X 0,25
+ALIŞVERİŞ POŞETİ
+DO
+%20
+*0,50
+3,545 KG X 9,90
+KAVUN
+%01
+*35,10
+SALATALIK ÇENGELKÖY
+%01
+*25,90
+BİRŞAH 1500 G YOGURT
+%01
+*56,00 U
+1,782 KG X 99,00
+H. PİLİÇ BAGET
+%01
+*176,42
+TOPKDV
+*2,99
+TOPLAM
+*293,97
+KREDİ KARTI
+*293,92
+YAPIKREDI PEŞIN (1)
+PROVİZYON NO : 962815
+PUAN : 0,00
+YAPI KREDİ
+I:2690518895 T:00630264 55264591****2848
+24 09 . 2024 10:21 B:57 S: 7
+RRN/REF . NO 1082962815 REF . NO
+11 0 110 GENER 0 18 0 11 2 108 00 000 10 1 18 18 8 213
+92230012409401980036
+LULUX NEVEMEV 1
+FATURAADRES HTTPS://FATURA.A101.COM.TR
+MERSİS NO 0948042376200016
+TESCILLI İNTERNET ADRESI: WWW.A101.COM.TR
+İRSALİYE YERİNE GEÇER
+İMZA İ
+KASİYER G**** Z****
+Z NO 1176
+EKÜ NO 0001
+MF YAB 15011065
+----------------------------------------
+
+Extracted Fields:
+filename: 151.jpeg ✓
+date: 24/09/2024 ✓
+time: 10:22 ✓
+tax_office_name: ÜSKÜDAR ✓
+tax_office_number: 9480423762 ✓
+total_cost: 293.97 ✓
+vat: 2.99 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 9480423762 -> ÜSKÜDAR
+================================================================================
+
+Testing SuryaOCR on: 152.jpeg
+----------------------------------------
+
+Processed Text Output:
+ADEM KOÇ PLASTIK
+TUR. INŞ. SAN VE TIC. LTD. ŞTİ
+ONDER MAH AKÇAKALE SOK NO 8/5
+03123532590
+ALTINDAG-ANKARA
+0070589507
+M. KARAGÜZEL V.D D
+: 23/10/2024
+TARİH
+12:37:59
+SAAT
+: 0021
+FIŞ NO
+* 116,75
+%20
+MOBİLYA AKSESUAR
+*0,25
+%20
+POŞET
+*19.50
+TOPKDV
+*117,00
+TOPLAM UT TESTILE
+*117,00
+KREDİ
+ONB FINANSBANK
+* *
+MERSİS : 0007058950700012
+Z NO 1824
+EKU NO 0001
+İŞYERİ NO:13400000008276
+TERMİNAL P2002505
+REF NO WB06040012 / SIRA NO:0012
+LIDCIT INE280 367
+SAAT 12:38
+A AMER KARTI AREA AREA 2404
+SATIŞ -
+TOPLAM 117, 00 TL
+KARŞILIĞI MAL / HİZMET ALDIM
+AID : A0000006723010 IRON KREDİ KARTI
+ONAY KODU 691640
+TEMASSIZ
+BU BELGEYİ SAKLAYINIZ
+KARTI SAHIBINE AITTIR
+EKÜ NO 0001 Z NO 1824
+MF 2A 20133455
+A MARK OLAN IN
+----------------------------------------
+
+Extracted Fields:
+filename: 152.jpeg ✓
+date: 23/10/2024 ✓
+time: 12:38 ✓
+tax_office_name: M.KARAGÜZEL ✓
+tax_office_number: 0070589507 ✓
+total_cost: 117.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 0070589507 -> M.KARAGÜZEL
+================================================================================
+
+Testing SuryaOCR on: 153.jpeg
+----------------------------------------
+
+Processed Text Output:
+MIGROS TİCARET A.S
+B.EV ER 7.CADDE MIGROS SATIŞ MAGAZASI
+KARTI B :: 7LER MH. SAAT (7) CD. NO 25
+TEL: J:850):310 2229 CANKAYA/ANKARA
+BUYUA MUKELLEFLER V.D 6220529513
+MERKEZİ Z DAİRESİ ATATÜRK MAH. TURGUT OZAL
+BULV. NO 7 ATAŞEHİR/1S İSTANBUL
+SAAT 13:50 0
+TARI 1:23/10/2024
+FIŞ 40 : 3275
+*125,00 *
+1 % 1
+KESKINOGL J 30 LU ORT
+1.375 KG X 49,95 TL/KG
+* 68, 53
+I –
+DOMA ES AG.
+* 84 95
+I SA
+TORK I YOGURT 1.5 KG
+0.48 | KG X 84,95 TL/KG
+X40,73
+R % 7
+KOY BIBERI
+0.975 KG X 84, 95 TL/WG
+X 82,83
+I IL
+HIVAR BADEN PKT KG.
+=(), 25 =
+%20
+MIGROS PLASTIK POSET
+X4,02
+TOPKDV
+×402 49
+TOPLAM
+11 9 176 X X 1105 ORTAK POS X402, 49
+KDV TUTAR KDV Lİ TOPLAM
+A 11 11 11
+×402 24
+: 3 98
+
+×0.25
+:0 04
+820
+014 279914
+KASI TER
+0962 2637/002/014 + 23/10/24 13:51 AC-00
+MUSTERI ILETIŞIM MERKEZİ 0850 200 40 00
+
+OS (UE AUST 22 1132
+SATIŞ
+5298 /6 X X X X X 1 115
+X 402, 49 TI
+REE NO = 2975-497820
+ONAY KODU : 48-475
+GARAN I BS'/A
+ISYER: ID:0000630221 S RA NO:008050
+TERMİNAL ID:03514772 BATCH NO:000625
+MERSİS NO 062205295 300016
+HTTP://WWW.MIGROS.COM. IN
+Z NO 1854
+ERD 10:0001
+. A 1008201
+----------------------------------------
+
+Extracted Fields:
+filename: 153.jpeg ✓
+date: 23/10/2024 ✓
+time: 13:50 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 6220529513 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6220529513 -> BÜYÜK MÜKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 154.jpeg
+----------------------------------------
+
+Processed Text Output:
+M. ALDIM : BAHÇELIEVLER 7CAD / M. KODU 9223
+A101 YENI MAGAZACILIK A.Ş.
+KARTI BAHÇELIEVLER MH.
+69. SK. (17. SK.)
+ÜSKUDAR V.D /9480423762
+TARİH : 19.10.2024
+SAAT : 09:10
+FİŞ NO : 0007
+BİLGİ FİSİ
+MUSTERE PCKN : 111111111111111
+BELGEYİ NO 92230011910400330008
+ETTN NO BE699D48-EDD6-47F5-B254-C0195ECFA4A3
+2,065 KG X 8,50
+PATATES
+%01
+*17,55
+2 X 59,90
+BU . MAK . PAR . FINISH
+%20
+*119,80
+ALISVERİŞ POŞETİ
+%20
+×0,25
+TOPKDV
+¥20,18
+TOPLAM
+*137,60
+KREDİ KARTI
+*137,60
+YAPIKREDI PEŞIN (1)
+PROVİZYON NO : 048988
+PUAN : 0,00
+GARANTI BANKASI
+I:9854332 T:01975995 52987600****1105
+19.10.2024 09:10 B:521623 S: 79016
+RRN/REF . NO 429346799740 REF . NO
+
+92230011910400330008
+FATURAADRES HTTPS://FATURA.A101.COM.TR
+MERSİS NO 0948042376200016
+TESCILLI İNTERNET ADRESI: WWW.A101.COM.TR
+KIRTASİYE YERINE GECER
+<< İMZA >>
+KASİYER G**** Z****
+Z NO 0717
+EKÜ NO 0001
+IF YAC 21008161
+----------------------------------------
+
+Extracted Fields:
+filename: 154.jpeg ✓
+date: 19/10/2024 ✓
+time: 09:10 ✓
+tax_office_name: ÜSKÜDAR ✓
+tax_office_number: 9480423762 ✓
+total_cost: 137.60 ✓
+vat: 0.25 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 9480423762 -> ÜSKÜDAR
+================================================================================
+
+Testing SuryaOCR on: 155.jpeg
+----------------------------------------
+
+Processed Text Output:
+A BANK IM
+GANİK GANİK
+ŞEKERCİLER PAZ. GIDA SAN. TİC.A.Ş
+MIMAR SINAN MAH. ANKARA YOLU
+BULVARI NO 29 ÇORUM
+0364 235 09 99 TEŞEKKÜR EDERİZ
+İSKİLİP V.D 8010706009
+TARİH : 29/10/2024
+: 15:47:27
+SAAT ARE
+FİŞ NO : 0024
+MUNOO 1 SEXTE 601 +911,00
+T.GIDA
+*9.02
+TOPKDV
+*911,00
+TOPLAM
+*911.00
+KREDİ
+VAKIFBANK
+********** 2657
+T. SİCİL NO 5128
+EKÜ NO 0001
+Z NO 2215
+İSYELİ NO 01300000118590
+POS NO:PS847288
+ISLE NO JP0016 BATCH NO 1045
+15:47
+IWE280 - VERGİ : 360 - L1DC1M
+265 **** **** 2657
+SATIŞ
+911,00 TL
+REF NO 430315611436
+AID : A000000041010 (YKBWORLDCARD2)
+TC : 87B4BF0EBAE42876
+ONAY KODU 157086
+TUTAR KARŞILIĞI MAL VEYA HİZMET ALDIM
+BU BELGEYİ SAKLAYINIZ MÜŞTERİ NÜSHASI
+BU İŞLEM TEMASSIZ OLARAK GERÇEKLEŞTIRILMISTIR
+V VAKIFBANK
+444 0 724 / WWW.VAKIFBANK.COM.TR
+EKU NO 0001 Z NO 2215
+MF JH 20097304
+----------------------------------------
+
+Extracted Fields:
+filename: 155.jpeg ✓
+date: 29/10/2024 ✓
+time: 15:47 ✓
+tax_office_name: İSKİLİP ✓
+tax_office_number: 8010706009 ✓
+total_cost: 911.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 8010706009 -> İSKİLİP
+================================================================================
+
+Testing SuryaOCR on: 156.jpeg
+----------------------------------------
+
+Processed Text Output:
+PROVİZYON KIRTASİYE MATBAA
+ERTUGRUL ÇALIK
+ŞENLİK MAHALLESI
+FATIH CADDESI NO 198/A
+KEÇIOREN / ANKARA
+03123800511
+KECIOREN VD 2250145047
+SAAT 11:02
+19.10.2024
+FIŞ NO 0007
+· 200, 00
+EGITIM KIRT. %10
+*18,18
+KDV
+*200,00
+TOPLAM
+A ALINDI ALINDI BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞININ BAŞIRIN BAŞIRIN BAŞIRIN BAŞI
+· 200,00
+NAKIL
+
+Z NO 0022 EKÜ NO 0001
+R SD0024125189
+A ANADLARI ILE BIR DE BE AND BE BE
+----------------------------------------
+
+Extracted Fields:
+filename: 156.jpeg ✓
+date: 19/10/2024 ✓
+time: 11:02 ✓
+tax_office_name: KEÇİÖREN ✓
+tax_office_number: 2250145047 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 2250145047 -> KEÇİÖREN
+================================================================================
+
+Testing SuryaOCR on: 157.jpeg
+----------------------------------------
+
+Processed Text Output:
+I NI VOLL
+/F YAE 150211 7
+AN DE IN
+IN - THE FIRST
+ALNUS MARKET IŞLT. IIC.A.S
+EPEBBSI YH SANATORYUM CE NO:82/11-12-13
+EL 0.312) 360 09 11 KEÇİCREN/9VKARA
+AN ANKARA KUFUMLAR V.D D. V NC: 984 031 3293
+AHIY : 23,10,2024
+EART : 19:21
+F 29 NO : 0471
+2 22036 × 1 FD #9,35-B
+AN ALLA BE
+R 21
+ALANCE
+2722036 × 1 FD #12,95-B
+*12,95 €
+16 " DONOZ
+
+2 22028 X 1 FD #9,35-B
+XA, 55
+ERE JU
+2522047 × 0,87 KG ×19,95-B
+*17,36
+RK ALINDI
+REF 1
+2 220 % X 1 FD *23,95-B
+*29,55
+KI NERCIK EDET
+%C1
+XC,79
+I URAV OV
+1091 AN
+*BC, 15
+*80.16
+GARANT T
+VIV UNARI
+X 3 / EAH | TUTAR
+KEV
+0,79
+20,16
+11
+YUNJS MAFKET
+TEPEBAŞI YAH. SANATJRYUM CAD. ND: 82/11-12/13
+KEÇİDREN DEZ9C ANKARA
+TEL: 312 8154747
+MUNUS YARKET IŞLETMELERI TİCARET A Ş.
+FERMEZ ADRESI: SARAY MAH. 1023. SOK. ND:3
+FIKARA DEEDO ANKARA
+MEFSIS NO 9384 0313 2930 0024
+SICH NO : 9579 7 22 TM
+I : 02522712
+1:291316
+2: 0/2024-19-21 3:004696 S 104943
+KARTI ADDOCCOCA1010 FFP LABEL MASTERCARD
+7 SAYTESD4 OF LO1002F ECR 36 K.T. DNZBCNUS
+K N : : ANKARA 1 05
+JI : 2024102319210653
+ENV SATIŞ TUTAR
+80, 16 TL 8
+BU ISLEM TEMASSIZ BIR KARTI ILE
+GERÇEKLEŞTIRIL "IŞTIR.
+ONAY NUMBRESI: 772000 REF NO 4297791546C2
+A GARANTI
+MERSİS NO 0379 0017 5650 0379
+MAN GARANTIBBYA COH. TR
+2 NISHR KARTI SFHIEINE ALTIIR.)
+ISLEM ID: 2029102315210653
+12 11 3580113
+----------------------------------------
+
+Extracted Fields:
+filename: 157.jpeg ✓
+date: N/A ✗
+time: 19:21 ✓
+tax_office_name: ANKARA KURUMLAR ✓
+tax_office_number: N/A ✗
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+================================================================================
+
+Testing SuryaOCR on: 158.jpeg
+----------------------------------------
+
+Processed Text Output:
+MIGROS TİCARET A.S.
+B.EV ER 7.CADDE MIGHOS SATIŞ MAGAZASI
+KARTI B. EVLER MH. SAAT (7) CD. NO:25
+TEL: J:850):310 2229 CANKAYA/ANKARA
+BUYUK MUKELLEFILER Y.C. 6220529513
+MERKEZİ DAİRESİ ATATÜRK MAH. TÜRGUT ÖZAL
+BULV. NO 7 ATASEHİR/ IS İSTANBUL
+TARI : 18/10/2024
+SAAT 09:46
+FIŞ NO : 0036
+0.485 KG × 59,95 TL/VG
+BROK JLI K.A.
+1
+X 29,03
+0.64J KG X 59,95 TL/WG
+BFOKOLI K.A.
+* 38,37
+21
+OFFICE AYCLOEKYAGI
+%1
+×182.95
+DERE T U
+×9,95
+
+0.885 KG × 119,95 TL/KG
+BANNI PILIC BAGET
+1 -
+×106 , 15
+SOGAN TAZE ÖDEME
+%1
+×19.95
+2 AD X 9 45 TL/AD
+MAYDANOZ ÖDEME
+1 %1
+X18,90
+SEHI ZOTU ÖDEME
+11
+*17.95
+0.731 KG X 34,95 TL/KG
+LIFON KG.
+*25,51
+71
+SAAT KIVIRCIK ADET
+:37,95
+NANE ÖDEME
+1
+×8.95
+1.02J KG : 39,95 TL/KG
+HAVUS BEY AZARI PKT.
+21
+X40 75
+1.79] KG × 11,50 TL/VG
+PATATES VENI MAHSUL
+21
+= *20.59
+KHOK'S SUSAN 650
+AR
+×45.95
+6 30 % INDIRİM
+*-13,79
+1 21
+ARIFIGLU COREK OTU 7 %1
+*40.95
+ARA TOPLAM
+*630.17
+TOPKDV
+×6,24
+TOPLAM
+×630,17
+: 293 76 X TXX 1105 OR AK POS X630, 17
+R ALL VE
+KDV TUTAR KDV'Lİ TOPLAM
+
+: 6.24
+*630.17
+KASI TER
+007 137865
+6995 2637 /002/007 + 18/10/24 09:43 AC-00
+MÜŞTERİ ILETIŞIM MERKEZİ 0850 200 40 00
+
+SATLS
+5, 98, 6 X X X 11 15
+×630, 17 TL
+RFF NO : 2924565682.
+ONAY KODU : 170725
+GARAN I BETA
+ISYE -- ID:0000680221 S RA NO:007479
+TERMİNAL ID: 03814772 BATCH NO 000604
+MERSİS NO 062205295:300016
+HTTP://WWW.MIGROS.COM.CR
+EFU 40:0001
+Z NO 1849 1
+----------------------------------------
+
+Extracted Fields:
+filename: 158.jpeg ✓
+date: 18/10/2024 ✓
+time: 09:46 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 6220529513 ✓
+total_cost: 630.17 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6220529513 -> BÜYÜK MÜKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 159.jpeg
+----------------------------------------
+
+Processed Text Output:
+MEGROS T TİCARET A .. " A " A
+KARTI B.EVLER MH. SAAT (7) CD. NO:25
+TEL:0(850)310 2229
+CANKAYA/ANKARA
+BUYUK MUKELLEFLER V.D.6220529513
+MERKEZİ ADRESI: ATATURK MAH. TURGUT ÖZAL
+BULV. NO:7 ATAŞEHIR/ISTANBUL
+TARİH 13/09/2024
+SAAT : 12:25
+FIŞ NO : 0023
+#6002080108509004
+0.320 KG X 34,95 TL/KG
+HIYAR KG.
+1
+*11,18
+ICIM VOG. 750G
+IN 1
+X43.95
+0.630 KG X 189,95 TL/KG
+İZMİR KIB BONFILE KG
+31
+±119,67
+MIGROS PILAV BULGUR
+11
+×19,90
+MIGROS PLASTIK POSET
+220
+=0.25
+TOPKDV
+*1,97
+TOPLAM
+*194.95
+540063×××××2657 ORTAK POS ×194,95
+KDA
+KDV TUTAR KDV'Lİ TOPLAM
+A K
+X1,93
+*194.70
+220
+×0,04
+×0,25
+MERSİS NO 0622052951300016
+HTTP://WWW.MIGROS.COM.TR
+KASİYER
+: JET KASA 3
+6608 2637/006/103 + 13/09/24 12:26 AC-04
+MÜŞTERİ İLETİŞİM MERKEZİ 0850 200 40 00
+
+26370066608240913
+SATIŞ
+540063×*****2657
+*194,95 TL
+REF NO : 0674952412
+ONAY KODU : 952412
+YAPI KREDİ
+İSYERI ID :2606691422
+SIRA NO :013 N
+TERMİNAL ID:00A38909
+BATCH NO : 028
+EKU NO:0001
+Z NO 0191
+MF TY 10008909
+----------------------------------------
+
+Extracted Fields:
+filename: 159.jpeg ✓
+date: 13/09/2024 ✓
+time: 12:25 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 6220529513 ✓
+total_cost: 194.95 ✓
+vat: 1.97 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6220529513 -> BÜYÜK MÜKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 160.jpeg
+----------------------------------------
+
+Processed Text Output:
+DFN BAHARAT
+GIDA DOĞAL ÜRÜN SAN.VE TİC.
+LTD. ŞTİ. AŞKABAT CD. NO 53/A
+TEL: 0312 223 68 48
+ÇANKAYA/ANKARA
+MALTEPE V.D 2951186868
+: 06/09/2024
+İ ARIH A
+: 10:35:26
+SAAT I
+: 0005
+ON SIII
+*189.00
+%01
+E AHARAT
+A BAŞ ALINDI ALINDI A
+*1,87
+TOPKDV
+*189,00
+TOPLAM
+*189,00
+FREDI
+ZİRAATBANK
+* *
+IIER : 0295118686800001
+Z NO 3591
+IKÜ NO 0003
+POS NO 01675774
+I VER: NO 0000000001795371
+10:35
+I İŞLEM NO:0003 KP0730
+IWE280 - VER:360 - LIDCIN
+SATIŞ
+*** *** 2848
+共 共 关 关
+TUTAR
+189, 00 TL
+YKBWORLDCARD2
+E:D : A0000000041010
+ONAY KODU : 336923
+TUTAR KARŞILIĞI MAL VEYA HİZMET ALDIM
+BU BELGEYİ SAKLAYINIZ
+* * * SADECE TEMASSIZ ***
+DEN BAHARAT GIDA DOGAL URUNLER
+TİCARET SICIL NO 1260
+DFN BAHARAT GIDA DOGAL URUNLER KARTI
+BAL ELIEVLER MAH. SAAT CD. NO 53 A 06540
+ANKARA 06540 ANKARA
+ZIRAAT BANKASI
+KARTI HAMILI HUSHASIDIR
+IKU NO 0003 Z NO 3591
+MF JH 20015005
+----------------------------------------
+
+Extracted Fields:
+filename: 160.jpeg ✓
+date: 06/09/2024 ✓
+time: 10:35 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 2951186868 ✓
+total_cost: 189.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 2951186868 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 161.jpeg
+----------------------------------------
+
+Processed Text Output:
+HAKIKAT MURAT KIRTASİYE
+B. SAYAR YAY. İNŞ. SAN VE
+TİC.LTD. ŞTİ.
+İNCİRLİ MAH. Y. EMRE CAD. NO 67/E
+K . ANKARA
+4550277896
+YILDIRIM BEYAZIT V.D
+TARİH
+: 28/08/2024
+SAAT
+: 08:49:58
+FIŞ NO
+: 0002
+KIRTASİYE
+%20
+*400,00
+KIRTASİYE
+%10 *1.000,00
+TOPKDV
+*157,58
+TOPLAM
+*1.400,00
+A A KARTI ALINDI DA MARKA D
+A A KARTI ALINDI VE ALLA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BAŞINDA BA
+NAKİT
+*1.400,00
+MERSİS : 0455027789600014
+TEL: 0(312)321 40 60
+EKÜ NO 0001 Z NO 2474
+MF JI 20084168
+----------------------------------------
+
+Extracted Fields:
+filename: 161.jpeg ✓
+date: 28/08/2024 ✓
+time: 08:49 ✓
+tax_office_name: YILDIRIM BEYAZIT ✓
+tax_office_number: 4550277896 ✓
+total_cost: 1400.00 ✓
+vat: 157.58 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 4550277896 -> YILDIRIM BEYAZIT
+================================================================================
+
+Testing SuryaOCR on: 162.jpeg
+----------------------------------------
+
+Processed Text Output:
+MIGROS TİCARET A.S.
+B.EV ER 7.CADDE MIGROS SATIŞ MAGAZASI
+KARTI B. EVLER MH. SAAT (7) CD. NO:25
+TEL: D:850 (310 2229 CANKAYA/ANKAYA/ANKARA
+BUYUA MUKELLEFILER V.D.6220529513
+MERKEZİ 2 ADGESİ: ATATÜRK MAH. TURGUT ÖZAL
+BULV. NO 7 ATAŞEHİR/İS İSTANBUL
+SAAT : 12:13
+TFPI | 30/10/2024
+FIS 30 : 0181
+N FI
+0.22] KG : 199,95 TL/KG
+X 43,99
+TASK PRU SARIMSAGI XI
+X 12.95
+IRE
+NAVDANOZ ÖDEME
+1.29] KG × 39,95 TL/KG
+=51.54
+171
+HAVOL BEYPAZARI PKT.
+0.905 KG × 11,95 TL/KG
+×10.81
+IND
+SATIŞ KURJ KG
+×57.95
+IZE
+BACD' TATLI BIBER
+*-14.49
+IRE
+% 25 % IND RIM
+=34,95
+IRE
+SAAT A KIVIRCIK ADET
+0.511 KG X 489,95 TL/KG
+×249,37
+IN 1
+DANA GULASI.IK CIFIL.
+*45.95
+11
+BACDA ZEMDECAL TOZ
+X-11,49
+IRE
+% 25 % INDIRIM
+1.140 KG X 29,95 TL/KG
+X34.14
+ILE
+LAHA IA KIRMIZI
+X47.95
+BILLIR TUZ RAFINE IY
+1
+1.39] KG : 13.95 TL/KG
+=19,39
+ARE
+PATA ES YENI MAHSUL
+*5,78
+*583,51
+TOPKDV
+TOPLAM
+# 29 176XXA XX 1105 ORTAK POS
+KOV TUTAR KDV'Lİ TOPLAM
+KUR
+ISE
+X 583 21
+:5 /6 - 17
+010 :56146
+KASİYER ER
+6291 2637/002/010 + 30/10/24 12:14 AC-00
+MÜŞTERİ ILETIŞIM MERKEZİ 0850 200 40 00
+
+263 002629 241030
+SATIŞ
+5298 6 XXX 3 X 11 5
+*583, 51 TL
+REF 40 - 3045277664
+ONAY KODU : 750037
+GARAN I BETA
+İSYE
+TERM NAI ID:03814772 BATCH NO:000650
+MERSİS 5 NO 062205295 300016
+HT P //WWW.MIGROS.COM.IN
+Z NO 1861
+ERO 10:0001
+, AF "V 10003201
+----------------------------------------
+
+Extracted Fields:
+filename: 162.jpeg ✓
+date: 30/10/2024 ✓
+time: 12:13 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 6220529513 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6220529513 -> BÜYÜK MÜKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 163.jpeg
+----------------------------------------
+
+Processed Text Output:
+DORTDIVAN TİCARET PAZARLAMA
+RAFET YILDIZ
+ULUBEY MAH.CAMLITEPE CAD.NO.91/A
+SITELER/ALTINDAG/ANKARA
+M.K.GÜZEL VD.311 7719 7118
+TEL.353 35 40 TEŞEKKÜR EDERİZ
+FIS NO 000011
+16/08/2024
+SAAT 11:55
+*28,00
+KENAR ALINDI
+120
+TOPKDV
+14,67
+*28,00
+NAKİT I T
+KASIYER:KASIYER 1
+Z NO:001804
+EKÜ NO 0001
+VF 3E 17490681
+----------------------------------------
+
+Extracted Fields:
+filename: 163.jpeg ✓
+date: 16/08/2024 ✓
+time: 11:55 ✓
+tax_office_name: M.K.GÜZEL ✓
+tax_office_number: 31177197118 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 31177197118 -> M.K.GÜZEL
+================================================================================
+
+Testing SuryaOCR on: 164.jpeg
+----------------------------------------
+
+Processed Text Output:
+GUNGOR TİCARET
+ALİ GÜNGÖR
+ASKAABAT CAD (7.CD.)
+NO 19/A BAHÇEL İEVLER
+ANKARA TEL 213 72 65
+MALTEPE V.D 16090025496
+TARİH
+: 19/08/2024
+SAAT
+: 15:30:27
+FİŞ NO
+: 0049
+HIRDAVAT
+420
+*400,00
+TOPKDV
+000 *66,67
+TOPLAM
+*400,00
+KREDİ
+*400,00
+QNB FINANSBANK - DE -
+************7841
+T. SICIL NO
+EKÜ NO 0002
+Z NO 3357
+ISVERI NO 13440000007641
+TERMİNAL P2046366
+REF NO WB05670033 SIRA NO 0033
+LIDCIN IDE 280 367
+SAAT 15:30 -
+REES TRES TRES VEEN 7841
+SATIŞ
+TOPLAM 400, 00 TL
+KARŞILIĞI MAL HİZMET ALDIM
+AID : RADACEADO41010 : 100
+DEN IZBANK
+ONAY KODU 504009
+* * * TEMASSIZ ***
+BU BELGEYİ SAKLAYINIZ
+S'ZQNB
+FINANSBANK
+KARTI SAHIBINE AITTIR
+EKU NO 0005 Z MO: 3351
+MF JI 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 164.jpeg ✓
+date: 19/08/2024 ✓
+time: 15:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 400.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 165.jpeg
+----------------------------------------
+
+Processed Text Output:
+GUNGOR TİCARET
+ALDIM CONCOR
+AŞKABAT CAD. (7.CD.)
+NO 19/A BAHÇELIEVLER
+ANKARA TEL: 213 72 65
+MALTEPE V.D 16098025496
+TARİH -
+: 22/08/2024
+SUN
+: 11:41:25
+FIŞ NO
+: 0017
+ILI BAYA T
+20 4122,00 4122
+TOPKDV
+0802 = *20,33
+TOPLAM
+*122,00
+KESI
+*122,00
+ONE FINANSEAIK
+KAZAZAKAKAKAKA 7841
+T.SICIL (40:
+EKO NO:0002 Z NO:3361
+A SAAT OF THE
+1987 10-134400000731
+TERMİNAL P2046366
+格 税格2 第12 第12
+100 1520 07 5 200 11-1
+. .
+- SATIŞ
+TOPLAM 122, 09 TL
+RANSA BE APRIL 2001 ALLA 2001 ALLA 2000 ALINDI 2000
+ED RESERVENCE IN IN KATCHE
+ONAY KODU 646151
+*** TEMASSIZ ***
+N MEF WIFHZ
+AR QNB
+(2) 进步座 我们说
+EKO 10:0002 - 2 NO 3361
+R / 11 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 165.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:41 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16098025496 ✓
+total_cost: 122.00 ✓
+vat: N/A ✗
+payment_method: N/A ✗
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16098025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 166.jpeg
+----------------------------------------
+
+Processed Text Output:
+OZ - IS-ELEKTRİK
+İBRAHİM OZDEMİR
+K.KARABEKİR CD NO-40-4 ALINDI
+ANK TEL-3123883-85-E.SC.06-49169
+KIZILBEY VD-14881741532
+29/08/2024
+FIS NO 0001
+SAAT 09:55
+ELK. MAL = %20 *155,00
+
+KDV
+*25,83
+TOPLAM
+¥155,00
+
+KREDİ
+*155,00
+KASİYER KASİYER #1
+ISYERI:00000000259857 TERMINAL:00621061
+YIĞIN NO 4444
+V.0029.04 AID: A000000041010 MASTERCARD
+SATIŞ
+AKAN AMAN 7841
+CHIP REFERANS NO D008DA6986EA0D51
+TUTAR
+155,00 TL
+ONAY KODU 240301
+REFERANS NO 424209406543
+KARTI TURU: MC YI KK
+TEMASSIZ ISLEM
+TUTAR KARŞILIĞI MAL VEYA HİZMET ALDIM
+KARTI SAHIBINE AITTIR
+--- TURK EKONOMI BANKASI A.S. ------
+TİCARET SICIL NO : 189356
+MERSİS NO : 0876004342000105
+TEB KAMPUS C-D BLOK SARAY MH SOKULLU CD
+NO : 7A-7B ÜMRANIYE 34768/ISTANBUL
+----- HWW. TEB. COM. TR ------
+II-R
+----------------------------------------
+
+Extracted Fields:
+filename: 166.jpeg ✓
+date: 29/08/2024 ✓
+time: 09:55 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 14881741532 ✓
+total_cost: 155.00 ✓
+vat: 25.83 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 14881741532 -> KIZILBEY
+================================================================================
+
+Testing SuryaOCR on: 167.jpeg
+----------------------------------------
+
+Processed Text Output:
+HAZAL CAFE EV YEMEKLERI
+ERHAN POLAT
+SB:11.SOKAK 20/B EMEK
+ÇANKAYA/ANKARA
+SİNCAN VD:1462 9453 048
+TEL: 0541 808 04 06
+YINE BEKLERIZ
+TARİH
+: 22/08/2024
+SAAT
+: 14:03
+FIŞ NO DAX
+: 00043
+YEMEK BD.
+*580,00
+TOPKDV
+*52,73
+TOPLAM
+*580,00
+BANKA/KREDI KARTI
+* 580,00
+T.C. ZİRAAT BANKASI A.S.
+İŞYERİ 000000001910215
+POS: 01765884
+BATCH NO 000762
+
+STAN: 006219
+ISLEM NO 000037
+SN: 548021020536
+PYG/630
+VER:2.0.1
+SATIŞ
+1592 884 444 262
+MASTERCARD/KREDI/YURT IÇI
+TOPLAM 580,00 TL
+ONAY KODU 105177
+RRN: 423514843865
+ANKARA REFERANS: 1051423514843865
+YKBWORLDCARD2
+AID:A0000000041010 AC:52E1C3215653AF3B
+EN TEMASSIZ VAPILMIŞTIR
+ACQUIRER ID: 0010
+TUTAR KARŞILIĞI MAL VEYA HİZMET ALDIM
+MÜŞTERİ NÜSHASI
+BU BELGEYİ SAKLAYINIZ
+ZIRAAT BANKASI
+Z NO:00777 EKU NO:0001
+NF 5A0021020536
+IARTY
+2/08/2024
+A 3
+----------------------------------------
+
+Extracted Fields:
+filename: 167.jpeg ✓
+date: 22/08/2024 ✓
+time: 14:03 ✓
+tax_office_name: SİNCAN ✓
+tax_office_number: 14629453048 ✓
+total_cost: 580.00 ✓
+vat: 52.73 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 14629453048 -> SİNCAN
+================================================================================
+
+Testing SuryaOCR on: 168.jpeg
+----------------------------------------
+
+Processed Text Output:
+GUNGOR TİCARET
+MAL I CINCON
+ASKAABAT CAD. (7.00.)
+NO 19 A BARCELIEVLER
+ANKARA TEL: 213 72 65
+MALTEPE V.D 16090025496
+TARİH
+: 28/08/2024
+SAAT
+: 13:17:12
+FIŞ NO
+: 0022
+BIRDAIRT
+120 420 650,00
+TOPKDV
+*110,00
+ILINDƏ BIR BIR
+TOPLAM
+*660,00
+KSENI
+*650,00
+QUE FINALSEAN
+A 880 - 128 1
+1 SIL 11 MAR
+ERU NO (84 BAL 415 - 2 NO 3368
+175, 80 - 1680-100751
+TERNINA . P 340366
+AR ALINDI 1984 MAL
+LICIN FOR SE SE SE SE E
+ABBO HARS DAİRESİ 2001
+SATIŞ
+TOPLAM 660, 00 TL
+MASANI MI ATET BU
+RIN - ANNEMANIA -
+A DE A A AKA MAL
+ONAY KODU 934431
+* * * TEMASSIZ ***
+BI BELGEYİ SHI BERE DE
+A QNB
+KAL SESIM SILLER
+EKU NO 0002
+I NO 3368
+M JI 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 168.jpeg ✓
+date: 28/08/2024 ✓
+time: 13:17 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 660.00 ✓
+vat: 110.00 ✓
+payment_method: N/A ✗
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 169.jpeg
+----------------------------------------
+
+Processed Text Output:
+BAHÇELI EKIN KIRTASİYE
+ABDULLAH KÜÇÜKERTEKİN
+LÜTFULLAH KÜÇÜKERTEKİN ADİ ORT
+BAHÇELİ AŞKABAT CAD.
+NO 33/C ÇANKAYA/ANKARA
+A BAYLA
+MALTEPE V.D 0021024673
+TARİH : 22/08/2024
+SAAT : 11:45:13
+FİŞ NO : 0007
+T. KIRTASİYE - - - - - 10 - * 360,00
+8608 01,32,73
+TOPKDV
+TOPLAM PLUN-12111 *360,00
+*360,00
+KREDİ
+YKB
+************7841
+MERSİS : .
+EKÜ NO:0001
+Z NO:1409
+İŞYERİ NO : 2602207153
+TERMİNAL NO 00 00 4564BC
+MUSTERI NÜSHASI - SATIŞ
+22-08-2024 11:45:25 11:45:25 NO NA
+**** *** **** 7841
+TUTAR : . . .
+360, 00TL
+KARŞILIĞI MAL/HİZM ALDIM
+İŞLEM TEMASSIZ TAMAMLANMISTIR
+SN: 0005 ONAY KODU 708829
+REF : 9853702982
+GRUP NO:064
+AID: A0000000041010
+A. LABEL: MASTERCARD
+YKB VER: 92. 35. 19
+BU İŞLEM YURTICI KARTI YAPILMISTIR
+BU BELGEYİ SAKLAYINIZ
+C YAPIKREDI
+EKÜ NO:0001 Z NO:1409
+MF ZA 20132952
+----------------------------------------
+
+Extracted Fields:
+filename: 169.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:45 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 0021024673 ✓
+total_cost: 360.00 ✓
+vat: 32.73 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 0021024673 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 170.jpeg
+----------------------------------------
+
+Processed Text Output:
+BAHÇELİ 7 ÖNCÜ DÖNER
+GID.LOK. SAN. VE TİC.LTD. ŞTİ.
+Y. BAHÇELİEVLER MH. AŞKABAT CD.
+NO39/D ÇANKAYA/ANKARA
+MALTEPE 1311528619
+TARİH
+: 27/08/2024
+SAAT
+: 16:30:21
+FİŞ NO
+: 0039
+YİYECEK
+2 %10 * 160,00
+
+TOPKDV
+*14,55
+TOPLAM
+*160,00
+NAKİT
+*160,00
+T. SİCİL NO 457358
+KÜ NO:0002
+
+Z NO:1322
+MF 2B 25010934
+----------------------------------------
+
+Extracted Fields:
+filename: 170.jpeg ✓
+date: 27/08/2024 ✓
+time: 16:30 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 1311528619 ✓
+total_cost: 160.00 ✓
+vat: 14.55 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 1311528619 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 171.jpeg
+----------------------------------------
+
+Processed Text Output:
+GUNGOR TİCARET
+ALDIM GÜNGOR
+AŞKAABAT CAD. (7.CD.)
+NO 19/A BAHÇELIEVLER
+ANKARA TEL: 213 72 65
+MALTEPE V.D 16090025496
+TARİH : 26/08/2024
+SAAT TASY
+: 13:50:29
+FİŞ NO
+: 0047
+HIRDAVAT
+20 *375,00
+TOPKDV
+*62,50
+TOPLAM
+*375,00
+KREDİ
+*375,00 =
+QNB FINANSBANK TUTTIL
+* * * * * * * * * 7 841
+SİCİL NO
+EKÜ NO:0002
+Z NO 3365
+İŞYERİ NO 13440000007641
+TERMİNAL P2046366
+REF HO UB05750025 SIRA NO @025
+LIDCIN IDE280 367
+SAAT : 13 :50
+6658 4628 8369 7841
+SATIŞ
+TOPLAM 375, 00 TL
+KARŞILIĞI MAL HİZMET ALDIM
+AID : A000000041010
+DENTZBANK
+ONAY KODU 164412
+* * * TEMASSIZ ***
+BU BELGEYİ SAKLAYINIZ
+QNB
+FINANSBANK
+KARTI SAHIBINE AITIR
+EKU NO:0002
+Z NO:3365
+MF JI 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 171.jpeg ✓
+date: 26/08/2024 ✓
+time: 13:50 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 375.00 ✓
+vat: 62.50 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 172.jpeg
+----------------------------------------
+
+Processed Text Output:
+GUNGOR TİCARET
+ALDIM GÜNGOR
+AŞKAABAT CAD. (7.CD.)
+NO 19/A BAHÇELIEVLER
+ANKARA TEL: 213 72 65
+MALTEPE V.D 16090025496
+26/08/2024
+TARİH
+11:43:29
+SAAT
+: 0025
+FIŞ NO
+*75,00
+%20
+HIRDAVAT
+R EN 12 × 12,50
+TOPKDV
+0000 *75,00
+TOPLAM
+*75.00
+KREDİ
+QNB FINANSBANK
+* *
+T. SICIL NO
+Z NO 3365
+EKÜ NO 0002
+ISVERI NO 134400000007641
+TERMİNAL P2046366
+REF NO WB05750015 SIRA NO 0015
+LIDC IN IDE280 367 07 - 11 - SRAT: 11:43
+**** **** **** 7841
+SATIŞ
+TOPLAM 75, 00 TL
+KARŞILIĞI MAL HİZMET ALDIM
+DENİZBANK
+AID : A0000000041010
+ONAY KODU 732296
+** * TEMASSIZ ***
+BU BELGEYİ SAKLAYINIZ
+EZONB
+FINANSBANK
+KARTI SAHIBINE AITTIR
+EKÜ NO 0002 Z NO 3365
+MF JI 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 172.jpeg ✓
+date: 26/08/2024 ✓
+time: 11:43 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 75.00 ✓
+vat: 12.50 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+Testing SuryaOCR on: 173.jpeg
+----------------------------------------
+
+Processed Text Output:
+SİN - PA
+İNŞAAT TİC. YAPI MAL
+SINAN ZAF
+KAZIM KARABEKIR CAD
+OGUNHAN NO 40/17 ANK.
+TEL: 0312 312 28 21
+K. BEY. VD 17444835860
+28-08-2024 FİŞ NO 1
+SAAT 09:26
+VİTRİFYE %20 *550,00
+KDV
+*91,67
+TOP
+*550,00
+K. KARTI
+*550,00
+MRS. N: 2264564493354984
+ERI HO:0004565077 TERMINAL:03360123
+09:26 SATIŞ
+(E)
+**** **** **** 7841
+ERTUGRUL AKTAS
+AID: A00000000041019
+MASTERCARD
+TUTAR 550.00 TL
+KARŞILIĞI MAL VEYA HİZMET ALINDI
+LÜTFEN BU BELGEYİ SAKLAYINIZ
+ONAY KODU 833542 YIĞIN 0035 SIRA NO 0001
+İŞLEM KODU:2408 280926 833542
+AKBANK
+KARTI SAHIBINE AITTIR
+EKU NO 1 Z NO 2917
+^F AS0000270208
+----------------------------------------
+
+Extracted Fields:
+filename: 173.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:26 ✓
+tax_office_name: K.BEY ✓
+tax_office_number: 17444835860 ✓
+total_cost: 550.00 ✓
+vat: 91.67 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 17444835860 -> K.BEY
+================================================================================
+
+Testing SuryaOCR on: 174.jpeg
+----------------------------------------
+
+Processed Text Output:
+UTKU TİCARET
+VAPI MALZEMELERI
+ÖDEME VILDIRIM
+BASINEVLERİ BASIN C. N: 76/E
+KEÇİ ÖREN/ ANKARA
+TEL: 352 55 50
+DI SKAPI VD 13649996030
+22-08-2024
+FİŞ NO 6
+SAAT 19: 48
+HIFDAVAT
+%20
+* 190, 00
+TOPKDV
+*31,67
+TOPLAM
+*190,00
+NAKİT İT
+* 190, 00
+EKÜ NO 1
+AS 0001007074
+----------------------------------------
+
+Extracted Fields:
+filename: 174.jpeg ✓
+date: 22/08/2024 ✓
+time: 19:48 ✓
+tax_office_name: DIŞKAPI ✓
+tax_office_number: 13649996030 ✓
+total_cost: 190.00 ✓
+vat: 31.67 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 13649996030 -> DIŞKAPI
+================================================================================
+
+Testing SuryaOCR on: 175.jpeg
+----------------------------------------
+
+Processed Text Output:
+ODIMSAN ORTADOĞU
+INŞ MAL SAN.VE TIC.LTD.
+SII.
+RÜZGARLI AGAHEFENDI SK.
+NO 17 C ALINDI ANKARA
+6340007853
+KIZILBEY VER.DAI.
+TARİH : 22/08/2024
+: 16:47:32
+SAAT
+FİŞ NO : 0004
+BİLGİ FİŞ
+TÜR: E-ARŞIV FATURA
+MÜŞTERİ VKN/TCKN: 11111111111
+INS MAI ZEMEI FRI | %20 *6.732,28
+TOPKDV
+*1.122,05
+TOPLAM
+*6.732,28
+KREDİ
+* 6.732,28
+ZIRAATBANK
+* *
+MERSİS : 0634000785300017
+OKRI - TISTILS -
+** HALI DEGERI YOKTUR **
+İRSALİYE YERİNE GEÇMEZ
+EKU NO 0001
+Z NO 1514
+İŞYERİ NO 000000001250692 POS NO 01224863
+İŞLEM NO 0005 KP1195
+16:48
+IDE280 - VERGİ 360 - CIDC3M
+SATIŞ
+**** **** 7841
+ERTUGRUL AKTAS
+TUTAR
+6. 732, 28 TL
+AID : A0000000041010
+DENIZBANK
+ONAY KODU : 662485
+TUTAR KARŞILIĞI MAL VEVA HİZMET ALDIM
+BU BELGEYİ SAKLAYINIZ
+ODIMSAN ORTADOGU INSMALZ SAN U
+TİCARET SICIL NO 3426
+HACI BAVRAM MAH. AGAH EFENDI CD. NO 17 06050
+ALINDI 06050 ANKARA
+SAAT BANKASI
+KARTI HAMILI NÜSHASI
+HATALI İSLEMLER
+1)ZIRAATBANK
+MID: 000000001250092 TID: 01224863
+BATCH: 1195
+STAN: 000005
+************7841
+----------------------------------------
+
+Extracted Fields:
+filename: 175.jpeg ✓
+date: 22/08/2024 ✓
+time: 16:47 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 6340007853 ✓
+total_cost: 6732.28 ✓
+vat: 1122.05 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 6340007853 -> KIZILBEY
+================================================================================
+
+Testing SuryaOCR on: 176.jpeg
+----------------------------------------
+
+Processed Text Output:
+OZLEM YAPI MARKET
+TUNCAY ALTUNOGLU
+EMRAH MH. BASIN CD. NO 159/A
+KECIOREN/ANKARA
+DISKAPI VD:7103 200 7640
+TEŞEKKÜR EDERİZ
+TARİH
+: 25/08/2024
+: 17:02
+SAAT
+FIŞ NO : 00013
+* 250,00
+SIHHI TESTST %20
+*41,67
+TOPKDV
+*250,00
+TOPLAM
+*250,00
+BANKA/KREDI KARTI
+T.C.ZİRAAT BANKASI A.Ş.
+SAAT 17:02
+TARIH:25.08.2024
+P05:01783561
+İŞYERİ 00000000000000073939
+R PRI
+BATCH NO 000504
+STAN: 005847
+İŞLEM NO 066810
+SN: 5A0021059981 PYG/630 - PYG/630
+VER:3.2.1
+SAILS
+5200 4444 **** 7841
+MASTERCARD/KREDI/YURT İCI
+TOPLAM 250,00 TL
+ONAY KOCU: 589918
+RRN: 423817370631
+ANKARA REFERANS: 5899423817370631
+DENİ ZBANK
+AID: A0000000041010 AC: 1E7D00A642C185AE
+İŞLEM TEMASSIZ YAPILMISTIR
+ACQUIRER ID: 0010
+TUTAR KARŞILIĞI MAL VEYA HİZMET ALDIM
+MUSTERI NÜSHASI
+BU BELGEYİ SAKLAYINIZ
+ZIRAAT BANKASI
+Z NO:00501 EKU NO:0001
+MF 5A0021059981
+----------------------------------------
+
+Extracted Fields:
+filename: 176.jpeg ✓
+date: 25/08/2024 ✓
+time: 17:02 ✓
+tax_office_name: DIŞKAPI ✓
+tax_office_number: 71032007640 ✓
+total_cost: 250.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 71032007640 -> DIŞKAPI
+================================================================================
+
+Testing SuryaOCR on: 177.jpeg
+----------------------------------------
+
+Processed Text Output:
+M. ALDIM : BAHÇELIEVLER 7CAD / M. KODU 9223
+A101 YENI MAGAZACILIK A.Ş.
+KARTI BAHÇELIEVLER MH.
+69. SK. (17. SK.)
+USKUDAR V.D /9480423762
+TARİH : 22.08.2024
+SAAT : 11:57
+FİŞ NO : 0103
+BİLGİ FİŞ
+TUTAR : E-ARSIV FATURA MÜŞTERİ TOLLAR : 1111111111
+BELGEYİ NO 92230012208401480104
+ETTN NO:46EEF884-50CA-4E5D-8BF2-967AFD289657
+6 X 6,50 L R
+SU 1.5 LT
+%01
+¥39,00
+YUMURTA 15Lİ L
+%01
+¥57,50
+ALIŞVERİŞ POŞETİ
+%20
+¥0,25
+TOPKDV
+*1,00
+TOPLAM
+¥96,75
+KREDİ KARTI
+*96,75
+YAPIKREDI PEŞI. (1)
+PROVİZYON NO : 888411
+PUAN: 0,00
+GARANTI BANKASI
+I : 9854332 T : 01975995 52001900 *** 7841
+22.08.2024 11:56 B:521529 S:75373
+RRN/REF. NO:423547275517 REF NO
+
+92230012208401480104
+FATURAADRES HTTPS://FATURA.A101.COM.TR
+MERSİS NO 0948042376200016
+TESCILLI İNTERNET ADRESI: WWW.A101.COM.TR
+İRSALİYE YERİNE GEÇER
+<< İMZA >>
+KASİYER G*** Z****
+Z NO 1126
+EKÜ NO 0001
+MF YAB 15011065
+----------------------------------------
+
+Extracted Fields:
+filename: 177.jpeg ✓
+date: 22/08/2024 ✓
+time: 11:57 ✓
+tax_office_name: ÜSKÜDAR ✓
+tax_office_number: 9480423762 ✓
+total_cost: N/A ✗
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 9480423762 -> ÜSKÜDAR
+================================================================================
+
+Testing SuryaOCR on: 178.jpeg
+----------------------------------------
+
+Processed Text Output:
+SBAUHAUS
+DAHA IYISI ICIN ...
+BAUHAUS
+INS. MAL VE EV GER. LTD. STI.
+CEPA ALISVERIS MERKEZİ . ESKISEHIR YOLU 7.KM
+SOGULOZO -- ANKARA
+BUYUKMUKELLEFER V.D 150 005 36 92
+TEL: 0312 295 6800
+05/09/2024
+FİŞ NO 000010
+SAAT 10:23
+8698216104876
+NITRIL ELDIVEN NO10 %10
+*35,00
+8698216105002
+NITRIL ELDIVEN NO10 %10
+*50.00
+8691710321213
+30X40X40 MM, KOSEBENT %20
+*40.00
+8691710321213
+30X40X40 MM, KOSEBENT %20
+*40.00
+3165140078481
+PKP 18 E TUTAR TABA %20
+*970.00
+2021778122006
+SÜNGER - HYDRO -
+%20
+* 95.00
+ARA TOPLAM
+*1.230,00
+TOPKDV
+*198.56
+TOPLAM
+×1.230.00
+KREDİ KARTI
+*1.230.00
+İADE VE DEĞIŞIMLERDE FIŞ, KREDİ KARTI VE
+SLIP IBRAZI ZORUNLUDUR
+İYI GÜNLER, YINE BEKLERIZ.
+BAUHAUS DAHA İYISI İÇIN ...
+MERKEZİ İÇERENKOY MAH. ÇAYIR CAD.
+NO 1A D 142 34752 ATAŞEHİR/İSTANBUL
+TIC.SICIL NO:16323 WWW.BAUHAUS.COM.TR
+POS: 096, 3110-FATMA ARGUN
+D.NO: 109386
+İŞYERİ NO 2606477806
+TERMİNAL NO 0024748D
+MÜŞTERİ NÜSHASI - SATIŞ
+M ON NA
+**** **** **** 2657
+TUTAR 1,230,00TL
+İŞLEM TEMASSIZ TAMAMLANMIŞTIR
+KARŞILIĞI MAL/HIZM ALDIM
+BU İŞLEMDE KAZANDIĞINIZ
+WORLDPUAN: 6,15TL
+KULLANILABİLİR WORLDPUAN
+TOPLAM 91,90TL
+TOPLAM KULLANILABİLİR PUAN
+TOPLAM 91,90TL
+SN: 005 ONAY KODU 244616
+REF : 0367244616
+GRUP NO 027
+AID: A0000000041010 L
+VERGİ : 92.31.01
+MASTERCARD
+İŞLEM YURTIÇI KARTI ILE
+GERÇEKLEŞTIRILMIŞTIR.
+BU BELGEYİ SAKLAYINIZ
+Z NO:002212
+EKU NO 000
+NF 3E 17494239
+----------------------------------------
+
+Extracted Fields:
+filename: 178.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: 2606477806 ✓
+total_cost: 1230.00 ✓
+vat: 198.56 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 2606477806 -> BUYUK MUKELLEFLER
+================================================================================
+
+Testing SuryaOCR on: 179.jpeg
+----------------------------------------
+
+Processed Text Output:
+VIZYON İNŞAAT YAPI MAL
+FATTH DOGANOGLU
+DOGANBEY MAH. FUAT BOREKÇI CAD.
+NO 3/51-D ALTINDAG/ANKARA
+TEL 0312 309 60 01
+KIZILBEY VD 33746213908
+TEŞEKKÜR EDERİZ
+28-08-2024
+FIRO FIŞ NO 1
+SAAT 09: 13
+BOYA
+720
+* 850, 00
+TOPKDV OLUN - TUML +141,67
+TOPLAM
+*850,00
+KREDİ KARTI
+*850 00
+İŞYERİ NO 006400000132916 POS NO PS837073
+İŞLEM NO JP0001 BATCH NO:2521
+09:13
+300TR - VERGİ : 347 - L1DC1M
+841 **** **** 7841
+SATIŞ
+850,00 TL
+REF NO 424109302024
+AID : A000000041010 (DENİZBANK)
+TC : 08B4E556B117851D
+ONAY KODU 676152
+TUTAR KARŞILIĞI MAL VEYA HIZMELI ALDIM
+BO BELGEYİ SAKLAYINIZ (HOSTERI HOSHAST)
+BU İSLEN TEMASSIZ OLARAK GERÇEKLEŞT IRILMIŞTIR
+VAKIT BANK
+444 0 724 / WWW.VAKIFBANK.COM.TR
+EKU NO 1
+Z NO
+MF AT 0000277306
+1. 306
+----------------------------------------
+
+Extracted Fields:
+filename: 179.jpeg ✓
+date: 28/08/2024 ✓
+time: 09:13 ✓
+tax_office_name: KIZILBEY ✓
+tax_office_number: 33746213908 ✓
+total_cost: 850.00 ✓
+vat: 141.67 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 33746213908 -> KIZILBEY
+================================================================================
+
+Testing SuryaOCR on: 180.jpeg
+----------------------------------------
+
+Processed Text Output:
+JI 20066309
+GUNGOR TİCARET
+ALİ GÜNCÜR
+AŞKAABAT CAD (7.CD.)
+NO 19/A BAHÇELIEVLER
+ANKARA TEL: 213 72 65
+MALTEPE V.D 16090025496
+TARİH
+: 21/09/2024
+SAAT
+: 15:36:56
+RIS NO
+: 0073
+HIRDAVAT
+%20
+*45,00
+TOPKDV
+*7,50 -
+TOPLAM
+*45,00
+NAKİT
+*45,00
+T. SİCİL NO
+EKÜ NO 0002 - 100
+Z NO:3395
+MF JI 20066309
+----------------------------------------
+
+Extracted Fields:
+filename: 180.jpeg ✓
+date: 21/09/2024 ✓
+time: 15:36 ✓
+tax_office_name: MALTEPE ✓
+tax_office_number: 16090025496 ✓
+total_cost: 45.00 ✓
+vat: 7.50 ✓
+payment_method: NAKIT ✓
+----------------------------------------
+
+----------------------------------------
+
+Tax Office Mapping:
+Mapped: 16090025496 -> MALTEPE
+================================================================================
+
+FINAL STATISTICS:
+Total images processed: 180
+OCR Success Rate: 100.00%
+OCR Failed: 0 of 180 attempts
+Total fields processed: 1440
+Successful extractions: 1245
+Failed extractions (N/A): 195
+Success rate: 86.46%
+Total execution time: 12484.66 seconds
+CPU Usage: 41.30%
+Memory Usage: 2309.12 MB
+================================================================================
+
