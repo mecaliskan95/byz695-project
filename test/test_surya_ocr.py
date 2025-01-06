@@ -198,7 +198,7 @@ def main():
         log_output(f"Total fields processed: {stats['total_fields']}", f)
         log_output(f"Successful extractions: {stats['successful_extractions']}", f)
         log_output(f"Failed extractions (N/A): {stats['failed_extractions']}", f)
-        log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100)::.2f}%", f)
+        log_output(f"Success rate: {(stats['successful_extractions']/stats['total_fields']*100):.2f}%", f)
         
         elapsed_time = time.time() - start_time
         final_memory = process.memory_info().rss / 1024 / 1024
