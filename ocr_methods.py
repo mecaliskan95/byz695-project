@@ -137,7 +137,7 @@ class OCRMethods:
                 return None
 
             if _paddle_ocr is None:
-                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)
+                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='latin', use_gpu=False, show_log=False)
                 
             if hasattr(image, 'shape'):
                 height = image.shape[0]
@@ -200,3 +200,18 @@ class OCRMethods:
         except Exception as e:
             print(f"SuryaOCR error: {e}")
             return None
+        
+    # @staticmethod
+    # def extract_with_llamaocr(image_path):
+    #     try:
+    #         current_dir = os.path.dirname(os.path.abspath(__file__))
+    #         result = subprocess.run(
+    #             ['node', 'app.js', image_path],
+    #             capture_output=True,
+    #             text=True,
+    #             encoding='utf-8',
+    #             cwd=current_dir
+    #         )
+    #         return result.stdout.strip().upper() if result.returncode == 0 else None
+    #     except:
+    #         return None
