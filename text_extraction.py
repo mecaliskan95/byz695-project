@@ -191,8 +191,8 @@ class TextExtractor:
             except (ValueError, TypeError):
                 return "N/A", "N/A"
 
-    @staticmethod
-    def extract_all(texts, filenames=None):
+    @classmethod
+    def extract_all(cls, texts, filenames=None):
         # Initialize tax office mapping at start
         TextExtractor.initialize_tax_office_mapping()
 
@@ -209,15 +209,16 @@ class TextExtractor:
             
             def try_extraction(extraction_method, field_name):
                 nonlocal text1, text2, text3, text4
-                
+                result = "N/A"  # Initialize with N/A instead of None
+
                 if text1:
                     if field_name in ["total_cost", "vat"]:
-                        total = TextExtractor.extract_total_cost(text1)
-                        vat = TextExtractor.extract_vat(text1)
+                        total = TextExtractor.extract_total_cost(text1) or "N/A"
+                        vat = TextExtractor.extract_vat(text1) or "N/A"
                         total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
                         return total if field_name == "total_cost" else vat
                     else:
-                        result = extraction_method(text1)
+                        result = extraction_method(text1) or "N/A"
                         if result != "N/A":
                             return result
 
@@ -225,19 +226,31 @@ class TextExtractor:
                     text2 = OCRMethods.extract_with_pytesseract(image_path)
                     if text2:
                         text2 = TextExtractor.correct_text(text2)
-                        result = extraction_method(text2)
-                        if result != "N/A":
-                            return result
+                        if field_name in ["total_cost", "vat"]:
+                            total = TextExtractor.extract_total_cost(text2) or "N/A"
+                            vat = TextExtractor.extract_vat(text2) or "N/A"
+                            total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
+                            return total if field_name == "total_cost" else vat
+                        else:
+                            result = extraction_method(text2) or "N/A"
+                            if result != "N/A":
+                                return result
 
                 if text3 is None:
                     text3 = OCRMethods.extract_with_easyocr(image_path)
                     if text3:
                         text3 = TextExtractor.correct_text(text3)
-                        result = extraction_method(text3)
-                        if result != "N/A":
-                            return result
+                        if field_name in ["total_cost", "vat"]:
+                            total = TextExtractor.extract_total_cost(text3) or "N/A"
+                            vat = TextExtractor.extract_vat(text3) or "N/A"
+                            total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
+                            return total if field_name == "total_cost" else vat
+                        else:
+                            result = extraction_method(text3) or "N/A"
+                            if result != "N/A":
+                                return result
 
-                return "N/A"
+                return "N/A"  # Ensure we always return "N/A" if no match is found
 
             results.append({
                 "filename": filename,
