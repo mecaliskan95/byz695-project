@@ -263,8 +263,7 @@ class TextExtractor:
                             result = extraction_method(text4) or "N/A"
                             if result != "N/A":
                                 return result
-                            
-                return "N/A"
+                return "N/A " 
 
             results.append({
                 "filename": filename,
