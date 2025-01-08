@@ -89,7 +89,7 @@ class OCRMethods:
                 return None
                 
             if _easyocr_reader is None:
-                _easyocr_reader = easyocr.Reader(['en', 'tr'], gpu=False)
+                _easyocr_reader = easyocr.Reader(['tr'], gpu=False)
             
             results = _easyocr_reader.readtext(image)
             if not results:
@@ -137,7 +137,7 @@ class OCRMethods:
                 return None
 
             if _paddle_ocr is None:
-                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='latin', use_gpu=False, show_log=False)
+                _paddle_ocr = PaddleOCR(use_angle_cls=True, lang='en', use_gpu=False, show_log=False)
                 
             if hasattr(image, 'shape'):
                 height = image.shape[0]
