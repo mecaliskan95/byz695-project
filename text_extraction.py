@@ -250,19 +250,19 @@ class TextExtractor:
                             if result != "N/A":
                                 return result
 
-                if text4 is None:
-                    text4 = OCRMethods.extract_with_suryaocr(image_path)
-                    if text4:
-                        text4 = TextExtractor.correct_text(text4)
-                        if field_name in ["total_cost", "vat"]:
-                            total = TextExtractor.extract_total_cost(text4) or "N/A"
-                            vat = TextExtractor.extract_vat(text4) or "N/A"
-                            total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
-                            return total if field_name == "total_cost" else vat
-                        else:
-                            result = extraction_method(text4) or "N/A"
-                            if result != "N/A":
-                                return result
+                # if text4 is None:
+                #    text4 = OCRMethods.extract_with_suryaocr(image_path)
+                #    if text4:
+                #        text4 = TextExtractor.correct_text(text4)
+                #        if field_name in ["total_cost", "vat"]:
+                #            total = TextExtractor.extract_total_cost(text4) or "N/A"
+                #            vat = TextExtractor.extract_vat(text4) or "N/A"
+                #            total, vat = TextExtractor.validate_total_cost_and_vat(total, vat)
+                #            return total if field_name == "total_cost" else vat
+                #        else:
+                #            result = extraction_method(text4) or "N/A"
+                #            if result != "N/A":
+                #                return result
                 return "N/A " 
 
             results.append({

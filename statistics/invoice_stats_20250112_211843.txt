@@ -1,0 +1,27 @@
+================================================================================
+
+FINAL STATISTICS:
+Total images processed: 179
+Total fields attempted: 1253
+Successful extractions: 1194
+Failed extractions (N/A): 59
+Overall success rate: 95.29%
+Total execution time: 1657.90 seconds
+Average CPU Usage: 17.15%
+Peak CPU Usage: 21.30%
+Average Memory Usage: 3127.25 MB
+Peak Memory Usage: 5666.24 MB
+
+================================================================================
+
+FIELD-LEVEL ACCURACY:
+--------------------------------------------------
+date: 100.00% (179/179)
+time: 100.00% (179/179)
+tax_office_name: 100.00% (179/179)
+tax_office_number: 100.00% (179/179)
+total_cost: 93.85% (168/179)
+vat: 73.18% (131/179)
+payment_method: 100.00% (179/179)
+
+================================================================================
