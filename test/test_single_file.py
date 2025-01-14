@@ -135,8 +135,8 @@ def test_single_file(filename):
     ocr_methods = {
         'PaddleOCR': OCRMethods.extract_with_paddleocr,
         'EasyOCR': OCRMethods.extract_with_easyocr,
-        'Tesseract': OCRMethods.extract_with_pytesseract
-        # 'SuryaOCR': OCRMethods.extract_with_suryaocr
+        'Tesseract': OCRMethods.extract_with_pytesseract,
+        'SuryaOCR': OCRMethods.extract_with_suryaocr
     }
     
     with open(log_file, 'w', encoding='utf-8') as f:

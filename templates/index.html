@@ -476,7 +476,7 @@
                         Upload Folder
                     </button>
                 </div>
-                <div class="file-info" data-lang-key="fileInfo">Supports JPG, PNG, PDF and ZIP files</div>
+                <div class="file-info" data-lang-key="fileInfo">Supports 'JPG', 'JPEG', 'PNG', 'TIFF', 'BMP' and 'JFIF' files</div>
                 <div class="processing-overlay" id="processingOverlay">
                     <div class="spinner"></div>
                     <p class="processing-text" data-lang-key="processingText">Processing your invoice...</p>
@@ -567,7 +567,7 @@
                 taxOfficeNumber: "Tax Office Number",
                 item: "Item",
                 cost: "Cost",
-                fileInfo: "Supports JPG, JPEG, PNG & TIFF files",
+                fileInfo: "Supports JPG, JPEG, PNG, TIFF, BMP & JFIF files",
                 showRawText: "Show/Hide Raw Text",
                 paymentMethods: "Payment Methods",
                 uploadFileButton: "Upload File(s)",
@@ -594,7 +594,7 @@
                 taxOfficeNumber: "Vergi Dairesi Numarası",
                 item: "Ürün",
                 cost: "Tutar",
-                fileInfo: "JPG, JPEG, PNG & TIFF dosyalarını destekler",
+                fileInfo: "JPG, JPEG, PNG, TIFF, BMP & JFIF dosyalarını destekler",
                 showRawText: "Ham Metin Göster/Gizle",
                 paymentMethods: "Ödeme Yöntemi",
                 uploadFileButton: "Dosya(lar) Yükle",
@@ -610,7 +610,7 @@
         };
 
         const config = {
-            validFileTypes: ['image/jpeg', 'image/png', 'application/pdf']
+            validFileTypes: ['image/jpeg', 'image/png', 'image/tiff', 'image/bmp', 'image/jfif']
         };
 
         let currentLang = localStorage.getItem('preferredLanguage') || 'en';
