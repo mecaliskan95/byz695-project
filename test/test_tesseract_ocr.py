@@ -88,10 +88,12 @@ def test_tesseract_ocr(image_path, stats, log_file):
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        stats['total_fields'] += 1
-        success = value != "N/A"
-        stats['successful_extractions' if success else 'failed_extractions'] += 1
-        log_output(f"{field_name}: {value} {'✓' if success else '✗'}", log_file)
+        # Only count non-filename fields
+        if field_name != "filename":  # This check was missing
+            stats['total_fields'] += 1
+            success = value != "N/A"
+            stats['successful_extractions' if success else 'failed_extractions'] += 1
+        log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
     log_output("", log_file, "-")
 
     # After fields extraction, update mapping

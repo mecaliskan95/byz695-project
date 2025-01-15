@@ -23,12 +23,12 @@ class TextExtractor:
             r'(\d{2})\s*/\s*(\d{2})\s*/\s*(\d{4})',
         ],
         'time': [
-            r"SAAT\s*[:.]?\s*(\d{2})[:.](\d{2})", # Add this as first pattern
+            r"SAAT\s*[:.]?\s*(\d{2})[:.](\d{2})",
             r"(?:^|[^\d])(\d{2}):(\d{2})(?::\d{2})?(?:$|[^\d])",
             r"(?:^|[^\d])(\d{2})\.(\d{2})(?:\.\d{2})?(?:$|[^\d])",
         ],
         'tax_office_name': [
-            r"VERGİ\s*DAİRESİ\s*:\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\b",  # New pattern
+            r"VERGİ\s*DAİRESİ\s*:\s*([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\b",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+)\s*VERGİ\s*DAİRESİ\s*VKN\s*\d+",
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\$\s]+?)(?:V\.D\.?|VD\.?|V\.D|VERGİ\s*DAİRESİ)", 
             r"([A-ZÇĞİÖŞÜa-zçğıöşü\s]+?)\s*V[\.\s]?D[\.\s]?", 
@@ -165,21 +165,17 @@ class TextExtractor:
             
             cost_value = float(total_cost)
             
-            # If VAT is N/A or invalid, still return the total cost
             if vat == "N/A":
                 return total_cost, "N/A"
                 
             vat_value = float(vat)
             
-            # Check if VAT is larger than total cost
             if vat_value >= cost_value:
                 return total_cost, "N/A"
                 
-            # Calculate and validate VAT percentage
             vat_percentage = (vat_value / cost_value) * 100
 
-            # Add check for VAT not exceeding 20% (+2% margin)
-            if vat_percentage > 22:  # 20% + 2% margin
+            if vat_percentage > 22:
                 return total_cost, "N/A"
                 
             return total_cost, vat
@@ -312,16 +308,13 @@ class TextExtractor:
 
     @staticmethod
     def extract_tax_office_name(text):
-        # Initialize mapping if not already done
         if not TextExtractor._tax_office_mapping:
             TextExtractor.initialize_tax_office_mapping()
 
-        # First try to find tax number and use mapping
         tax_number = TextExtractor.extract_tax_office_number(text)
         if tax_number != "N/A" and tax_number in TextExtractor._tax_office_mapping:
             return TextExtractor._tax_office_mapping[tax_number]
 
-        # If no mapping found, use existing extraction logic
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines() if office.strip()}
         
@@ -515,7 +508,6 @@ class TextExtractor:
                 except (IndexError, ValueError, AttributeError):
                     continue
 
-        # Try TOPKDV specific patterns
         for line in text.split('\n'):
             if 'TOPKDV' in line:
                 if match := re.search(r'\*?(\d+)\b', line):
@@ -535,7 +527,6 @@ class TextExtractor:
                     if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number.startswith('0216') or number.startswith('216') or number == '11111111111'):
                         return number
         
-        # Last resort - look for any 10-11 digit number
         lines = text.split('\n')
         for line in lines:
             numbers = re.findall(r'\b\d{10,11}\b', line)

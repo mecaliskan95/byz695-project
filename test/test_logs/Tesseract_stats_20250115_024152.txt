@@ -3263,7 +3263,7 @@ EMU SATIŞ TUTAR
 BU İŞLEM TEMASSIZ BİR KARTI İŞLEM
 GERÇEKLEŞTİRİLMİŞTİR.
 ONAY HUMARAST :497860 REF .NO:430950336487
-MC ORANI
+MC KARTI
 ŞGARANTI BBVA
 MERSİS HO: 0879 0017 5660 0379
 YUM. GARANTIRBUA CON. TR
@@ -6200,7 +6200,7 @@ Extracted Fields:
 filename: 128.jpeg ✓
 date: 14/10/2024 ✓
 time: 14:16 ✓
-tax_office_name: N/A ✗
+tax_office_name: DOGANBEY ✓
 tax_office_number: 0000235893 ✓
 total_cost: 600.00 ✓
 vat: N/A ✗
@@ -6379,7 +6379,7 @@ TOPKDV 45,45
 TOPLAM *500,00 AA
 KREDİ +500, 00
 GARANTİ BBVA
-APSR EER SATIŞ OAA
+APSR EER KARTI OAA
 SİCİL NO .
 EKÜ NO 0001 Z N0:0341
 I: 2264199 T: 03768482
@@ -8692,21 +8692,21 @@ payment_method: N/A ✗
 
 FINAL STATISTICS:
 Total images processed: 180
-Total fields attempted: 1440
-Successful extractions: 1119
-Failed extractions (N/A): 321
-Overall success rate: 77.71%
-Total execution time: 289.61 seconds
-Average CPU Usage: 5.03%
-Peak CPU Usage: 23.20%
-Average Memory Usage: 560.80 MB
-Peak Memory Usage: 563.71 MB
+Total fields attempted: 1260
+Successful extractions: 940
+Failed extractions (N/A): 320
+Overall success rate: 74.60%
+Total execution time: 322.28 seconds
+Average CPU Usage: 7.90%
+Peak CPU Usage: 100.00%
+Average Memory Usage: 564.49 MB
+Peak Memory Usage: 566.82 MB
 ================================================================================
 
 FIELD-LEVEL ACCURACY:
 date: 82.22% (148/180)
 time: 82.22% (148/180)
-tax_office_name: 76.11% (137/180)
+tax_office_name: 76.67% (138/180)
 tax_office_number: 82.22% (148/180)
 total_cost: 67.22% (121/180)
 vat: 44.44% (80/180)

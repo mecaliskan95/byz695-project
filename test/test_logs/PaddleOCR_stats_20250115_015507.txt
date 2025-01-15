@@ -3893,7 +3893,7 @@ Extracted Fields:
 filename: 80.jpg ✓
 date: N/A ✗
 time: 08:10 ✓
-tax_office_name: N/A ✗
+tax_office_name: N/A  ✓
 tax_office_number: 02623353632 ✓
 total_cost: 166.57 ✓
 vat: 13.33 ✓
@@ -5162,7 +5162,7 @@ Extracted Fields:
 filename: 107.png ✓
 date: N/A ✗
 time: 14:43 ✓
-tax_office_name: N/A ✗
+tax_office_name: N/A  ✓
 tax_office_number: 37024475866 ✓
 total_cost: 62.00 ✓
 vat: 0.61 ✓
@@ -8817,20 +8817,20 @@ payment_method: NAKIT ✓
 FINAL STATISTICS:
 Total images processed: 180
 Total fields attempted: 1260
-Successful extractions: 1161
-Failed extractions (N/A): 99
-Overall success rate: 92.14%
-Total execution time: 557.50 seconds
-Average CPU Usage: 50.26%
+Successful extractions: 1163
+Failed extractions (N/A): 97
+Overall success rate: 92.30%
+Total execution time: 650.69 seconds
+Average CPU Usage: 51.42%
 Peak CPU Usage: 100.00%
-Average Memory Usage: 5272.97 MB
-Peak Memory Usage: 7154.93 MB
+Average Memory Usage: 5154.21 MB
+Peak Memory Usage: 6676.72 MB
 ================================================================================
 
 FIELD-LEVEL ACCURACY:
 date: 96.67% (174/180)
 time: 99.44% (179/180)
-tax_office_name: 92.78% (167/180)
+tax_office_name: 93.89% (169/180)
 tax_office_number: 92.78% (167/180)
 total_cost: 93.89% (169/180)
 vat: 73.33% (132/180)
