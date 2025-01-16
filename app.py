@@ -80,12 +80,10 @@ def save_statistics(stats, results, elapsed_time):
         f.write(f"Peak Memory Usage: {stats['peak_memory_usage']:.2f} MB\n")
         f.write("\n" + "=" * 80 + "\n")
         
-        # Add field-level statistics
         f.write("\nFIELD-LEVEL ACCURACY:\n")
         f.write("-" * 50 + "\n")
         field_stats = {}
         
-        # Calculate field-level statistics
         for result in results:
             for field in ['date', 'time', 'tax_office_name', 'tax_office_number', 
                          'total_cost', 'vat', 'payment_method']:
@@ -95,7 +93,6 @@ def save_statistics(stats, results, elapsed_time):
                 if result.get(field) != 'N/A':
                     field_stats[field]['success'] += 1
         
-        # Write field-level accuracy
         for field, stats in field_stats.items():
             accuracy = (stats['success'] / stats['total'] * 100) if stats['total'] > 0 else 0
             f.write(f"{field}: {accuracy:.2f}% ({stats['success']}/{stats['total']})\n")
@@ -109,7 +106,7 @@ def process_files(files):
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
-    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    initial_memory = process.memory_info().rss / 1024 / 1024
     
     temp_dir = tempfile.mkdtemp()
     try:
@@ -125,12 +122,11 @@ def process_files(files):
         if not files_info['paths']:
             return None
             
-        update_resources()  # Before OCR processing
+        update_resources() 
         results = TextExtractor.extract_all(files_info['paths'], files_info['names'])
-        update_resources()  # After OCR processing
+        update_resources()
         
-        # Calculate statistics
-        total_fields = len(results) * 7  # 7 fields per result
+        total_fields = len(results) * 7 
         successful_extractions = sum(1 for result in results for field in 
             ['date', 'time', 'tax_office_name', 'tax_office_number', 'total_cost', 'vat', 'payment_method']
             if result.get(field) != 'N/A')
@@ -157,10 +153,8 @@ def process_files(files):
             'peak_memory_usage': round(resource_stats['memory_max'], 2)
         }
         
-        # Save results and stats
         csv_path, stats_path = save_statistics(stats, results, elapsed_time)
         
-        # Add paths and stats to results
         results.append({
             'statistics': stats,
             'csv_path': str(csv_path),
@@ -187,7 +181,6 @@ def index():
             if not results:
                 return render_template("index.html", error="No valid results were extracted")
             
-            # Extract statistics from results
             stats = next((item for item in results if 'statistics' in item), None)
             if stats:
                 results.remove(stats)  # Remove stats from results list

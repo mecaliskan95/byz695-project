@@ -3,14 +3,14 @@ import sys
 from datetime import datetime
 import time
 import argparse
-import psutil  # Add this import
-import json  # Add this import
-import csv  # Add this import
+import psutil
+import json
+import csv
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
-from app import track_resources  # Import track_resources from app.py
+from app import track_resources
 
 def log_output(message, file, separator=None):
     if separator:
@@ -71,22 +71,20 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
-    # Add VAT validation
     fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
         fields['total_cost'], fields['vat']
     )
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        if field_name != "filename":  # Don't count filename in statistics
+        if field_name != "filename":
             stats['total_fields'] += 1
             success = value != "N/A"
             stats['successful_extractions' if success else 'failed_extractions'] += 1
         log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
     
-    # Update field-level statistics
     for field_name, value in fields.items():
-        if field_name != "filename":  # Don't count filename in statistics
+        if field_name != "filename": 
             if field_name not in stats['field_stats']:
                 stats['field_stats'][field_name] = {'success': 0, 'total': 0}
             stats['field_stats'][field_name]['total'] += 1
@@ -95,7 +93,6 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
 
     log_output("", log_file, "-")
 
-    # Add performance metrics
     method_end_time = time.time()
     method_end_memory = process.memory_info().rss / 1024 / 1024
     method_cpu_usage = psutil.cpu_percent() - method_start_cpu
@@ -107,16 +104,14 @@ def test_ocr_method(image_path, method_name, ocr_method, stats, log_file):
     return output_text, fields
 
 def test_single_file(filename):
-    # Initialize resource tracking
     update_resources, get_resource_stats = track_resources()
     
-    # Initialize mapping at start
     TextExtractor.initialize_tax_office_mapping()
     
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
-    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    initial_memory = process.memory_info().rss / 1024 / 1024
     
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     image_path = os.path.join(uploads_path, filename)
@@ -163,7 +158,7 @@ def test_single_file(filename):
                     'execution_time': 0,
                     'cpu_usage': 0,
                     'memory_used': 0,
-                    'field_stats': {}  # Add field-level statistics
+                    'field_stats': {}
                 }
                 
                 update_resources()
@@ -186,7 +181,6 @@ def test_single_file(filename):
                     ])
                 all_stats[method_name] = stats
 
-                # Add field-level accuracy reporting
                 log_output(f"\nField-Level Accuracy for {method_name}:", f, "-")
                 for field_name, stats in stats['field_stats'].items():
                     accuracy = (stats['success'] / stats['total'] * 100) if stats['total'] > 0 else 0

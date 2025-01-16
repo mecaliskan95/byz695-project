@@ -1,0 +1,362 @@
+================================================================================
+Test Results for 13.jpeg
+Date: 2025-01-15 21:23:16
+================================================================================
+
+================================================================================
+
+Testing PaddleOCR on: 13.jpeg
+----------------------------------------
+
+Processed Text Output:
+SBAUHAUS
+DAHA IYISI IGIN...
+BAUHAUS
+INS.MAL./VEEVGER.LTD.STI.
+CEPA ALISVERIS MERKEZİ ESKISEHIR YOLU 7.KM
+SOGUTOZO-ANKARA
+BUYUKMUKELLEFERV.D.150 005 3692
+TEL 03122956800
+05/09/2024 SAAT10:23 FIS NO:000010
+8698216104876
+8698216105002 NITRIL ELDIVEN NO10 %10 *35,00
+8691710321213 NITRIL ELDIVEN NO10 %10 *50,00
+8691710321213 30X40X40 MMK0SEBENT %20 X40,00
+3165140078481 30X40X40 MM,K0SEBENT%20 40,00
+2021778122006 PKP 18 E TUTAR TABA %20 970,00
+ARA TOPLAM SUNGER-HYDRO %20 *1.23000 95,00
+TOPKDV TOPLAM *1.230,00 *198,56
+KREDİ KARTI *1.230,00
+IADE VE DEGISIMLERDE FISKREDI KARTI VE
+SLIP IBRAZI ZORUNLUDUR
+IYI GUNLER,YINE BEKLERIZ.
+BAUHAUS DAHA IYISI ICIN.
+MERKEZ:ICERENKOY MAH. CAYIR CAD
+NO1A D 142 34752 ATASEHIR/1STANBUL
+TIC.SICIL NO:16323 WWW.BAUHAUS.COM.TR
+POS:096,3110-FATMA ARGUN
+D.NO:109386
+ISYERI NO TERMİNAL NO 2606477806 0024748D
+MUSTERI NÜSHASI SATIŞ
+M ON NA
+XXXX*X2657
+TUTAR 1.23000TL
+ISLEM TEMASSIZ TAMAMLANMISTIR
+KARŞILIĞI MAL/HIZM ALDIM
+BU İŞLEMDE KAZANDIĞINIZ
+WORLDPUAN:6,15TL
+KULLANILABİLİR WORLDPUAN
+TOPLAM:91,90TL
+TOPLAM KULLANILABİLİR PUAN
+TOPLAM:91,90TL
+SNO05 ONAY KODU:244616
+REF:0367244616
+AID:A0000000041010 GRUP NO:027
+VER:92.31.01 MASTERCARD
+ISLEM YURTICI KARTI ILE
+GERCEKLESTIRILMISTIR.
+Z NO:002212 BU BELGEYİ SAKLAYINIZ
+EKO NO:0OC
+F3E 17494239
+----------------------------------------
+
+Extracted Fields:
+filename: 13.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: BÜYÜK MÜKELLEFLER ✓
+tax_office_number: 1500053692 ✓
+total_cost: 1230.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Field-Level Accuracy for PaddleOCR:
+date: 100.00% (1/1)
+time: 100.00% (1/1)
+tax_office_name: 100.00% (1/1)
+tax_office_number: 100.00% (1/1)
+total_cost: 100.00% (1/1)
+vat: 0.00% (0/1)
+payment_method: 100.00% (1/1)
+================================================================================
+
+Testing EasyOCR on: 13.jpeg
+----------------------------------------
+
+Processed Text Output:
+INS CEPA MAL ISVERIS MAL VEEV GEP LTD ESKISEHIR YOLU 7.KM SATIŞ
+SOGUOZU ANKARA
+BUYUKMÜKELLEFLERV V.D 150 005 36 92
+TEL; 0212 295 6800
+05/09/2024
+SAAT
+8698216104876
+8698216105002 NITPIL E_DIVEN NO1O *85,00
+8691710321212 NITPIL ELDIVEN NO1O 210 *50,00
+2691710321212 *40,0O
+3165140078481 *40,0O
+PKP 18 2021778122006 E TUTAR TABA %20 *970,00
+SÜNGEP APA TOPLAM HYDPO 220 *1.220,00 *95,00
+TOPLAM *1.230,00 *198,56
+KPEDI KARTI *1.230,00
+SLIP IBRAZI ZORUNLUDUR IACE VE DERISIMLERDE FIŞ,KREDI KARTI VE
+IYI GUNLER YINE BEKLERIZ.
+BAUHAUS DANA IYISI MERKEZİ : ICEPENKOY MAH IÇIN CAYIR CAD_
+POS:096,2110-FATMA ARGUN TR
+D.NO: 109386
+ISYERI NO TERMİNAL NO 2606477206 0024742D
+MUSTERI NÜSHASI M ON NA SATIŞ
+2657
+TUTAR 1.230 ,OOTL
+ISLEAPSEMASSIZ TAMAMLANMISTIR
+BU İŞLEMDE KAZANDIĞINIZ
+MOPLDPUAN: 6 ,15TL
+KULLANILABİLİR VOPLDPUAN
+TOPLAM 91,9OTL
+TOPLATOKULLANILABILIR PUAN
+TOPLAM 91,90TL
+SN:0O5
+PEF : 0367244616
+AID GPUP NO 027
+VER:92.21.01 MASTERCARD
+Z NO 002212 BU BELGEYİ GERÇEKLESTIRIIMI ICLEM YURTICI KARTI SAKLAYINIZ STIC ILE
+2E 17494229
+----------------------------------------
+
+Extracted Fields:
+filename: 13.jpeg ✓
+date: 05/09/2024 ✓
+time: N/A ✗
+tax_office_name: BUYUK MÜKELLEFLER ✓
+tax_office_number: N/A ✗
+total_cost: 1230.00 ✓
+vat: N/A ✗
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Field-Level Accuracy for EasyOCR:
+date: 100.00% (1/1)
+time: 0.00% (0/1)
+tax_office_name: 100.00% (1/1)
+tax_office_number: 0.00% (0/1)
+total_cost: 100.00% (1/1)
+vat: 0.00% (0/1)
+payment_method: 100.00% (1/1)
+================================================================================
+
+Testing Tesseract on: 13.jpeg
+----------------------------------------
+
+Processed Text Output:
+A
+: ~ IA IYISI IÇIN...
+<>,
+INS. MAL /VESEVSGER. LTD. STI.
+CEPA ALISVERIS SKISEHIR YOLU 7.KM
+SÖĞULOZO4 ANKARA
+BUYUKMUKELLEPEER.D. 150 005 36 92
+TEK 0812 295 6800
+05/09/2024 FİŞ NO 000010
+SAAT 10:23
+2698216104876
+NİTRİL ELDİVEN NO10 710 *35,00
+8698216105002
+| NITRIL ELDİYEN NOTO 710 *50,00
+8691710321213
+I 3OXD0XD0 MM, KÖŞEBENT 720 *40 ,00
+8691710321213
+30X40X40 MM, KÖŞEBENT 720 X40,00
+3165140078481
+PKP 18 E TUTAR TABA %20 *970,00
+2021778122006
+SÜNGER - HYDRO 420 X95,00
+ARA TOPLAM X1.230,00
+TOPKDV X198,56
+TOPLAM *1.230,00
+KREDİ KARTI *1.230,00
+İADE VE DEĞIŞIMLERDE FIŞ,KREDI KARTI VE
+SLIP IBRAZI ZORUNLUDUR
+İYI GÜNLER, YINE BEKLERIZ.
+BAUHAUS DAHA IYISI IÇIN...
+MERKEZİ : İÇERENKÖY MAH. ÇAYIR CAD.
+NO:1A D 142 34752 ATAŞEHİR/İSTANBUL
+TIC.SICIL NO:16323 WWW. BAUHAUS .COM. TR
+POS:096,3110-FATMA ARGUN
+D.NO: 109386
+----------------------------------------
+
+Extracted Fields:
+filename: 13.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: N/A ✗
+tax_office_number: N/A ✗
+total_cost: 1230.00 ✓
+vat: 198.56 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Field-Level Accuracy for Tesseract:
+date: 100.00% (1/1)
+time: 100.00% (1/1)
+tax_office_name: 0.00% (0/1)
+tax_office_number: 0.00% (0/1)
+total_cost: 100.00% (1/1)
+vat: 100.00% (1/1)
+payment_method: 100.00% (1/1)
+================================================================================
+
+Testing SuryaOCR on: 13.jpeg
+----------------------------------------
+
+Processed Text Output:
+SBAUHAUS
+DAHA IYISI ICIN ...
+BAUHAUS
+INS. MAL VE EV GER. LTD. STI.
+CEPA ALISVERIS MERKEZİ . ESKISEHIR YOLU 7.KM
+SOGULOZO -- ANKARA
+BUYUKMUKELLEFER V.D 150 005 36 92
+TEL: 0312 295 6800
+05/09/2024
+FİŞ NO 000010
+SAAT 10:23
+8698216104876
+NITRIL ELDIVEN NO10 %10
+*35,00
+8698216105002
+NITRIL ELDIVEN NO10 %10
+*50.00
+8691710321213
+30X40X40 MM, KOSEBENT %20
+*40.00
+8691710321213
+30X40X40 MM, KOSEBENT %20
+*40.00
+3165140078481
+PKP 18 E TUTAR TABA %20
+*970.00
+2021778122006
+SÜNGER - HYDRO -
+%20
+* 95.00
+ARA TOPLAM
+*1.230,00
+TOPKDV
+*198.56
+TOPLAM
+×1.230.00
+KREDİ KARTI
+*1.230.00
+İADE VE DEĞIŞIMLERDE FIŞ, KREDİ KARTI VE
+SLIP IBRAZI ZORUNLUDUR
+İYI GÜNLER, YINE BEKLERIZ.
+BAUHAUS DAHA İYISI İÇIN ...
+MERKEZİ İÇERENKOY MAH. ÇAYIR CAD.
+NO 1A D 142 34752 ATAŞEHİR/İSTANBUL
+TIC.SICIL NO:16323 WWW.BAUHAUS.COM.TR
+POS: 096, 3110-FATMA ARGUN
+D.NO: 109386
+İŞYERİ NO 2606477806
+TERMİNAL NO 0024748D
+MÜŞTERİ NÜSHASI - SATIŞ
+M ON NA
+**** **** **** 2657
+TUTAR 1,230,00TL
+İŞLEM TEMASSIZ TAMAMLANMIŞTIR
+KARŞILIĞI MAL/HIZM ALDIM
+BU İŞLEMDE KAZANDIĞINIZ
+WORLDPUAN: 6,15TL
+KULLANILABİLİR WORLDPUAN
+TOPLAM 91,90TL
+TOPLAM KULLANILABİLİR PUAN
+TOPLAM 91,90TL
+SN: 005 ONAY KODU 244616
+REF : 0367244616
+GRUP NO 027
+AID: A0000000041010 L
+VERGİ : 92.31.01
+MASTERCARD
+İŞLEM YURTIÇI KARTI ILE
+GERÇEKLEŞTIRILMIŞTIR.
+BU BELGEYİ SAKLAYINIZ
+Z NO:002212
+EKU NO 000
+NF 3E 17494239
+----------------------------------------
+
+Extracted Fields:
+filename: 13.jpeg ✓
+date: 05/09/2024 ✓
+time: 10:23 ✓
+tax_office_name: BUYUK MUKELLEFLER ✓
+tax_office_number: N/A ✗
+total_cost: 1230.00 ✓
+vat: 198.56 ✓
+payment_method: KREDİ KARTI ✓
+----------------------------------------
+
+----------------------------------------
+
+Field-Level Accuracy for SuryaOCR:
+date: 100.00% (1/1)
+time: 100.00% (1/1)
+tax_office_name: 100.00% (1/1)
+tax_office_number: 0.00% (0/1)
+total_cost: 100.00% (1/1)
+vat: 100.00% (1/1)
+payment_method: 100.00% (1/1)
+================================================================================
+
+FINAL STATISTICS
+
+PaddleOCR:
+Total fields attempted: 7
+Successful extractions: 6
+Failed extractions (N/A): 1
+Success rate: 85.71%
+Execution time: 8.03 seconds
+Average CPU Usage: 0.00%
+Peak CPU Usage: 0.00%
+Average Memory Usage: 2029.43 MB
+Peak Memory Usage: 2344.73 MB
+
+EasyOCR:
+Total fields attempted: 7
+Successful extractions: 4
+Failed extractions (N/A): 3
+Success rate: 57.14%
+Execution time: 40.21 seconds
+Average CPU Usage: 0.00%
+Peak CPU Usage: 0.00%
+Average Memory Usage: 2029.43 MB
+Peak Memory Usage: 2344.73 MB
+
+Tesseract:
+Total fields attempted: 7
+Successful extractions: 5
+Failed extractions (N/A): 2
+Success rate: 71.43%
+Execution time: 1.50 seconds
+Average CPU Usage: 0.00%
+Peak CPU Usage: 0.00%
+Average Memory Usage: 2029.43 MB
+Peak Memory Usage: 2344.73 MB
+
+SuryaOCR:
+Total fields attempted: 7
+Successful extractions: 6
+Failed extractions (N/A): 1
+Success rate: 85.71%
+Execution time: 283.70 seconds
+Average CPU Usage: 0.00%
+Peak CPU Usage: 0.00%
+Average Memory Usage: 2029.43 MB
+Peak Memory Usage: 2344.73 MB

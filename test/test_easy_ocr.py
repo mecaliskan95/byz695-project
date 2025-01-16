@@ -4,13 +4,13 @@ from datetime import datetime
 import random
 import time
 import csv
-import psutil  # Add this import at the top with other imports
+import psutil 
 import re
-import json  # Add this import
+import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from text_extraction import TextExtractor
 from ocr_methods import OCRMethods
-from app import track_resources  # Import track_resources from app.py
+from app import track_resources
 
 def log_output(message, file, separator=None):
     if separator:
@@ -31,8 +31,8 @@ def export_statistics(stats, ocr_name, all_texts=None):
         f.write(f"Test Results for {ocr_name}\n")
         f.write(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
         f.write("="*50 + "\n\n")
-        f.write("STATISTICS:\n")  # Added for consistency
-        f.write("-"*20 + "\n")    # Added for consistency
+        f.write("STATISTICS:\n")
+        f.write("-"*20 + "\n")
         f.write(f"Total images processed: {stats['total_images']}\n")
         f.write(f"OCR Success Rate: {((stats['ocr_attempts'] - stats['ocr_failures'])/stats['ocr_attempts']*100):.2f}%\n")
         f.write(f"OCR Failed: {stats['ocr_failures']} of {stats['ocr_attempts']} attempts\n")
@@ -81,21 +81,19 @@ def test_easy_ocr(image_path, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
-    # Add VAT validation
     fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
         fields['total_cost'], fields['vat']
     )
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        if field_name != "filename":  # Standardized field counting
+        if field_name != "filename":
             stats['total_fields'] += 1
             success = value != "N/A"
             stats['successful_extractions' if success else 'failed_extractions'] += 1
         log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
     log_output("", log_file, "-")
 
-    # Update field-level statistics
     if 'field_stats' not in stats:
         stats['field_stats'] = {}
     
@@ -107,7 +105,6 @@ def test_easy_ocr(image_path, stats, log_file):
             if value != "N/A":
                 stats['field_stats'][field_name]['success'] += 1
 
-    # After fields extraction, update mapping
     if fields['tax_office_number'] != "N/A" and fields['tax_office_name'] != "N/A":
         TextExtractor.update_tax_office_mapping(
             fields['tax_office_number'], 
@@ -121,15 +118,14 @@ def natural_sort_key(s):
             for text in re.split('([0-9]+)', s)]
 
 def main():
-    update_resources, get_resource_stats = track_resources()  # Use app.py's track_resources
+    update_resources, get_resource_stats = track_resources()
     
-    # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
     
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
-    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    initial_memory = process.memory_info().rss / 1024 / 1024
     
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
@@ -143,7 +139,6 @@ def main():
         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))
     ]
     
-    # Sort files naturally
     image_files.sort(key=lambda x: natural_sort_key(os.path.basename(x)))
     
     if not image_files:
@@ -160,7 +155,7 @@ def main():
         'total_fields': 0,
         'successful_extractions': 0,
         'failed_extractions': 0,
-        'field_stats': {}  # Initialize field_stats at start
+        'field_stats': {}
     }
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

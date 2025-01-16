@@ -262,7 +262,6 @@ class TextExtractor:
         with open('vergidaireleri.txt', 'r', encoding='utf-8') as f:
             valid_offices = {office.strip().upper() for office in f.readlines()}
         
-        # First try existing patterns
         for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
@@ -272,29 +271,25 @@ class TextExtractor:
                 if best_match and fuzz.ratio(found_name, best_match) >= 80:
                     return best_match
         
-        # If no match found, try looking near tax number
         lines = text.split('\n')
         for i, line in enumerate(lines):
             tax_number_match = re.search(r'\b\d{10,11}\b', line)
             if tax_number_match:
-                # Check current line for tax office name
+
                 for office in valid_offices:
                     if office in line.upper():
                         return office
                 
-                # Check line above
                 if i > 0:
                     for office in valid_offices:
                         if office in lines[i-1].upper():
                             return office
                 
-                # Check line below
                 if i < len(lines) - 1:
                     for office in valid_offices:
                         if office in lines[i+1].upper():
                             return office
                 
-                # Try fuzzy matching on nearby lines
                 nearby_lines = []
                 if i > 0:
                     nearby_lines.append(lines[i-1])
@@ -307,7 +302,6 @@ class TextExtractor:
                     if best_match and fuzz.ratio(nearby_line.upper(), best_match) >= 80:
                         return best_match
         
-        # If still no match, try existing fallback methods
         for line in text.split('\n'):
             line = line.strip().upper()
             if line in valid_offices:

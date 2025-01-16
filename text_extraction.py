@@ -189,7 +189,6 @@ class TextExtractor:
 
     @classmethod
     def extract_all(cls, texts, filenames=None):
-        # Initialize tax office mapping at start
         TextExtractor.initialize_tax_office_mapping()
 
         if filenames is None:
@@ -272,7 +271,6 @@ class TextExtractor:
                 "payment_method": try_extraction(TextExtractor.extract_payment_method, "payment_method")
             })
 
-            # After extraction, update mapping if both values are found
             tax_number = results[-1]["tax_office_number"]
             tax_office = results[-1]["tax_office_name"]
             if tax_number != "N/A" and tax_office != "N/A":
@@ -320,7 +318,6 @@ class TextExtractor:
         
         keywords = ['VERGİ DAİRESİ', 'V.D.', 'VD.', 'V.D', 'VD', 'V.D', 'VERGİ', 'DAİRESİ']
         
-        # Search line by line
         lines = text.split('\n')
         for line in lines:
             upper_line = line.upper()
@@ -346,7 +343,6 @@ class TextExtractor:
                 if best_match:
                     return best_match
         
-        # If no match found with keywords, try the existing pattern matching
         for pattern in TextExtractor._patterns['tax_office_name']:
             if match := re.search(pattern, text, re.IGNORECASE):
                 found_name = match.group(1).strip().upper()
@@ -361,7 +357,7 @@ class TextExtractor:
         for i, line in enumerate(lines):
             tax_number_match = re.search(r'\b\d{10,11}\b', line)
             if tax_number_match:
-                # Check current line for tax office name using fuzzy matching
+
                 best_match = None
                 highest_ratio = 0
                 upper_line = line.upper()
@@ -375,7 +371,6 @@ class TextExtractor:
                 if best_match:
                     return best_match
                 
-                # Check line above
                 if i > 0:
                     upper_prev_line = lines[i-1].upper()
                     best_match = None
@@ -403,7 +398,6 @@ class TextExtractor:
 
         result = "N/A"
 
-        # If we found both tax number and office name, update mapping
         if result != "N/A" and tax_number != "N/A":
             TextExtractor.update_tax_office_mapping(tax_number, result)
 
@@ -527,7 +521,7 @@ class TextExtractor:
                     if not (number.startswith('0312') or number.startswith('0850') or number.startswith('850') or number.startswith('0216') or number.startswith('216') or number == '11111111111'):
                         return number
         
-        lines = text.split('\n')
+        lines = text.split('\n')[:10]
         for line in lines:
             numbers = re.findall(r'\b\d{10,11}\b', line)
             for number in numbers:

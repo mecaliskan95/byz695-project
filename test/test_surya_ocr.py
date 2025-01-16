@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from ocr_methods import OCRMethods
 from text_extraction import TextExtractor
-from app import track_resources  # Import track_resources from app.py
+from app import track_resources
 
 def log_output(message, file, separator=None):
     if separator:
@@ -80,28 +80,24 @@ def test_surya_ocr(image_path, stats, log_file):
         "payment_method": TextExtractor.extract_payment_method(output_text)
     }
     
-    # Add VAT validation
     fields['total_cost'], fields['vat'] = TextExtractor.validate_total_cost_and_vat(
         fields['total_cost'], fields['vat']
     )
     
     log_output("\nExtracted Fields:", log_file, "-")
     for field_name, value in fields.items():
-        # Only count non-filename fields
-        if field_name != "filename":  # This check was missing
+        if field_name != "filename":
             stats['total_fields'] += 1
             success = value != "N/A"
             stats['successful_extractions' if success else 'failed_extractions'] += 1
         log_output(f"{field_name}: {value} {'✓' if value != 'N/A' else '✗'}", log_file)
 
-    # After fields extraction, update mapping
     if fields['tax_office_number'] != "N/A" and fields['tax_office_name'] != "N/A":
         TextExtractor.update_tax_office_mapping(
             fields['tax_office_number'], 
             fields['tax_office_name']
         )
 
-    # Update field-level statistics
     if 'field_stats' not in stats:
         stats['field_stats'] = {}
     
@@ -120,15 +116,14 @@ def natural_sort_key(s):
             for text in re.split('([0-9]+)', s)]
 
 def main():
-    update_resources, get_resource_stats = track_resources()  # Use app.py's track_resources
+    update_resources, get_resource_stats = track_resources() 
     
-    # Initialize tax office mapping at start
     TextExtractor.initialize_tax_office_mapping()
     
     start_time = time.time()
     start_cpu_percent = psutil.cpu_percent()
     process = psutil.Process()
-    initial_memory = process.memory_info().rss / 1024 / 1024  # Convert to MB
+    initial_memory = process.memory_info().rss / 1024 / 1024
     
     uploads_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'uploads')
     
@@ -142,7 +137,6 @@ def main():
         if f.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', 'jfif'))
     ]
     
-    # Sort files naturally
     image_files.sort(key=lambda x: natural_sort_key(os.path.basename(x)))
     
     if not image_files:
@@ -159,7 +153,7 @@ def main():
         'total_fields': 0,
         'successful_extractions': 0,
         'failed_extractions': 0,
-        'field_stats': {}  # Initialize field_stats at start
+        'field_stats': {}
     }
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
