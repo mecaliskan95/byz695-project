@@ -236,10 +236,10 @@ byz695-project/
 
 ## 📊 Performance Metrics
 
-### OCR Engine Comparison (Active Engines Only)
+### OCR Engine Comparison
 | Engine      | Speed | Accuracy | Memory Usage | GPU Support | Status    |
 |-------------|-------|----------|--------------|-------------|-----------|
-| Tesseract   | ★★★★☆ | ★★★★☆    | ★★★★★       | ❌          | Active    |
+| Tesseract   | ★★★★★ | ★★★★☆    | ★★★★★       | ❌          | Active    |
 | PaddleOCR   | ★★★★★ | ★★★★★    | ★★★☆☆       | ✅          | Active    |
 | EasyOCR     | ★★★★☆ | ★★★★☆    | ★★★☆☆       | ✅          | Active    |
 | SuryaOCR    | ★☆☆☆☆ | ★★★★☆    | ★★★★☆       | ✅          | Disabled  |
